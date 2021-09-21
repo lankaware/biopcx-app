@@ -1,0 +1,91 @@
+import React from "react"
+import { Link } from "react-router-dom"
+import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarContent, SidebarFooter } from 'react-pro-sidebar'
+
+import HomeIcon from '@material-ui/icons/Home'
+import ListAltIcon from '@material-ui/icons/ListAlt'
+import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar'
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf'
+import SettingsIcon from '@material-ui/icons/Settings'
+
+import 'react-pro-sidebar/dist/css/styles.css'
+
+const AppMenu = (props) => {
+
+    // const [menuCollapse, setMenuCollapse] = useState(false)
+    return (
+        <div>
+            <ProSidebar className='menu'
+                collapsed={props.collapseMenu}
+                width={200}
+            // image={'../../../public/BackgroundImageMenu.jpg'}
+            >
+                <SidebarHeader>
+                    {/* <h5>SIX Atendimento V3</h5> */}
+                </SidebarHeader>
+                <Menu iconShape='circle'>
+                    <MenuItem icon={<HomeIcon />}>
+                        Início
+                        <Link to='/' />
+                    </MenuItem>
+                    <SubMenu title='Atendimento' icon={<PermContactCalendarIcon />}>
+                        <MenuItem >
+                            Agenda
+                            <Link to='/agenda' />
+                        </MenuItem>
+                    </SubMenu>
+                    <SubMenu title='Cadastros' icon={<ListAltIcon />}>
+                        <MenuItem>
+                            Pacientes
+                            <Link to='/patients' />
+                        </MenuItem>
+                        <MenuItem>
+                            Profissionais
+                            <Link to='/professionals' />
+                        </MenuItem>
+                        <MenuItem>
+                            Convênios
+                            <Link to='/covenants' />
+                        </MenuItem>
+                        <MenuItem>
+                            Procedimentos
+                            <Link to='/procedures' />
+                        </MenuItem>
+                    </SubMenu>
+                    <SubMenu title='Relatórios' icon={<PictureAsPdfIcon />}>
+                        <MenuItem>
+                            Agenda
+                            <Link to='/agenda' />
+                        </MenuItem>
+                        <MenuItem>
+                            Atendimentos
+                            <Link to='/' />
+                        </MenuItem>
+                    </SubMenu>
+                    <SubMenu title='Configurações' icon={<SettingsIcon />}>
+                        <MenuItem>
+                            Gerais
+                            <Link to='/agenda' />
+                        </MenuItem>
+                        <MenuItem>
+                            Segurança
+                            <Link to='/' />
+                        </MenuItem>
+                    </SubMenu>
+
+                </Menu>
+
+                <SidebarContent>
+                    {/**  You can add the content of the sidebar ex: menu, profile details, ... */}
+                </SidebarContent>
+                <SidebarFooter>
+                    Lankaware
+                </SidebarFooter>
+
+            </ProSidebar >
+        </div>
+    )
+}
+
+export default AppMenu
+

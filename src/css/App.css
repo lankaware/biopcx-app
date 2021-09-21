@@ -1,0 +1,53 @@
+.app-content {
+    display: flex;
+    /* height: 92.5vh; */
+} 
+
+.data-form {
+    background-color: white;
+    padding: 15px;
+    border: rgb(172, 164, 164);
+    border-style: solid;
+    border-width: 1px;
+    width: 70vw;    
+}
+
+.menu {
+    padding: 50px 0px 0px 0px;
+    min-height: 100vh;
+    /* background: '../../../public/BackgroundImageMenu.jpg'; 
+    color: #ffffff;
+    background-color: #9e4903;
+    width: 30vh; 
+    */
+ }
+ 
+ .content {
+    display: flex;
+    flex: 1;
+    background-color: #ececec;
+    padding: 55px 10px 10px;
+    min-height: 100vh;
+}
+
+.data-table {
+    border: rgb(172, 164, 164);
+    border-style: solid;
+    border-width: 1px;
+    width: 70vw;
+}
+
+.button-link a:hover {
+    color: #ffffff;
+  }
+
+  .container-div{ 
+    Display: flex;
+    Height: 70vh;
+    Width: 70vw; 
+    Align-Items: center;
+    Justify-Content: center;
+    /* background-color: #fff; */
+    }
+
+ 
