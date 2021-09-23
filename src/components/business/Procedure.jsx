@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent, 
-    DialogContentText, DialogTitle } from '@material-ui/core'
+import {
+    Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
+    DialogContentText, DialogTitle
+} from '@material-ui/core'
 
 import EditIcon from '@material-ui/icons/Edit'
 import SaveAltIcon from '@material-ui/icons/SaveAlt'
@@ -12,33 +14,25 @@ import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn'
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec, postRec, deleteRec } from '../../services/apiconnect'
 
+const objectRef = 'procedure/'
+const objectId = 'procedureid/'
+const objectName = 'procedurename/'
+
 const Procedure = props => {
-    
+
     let { id } = useParams()
 
-    const [productId, setProductId] = useState(id)
-    const [codprod, setCodprod] = useState('')
-    const [discr, setDiscr] = useState('')
-    const [saldo, setSaldo] = useState(0)
-    const [tabela, setTabela] = useState(0)
-    const [unidade, setUnidade] = useState('')
-    const [proceden, setProceden] = useState('')
-    const [ipi, setIpi] = useState(0)
-    const [cf, setCf] = useState('')
-    const [op, setOp] = useState('')
+    const [_id, _idSet] = useState('')
+    const [name, nameSet] = useState('')
+    const [cbhpm, cbhpmSet] = useState('')
+    const [carry, carrySet] = useState('')
 
-    const [codprodTemp, setCodprodTemp] = useState('')
-    const [discrTemp, setDiscrTemp] = useState('')
-    const [saldoTemp, setSaldoTemp] = useState(0)
-    const [tabelaTemp, setTabelaTemp] = useState(0)
-    const [unidadeTemp, setUnidadeTemp] = useState('')
-    const [procedenTemp, setProcedenTemp] = useState('')
-    const [ipiTemp, setIpiTemp] = useState(0)
-    const [cfTemp, setCfTemp] = useState('')
-    const [opTemp, setOpTemp] = useState('')
+    const [nameTemp, nameSetTemp] = useState('')
+    const [cbhpmTemp, cbhpmSetTemp] = useState('')
+    const [carryTemp, carrySetTemp] = useState('')
 
-    const [insertMode, setInsertMode] = useState(!id)
-    const [editMode, setEditMode] = useState(!id)
+    const [insertMode, setInsertMode] = useState(id === '0')
+    const [editMode, setEditMode] = useState(id === '0')
 
     const [deleteDialog, setDeleteDialog] = useState(false)
     const [deleteInfoDialog, setDeleteInfoDialog] = useState(false)
@@ -47,102 +41,71 @@ const Procedure = props => {
     const classes = useStyles()
 
     useEffect(() => {
-        // let mounted = true;
-        if (id) {
-            getList('produto_id/' + id)
+        if (id !== '0') {
+            getList(objectId + id)
                 .then(items => {
-                    // if (mounted) {
-                        setProductId(items.produto[0]._id)
-                        setCodprod(items.produto[0].CODPROD)
-                        setDiscr(items.produto[0].DISCR)
-                        setSaldo(items.produto[0].SALDO)
-                        setTabela(items.produto[0].TABELA)
-                        setUnidade(items.produto[0].UNIDADE)
-                        setProceden(items.produto[0].PROCEDEN)
-                        setIpi(items.produto[0].IPI)
-                        setCf(items.produto[0].CF)
-                        setOp(items.produto[0].OP)
+                    console.log('record', items.record)
+                    _idSet(items.record._id)
+                    nameSet(items.record.name)
+                    cbhpmSet(items.record.cbhpm)
+                    carrySet(items.record.carry)
 
-                        setCodprodTemp(items.produto[0].CODPROD)
-                        setDiscrTemp(items.produto[0].DISCR)
-                        setSaldoTemp(items.produto[0].SALDO)
-                        setTabelaTemp(items.produto[0].TABELA)
-                        setUnidadeTemp(items.produto[0].UNIDADE)
-                        setProcedenTemp(items.produto[0].PROCEDEN)
-                        setIpiTemp(items.produto[0].IPI)
-                        setCfTemp(items.produto[0].CF)
-                        setOpTemp(items.produto[0].OP)
-                    // }
+                    nameSetTemp(items.record.name)
+                    cbhpmSetTemp(items.record.cbhpm)
+                    carrySetTemp(items.record.carry)
                 })
         }
-        // return () => mounted = false;
     }, [id])
 
     const saveRec = () => {
-        if (!codprod || !discr) {
+        if (!name) {
             setEmptyRecDialog(true)
             return null
         }
-        getList('produto_cod/' + codprod)
-        .then(item => {
-            console.log('item', item)
-            if (item.produto[0]) {
-                setEmptyRecDialog(true)
-                return null
-            } else {
-                let recObj = {
-                    'CODPROD': codprod,
-                    'DISCR': discr,
-                    'SALDO': saldo,
-                    'TABELA': tabela,
-                    'UNIDADE': unidade,
-                    'PROCEDEN': proceden,
-                    'IPI': ipi,
-                    'CF': cf,
-                    'OP': op,
+        getList(objectName + name)
+            .then(item => {
+                if (item.record[0] && insertMode) {
+                    setEmptyRecDialog(true)
+                    return null
                 }
-                if (productId) {
-                    recObj = { ...recObj, '_id': productId }
+                let recObj = {
+                    name,
+                    cbhpm,
+                    carry
+                }
+                console.log('_id', _id)
+                if (_id) {
                     recObj = JSON.stringify(recObj)
-                    putRec('produto/', recObj)
+                    putRec(objectId + _id, recObj)
+                        .then(result => {
+                            console.log('put', result)
+                        })
                 } else {
                     recObj = JSON.stringify(recObj)
-                    postRec('produto/', recObj)
+                    postRec(objectRef, recObj)
                         .then(result => {
-                            console.log(result)
-                            setProductId(result.produto._id)
+                            console.log('post', result)
+                            _idSet(result.record._id)
                         })
                 }
-                setCodprodTemp(codprod)
-                setDiscrTemp(discr)
-                setSaldoTemp(saldo)
-                setTabelaTemp(tabela)
-                setUnidadeTemp(unidade)
-                setProcedenTemp(proceden)
-                setIpiTemp(ipi)
-                setCfTemp(cf)
-                setOpTemp(op)
+                nameSetTemp(name)
+                cbhpmSetTemp(cbhpm)
+                carrySetTemp(carry)
+
                 setEditMode(false)
                 setInsertMode(false)
-            }
-        })
+            })
     }
 
     const refreshRec = () => {
         if (insertMode) {
             document.getElementById("backButton").click();
         }
-        setCodprod(codprodTemp)
-        setDiscr(discrTemp)
-        setSaldo(saldoTemp)
-        setTabela(tabelaTemp)
-        setUnidade(unidadeTemp)
-        setProceden(procedenTemp)
-        setIpi(ipiTemp)
-        setCf(cfTemp)
-        setOp(opTemp)
-        setEditMode(!id)
-        setInsertMode(!id)
+        nameSet(nameTemp)
+        cbhpmSet(cbhpmTemp)
+        carrySet(carryTemp)
+
+        setEditMode(false)
     }
 
     const delRec = () => {
@@ -150,10 +113,7 @@ const Procedure = props => {
     }
 
     const delConfirm = () => {
-        let recObj = { '_id': productId }
-        recObj = JSON.stringify(recObj)
-
-        deleteRec('produto/', recObj)
+        deleteRec(objectId + _id)
             .then(result => {
                 console.log(result)
             })
@@ -177,7 +137,7 @@ const Procedure = props => {
         <div>
             <div className='tool-bar'>
                 <div >
-                    <Typography variant='h5' className='tool-title'>Página do Produto</Typography>
+                    <Typography variant='h5' className='tool-title'>Registro de Procedimento</Typography>
                 </div>
                 <div className={classes.toolButtons + ' button-link'}>
                     <Button color='primary' variant='contained' size='small' startIcon={<EditIcon />}
@@ -193,7 +153,7 @@ const Procedure = props => {
                         onClick={_ => delRec()} disabled={editMode}>APAGAR
                     </Button>
                     <Button color='primary' variant='contained' size='small' startIcon={<KeyboardReturnIcon />}
-                        href="/products" id='backButton' disabled={editMode}>VOLTAR
+                        href="/procedures" id='backButton' disabled={editMode}>VOLTAR
                     </Button>
                 </div>
             </div>
@@ -201,106 +161,42 @@ const Procedure = props => {
                 <Grid container spacing={2} >
                     <Grid item xs={3}>
                         <TextField
-                            value={codprod}
-                            onChange={(event) => { setCodprod(event.target.value.toUpperCase()) }}
-                            id='codprod'
-                            label='Código Produto'
+                            value={name}
+                            onChange={(event) => { nameSet(event.target.value.toUpperCase()) }}
+                            id='name'
+                            label='Nome do Procedimento'
                             fullWidth={false}
                             disabled={!insertMode}
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                        />
-                    </Grid>
-                    <Grid item xs={5}>
-                        <TextField
-                            value={discr}
-                            onChange={(event) => { setDiscr(event.target.value.toUpperCase()) }}
-                            id='discr'
-                            label='Discriminação'
-                            fullWidth={true}
-                            disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                        />
-                    </Grid>
-                </Grid>
-                <Grid container spacing={2} >
-                    <Grid item xs={3}>
-                        <TextField
-                            value={saldo}
-                            onChange={(event) => { setSaldo(event.target.value) }}
-                            id='saldo'
-                            label='Saldo em Estoque'
-                            fullWidth={false}
-                            disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            inputProps={{ type: 'number' }}
+                            variant='outlined'
+                            size='small'
                         />
                     </Grid>
                     <Grid item xs={3}>
                         <TextField
-                            value={tabela}
-                            onChange={(event) => { setTabela(event.target.value) }}
-                            id='tabela'
-                            label='Preço Tabela'
+                            value={cbhpm}
+                            onChange={(event) => { cbhpmSet(event.target.value.toUpperCase()) }}
+                            id='dbhpm'
+                            label='Código DBHPM'
                             fullWidth={false}
                             disabled={!editMode}
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            inputProps={{ type: 'number' }}
+                            variant='outlined'
+                            size='small'
                         />
                     </Grid>
                     <Grid item xs={3}>
                         <TextField
-                            value={unidade}
-                            onChange={(event) => { setUnidade(event.target.value) }}
-                            id='unidade'
-                            label='Unidade'
+                            value={carry}
+                            onChange={(event) => { carrySet(event.target.value) }}
+                            id='carry'
+                            label='Porte'
                             fullWidth={false}
                             disabled={!editMode}
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TextField
-                            value={proceden}
-                            onChange={(event) => { setProceden(event.target.value) }}
-                            id='proceden'
-                            label='Procedência'
-                            fullWidth={false}
-                            disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TextField
-                            value={ipi}
-                            onChange={(event) => { setIpi(event.target.value) }}
-                            id='ipi'
-                            label='IPI'
-                            fullWidth={false}
-                            disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            inputProps={{ type: 'number' }}
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TextField
-                            value={cf}
-                            onChange={(event) => { setCf(event.target.value) }}
-                            id='cf'
-                            label='Classificação Fiscal'
-                            fullWidth={false}
-                            disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TextField
-                            value={op}
-                            onChange={(event) => { setOp(event.target.value) }}
-                            id='op'
-                            label='Operação'
-                            fullWidth={false}
-                            disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                            variant='outlined'
+                            size='small'
+                        // inputProps={{ type: 'number' }}
                         />
                     </Grid>
                 </Grid>
@@ -309,7 +205,7 @@ const Procedure = props => {
                 open={deleteDialog}
             // onClose={delCancel}
             >
-                <DialogTitle id="alert-dialog-title">{"Apagar o produto selecionado?"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{"Apagar o registro selecionado?"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         Após confirmada essa operação não poderá ser desfeita.
@@ -329,10 +225,10 @@ const Procedure = props => {
                 open={deleteInfoDialog}
             // onClose={delInformClose}
             >
-                <DialogTitle id="alert-dialog-title">{"Produto removido do cadastro."}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{"Registro removido do cadastro."}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Clique para voltar a lista de produtos.
+                        Clique para voltar a lista.
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -346,7 +242,7 @@ const Procedure = props => {
                 open={emptyRecDialog}
             // onClose={emptyRecClose}
             >
-                <DialogTitle id="alert-dialog-title">{"Produto sem código, sem descrição ou já existente não pode ser gravado."}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{"Registro sem descrição ou já existente não pode ser gravado."}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         Clique para continuar.

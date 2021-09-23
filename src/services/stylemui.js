@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 export const useStyles = makeStyles(theme => ({
     toolButtons: {
       display: 'flex',
-      'width': '65vw',
+      'width': '50vw',
       'justify-content': 'flex-end',
       "& > *": {
         margin: theme.spacing(1),

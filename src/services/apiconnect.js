@@ -2,7 +2,6 @@
 export const apiURI = process.env.REACT_APP_APIURL.trim()
 
 export async function getList(apiDesc) {
-  console.log('a', process.env)
   return fetch( apiURI + apiDesc,
     {
       method: 'GET',

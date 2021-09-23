@@ -17,23 +17,17 @@ const Content = props => {
                         <Home />
                     </Route>
                     <Route exact path="/procedures">
-                            <Procedures />
-                        </Route>
-                        <Route exact path="/procedure">
-                            <Procedure />
-                        </Route>
-                        <Route exact path="/procedure/:id">
-                            <Procedure />
-                        </Route>
+                        <Procedures />
+                    </Route>
+                    <Route exact path="/procedure/:id">
+                        <Procedure />
+                    </Route>
                     <Route exact path="/professionals">
-                            <Professionals />
-                        </Route>
-                        <Route exact path="/professional">
-                            <Professional />
-                        </Route>
-                        <Route exact path="/professional/:id">
-                            <Professional />
-                        </Route>
+                        <Professionals />
+                    </Route>
+                    <Route exact path="/professional/:id">
+                        <Professional />
+                    </Route>
                     <Route path='*'>
                         <h1>Página não encontrada</h1>
                     </Route>
