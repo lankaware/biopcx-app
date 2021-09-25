@@ -44,7 +44,6 @@ const Procedure = props => {
         if (id !== '0') {
             getList(objectId + id)
                 .then(items => {
-                    console.log('record', items.record)
                     _idSet(items.record._id)
                     nameSet(items.record.name)
                     cbhpmSet(items.record.cbhpm)
@@ -73,7 +72,6 @@ const Procedure = props => {
                     cbhpm,
                     carry
                 }
-                console.log('_id', _id)
                 if (_id) {
                     recObj = JSON.stringify(recObj)
                     putRec(objectId + _id, recObj)
@@ -84,7 +82,6 @@ const Procedure = props => {
                     recObj = JSON.stringify(recObj)
                     postRec(objectRef, recObj)
                         .then(result => {
-                            console.log('post', result)
                             _idSet(result.record._id)
                         })
                 }
@@ -137,7 +134,7 @@ const Procedure = props => {
         <div>
             <div className='tool-bar'>
                 <div >
-                    <Typography variant='h5' className='tool-title'>Registro de Procedimento</Typography>
+                    <Typography variant='h5' className='tool-title' noWrap={true}>Registro de Procedimento</Typography>
                 </div>
                 <div className={classes.toolButtons + ' button-link'}>
                     <Button color='primary' variant='contained' size='small' startIcon={<EditIcon />}
@@ -176,7 +173,7 @@ const Procedure = props => {
                         <TextField
                             value={cbhpm}
                             onChange={(event) => { cbhpmSet(event.target.value.toUpperCase()) }}
-                            id='dbhpm'
+                            id='cbhpm'
                             label='Código DBHPM'
                             fullWidth={false}
                             disabled={!editMode}

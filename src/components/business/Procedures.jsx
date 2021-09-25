@@ -44,20 +44,20 @@ const Procedures = props => {
             name: 'Nome do Procedimento',
             selector: row => row.name,
             sortable: true,
-            width: '60vh',
+            width: '20vw',
             cell: row => (<Link to={"/procedure/" + row._id}>{row.name}</Link>)
         },
         {
             name: 'Código CBHPM',
             selector: row => row.cbhpm,
             sortable: true,
-            width: '60vh'
+            width: '20vw'
         },
         {
             name: 'Porte',
             selector: row => row.carry,
             sortable: true,
-            width: '30vh',
+            width: '10vw',
             right: true,
         },
     ];
@@ -108,7 +108,7 @@ const Procedures = props => {
         <div>
             <div className='tool-bar'>
                 <div >
-                    <Typography variant='h6' className='tool-title'>Lista de Procedimentos</Typography>
+                    <Typography variant='h6' className='tool-title' noWrap={true}>Lista de Procedimentos</Typography>
                 </div>
 
                 <div className={classes.toolButtons + ' button-link'}>

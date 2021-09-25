@@ -8,21 +8,16 @@ import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn'
 import SearchIcon from '@material-ui/icons/Search'
 
 import { useStyles } from '../../services/stylemui'
-
 import { getList, putRec } from '../../services/apiconnect'
 
-const Professionals = props => {
+const objectRef = 'professional/'
 
-    const currencyFormatter = new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL',
-    });
+const Professionals = props => {
 
     const customStyles = {
         table: {
             style: {
-                minHeight: '400px',
-                // minWidth: '900px'
+                minHeight: '350px',
             }
         },
         rows: {
@@ -46,33 +41,24 @@ const Professionals = props => {
 
     const columns = [
         {
-            name: 'Código',
-            selector: 'CODPROD',
+            name: 'Nome do Profissional',
+            selector: row => row.name,
             sortable: true,
-            width: '30vh',
-            cell: row => (<Link to={"/product/" + row._id}>{row.CODPROD}</Link>)
+            width: '30vw',
+            cell: row => (<Link to={"/professional/" + row._id}>{row.name}</Link>)
         },
         {
-            name: 'Discriminação',
-            selector: 'DISCR',
+            name: 'Especialidade',
+            selector: row => row.specialty,
             sortable: true,
-            width: '60vh'
+            width: '20vw'
         },
         {
-            name: 'Estoque',
-            selector: 'SALDO',
+            name: 'Fone',
+            selector: row => row.phone,
             sortable: true,
-            width: '10vh',
+            width: '10vw',
             right: true,
-        },
-        {
-            name: 'Preço',
-            selector: 'TABELA',
-            sortable: true,
-            width: '30vh',
-            cell: row => (<div>{currencyFormatter.format(Number(row.TABELA))}</div>),
-            right: true,
-            // cell: row => (<div>{dateBr(row.admissionDate)}</div>)
         },
     ];
 
@@ -85,97 +71,26 @@ const Professionals = props => {
     }
     const classes = useStyles();
     const [list, setList] = useState([])
-    const [codprodFilter, setCodProdFilter] = useState('')
-    const [discrFilter, setDiscrFilter] = useState('')
-    const [saldoFilter, setSaldoFilter] = useState('')
-    const [tabelaFilter, setTabelaFilter] = useState('')
+    const [nameFilter, nameFilterSet] = useState('')
+    const [specialtyFilter, specialtyFilterSet] = useState('')
 
-    
     useEffect(() => {
-        // let mounted = true;
-        getList('produtos')
-        .then(items => {
-            // if (mounted) {
-                setList(items.produto)
-            // }
-        })
-        // return () => mounted = false;
+        getList(objectRef)
+            .then(items => {
+                setList(items.record)
+            })
     }, [])
 
     const refreshRec = () => {
         let recObj = {}
-        if (codprodFilter) recObj = { 'CODPROD': { "$regex": codprodFilter } }
-        if (discrFilter) recObj = { ...recObj, 'DISCR': { "$regex": discrFilter } }
-        if (saldoFilter) recObj = { ...recObj, 'SALDO': saldoCondition(saldoFilter) }
-        if (tabelaFilter) recObj = { ...recObj, 'TABELA': tabelaCondition(tabelaFilter) }
+        if (nameFilter) recObj = { 'name': { "$regex": nameFilter } }
+        if (specialtyFilter) recObj = { ...recObj, 'specialty.name  ': { "$regex": specialtyFilter } }
 
         recObj = JSON.stringify(recObj)
-        putRec('produtos/', recObj)
+        putRec(objectRef, recObj)
             .then(items => {
-                setList(items.produto)
+                setList(items.record)
             })
-    }
-
-    const saldoCondition = (saldo) => {
-        let pos, val
-        pos = saldo.search('>=')
-        if (pos > -1) {
-            val = parseInt(saldoFilter.substring(pos+2).trim()) 
-            return ({ "$gte": val} )
-        }
-        pos = saldo.search('<=')
-        if (pos > -1) {
-            val = parseInt(saldoFilter.substring(pos+2).trim()) 
-            return ({ "$lte": val} )
-        }
-        pos = saldo.search('>')
-        if (pos > -1) {
-            val = parseInt(saldoFilter.substring(pos+1).trim()) 
-            return ({ "$gt": val} )
-        }
-        pos = saldo.search('<')
-        if (pos > -1) {
-            val = parseInt(saldoFilter.substring(pos+1).trim()) 
-            return ({ "$lt": val} )
-        }
-        pos = saldo.search('=')
-        if (pos > -1) {
-            val = parseInt(saldoFilter.substring(pos+1).trim()) 
-            return ({ "$eq": val} )
-        }
-        val = parseInt(saldoFilter.substring(pos).trim()) 
-        return ({ "$eq": val} )
-    }
-
-    const tabelaCondition = (tabela) => {
-        let pos, val
-        pos = tabela.search('>=')
-        if (pos > -1) {
-            val = parseFloat(tabelaFilter.substring(pos+2).trim()) 
-            return ({ "$gte": val} )
-        }
-        pos = tabela.search('<=')
-        if (pos > -1) {
-            val = parseFloat(tabelaFilter.substring(pos+2).trim()) 
-            return ({ "$lte": val} )
-        }
-        pos = tabela.search('>')
-        if (pos > -1) {
-            val = parseFloat(tabelaFilter.substring(pos+1).trim()) 
-            return ({ "$gt": val} )
-        }
-        pos = tabela.search('<')
-        if (pos > -1) {
-            val = parseFloat(tabelaFilter.substring(pos+1).trim()) 
-            return ({ "$lt": val} )
-        }
-        pos = tabela.search('=')
-        if (pos > -1) {
-            val = parseFloat(tabelaFilter.substring(pos+1).trim()) 
-            return ({ "$eq": val} )
-        }
-        val = parseFloat(tabelaFilter.substring(pos).trim()) 
-        return ({ "$eq": val} )
     }
 
     const handleChange = (state) => {
@@ -193,77 +108,56 @@ const Professionals = props => {
         <div>
             <div className='tool-bar'>
                 <div >
-                    <Typography variant='h6' className='tool-title'>Lista de Produtos</Typography>
+                    <Typography variant='h6' className='tool-title' noWrap={true}>Lista de Profissionais</Typography>
                 </div>
 
                 <div className={classes.toolButtons + ' button-link'}>
                     <Box m={1}>
                         <Button color="primary" size='small' variant='contained' startIcon={<OpenInNewIcon />}
-                            href="/product">INCLUIR
+                            href="/professional/0">INCLUIR
                         </Button>
                     </Box>
                     <Box m={1}>
-                    <Button color='primary' size='small' variant='contained' startIcon={<KeyboardReturnIcon />}
-                        href="/" id='backButton'>VOLTAR
-                    </Button>
+                        <Button color='primary' size='small' variant='contained' startIcon={<KeyboardReturnIcon />}
+                            href="/" id='backButton'>VOLTAR
+                        </Button>
                     </Box>
                 </div>
             </div>
             <div className='tool-bar-filters'>
-                <Grid item xs={1}>
-                    <Typography variant='h6'>Filtros:</Typography>
-                </Grid>
-                <Grid item xs={3}>
-                    <TextField
-                        value={codprodFilter}
-                        onChange={(event) => { setCodProdFilter(event.target.value.toUpperCase()) }}
-                        id='codprodFilter'
-                        label='Código Produto'
-                        fullWidth={false}
-                        InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                        onKeyPress={(e) => {launchSearch(e) }}
-                    />
-                </Grid>
-                <Grid item xs={3}>
-                    <TextField
-                        value={discrFilter}
-                        onChange={(event) => { setDiscrFilter(event.target.value.toUpperCase()) }}
-                        id='discrFilter'
-                        label='Discriminação'
-                        fullWidth={false}
-                        InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                        onKeyPress={(e) => {launchSearch(e) }}
-                    />
-                </Grid>
-                <Grid item xs={3}>
-                    <TextField
-                        value={saldoFilter}
-                        onChange={(event) => { setSaldoFilter(event.target.value) }}
-                        id='saldoFilter'
-                        label='Estoque (>, <, >=, <=, =)'
-                        fullWidth={false}
-                        InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                        onKeyPress={(e) => {launchSearch(e) }}
-                    />
-                </Grid>
-                <Grid item xs={3}>
-                    <TextField
-                        value={tabelaFilter}
-                        onChange={(event) => { setTabelaFilter(event.target.value) }}
-                        id='tabelaFilter'
-                        label='Preço (>, <, >=, <=, =)'
-                        fullWidth={false}
-                        InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                        onKeyPress={(e) => {launchSearch(e) }}
-                    />
-                </Grid>
                 <Button color='primary' size='large' id='searchButton' startIcon={<SearchIcon />}
                     onClick={_ => refreshRec()} >
                 </Button>
+                <Grid item xs={3}>
+                    <TextField
+                        value={nameFilter}
+                        onChange={(event) => { nameFilterSet(event.target.value.toUpperCase()) }}
+                        id='nameFilter'
+                        label='Nome do Profissional'
+                        fullWidth={false}
+                        InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                        onKeyPress={(e) => { launchSearch(e) }}
+                        variant='outlined'
+                        size='small'
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <TextField
+                        value={specialtyFilter}
+                        onChange={(event) => { specialtyFilterSet(event.target.value.toUpperCase()) }}
+                        id='discrFilter'
+                        label='Especialidade'
+                        fullWidth={false}
+                        InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                        onKeyPress={(e) => { launchSearch(e) }}
+                        variant='outlined'
+                        size='small'
+                    />
+                </Grid>
             </div>
             <div className='data-table'>
                 <DataTable
-                    // title="Cadastro de Profissionais"
+                    // title=""
                     noHeader={true}
                     columns={columns}
                     customStyles={customStyles}
