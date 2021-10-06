@@ -2,11 +2,11 @@ import React from "react"
 import { Link } from "react-router-dom"
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarContent, SidebarFooter } from 'react-pro-sidebar'
 
-import HomeIcon from '@material-ui/icons/Home'
-import ListAltIcon from '@material-ui/icons/ListAlt'
-import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar'
-import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf'
-import SettingsIcon from '@material-ui/icons/Settings'
+import HomeIcon from '@mui/icons-material/Home'
+import ListAltIcon from '@mui/icons-material/ListAlt'
+import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar'
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
+import SettingsIcon from '@mui/icons-material/Settings'
 
 import 'react-pro-sidebar/dist/css/styles.css'
 

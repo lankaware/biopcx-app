@@ -2,6 +2,7 @@ import { React } from 'react'
 import { Switch, Route } from 'react-router-dom'
 
 import Home from './Home'
+import User from './User'
 import Procedure from '../business/Procedure'
 import Procedures from '../business/Procedures'
 import Professional from '../business/Professional'
@@ -27,6 +28,9 @@ const Content = props => {
                     </Route>
                     <Route exact path="/professional/:id">
                         <Professional />
+                    </Route>
+                    <Route exact path="/user">
+                        <User />
                     </Route>
                     <Route path='*'>
                         <h1>Página não encontrada</h1>

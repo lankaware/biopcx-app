@@ -2,7 +2,15 @@
 export function dateBr(argDate) {
   if (!argDate) return ''
   const tempDate = new Date(argDate)
-  return tempDate.toLocaleDateString('pt-BR', { timeZone: 'UTC' })
+  // return tempDate.toLocaleDateString('pt-BR', { timeZone: 'UTC' })
+  return tempDate.toLocaleDateString()
+}
+
+export function timeBr(argTime) {
+  if (!argTime) return ''
+  const tempDate = new Date(argTime)
+  // return tempDate.toLocaleTimeString('pt-BR', { timeZone: 'UTC' })
+  return tempDate.toLocaleTimeString()
 }
 
 export function defaultDateBr() {
@@ -16,3 +24,6 @@ export function dateISO(parmDate) {
   const stringDate = parmDate.substr(6,4)+'-'+parmDate.substr(3,2)+'-'+parmDate.substr(0,2)
   return stringDate
 }
+
+
+

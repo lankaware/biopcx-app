@@ -3,13 +3,13 @@ import { useParams } from 'react-router-dom'
 import {
     Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
     DialogContentText, DialogTitle
-} from '@material-ui/core'
+} from '@mui/material'
 
-import EditIcon from '@material-ui/icons/Edit'
-import SaveAltIcon from '@material-ui/icons/SaveAlt'
-import CancelIcon from '@material-ui/icons/Cancel'
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
-import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn'
+import EditIcon from '@mui/icons-material/Edit'
+import SaveAltIcon from '@mui/icons-material/SaveAlt'
+import CancelIcon from '@mui/icons-material/Cancel'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
 
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec, postRec, deleteRec } from '../../services/apiconnect'

@@ -2,42 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import DataTable from 'react-data-table-component'
 
-import { Button, Box, Typography, Grid, TextField, } from '@material-ui/core'
-import OpenInNewIcon from '@material-ui/icons/OpenInNew'
-import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn'
-import SearchIcon from '@material-ui/icons/Search'
+import { Button, Box, Typography, Grid, TextField, } from '@mui/material'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
+import SearchIcon from '@mui/icons-material/Search'
 
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec } from '../../services/apiconnect'
+import { customStyles1, paginationBr } from '../../services/datatablestyle'
 
 const objectRef = 'professional/'
 
 const Professionals = props => {
-
-    const customStyles = {
-        table: {
-            style: {
-                minHeight: '350px',
-            }
-        },
-        rows: {
-            style: {
-                minHeight: '30px', // override the row height
-            }
-        },
-        headCells: {
-            style: {
-                paddingLeft: '8px', // override the cell padding for head cells
-                paddingRight: '8px',
-            },
-        },
-        cells: {
-            style: {
-                paddingLeft: '8px', // override the cell padding for data cells
-                paddingRight: '8px',
-            },
-        },
-    };
 
     const columns = [
         {
@@ -62,13 +38,6 @@ const Professionals = props => {
         },
     ];
 
-    const paginationBr = {
-        rowsPerPageText: 'Linhas por página:',
-        rangeSeparatorText: 'de',
-        noRowsPerPage: false,
-        selectAllRowsItem: false,
-        selectAllRowsItemText: 'Todas'
-    }
     const classes = useStyles();
     const [list, setList] = useState([])
     const [nameFilter, nameFilterSet] = useState('')
@@ -160,7 +129,7 @@ const Professionals = props => {
                     // title=""
                     noHeader={true}
                     columns={columns}
-                    customStyles={customStyles}
+                    customStyles={customStyles1}
                     data={list}
                     // selectableRows 
                     Clicked

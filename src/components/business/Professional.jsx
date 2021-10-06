@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { Form } from 'reactstrap';
 import {
     Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
-    DialogContentText, DialogTitle, Select
-} from '@material-ui/core'
-import Autocomplete from '@material-ui/lab/Autocomplete'
+    DialogContentText, DialogTitle, Checkbox, Autocomplete, FormControlLabel,
+    AppBar, Tabs, Tab
+} from '@mui/material'
 
-import EditIcon from '@material-ui/icons/Edit'
-import SaveAltIcon from '@material-ui/icons/SaveAlt'
-import CancelIcon from '@material-ui/icons/Cancel'
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
-import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn'
+import EditIcon from '@mui/icons-material/Edit'
+import SaveAltIcon from '@mui/icons-material/SaveAlt'
+import CancelIcon from '@mui/icons-material/Cancel'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
 
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec, postRec, deleteRec } from '../../services/apiconnect'
+import TabPanel, { posTab } from '../commons/TabPanel'
+import { theme } from '../../services/customtheme'
+
+import ProfessionalAvailability from './ProfessionalAvailability'
+import { timeBr } from '../../services/dateutils';
 
 const objectRef = 'professional/'
 const objectId = 'professionalid/'
@@ -25,7 +31,7 @@ const Professional = props => {
     const [_id, _idSet] = useState('')
     const [name, nameSet] = useState('')
     const [cpf, cpfSet] = useState('')
-    const [specialty, specialtySet] = useState('')
+    const [specialtyId, specialtyIdSet] = useState('')
     const [specialtyName, specialtyNameSet] = useState('')
     const [crm, crmSet] = useState('')
     const [email, emailSet] = useState('')
@@ -34,11 +40,12 @@ const Professional = props => {
     const [dismissalDate, dismissalDateSet] = useState('')
     const [cns, cnsSet] = useState('')
     const [cbo, cboSet] = useState('')
-    const [internal, internalSet] = useState('')
+    const [internal, internalSet] = useState(false)
 
     const [nameTemp, nameSetTemp] = useState('')
     const [cpfTemp, cpfSetTemp] = useState('')
-    const [specialtyTemp, specialtySetTemp] = useState('')
+    const [specialtyIdTemp, specialtyIdSetTemp] = useState('')
+    const [specialtyNameTemp, specialtyNameSetTemp] = useState('')
     const [crmTemp, crmSetTemp] = useState('')
     const [emailTemp, emailSetTemp] = useState('')
     const [phoneTemp, phoneSetTemp] = useState('')
@@ -46,9 +53,10 @@ const Professional = props => {
     const [dismissalDateTemp, dismissalDateSetTemp] = useState('')
     const [cnsTemp, cnsSetTemp] = useState('')
     const [cboTemp, cboSetTemp] = useState('')
-    const [internalTemp, internalSetTemp] = useState('')
+    const [internalTemp, internalSetTemp] = useState(false)
 
     const [specialtyList, specialtyListSet] = useState([])
+    const [availabilityList, availabilityListSet] = useState([])
 
     const [insertMode, setInsertMode] = useState(id === '0')
     const [editMode, setEditMode] = useState(id === '0')
@@ -57,40 +65,70 @@ const Professional = props => {
     const [deleteInfoDialog, setDeleteInfoDialog] = useState(false)
     const [emptyRecDialog, setEmptyRecDialog] = useState(false)
 
+    const [tabValue, setTabValue] = useState(0);
+
     const classes = useStyles()
 
-    useEffect(() => {
+    useEffect(async () => {
         if (id !== '0') {
-            getList(objectId + id)
+            var tempList = []
+
+            await getList(objectId + id)
                 .then(items => {
-                    console.log('record', items.record)
-                    _idSet(items.record._id)
+                    _idSet(items.record[0]._id)
 
                     nameSet(items.record[0].name || '')
                     cpfSet(items.record[0].cpf || '')
-                    specialtySet(items.record[0].specialty_id || '')
+                    specialtyIdSet(items.record[0].specialty_id || '')
                     specialtyNameSet(items.record[0].specialty_name[0] || '')
                     crmSet(items.record[0].crm || '')
                     emailSet(items.record[0].email || '')
                     phoneSet(items.record[0].phone || '')
-                    admissionDateSet(items.record[0].admissionDate || '')
-                    dismissalDateSet(items.record[0].dismissalDate || '')
+                    admissionDateSet((items.record[0].admissionDate || '').substr(0, 10))
+                    dismissalDateSet((items.record[0].dismissalDate || '').substr(0, 10))
                     cnsSet(items.record[0].cns || '')
                     cboSet(items.record[0].cbo || '')
-                    internalSet(items.record[0].internal || '')
+                    internalSet(items.record[0].internal || false)
 
-                    nameSetTemp(items.record[0].name)
-                    cpfSetTemp(items.record[0].cpf)
-                    specialtySetTemp(items.record[0].specialty_id)
-                    crmSetTemp(items.record[0].crm)
-                    emailSetTemp(items.record[0].email)
-                    phoneSetTemp(items.record[0].phone)
-                    admissionDateSetTemp(items.record[0].admissionDate)
-                    dismissalDateSetTemp(items.record[0].dismissalDate)
-                    cnsSetTemp(items.record[0].cns)
-                    cboSetTemp(items.record[0].cbo)
-                    internalSetTemp(items.record[0].internal)
+                    nameSetTemp(items.record[0].name || '')
+                    cpfSetTemp(items.record[0].cpf || '')
+                    specialtyNameSetTemp(items.record[0].specialty_name[0] || '')
+                    specialtyIdSetTemp(items.record[0].specialty_id || '')
+                    crmSetTemp(items.record[0].crm || '')
+                    emailSetTemp(items.record[0].email || '')
+                    phoneSetTemp(items.record[0].phone || '')
+                    admissionDateSetTemp((items.record[0].admissionDate || '').substr(0, 10))
+                    dismissalDateSetTemp((items.record[0].dismissalDate || '').substr(0, 10))
+                    cnsSetTemp(items.record[0].cns || '')
+                    cboSetTemp(items.record[0].cbo || '')
+                    internalSetTemp(items.record[0].internal || false)
+
+                    for (const subItem of items.record[0].availability) {
+                        const newLine = {
+                            '_id': subItem._id,
+                            'weekDay': subItem.weekDay,
+                            'initialTime': timeBr(subItem.initialTime) || '00:00',
+                            'finalTime': timeBr(subItem.finalTime) || '00:00',
+                            'interval': subItem.interval,
+                        }
+                        console.log('subItem.initialTime', timeBr(subItem.initialTime))
+                        console.log('newLine', newLine)
+                        tempList = ([...tempList, newLine])
+                    }
                 })
+                .then(_ => {
+                    if (tempList.length === 0) {
+                        const newLine = {
+                            '_id': '0',
+                            'weekDay': 1,
+                            'initialTime': '00:00',
+                            'finalTime': '00:00',
+                            'interval': 0,
+                        }
+                        tempList = ([newLine])
+                    }
+                })
+            availabilityListSet(tempList)
         }
         getList('specialty/')
             .then(items => {
@@ -103,10 +141,30 @@ const Professional = props => {
             setEmptyRecDialog(true)
             return null
         }
+        let recSubList = availabilityList.map(item => {
+            console.log('item', item)
+            if (item._id && item._id.length === 24) {
+                return {
+                    _id: item._id,
+                    weekDay: item.weekDay,
+                    initialTime: '1970-01-01T' + item.initialTime,
+                    finalTime: '1970-01-01T' + item.finalTime,
+                    interval: item.interval
+                }
+            } else {
+                return {
+                    weekDay: item.weekDay,
+                    initialTime: '1970-01-01T' + item.initialTime,
+                    finalTime: '1970-01-01T' + item.finalTime,
+                    interval: item.interval
+                }
+            }
+        })
+        console.log('recSubList', recSubList)
         let recObj = {
             name,
             cpf,
-            specialty_id: specialty,
+            specialty_id: specialtyId,
             crm,
             email,
             phone,
@@ -114,7 +172,8 @@ const Professional = props => {
             dismissalDate,
             cns,
             cbo,
-            internal
+            internal,
+            availability: recSubList
         }
         if (_id) {
             recObj = JSON.stringify(recObj)
@@ -126,13 +185,13 @@ const Professional = props => {
             recObj = JSON.stringify(recObj)
             postRec(objectRef, recObj)
                 .then(result => {
-                    console.log('post', result)
                     _idSet(result.record._id)
                 })
         }
         nameSetTemp(name)
         cpfSetTemp(cpf)
-        specialtySetTemp(specialty)
+        specialtyIdSetTemp(specialtyId)
+        specialtyNameSetTemp(specialtyName)
         crmSetTemp(crm)
         emailSetTemp(email)
         phoneSetTemp(phone)
@@ -152,7 +211,8 @@ const Professional = props => {
         }
         nameSet(nameTemp)
         cpfSet(cpfTemp)
-        specialtySet(specialtyTemp)
+        specialtyIdSet(specialtyIdTemp)
+        specialtyNameSet(specialtyNameTemp)
         crmSet(crmTemp)
         emailSet(emailTemp)
         phoneSet(phoneTemp)
@@ -243,54 +303,24 @@ const Professional = props => {
                         />
                     </Grid>
                     <Grid item xs={3}>
-                        <TextField
-                            value={specialty}
-                            onChange={(event) => { specialtySet(event.target.value) }}
-                            id='specialty'
-                            label='Especialidade'
-                            fullWidth={false}
-                            disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            variant='outlined'
-                            size='small'
-                        // inputProps={{ type: 'number' }}
-                        />
-
-                        {/* <Autocomplete
+                        <Autocomplete
                             id="specialty"
                             options={specialtyList}
                             getOptionLabel={(option) => option.name}
-                            style={{ width: 200 }}
+                            // style={{ width: 230 }}
+                            size='small'
+                            disabled={!editMode}
+                            onChange={(event, newValue) => { specialtyIdSet(newValue._id) }}
+                            inputValue={specialtyName}
+                            onInputChange={(event, newInputValue) => { if (event && event.type !== 'blur') specialtyNameSet(newInputValue) }}
                             renderInput={(params) =>
                                 <TextField {...params}
                                     label="Especialidade"
                                     variant="outlined"
-                                    value={specialtyName}
-                                    InputLabelProps={{ shrink: true }}
-                                    
-                                    inputProps={{
-                                        ...params.inputProps,
-                                        // autoComplete: 'new-password', // disable autocomplete and autofill
-                                    }}
+                                    InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                                    inputProps={{ ...params.inputProps }}
                                 />}
-                            size='small'
-                            // inputValue={specialtyName}
-                        // onBlur={(e) => { launchCodprod(e) }}
-                        /> */}
-
-                        {/* <Select
-                            value={specialtyName}
-                            onChange={(event) => { specialtySet(event.target.value) }}
-                            id='specialty'
-                            label='Especialidade'
-                            fullWidth={false}
-                            disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            variant='outlined'
-                            size='small'
-                        // inputProps={{ type: 'number' }}
-                        /> */}
-
+                        />
                     </Grid>
                     <Grid item xs={3}>
                         <TextField
@@ -345,7 +375,7 @@ const Professional = props => {
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                             variant='outlined'
                             size='small'
-                        // inputProps={{ type: 'number' }}
+                            inputProps={{ type: 'date' }}
                         />
                     </Grid>
                     <Grid item xs={3}>
@@ -359,7 +389,7 @@ const Professional = props => {
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                             variant='outlined'
                             size='small'
-                        // inputProps={{ type: 'number' }}
+                            inputProps={{ type: 'date' }}
                         />
                     </Grid>
                     <Grid item xs={3}>
@@ -391,21 +421,44 @@ const Professional = props => {
                         />
                     </Grid>
                     <Grid item xs={3}>
-                        <TextField
-                            value={internal}
-                            onChange={(event) => { internalSet(event.target.value) }}
-                            id='internal'
-                            label='Interno?'
-                            fullWidth={false}
-                            disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            variant='outlined'
-                            size='small'
-                        // inputProps={{ type: 'number' }}
+                        <FormControlLabel
+                            label="Interno?"
+                            control={
+                                <Checkbox
+                                    checked={internal}
+                                    onChange={(event) => { internalSet(event.target.checked) }}
+                                />
+                            }
                         />
                     </Grid>
                 </Grid>
             </div>
+            <Form className='data-form-level1'>
+
+                <div >
+                    <AppBar position="static" color="default">
+                        <Tabs
+                            value={tabValue}
+                            onChange={(event, newValue) => { setTabValue(newValue) }}
+                            indicatorColor="primary"
+                            textColor="primary"
+                            variant="fullWidth"
+                            aria-label="full width tabs example"
+                        >
+                            <Tab label="Disponibilidade" {...posTab(0)} />
+                        </Tabs>
+                    </AppBar>
+                    <TabPanel value={tabValue} index={0} dir={theme.direction}>
+                        <ProfessionalAvailability
+                            itemList={availabilityList}
+                            editMode={editMode}
+                            onChangeSublist={availabilityListSet}
+                        />
+                    </TabPanel>
+                </div>
+
+            </Form>
+
             <Dialog
                 open={deleteDialog}
             // onClose={delCancel}

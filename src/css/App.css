@@ -28,6 +28,14 @@
     border-width: 1px;
     width: 80vw;
 }
+.data-form-level1 {
+    background-color: white;
+    padding: 5px;
+    border: rgb(172, 164, 164);
+    border-style: solid;
+    border-width: 1px;
+    width: 80vw;
+}
 .data-table {
 border: rgb(172, 164, 164);
 border-style: solid;
@@ -35,8 +43,14 @@ border-width: 1px;
 width: 80vw;
 margin-top: 5px;
 }
-.menu {
-    /* verified */
+.data-table-level1 {
+border: rgb(172, 164, 164);
+border-style: solid;
+border-width: 1px;
+width: 75vw;
+margin-top: 5px;
+}
+.menu { /* verified */
     padding: 50px 0px 0px 0px;
     min-height: 100vh;
     /* background: '../../../public/BackgroundImageMenu.jpg'; 

@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import '../src/css/index.css'
 import '../src/css/bootstrap.min.css'
-import { ThemeProvider } from '@material-ui/core/styles'
+import { ThemeProvider } from '@mui/material'
 import { theme } from './services/customtheme'
 
 import App from './App.jsx'
