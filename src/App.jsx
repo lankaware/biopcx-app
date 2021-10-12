@@ -1,9 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { BrowserRouter as Router } from 'react-router-dom'
-
-// import 'fontsource-roboto'
-// import './bootstrap.css'
 
 import '../src/css/App.css'
 
@@ -12,48 +9,46 @@ import AppMenu from './components/layout/Menu.jsx'
 import Content from './components/layout/Content.jsx'
 import Login from './components/layout/Login.jsx'
 
+import { Context } from './context/AuthContext.jsx'
+
 import './services/customtheme'
 
 const App = (props) => {
 
   const [collapseMenu, setCollapseMenu] = useState(false)
-  const [logged, setLogged] = useState(false)
 
   const toggleMenu = () => {
     setCollapseMenu(!collapseMenu)
   }
 
-  if (!logged) {
+  const { authenticated, username } = useContext(Context);
+  console.log('app 0', authenticated)
+
+  if (!authenticated) {
+    console.log('app 1')
     return (
       <div className='app-content'>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <PageHeader
-            userName='Anônimo'
+            userName={username}
             toggleMenu={toggleMenu}
-          />
-          <Login
-            logged={logged}
-            onChange={setLogged}
-          />
+            />
+          <Login />
         </ErrorBoundary>
       </div>
     )
-
   } else {
+    console.log('app 2')
     return (
       <div className='app-content'>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <Login
-            logged={logged}
-          />
           <Router>
             <PageHeader
-              userName='Anônimo'
+              userName={username}
               toggleMenu={toggleMenu}
             />
             <AppMenu collapseMenu={collapseMenu} />
             <Content />
-
           </Router>
         </ErrorBoundary>
       </div>

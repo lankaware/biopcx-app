@@ -1,25 +1,46 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import {
-    Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
-    DialogContentText, DialogTitle, Checkbox, Autocomplete, FormControlLabel,
-    AppBar, Tabs, Tab
+    Grid, TextField, Typography, Button
 } from '@mui/material'
+import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import { useStyles } from '../../services/stylemui'
+import { postRec } from '../../services/apiconnect'
+import { Context } from '../../context/AuthContext'
+
+// import bcrypt from 'bcryptjs'
+// const objectRef = 'user/'
+// const objectId = 'userid/'
+// const objectName = 'username/'
 
 const Login = props => {
 
+    const {authenticated, userSign} = useContext(Context);
+
+    // const [_id, _idSet] = useState('')
     const [login, loginSet] = useState('')
     const [passw, passwSet] = useState('')
     const classes = useStyles()
 
-    if (props.logged) {
+    console.log('Login screen')
+    if (authenticated) {
         return null
     }
 
-    return (
+    const loginConfirm = async () => {
+     //   let passwsecret = await bcrypt.hash(passw, 8) // criptografar
+        let recObj = {
+            passw: passw
+        }
+        recObj = JSON.stringify(recObj)
+        postRec('userlogin/' + login, recObj)
+        .then(result => {
+                userSign(result.token, result.name)
+            })
+    }
+
+      return (
         <>
             <div className='container-div'>
-
                 <div >
                     <Grid container spacing={2} >
                         <Grid item xs={12}>
@@ -43,7 +64,7 @@ const Login = props => {
                         <Grid item xs={12}>
                             <TextField
                                 value={passw}
-                                onChange={(event) => { props.onChange(true) }}// { passwSet(event.target.value) }}
+                                onChange={(event) => { passwSet(event.target.value) }}
                                 id='passw'
                                 label='Senha'
                                 fullWidth={false}
@@ -52,6 +73,14 @@ const Login = props => {
                                 variant='outlined'
                                 size='small'
                             />
+                        </Grid>
+                        <Grid item xs={6}>
+                            {/* <div className={classes.bottomButtons}> */}
+                            <Button color='primary' variant='contained' size='small' endIcon={<SubscriptionsIcon />}
+                                onClick={_ => loginConfirm()} disabled={(false)}>Entrar</Button>
+                            {/* <Button color='secondary' variant='contained' size='small' endIcon={<CancelScheduleSendIcon />}
+                                onClick={_ => loginClose()} disabled={false}>Cancelar</Button> */}
+                            {/* </div> */}
                         </Grid>
                     </Grid>
                 </div>

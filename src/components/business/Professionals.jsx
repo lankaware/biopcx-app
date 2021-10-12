@@ -88,7 +88,8 @@ const Professionals = props => {
                     </Box>
                     <Box m={1}>
                         <Button color='primary' size='small' variant='contained' startIcon={<KeyboardReturnIcon />}
-                            href="/" id='backButton'>VOLTAR
+                            href="/" id='backButton'>
+                            VOLTAR
                         </Button>
                     </Box>
                 </div>

@@ -5,14 +5,18 @@ import '../src/css/bootstrap.min.css'
 import { ThemeProvider } from '@mui/material'
 import { theme } from './services/customtheme'
 
+import { AuthProvider } from './context/AuthContext.jsx'
 import App from './App.jsx'
+
 // import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </AuthProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

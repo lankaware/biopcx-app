@@ -21,7 +21,6 @@ const AppMenu = (props) => {
             // image={'../../../public/BackgroundImageMenu.jpg'}
             >
                 <SidebarHeader>
-                    {/* <h5>SIX Atendimento V3</h5> */}
                 </SidebarHeader>
                 <Menu iconShape='circle'>
                     <MenuItem icon={<HomeIcon />}>
@@ -29,46 +28,37 @@ const AppMenu = (props) => {
                         <Link to='/' />
                     </MenuItem>
                     <SubMenu title='Atendimento' icon={<PermContactCalendarIcon />}>
-                        <MenuItem >
-                            Agenda
+                        <MenuItem > Agenda
                             <Link to='/agenda' />
                         </MenuItem>
                     </SubMenu>
                     <SubMenu title='Cadastros' icon={<ListAltIcon />}>
-                        <MenuItem>
-                            Pacientes
+                        <MenuItem> Pacientes
                             <Link to='/patients' />
                         </MenuItem>
-                        <MenuItem>
-                            Profissionais
+                        <MenuItem> Profissionais
                             <Link to='/professionals' />
                         </MenuItem>
-                        <MenuItem>
-                            Convênios
+                        <MenuItem> Convênios
                             <Link to='/covenants' />
                         </MenuItem>
-                        <MenuItem>
-                            Procedimentos
+                        <MenuItem> Procedimentos
                             <Link to='/procedures' />
                         </MenuItem>
                     </SubMenu>
                     <SubMenu title='Relatórios' icon={<PictureAsPdfIcon />}>
-                        <MenuItem>
-                            Agenda
+                        <MenuItem> Agenda
                             <Link to='/agenda' />
                         </MenuItem>
-                        <MenuItem>
-                            Atendimentos
+                        <MenuItem> Atendimentos
                             <Link to='/' />
                         </MenuItem>
                     </SubMenu>
                     <SubMenu title='Configurações' icon={<SettingsIcon />}>
-                        <MenuItem>
-                            Gerais
-                            <Link to='/agenda' />
+                        <MenuItem> Gerais
+                            <Link to='/' />
                         </MenuItem>
-                        <MenuItem>
-                            Segurança
+                        <MenuItem> Segurança
                             <Link to='/' />
                         </MenuItem>
                     </SubMenu>

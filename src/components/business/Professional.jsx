@@ -69,11 +69,11 @@ const Professional = props => {
 
     const classes = useStyles()
 
-    useEffect(async () => {
+    useEffect(() => {
         if (id !== '0') {
             var tempList = []
 
-            await getList(objectId + id)
+            getList(objectId + id)
                 .then(items => {
                     _idSet(items.record[0]._id)
 

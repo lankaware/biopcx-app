@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'
 import DataTable from 'react-data-table-component'
 import { customStyles2, paginationBr } from '../../services/datatablestyle'
 import {
-    Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
-    DialogContentText, DialogTitle, Checkbox, Autocomplete, FormControlLabel,
-    AppBar, Tabs, Tab, MenuItem
+    Grid, TextField, Button, Dialog, DialogActions, DialogContent,
+    DialogTitle, MenuItem
 } from '@mui/material'
 import { useStyles } from '../../services/stylemui'
 import { DaysOfWeek, dayOfWeekLabel } from '../commons/DayOfWeek'

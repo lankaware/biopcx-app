@@ -8,7 +8,6 @@ import Procedures from '../business/Procedures'
 import Professional from '../business/Professional'
 import Professionals from '../business/Professionals'
 
-
 const Content = props => {
     return (
         <>
@@ -17,9 +16,9 @@ const Content = props => {
                     <Route exact path='/'>
                         <Home />
                     </Route>
-                    <Route exact path="/procedures">
-                        <Procedures />
-                    </Route>
+                    <Route exact path="/procedures" component={Procedures} />
+                        {/* <Procedures />
+                    </Route> */}
                     <Route exact path="/procedure/:id">
                         <Procedure />
                     </Route>

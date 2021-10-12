@@ -8,6 +8,7 @@ export async function getList(apiDesc) {
       headers: {
         'content-type': 'application/json',
         'accept': '*/*',
+        'authorization': `Bearer ${localStorage.getItem('token')}`,
       },
     },
   )
@@ -19,7 +20,8 @@ export async function putRec(apiDesc, dataSend ) {
     {
       method: 'PUT',
        headers: {
-        "Content-type": "application/json; charset=UTF-8"
+        "Content-type": "application/json; charset=UTF-8",
+        'authorization': `Bearer ${localStorage.getItem('token')}`,
        },
       body: dataSend,
     },
@@ -32,7 +34,8 @@ export async function postRec(apiDesc, dataSend) {
     {
       method: 'POST',
       headers: {
-        "Content-type": "application/json; charset=UTF-8"
+        "Content-type": "application/json; charset=UTF-8",
+        'authorization': `Bearer ${localStorage.getItem('token')}`,
        },
       body: dataSend,
     },
@@ -45,7 +48,8 @@ export async function deleteRec(apiDesc, dataSend) {
     {
       method: 'DELETE',
       headers: {
-        "Content-type": "application/json; charset=UTF-8"
+        "Content-type": "application/json; charset=UTF-8",
+        'authorization': `Bearer ${localStorage.getItem('token')}`,
        },
       body: dataSend,
     },

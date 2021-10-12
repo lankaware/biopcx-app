@@ -1,22 +1,53 @@
 import React, { useState } from 'react'
 import {
-    Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
-    DialogContentText, DialogTitle, Checkbox, Autocomplete, FormControlLabel,
-    AppBar, Tabs, Tab
+    Grid, TextField, Typography, Button
 } from '@mui/material'
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend';
+import { getList, putRec, postRec } from '../../services/apiconnect'
 
 import { useStyles } from '../../services/stylemui'
+// import bcrypt from 'bcryptjs'
+
+const objectRef = 'user/'
+const objectId = 'userid/'
+// const objectName = 'username/'
 
 const User = props => {
 
+    const [_id] = useState('')
     const [name, nameSet] = useState('')
     const [login, loginSet] = useState('')
     const [passw, passwSet] = useState('')
     const classes = useStyles()
 
     const userConfirm = () => {
+        if (!name) {
+            //            setEmptyRecDialog(true)
+            return null
+        }
+        console.log('objectName ', objectRef + 'login/' + login)
+
+        getList('userlogin/' + login)
+            .then(async item => {
+                if (item.record[0]) {
+                    // setEmptyRecDialog(true)
+                    return null
+                }
+                let recObj = {
+                    name,
+                    login,
+                    passw,
+                }
+                if (_id) {
+                    recObj = JSON.stringify(recObj)
+                    putRec(objectId + _id, recObj)
+                } else {
+                    recObj = JSON.stringify(recObj)
+                    postRec(objectRef, recObj)
+                }
+            })
+
         return null
     }
 
@@ -64,7 +95,7 @@ const User = props => {
                         <Grid item xs={12}>
                             <TextField
                                 value={passw}
-                                onChange={(event) => { props.onChange(true) }}// { passwSet(event.target.value) }}
+                                onChange={(event) => { passwSet(event.target.value) }}
                                 id='passw'
                                 label='Senha'
                                 fullWidth={false}
@@ -76,10 +107,10 @@ const User = props => {
                         </Grid>
                         <Grid item xs={6}>
                             {/* <div className={classes.bottomButtons}> */}
-                                <Button color='primary' variant='contained' size='small' endIcon={<SubscriptionsIcon />}
-                                    onClick={_ => userConfirm()} disabled={(false)}>Confirmar</Button>
-                                <Button color='secondary' variant='contained' size='small' endIcon={<CancelScheduleSendIcon />}
-                                    onClick={_ => userClose()} disabled={false}>Cancelar</Button>
+                            <Button color='primary' variant='contained' size='small' endIcon={<SubscriptionsIcon />}
+                                onClick={_ => userConfirm()} disabled={(false)}>Confirmar</Button>
+                            <Button color='secondary' variant='contained' size='small' endIcon={<CancelScheduleSendIcon />}
+                                onClick={_ => userClose()} disabled={false}>Cancelar</Button>
                             {/* </div> */}
                         </Grid>
                     </Grid>
