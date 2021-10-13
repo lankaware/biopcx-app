@@ -127,8 +127,8 @@ const Professional = props => {
                         }
                         tempList = ([newLine])
                     }
+                    availabilityListSet(tempList)
                 })
-            availabilityListSet(tempList)
         }
         getList('specialty/')
             .then(items => {

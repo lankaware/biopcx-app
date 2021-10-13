@@ -1,35 +1,29 @@
 import React, { useState, useContext } from 'react'
-import {
-    Grid, TextField, Typography, Button
+import { Grid, TextField, Typography, Button
 } from '@mui/material'
+import CryptoJS from 'crypto-js'
+
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
+
 import { useStyles } from '../../services/stylemui'
 import { postRec } from '../../services/apiconnect'
 import { Context } from '../../context/AuthContext'
-
-// import bcrypt from 'bcryptjs'
-// const objectRef = 'user/'
-// const objectId = 'userid/'
-// const objectName = 'username/'
 
 const Login = props => {
 
     const {authenticated, userSign} = useContext(Context);
 
-    // const [_id, _idSet] = useState('')
     const [login, loginSet] = useState('')
     const [passw, passwSet] = useState('')
     const classes = useStyles()
 
-    console.log('Login screen')
-    if (authenticated) {
-        return null
-    }
+    if (authenticated) return null
 
     const loginConfirm = async () => {
-     //   let passwsecret = await bcrypt.hash(passw, 8) // criptografar
+        const passwcr = CryptoJS.AES.encrypt(passw, process.env.REACT_APP_SECRET).toString();
+
         let recObj = {
-            passw: passw
+            passw: passwcr
         }
         recObj = JSON.stringify(recObj)
         postRec('userlogin/' + login, recObj)

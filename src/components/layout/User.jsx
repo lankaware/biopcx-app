@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
-import {
-    Grid, TextField, Typography, Button
+import { Grid, TextField, Typography, Button
 } from '@mui/material'
+import CryptoJS from 'crypto-js'
+
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend';
-import { getList, putRec, postRec } from '../../services/apiconnect'
 
+import { getList, putRec, postRec } from '../../services/apiconnect'
 import { useStyles } from '../../services/stylemui'
-// import bcrypt from 'bcryptjs'
+
 
 const objectRef = 'user/'
 const objectId = 'userid/'
-// const objectName = 'username/'
 
 const User = props => {
 
@@ -26,18 +26,17 @@ const User = props => {
             //            setEmptyRecDialog(true)
             return null
         }
-        console.log('objectName ', objectRef + 'login/' + login)
-
         getList('userlogin/' + login)
             .then(async item => {
                 if (item.record[0]) {
                     // setEmptyRecDialog(true)
                     return null
                 }
+                const passwcr = CryptoJS.AES.encrypt(passw, process.env.REACT_APP_SECRET).toString();
                 let recObj = {
                     name,
                     login,
-                    passw,
+                    passw: passwcr,
                 }
                 if (_id) {
                     recObj = JSON.stringify(recObj)

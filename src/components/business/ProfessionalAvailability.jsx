@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component'
 import { customStyles2, paginationBr } from '../../services/datatablestyle'
-import {
-    Grid, TextField, Button, Dialog, DialogActions, DialogContent,
+import { Grid, TextField, Button, Dialog, DialogActions, DialogContent,
     DialogTitle, MenuItem
 } from '@mui/material'
 import { useStyles } from '../../services/stylemui'

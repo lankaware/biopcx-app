@@ -1,5 +1,5 @@
 import { React, createContext, useState, useEffect } from 'react'
-import { postRec } from '../services/apiconnect'
+import jsonwebtoken from 'jsonwebtoken'
 
 const Context = createContext()
 
@@ -10,28 +10,25 @@ function AuthProvider({ children }) {
     useEffect(() => {
         const token = localStorage.getItem('token')
         if (token) {
-            postRec('userchktoken/')
-            .then(result => {
-                    console.log('Context 2', result.tokenok)
-                    if (result.tokenok) {
-                        setAuthenticated(true)
-                        setUsername(localStorage.getItem('name'))
-                    } else {
-                        console.log('Context 3')
-                        setAuthenticated(false)
-                        setUsername('Anônimo')
-                    }
-                })
+            try {
+                const secret = process.env.REACT_APP_SECRET // '390579e2935ef8b3d8f0' 
+                jsonwebtoken.verify(token, secret)
+                setAuthenticated(true)
+                setUsername(localStorage.getItem('name'))
+            } catch {
+                setAuthenticated(false)
+                setUsername('Anônimo')
+            }
         }
     }, [])
 
     const userSign = (token, userName) => {
         if (token) {
-            console.log('Context Effect - Login')
             setAuthenticated(true)
             setUsername(userName)
             localStorage.setItem('token', token)
             localStorage.setItem('name', userName)
+
         } else {
             setAuthenticated(false)
             setUsername('Anônimo')

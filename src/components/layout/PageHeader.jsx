@@ -15,6 +15,7 @@ const PageHeader = props => {
 
     const logoutConfirm = () => {
         userSign(false)
+        setConfirmDialog(false)
     }
 
     const stayIn = () => {
