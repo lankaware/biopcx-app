@@ -28,7 +28,7 @@ const Professional = props => {
 
     let { id } = useParams()
 
-    const [_id, _idSet] = useState('')
+    const [_id, _idSet] = useState(id)
     const [name, nameSet] = useState('')
     const [cpf, cpfSet] = useState('')
     const [specialtyId, specialtyIdSet] = useState('')
@@ -75,7 +75,7 @@ const Professional = props => {
 
             getList(objectId + id)
                 .then(items => {
-                    _idSet(items.record[0]._id)
+                    // _idSet(items)
 
                     nameSet(items.record[0].name || '')
                     cpfSet(items.record[0].cpf || '')
@@ -175,7 +175,7 @@ const Professional = props => {
             internal,
             availability: recSubList
         }
-        if (_id) {
+        if (_id !== '0') {
             recObj = JSON.stringify(recObj)
             putRec(objectId + _id, recObj)
                 .then(result => {
@@ -230,9 +230,9 @@ const Professional = props => {
     }
 
     const delConfirm = () => {
+        console.log('_id', _id)
         deleteRec(objectId + _id)
             .then(result => {
-                console.log(result)
             })
         setDeleteDialog(false)
         setDeleteInfoDialog(true)
@@ -383,7 +383,7 @@ const Professional = props => {
                             value={dismissalDate}
                             onChange={(event) => { dismissalDateSet(event.target.value) }}
                             id='dismissalDate'
-                            label='Data de Desligamento'
+                            label='Desligamento'
                             fullWidth={false}
                             disabled={!editMode}
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
@@ -470,11 +470,11 @@ const Professional = props => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={delCancel} color="primary" variant='contained' autoFocus>
-                        Cancelar
+                    <Button onClick={delCancel} color="primary" variant='contained' autoFocus
+                    >Cancelar
                     </Button>
-                    <Button onClick={delConfirm} color="secondary" variant='contained'>
-                        Confirmar
+                    <Button onClick={delConfirm} color="secondary" variant='contained'
+                    >Confirmar
                     </Button>
                 </DialogActions>
             </Dialog>

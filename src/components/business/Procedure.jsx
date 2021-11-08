@@ -72,7 +72,7 @@ const Procedure = props => {
                     cbhpm,
                     carry
                 }
-                if (_id) {
+                if (_id !== '0') {
                     recObj = JSON.stringify(recObj)
                     putRec(objectId + _id, recObj)
                         .then(result => {

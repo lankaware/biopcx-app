@@ -7,6 +7,7 @@ import ListAltIcon from '@mui/icons-material/ListAlt'
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import SettingsIcon from '@mui/icons-material/Settings'
+import SpellcheckIcon from '@mui/icons-material/Spellcheck'
 
 import 'react-pro-sidebar/dist/css/styles.css'
 
@@ -29,7 +30,7 @@ const AppMenu = (props) => {
                     </MenuItem>
                     <SubMenu title='Atendimento' icon={<PermContactCalendarIcon />}>
                         <MenuItem > Agenda
-                            <Link to='/agenda' />
+                            <Link to='/agendas' />
                         </MenuItem>
                     </SubMenu>
                     <SubMenu title='Cadastros' icon={<ListAltIcon />}>
@@ -44,6 +45,11 @@ const AppMenu = (props) => {
                         </MenuItem>
                         <MenuItem> Procedimentos
                             <Link to='/procedures' />
+                        </MenuItem>
+                    </SubMenu>
+                    <SubMenu title='Impressos' icon={<SpellcheckIcon />}>
+                        <MenuItem> Editor
+                            <Link to='/editor' />
                         </MenuItem>
                     </SubMenu>
                     <SubMenu title='Relatórios' icon={<PictureAsPdfIcon />}>

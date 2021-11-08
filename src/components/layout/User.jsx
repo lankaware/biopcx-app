@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Grid, TextField, Typography, Button
+import {
+    Grid, TextField, Typography, Button, Box
 } from '@mui/material'
 import CryptoJS from 'crypto-js'
 
@@ -76,12 +77,13 @@ const User = props => {
                                 InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                                 variant='outlined'
                                 size='small'
+                                sx={{ width: 300 }}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
                                 value={login}
-                                onChange={(event) => { loginSet(event.target.value.toUpperCase()) }}
+                                onChange={(event) => { loginSet(event.target.value) }}
                                 id='login'
                                 label='Login'
                                 fullWidth={false}
@@ -89,6 +91,7 @@ const User = props => {
                                 InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                                 variant='outlined'
                                 size='small'
+                                sx={{ width: 300 }}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -102,16 +105,16 @@ const User = props => {
                                 InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                                 variant='outlined'
                                 size='small'
+                                type='password'
+                                sx={{ width: 300 }}
                             />
                         </Grid>
-                        <Grid item xs={6}>
-                            {/* <div className={classes.bottomButtons}> */}
+                        <Box sx={{ '& > button': { m: 1 } }} style={{ 'marginLeft': 15}}>
                             <Button color='primary' variant='contained' size='small' endIcon={<SubscriptionsIcon />}
                                 onClick={_ => userConfirm()} disabled={(false)}>Confirmar</Button>
                             <Button color='secondary' variant='contained' size='small' endIcon={<CancelScheduleSendIcon />}
                                 onClick={_ => userClose()} disabled={false}>Cancelar</Button>
-                            {/* </div> */}
-                        </Grid>
+                        </Box>
                     </Grid>
                     <Grid container spacing={2}>
                     </Grid>
