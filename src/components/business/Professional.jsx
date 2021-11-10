@@ -185,6 +185,7 @@ const Professional = props => {
             recObj = JSON.stringify(recObj)
             postRec(objectRef, recObj)
                 .then(result => {
+                    console.log('result', result)
                     _idSet(result.record._id)
                 })
         }

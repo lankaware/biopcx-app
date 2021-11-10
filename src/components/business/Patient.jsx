@@ -283,7 +283,7 @@ const Patient = (props) => {
       relative_id: relativeId || null,
       relativeType,
     };
-    if (_id !== "0") {
+    if (id !== "0") {
       recObj = JSON.stringify(recObj);
       putRec(objectId + _id, recObj).then((result) => {
         console.log("put", result);
@@ -916,9 +916,9 @@ const Patient = (props) => {
               </Grid>
               <Grid item xs={6}>
                 <TextField
-                  value={responsibleTemp}
+                  value={responsible}
                   onChange={(event) => {
-                    responsibleSetTemp(event.target.value.toUpperCase());
+                    responsibleSet(event.target.value.toUpperCase());
                   }}
                   id="responsibleTemp"
                   label="Responsável"
