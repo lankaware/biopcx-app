@@ -65,6 +65,7 @@ const Login = props => {
                                 disabled={false}
                                 InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                                 variant='outlined'
+                                type='password'
                                 size='small'
                             />
                         </Grid>
