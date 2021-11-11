@@ -931,9 +931,9 @@ const Patient = (props) => {
               </Grid>
               <Grid item xs={6}>
                 <TextField
-                  value={responsibleTemp}
+                  value={responsible}
                   onChange={(event) => {
-                    responsibleSetTemp(event.target.value.toUpperCase());
+                    responsibleSet(event.target.value.toUpperCase());
                   }}
                   id="responsibleTemp"
                   label="Responsável"
