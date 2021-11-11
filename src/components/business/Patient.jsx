@@ -23,8 +23,8 @@ import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
-import CameraIcon from "@mui/icons-material/Camera";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { useStyles } from "../../services/stylemui";
 import { getList, putRec, postRec, deleteRec } from "../../services/apiconnect";
@@ -41,7 +41,6 @@ const Patient = (props) => {
   let { id } = useParams();
 
   const webcamRef = useRef("");
-  const [captPhoto, captPhotoSet] = useState("");
 
   const [_id, _idSet] = useState("");
   const [photo, photoSet] = useState("");
@@ -83,8 +82,7 @@ const Patient = (props) => {
   const [relativeName, relativeNameSet] = useState("");
   const [relativeType, relativeTypeSet] = useState("");
 
-
-  const [photoTemp, photoSetTemp] = useState(""); 
+  const [photoTemp, photoSetTemp] = useState("");
   const [nameTemp, nameSetTemp] = useState("");
   const [phoneTemp, phoneSetTemp] = useState("");
   const [emailTemp, emailSetTemp] = useState("");
@@ -193,7 +191,7 @@ const Patient = (props) => {
         relativeNameSet(items.record[0].relative_name[0] || "");
         relativeTypeSet(items.record[0].relativeType || "");
 
-        photoSetTemp(items.record[0].name || "");
+        photoSetTemp(items.record[0].photo || "");
         nameSetTemp(items.record[0].name || "");
         phoneSetTemp(items.record[0].phone || "");
         emailSetTemp(items.record[0].email || "");
@@ -418,8 +416,8 @@ const Patient = (props) => {
       width: 900,
       height: 900,
     });
-    console.log(typeof(capturedPhoto));
-    captPhotoSet(capturedPhoto);
+    console.log(typeof capturedPhoto);
+    photoSet(capturedPhoto);
   };
 
   return (
@@ -486,7 +484,7 @@ const Patient = (props) => {
       </div>
       <div className="data-form">
         <Box className="photo-square">
-          <img src={photo} />
+        {photo !== "" ? <img src={photo} /> : <img src="" />}
         </Box>
         <Button
           color="primary"
@@ -497,58 +495,40 @@ const Patient = (props) => {
           startIcon={<CameraAltIcon />}
           onClick={(e) => {
             photoSetDialog(true);
-            captPhotoSet(photo);
           }}
         >
           Editar foto
         </Button>
-
-        <Dialog
-          open={photoDialog}
+        <Button
+          color="error"
+          className="delete-photo"
+          variant="contained"
+          size="small"
+          disabled={photo === "" || !editMode}
+          startIcon={<DeleteIcon />}
+          onClick={(e) => {
+            photoSet("");
+          }}
         >
+          Deletar foto
+        </Button>
+
+        <Dialog open={photoDialog}>
           <DialogTitle id="alert-dialog-title">{"Foto"}</DialogTitle>
           <DialogContent>
             <Box sx={{ margin: "0vw 6vw" }}>
-              {captPhoto == "" ? (
-                <Webcam
-                  className="webcam"
-                  audio={false}
-                  screenshotFormat="image/jpeg"
-                  forceScreenshotSourceSize="true"
-                  videoConstraints={videoConstraints}
-                  ref={webcamRef}
-                />
-              ) : (
-                <img src={captPhoto} />
-              )}
+              <Webcam
+                className="webcam"
+                audio={false}
+                screenshotFormat="image/jpeg"
+                forceScreenshotSourceSize="true"
+                screenshotQuality={0.5}
+                videoConstraints={videoConstraints}
+                ref={webcamRef}
+              />
             </Box>
           </DialogContent>
-          <DialogActions>
-            {captPhoto != "" ? (
-              <Button
-                color="primary"
-                variant="contained"
-                size="small"
-                startIcon={<CameraIcon />}
-                onClick={(e) => {
-                  e.preventDefault();
-                  captPhotoSet("");
-                }}
-              >
-                Tirar outra foto
-              </Button>
-            ) : (
-              <Button
-                color="primary"
-                variant="contained"
-                size="small"
-                startIcon={<CameraIcon />}
-                onClick={capture}
-              >
-                Capturar
-              </Button>
-            )}
-
+          <DialogActions>     
             <Button
               onClick={() => {
                 photoSetDialog(false);
@@ -557,17 +537,17 @@ const Patient = (props) => {
               variant="contained"
               autoFocus
             >
-              Fechar
+              Voltar
             </Button>
             <Button
               onClick={() => {
-                photoSet(captPhoto);
+                capture();
                 photoSetDialog(false);
               }}
               color="secondary"
               variant="contained"
             >
-              Confirmar
+              Tirar foto
             </Button>
           </DialogActions>
         </Dialog>
