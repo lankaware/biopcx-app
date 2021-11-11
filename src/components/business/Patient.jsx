@@ -41,10 +41,10 @@ const Patient = (props) => {
   let { id } = useParams();
 
   const webcamRef = useRef("");
-  const [photo, setPhoto] = useState("");
-  const [captPhoto, setCaptPhoto] = useState("");
+  const [captPhoto, captPhotoSet] = useState("");
 
   const [_id, _idSet] = useState("");
+  const [photo, photoSet] = useState("");
   const [name, nameSet] = useState("");
   const [phone, phoneSet] = useState("");
   const [email, emailSet] = useState("");
@@ -83,6 +83,8 @@ const Patient = (props) => {
   const [relativeName, relativeNameSet] = useState("");
   const [relativeType, relativeTypeSet] = useState("");
 
+
+  const [photoTemp, photoSetTemp] = useState(""); 
   const [nameTemp, nameSetTemp] = useState("");
   const [phoneTemp, phoneSetTemp] = useState("");
   const [emailTemp, emailSetTemp] = useState("");
@@ -130,7 +132,7 @@ const Patient = (props) => {
   const [insertMode, setInsertMode] = useState(id === "0");
   const [editMode, setEditMode] = useState(id === "0");
 
-  const [photoDialog, setPhotoDialog] = useState(false);
+  const [photoDialog, photoSetDialog] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [deleteInfoDialog, setDeleteInfoDialog] = useState(false);
   const [emptyRecDialog, setEmptyRecDialog] = useState(false);
@@ -142,7 +144,7 @@ const Patient = (props) => {
   const videoConstraints = {
     width: 160,
     height: 200,
-    facingMode: "user"
+    facingMode: "user",
   };
 
   useEffect(() => {
@@ -152,6 +154,7 @@ const Patient = (props) => {
 
         _idSet(items.record[0]._id);
 
+        photoSet(items.record[0].photo || "");
         nameSet(items.record[0].name || "");
         phoneSet(items.record[0].phone || "");
         emailSet(items.record[0].email || "");
@@ -190,6 +193,7 @@ const Patient = (props) => {
         relativeNameSet(items.record[0].relative_name[0] || "");
         relativeTypeSet(items.record[0].relativeType || "");
 
+        photoSetTemp(items.record[0].name || "");
         nameSetTemp(items.record[0].name || "");
         phoneSetTemp(items.record[0].phone || "");
         emailSetTemp(items.record[0].email || "");
@@ -250,6 +254,7 @@ const Patient = (props) => {
     }
     console.log("covenantId", covenantId);
     let recObj = {
+      photo,
       name,
       phone,
       email,
@@ -283,7 +288,7 @@ const Patient = (props) => {
       relative_id: relativeId || null,
       relativeType,
     };
-    if (_id !== "0") {
+    if (id !== "0") {
       recObj = JSON.stringify(recObj);
       putRec(objectId + _id, recObj).then((result) => {
         console.log("put", result);
@@ -295,6 +300,7 @@ const Patient = (props) => {
         _idSet(result.record._id);
       });
     }
+    photoSetTemp(photo);
     nameSetTemp(name);
     phoneSetTemp(phone);
     emailSetTemp(email);
@@ -341,6 +347,7 @@ const Patient = (props) => {
     if (insertMode) {
       document.getElementById("backButton").click();
     }
+    photoSet(photoTemp);
     nameSet(nameTemp);
     phoneSet(phoneTemp);
     emailSet(emailTemp);
@@ -407,8 +414,12 @@ const Patient = (props) => {
   };
 
   const capture = () => {
-    const capturedPhoto = webcamRef.current.getScreenshot({width: 900, height: 900 });
-    setCaptPhoto(capturedPhoto);
+    const capturedPhoto = webcamRef.current.getScreenshot({
+      width: 900,
+      height: 900,
+    });
+    console.log(typeof(capturedPhoto));
+    captPhotoSet(capturedPhoto);
   };
 
   return (
@@ -482,10 +493,11 @@ const Patient = (props) => {
           className="edit-photo"
           variant="contained"
           size="small"
+          disabled={!editMode}
           startIcon={<CameraAltIcon />}
           onClick={(e) => {
-            setPhotoDialog(true);
-            setCaptPhoto(photo)
+            photoSetDialog(true);
+            captPhotoSet(photo);
           }}
         >
           Editar foto
@@ -493,23 +505,22 @@ const Patient = (props) => {
 
         <Dialog
           open={photoDialog}
-          // onClose={delCancel}
         >
           <DialogTitle id="alert-dialog-title">{"Foto"}</DialogTitle>
           <DialogContent>
-            <Box sx={{margin: "0vw 6vw"}}>
-            {captPhoto == "" ? (
-              <Webcam 
-                className="webcam"
-                audio={false}
-                screenshotFormat="image/jpeg"
-                forceScreenshotSourceSize="true"
-                videoConstraints={videoConstraints}
-                ref={webcamRef}
-              />
-            ) : (
-              <img src={captPhoto} />
-            )}
+            <Box sx={{ margin: "0vw 6vw" }}>
+              {captPhoto == "" ? (
+                <Webcam
+                  className="webcam"
+                  audio={false}
+                  screenshotFormat="image/jpeg"
+                  forceScreenshotSourceSize="true"
+                  videoConstraints={videoConstraints}
+                  ref={webcamRef}
+                />
+              ) : (
+                <img src={captPhoto} />
+              )}
             </Box>
           </DialogContent>
           <DialogActions>
@@ -521,7 +532,7 @@ const Patient = (props) => {
                 startIcon={<CameraIcon />}
                 onClick={(e) => {
                   e.preventDefault();
-                  setCaptPhoto("");
+                  captPhotoSet("");
                 }}
               >
                 Tirar outra foto
@@ -540,7 +551,7 @@ const Patient = (props) => {
 
             <Button
               onClick={() => {
-                setPhotoDialog(false);
+                photoSetDialog(false);
               }}
               color="primary"
               variant="contained"
@@ -548,10 +559,14 @@ const Patient = (props) => {
             >
               Fechar
             </Button>
-            <Button onClick={()=>{
-              setPhoto(captPhoto)
-              setPhotoDialog(false);
-            }} color="secondary" variant="contained">
+            <Button
+              onClick={() => {
+                photoSet(captPhoto);
+                photoSetDialog(false);
+              }}
+              color="secondary"
+              variant="contained"
+            >
               Confirmar
             </Button>
           </DialogActions>
