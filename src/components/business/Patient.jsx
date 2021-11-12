@@ -31,6 +31,7 @@ import { getList, putRec, postRec, deleteRec } from "../../services/apiconnect";
 import TabPanel, { posTab } from "../commons/TabPanel";
 import { theme } from "../../services/customtheme";
 import { Box } from "@mui/system";
+import { ageCalc } from "../commons/DateFuntions";
 
 // import { timeBr } from '../../services/dateutils';
 
@@ -444,7 +445,9 @@ const Patient = (props) => {
             variant="contained"
             size="small"
             startIcon={<SaveAltIcon />}
-            onClick={(_) => saveRec()}
+            onClick={(_) => {
+              saveRec()
+               console.log(birthDate)}}
             disabled={!editMode}
           >
             SALVAR
@@ -454,7 +457,7 @@ const Patient = (props) => {
             variant="contained"
             size="small"
             startIcon={<CancelIcon />}
-            onClick={(_) => refreshRec()}
+            onClick={(_) => refreshRec() }
             disabled={!editMode}
           >
             CANCELAR
@@ -592,7 +595,7 @@ const Patient = (props) => {
               inputProps={{ type: "text" }}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <TextField
               value={birthDate}
               onChange={(event) => {
@@ -610,6 +613,18 @@ const Patient = (props) => {
               variant="outlined"
               size="small"
               inputProps={{ type: "date" }}
+            />
+          </Grid>
+          <Grid item xs={1}>
+            <TextField
+              value={ageCalc(birthDate)}
+              id="age"
+              label="Idade"
+              fullWidth={true}
+              disabled={true}
+              variant="outlined"
+              size="small"
+              sx={{color: "black"}}
             />
           </Grid>
           <Grid item xs={3}>
