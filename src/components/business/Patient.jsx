@@ -46,6 +46,7 @@ const Patient = (props) => {
   const [_id, _idSet] = useState("");
   const [photo, photoSet] = useState("");
   const [name, nameSet] = useState("");
+  const [lastname, lastnameSet] = useState("");
   const [phone, phoneSet] = useState("");
   const [email, emailSet] = useState("");
   const [zip, zipSet] = useState("");
@@ -85,6 +86,7 @@ const Patient = (props) => {
 
   const [photoTemp, photoSetTemp] = useState("");
   const [nameTemp, nameSetTemp] = useState("");
+  const [lastnameTemp, lastnameSetTemp] = useState("");  
   const [phoneTemp, phoneSetTemp] = useState("");
   const [emailTemp, emailSetTemp] = useState("");
   const [zipTemp, zipSetTemp] = useState("");
@@ -155,6 +157,7 @@ const Patient = (props) => {
 
         photoSet(items.record[0].photo || "");
         nameSet(items.record[0].name || "");
+        lastnameSet(items.record[0].lastname || "");
         phoneSet(items.record[0].phone || "");
         emailSet(items.record[0].email || "");
         zipSet(items.record[0].zip || "");
@@ -194,6 +197,7 @@ const Patient = (props) => {
 
         photoSetTemp(items.record[0].photo || "");
         nameSetTemp(items.record[0].name || "");
+        lastnameSetTemp(items.record[0].lastname || "");
         phoneSetTemp(items.record[0].phone || "");
         emailSetTemp(items.record[0].email || "");
         zipSetTemp(items.record[0].zip || "");
@@ -255,6 +259,7 @@ const Patient = (props) => {
     let recObj = {
       photo,
       name,
+      lastname,
       phone,
       email,
       zip,
@@ -301,6 +306,7 @@ const Patient = (props) => {
     }
     photoSetTemp(photo);
     nameSetTemp(name);
+    lastnameSetTemp(lastname);
     phoneSetTemp(phone);
     emailSetTemp(email);
     zipSetTemp(zip);
@@ -348,6 +354,7 @@ const Patient = (props) => {
     }
     photoSet(photoTemp);
     nameSet(nameTemp);
+    lastnameSet(lastnameTemp);
     phoneSet(phoneTemp);
     emailSet(emailTemp);
     zipSet(zipTemp);
@@ -446,8 +453,9 @@ const Patient = (props) => {
             size="small"
             startIcon={<SaveAltIcon />}
             onClick={(_) => {
-              saveRec()
-               console.log(birthDate)}}
+              saveRec();
+              console.log(birthDate);
+            }}
             disabled={!editMode}
           >
             SALVAR
@@ -457,7 +465,7 @@ const Patient = (props) => {
             variant="contained"
             size="small"
             startIcon={<CancelIcon />}
-            onClick={(_) => refreshRec() }
+            onClick={(_) => refreshRec()}
             disabled={!editMode}
           >
             CANCELAR
@@ -487,7 +495,7 @@ const Patient = (props) => {
       </div>
       <div className="data-form">
         <Box className="photo-square">
-        {photo !== "" ? <img src={photo} /> : <img src="" />}
+          {photo !== "" ? <img src={photo} /> : <img src="" />}
         </Box>
         <Button
           color="primary"
@@ -531,7 +539,7 @@ const Patient = (props) => {
               />
             </Box>
           </DialogContent>
-          <DialogActions>     
+          <DialogActions>
             <Button
               onClick={() => {
                 photoSetDialog(false);
@@ -556,7 +564,7 @@ const Patient = (props) => {
         </Dialog>
 
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid item xs={2}>
             <TextField
               value={name}
               onChange={(event) => {
@@ -564,6 +572,25 @@ const Patient = (props) => {
               }}
               id="name"
               label="Nome do Paciente"
+              fullWidth={true}
+              disabled={!insertMode}
+              InputLabelProps={{
+                shrink: true,
+                disabled: false,
+                classes: { root: classes.labelRoot },
+              }}
+              variant="outlined"
+              size="small"
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <TextField
+              value={lastname}
+              onChange={(event) => {
+                lastnameSet(event.target.value.toUpperCase());
+              }}
+              id="lastname"
+              label="sobrenome do Paciente"
               fullWidth={true}
               disabled={!insertMode}
               InputLabelProps={{
@@ -624,7 +651,7 @@ const Patient = (props) => {
               disabled={true}
               variant="outlined"
               size="small"
-              sx={{color: "black"}}
+              sx={{ color: "black" }}
             />
           </Grid>
           <Grid item xs={3}>

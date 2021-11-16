@@ -20,8 +20,15 @@ const Patients = props => {
             name: 'Nome do Paciente',
             selector: row => row.name,
             sortable: true,
-            width: '30vw',
+            width: '10vw',
             cell: row => (<Link to={"/patient/" + row._id}>{row.name}</Link>)
+        },
+        {
+            name: 'sobrenome do Paciente',
+            selector: row => row.lastname,
+            sortable: true,
+            width: '20vw',
+            cell: row => (<Link to={"/patient/" + row._id}>{row.lastname}</Link>)
         },
         {
             name: 'Telefone',
@@ -41,6 +48,7 @@ const Patients = props => {
     const classes = useStyles();
     const [list, setList] = useState([])
     const [nameFilter, nameFilterSet] = useState('')
+    const [lastnameFilter, lastnameFilterSet] = useState('')
     const [covenantFilter, covenantFilterSet] = useState('')
 
     useEffect(() => {
@@ -53,7 +61,9 @@ const Patients = props => {
     const refreshRec = () => {
         let recObj = {}
         if (nameFilter) recObj = { 'name': { "$regex": nameFilter } }
+        if (lastnameFilter) recObj = { 'lastname': { "$regex": lastnameFilter } }
         if (covenantFilter) recObj = { ...recObj, 'covenant.name  ': { "$regex": covenantFilter } }
+
 
         recObj = JSON.stringify(recObj)
         putRec(objectRef, recObj)
@@ -105,6 +115,19 @@ const Patients = props => {
                         onChange={(event) => { nameFilterSet(event.target.value.toUpperCase()) }}
                         id='nameFilter'
                         label='Nome do Paciente'
+                        fullWidth={false}
+                        InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                        onKeyPress={(e) => { launchSearch(e) }}
+                        variant='outlined'
+                        size='small'
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <TextField
+                        value={lastnameFilter}
+                        onChange={(event) => { lastnameFilterSet(event.target.value.toUpperCase()) }}
+                        id='lastnameFilter'
+                        label='Sobrenome do Paciente'
                         fullWidth={false}
                         InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                         onKeyPress={(e) => { launchSearch(e) }}
