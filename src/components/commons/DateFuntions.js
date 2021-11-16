@@ -1,4 +1,5 @@
 export function ageCalc(birthday) {
+  if (!birthday) return null;
   let [year, month, day] = birthday.split("-");
   year = Number(year);
   month = Number(month);
