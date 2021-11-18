@@ -151,7 +151,6 @@ const Patient = (props) => {
   useEffect(() => {
     if (id !== "0") {
       getList(objectId + id).then((items) => {
-        console.log("items", items);
 
         _idSet(items.record[0]._id);
 
