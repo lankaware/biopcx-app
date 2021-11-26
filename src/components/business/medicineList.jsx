@@ -10,7 +10,6 @@ import SearchIcon from '@mui/icons-material/Search'
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec } from '../../services/apiconnect'
 import { customStyles1, paginationBr } from '../../services/datatablestyle'
-import { getThemeProps } from '@mui/system'
 
 const objectRef = 'medicine/'  
 

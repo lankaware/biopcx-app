@@ -24,6 +24,8 @@ import { getList, putRec, postRec, deleteRec } from "../../services/apiconnect";
 const objectRef = "medicine/";
 const objectId = "medicineid/";
 
+console.log()
+
 const Medicine = (props) => {
   let { id } = useParams();
 
@@ -33,7 +35,6 @@ const Medicine = (props) => {
   const [wayOfuse, wayOfuseSet] = useState("");
   const [dosage, dosageSet] = useState("");
   const [lab, labSet] = useState("");
-
 
   const [nameTemp, nameSetTemp] = useState("");
   const [chemNameTemp, chemNameSetTemp] = useState("");
@@ -48,12 +49,12 @@ const Medicine = (props) => {
   const [deleteInfoDialog, setDeleteInfoDialog] = useState(false);
   const [emptyRecDialog, setEmptyRecDialog] = useState(false);
 
-  const [tabValue, setTabValue] = useState(0);
 
   const classes = useStyles();
 
   useEffect(() => {
     if (id !== "0") {
+
 
       getList(objectId + id).then((items) => {
         _idSet(items.record[0]._id)

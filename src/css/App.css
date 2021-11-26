@@ -17,6 +17,14 @@
     /* background-color: #fff; */
 }
 
+.text-editor {
+    display: flex;
+    width: 70vw;
+    align-items: center;
+    justify-content: center;
+    /* background-color: #fff; */
+}
+
 .content {
     display: flex;
     flex: 1;
@@ -128,3 +136,5 @@
     width: 16vw;
     height: 20vw;
 }
+
+

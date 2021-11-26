@@ -5,7 +5,6 @@ import JoditEditor from "jodit-react"
 const TextEditor = props => {
 
     const editor = useRef(null)
-    const [content, setContent] = useState('')
 
     const config = {
         readonly: false, // all options from https://xdsoft.net/jodit/doc/
@@ -14,16 +13,16 @@ const TextEditor = props => {
     }
 
     const handleEditor = (newContent) => {
-        console.log('content type', typeof(newContent))
-        console.log('content ', newContent)
-        setContent(newContent)
+        // console.log('content type', typeof(newContent))
+        // console.log('content ', newContent)
+        props.textSet(newContent);
     }
 
     return (
-        <div className='container-div'>
+        <div className='text-editor'>
             <JoditEditor
                 ref={editor}
-                value={content}
+                value={props.content}
                 config={config}
                 tabIndex={1} // tabIndex of textarea
                 onBlur={newContent => handleEditor(newContent)} // preferred to use only this option to update the content for performance reasons
