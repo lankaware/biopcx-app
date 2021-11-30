@@ -46,6 +46,9 @@ const AppMenu = (props) => {
                         <MenuItem> Procedimentos
                             <Link to='/procedures' />
                         </MenuItem>
+                        <MenuItem> Medicamentos
+                            <Link to='/medicineList' />
+                        </MenuItem>
                     </SubMenu>
                     <SubMenu title='Impressos' icon={<SpellcheckIcon />}>
                         <MenuItem> Editor

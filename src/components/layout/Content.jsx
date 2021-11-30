@@ -12,6 +12,8 @@ import Patient from '../business/Patient'
 import Patients from '../business/Patients'
 import Agenda from '../business/Agenda'
 import Agendas from '../business/Agendas'
+import Medicine from '../business/medicine'
+import MedicineList from '../business/medicineList'
 
 const Content = props => {
     return (
@@ -29,6 +31,8 @@ const Content = props => {
                     <Route exact path="/procedure/:id" component={Procedure} />
                     <Route exact path="/professionals" component={Professionals} />
                     <Route exact path="/professional/:id" component={Professional} />
+                    <Route exact path="/medicineList" component={MedicineList} />
+                    <Route exact path="/medicine/:id" component={Medicine} />
                     <Route exact path="/user" component={User} />
                     <Route exact path="/editor" component={TextEditor} />
                     <Route path='*'>

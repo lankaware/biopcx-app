@@ -11,49 +11,44 @@ import { useStyles } from '../../services/stylemui'
 import { getList, putRec } from '../../services/apiconnect'
 import { customStyles1, paginationBr } from '../../services/datatablestyle'
 
-const objectRef = 'patient/'
+const objectRef = 'medicine/'  
 
-const Patients = props => {
+const MedicineList = props => {
 
     const columns = [
         {
-            name: 'Nome do Paciente',
+            name: 'Nome do medicamento',
             selector: row => row.name,
             sortable: true,
-            width: '10vw',
-            cell: row => (<Link to={"/patient/" + row._id}>{row.name}</Link>)
+            width: '30vw',
+            cell: row => (<Link to={"/medicine/" + row._id}>{row.name}</Link>)
         },
         {
-            name: 'sobrenome do Paciente',
-            selector: row => row.lastname,
-            sortable: true,
-            width: '20vw',
-            cell: row => (<Link to={"/patient/" + row._id}>{row.lastname}</Link>)
-        },
-        {
-            name: 'Telefone',
-            selector: row => row.phone,
+            name: 'Composto',
+            selector: row => row.chemName,
             sortable: true,
             width: '20vw'
         },
         {
-            name: 'Convênio',
-            selector: row => row.covenant_name,
+            name: 'Outro',
+            selector: row => row.phone,
             sortable: true,
-            width: '20vw',
-            right: false,
+            width: '10vw',
+            right: true,
         },
     ];
 
+
+    
     const classes = useStyles();
     const [list, setList] = useState([])
     const [nameFilter, nameFilterSet] = useState('')
-    const [lastnameFilter, lastnameFilterSet] = useState('')
-    const [covenantFilter, covenantFilterSet] = useState('')
+    const [chemNameFilter, chemNameFilterSet] = useState('')
 
     useEffect(() => {
         getList(objectRef)
             .then(items => {
+                console.log('items.record',items.record)
                 setList(items.record)
             })
     }, [])
@@ -61,9 +56,6 @@ const Patients = props => {
     const refreshRec = () => {
         let recObj = {}
         if (nameFilter) recObj = { 'name': { "$regex": nameFilter } }
-        if (lastnameFilter) recObj = { 'lastname': { "$regex": lastnameFilter } }
-        if (covenantFilter) recObj = { ...recObj, 'covenant.name  ': { "$regex": covenantFilter } }
-
 
         recObj = JSON.stringify(recObj)
         putRec(objectRef, recObj)
@@ -87,20 +79,19 @@ const Patients = props => {
         <div>
             <div className='tool-bar'>
                 <div >
-                    <Typography variant='h6' className='tool-title' noWrap={true}>Lista de Pacientes</Typography>
+                    <Typography variant='h6' className='tool-title' noWrap={true}>Lista de Medicamentos</Typography>
                 </div>
 
                 <div className={classes.toolButtons + ' button-link'}>
                     <Box m={1}>
                         <Button color="primary" size='small' variant='contained' startIcon={<OpenInNewIcon />}
-                            href="/patient/0"
-                            >INCLUIR
+                            href="/medicine/0">INCLUIR
                         </Button>
                     </Box>
                     <Box m={1}>
                         <Button color='primary' size='small' variant='contained' startIcon={<KeyboardReturnIcon />}
-                            href="/" id='backButton'
-                            >VOLTAR
+                            href="/" id='backButton'>
+                            VOLTAR
                         </Button>
                     </Box>
                 </div>
@@ -114,7 +105,7 @@ const Patients = props => {
                         value={nameFilter}
                         onChange={(event) => { nameFilterSet(event.target.value.toUpperCase()) }}
                         id='nameFilter'
-                        label='Nome do Paciente'
+                        label='Nome do medicamento'
                         fullWidth={false}
                         InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                         onKeyPress={(e) => { launchSearch(e) }}
@@ -124,23 +115,10 @@ const Patients = props => {
                 </Grid>
                 <Grid item xs={3}>
                     <TextField
-                        value={lastnameFilter}
-                        onChange={(event) => { lastnameFilterSet(event.target.value.toUpperCase()) }}
-                        id='lastnameFilter'
-                        label='Sobrenome do Paciente'
-                        fullWidth={false}
-                        InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                        onKeyPress={(e) => { launchSearch(e) }}
-                        variant='outlined'
-                        size='small'
-                    />
-                </Grid>
-                <Grid item xs={3}>
-                    <TextField
-                        value={covenantFilter}
-                        onChange={(event) => { covenantFilterSet(event.target.value.toUpperCase()) }}
-                        id='discrFilter'
-                        label='Convênio'
+                        value={chemNameFilter}
+                        onChange={(event) => { chemNameFilterSet(event.target.value.toUpperCase()) }}
+                        id='chemNameFilter'
+                        label='Composto Quimico'
                         fullWidth={false}
                         InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                         onKeyPress={(e) => { launchSearch(e) }}
@@ -171,6 +149,7 @@ const Patients = props => {
 
         </div>
     )
+
 }
 
-export default Patients
+export default MedicineList;
