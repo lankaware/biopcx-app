@@ -12,8 +12,10 @@ import Patient from '../business/Patient'
 import Patients from '../business/Patients'
 import Agenda from '../business/Agenda'
 import Agendas from '../business/Agendas'
-import Medicine from '../business/medicine'
-import MedicineList from '../business/medicineList'
+import Medicine from '../business/Medicine'
+import MedicineList from '../business/MedicineList'
+import TextTemplate from '../business/TextTemplate'
+import TextTemplateList from '../business/TextTemplateList'
 
 const Content = props => {
     return (
@@ -33,6 +35,8 @@ const Content = props => {
                     <Route exact path="/professional/:id" component={Professional} />
                     <Route exact path="/medicineList" component={MedicineList} />
                     <Route exact path="/medicine/:id" component={Medicine} />
+                    <Route exact path="/texttemplateList" component={TextTemplateList} />
+                    <Route exact path="/texttemplate/:id" component={TextTemplate} />
                     <Route exact path="/user" component={User} />
                     <Route exact path="/editor" component={TextEditor} />
                     <Route path='*'>

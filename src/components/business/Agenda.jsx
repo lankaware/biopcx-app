@@ -168,9 +168,9 @@ const Agenda = props => {
     }
 
     const delConfirm = () => {
-        console.log('_id',_id)
+        console.log('_id', _id)
         deleteRec(objectId + _id)
-        .then(result => {
+            .then(result => {
                 console.log(result)
             })
         setDeleteDialog(false)
@@ -274,8 +274,7 @@ const Agenda = props => {
                             type='text'
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                             // sx={{ width: 150 }}
-                            select
-                        >
+                            select>
                             {patientList.map((option) => (
                                 <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
                             ))}

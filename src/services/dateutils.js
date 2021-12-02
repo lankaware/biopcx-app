@@ -16,18 +16,39 @@ export function timeBr(argTime) {
 export function defaultDateBr() {
   const dateDefault = new Date()
   const tempDate = dateDefault.toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' })
-  const stringDate = tempDate.substr(6,4)+'-'+tempDate.substr(3,2)+'-'+tempDate.substr(0,2)
+  const stringDate = tempDate.substr(6, 4) + '-' + tempDate.substr(3, 2) + '-' + tempDate.substr(0, 2)
   return stringDate
 }
 
 export function dateISO(parmDate) {
-  const stringDate = parmDate.substr(6,4)+'-'+parmDate.substr(3,2)+'-'+parmDate.substr(0,2)
+  const stringDate = parmDate.substr(6, 4) + '-' + parmDate.substr(3, 2) + '-' + parmDate.substr(0, 2)
   return stringDate
 }
 
 export function prettyDate(parmDate) {
-  const stringDate = parmDate.substr(8,2) + '/' + parmDate.substr(5,2) + '/' + parmDate.substr(2,2)
+  const stringDate = parmDate.substr(8, 2) + '/' + parmDate.substr(5, 2) + '/' + parmDate.substr(2, 2)
   return stringDate
+}
+
+export function ageCalc(birthday) {
+  if (!birthday) return null;
+  let [year, month, day] = birthday.split("-");
+  year = Number(year);
+  month = Number(month);
+  day = Number(day);
+  const actualDate = new Date();
+  let age = actualDate.getFullYear() - year;
+  if (month === 2 && day === 29) {
+    month++;
+    day = 1;
+  }
+  if (
+    actualDate.getMonth() < month ||
+    (actualDate.getMonth() === month && actualDate.getDate() < day)
+  ) {
+    age--;
+  }
+  return age;
 }
 
 

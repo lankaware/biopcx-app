@@ -51,8 +51,8 @@ const AppMenu = (props) => {
                         </MenuItem>
                     </SubMenu>
                     <SubMenu title='Impressos' icon={<SpellcheckIcon />}>
-                        <MenuItem> Editor
-                            <Link to='/editor' />
+                        <MenuItem> Textos Padrões
+                            <Link to='/texttemplateList' />
                         </MenuItem>
                     </SubMenu>
                     <SubMenu title='Relatórios' icon={<PictureAsPdfIcon />}>

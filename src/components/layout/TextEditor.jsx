@@ -1,6 +1,5 @@
-import React, { useState, useRef } from 'react'
+import React, { useRef } from 'react'
 import JoditEditor from "jodit-react"
-{/* <script src="jodit/lang/pt.js"></script> */}
 
 const TextEditor = props => {
 
@@ -9,12 +8,34 @@ const TextEditor = props => {
     const config = {
         readonly: false, // all options from https://xdsoft.net/jodit/doc/
         statusbar: false,
-        language: 'pt',
+        language: 'pt_br',
+        removeButtons: [
+            'fullsize',
+            'dots',
+            'source',
+            // 'bold',
+            // 'italic',
+            // 'ul',
+            // 'ol',
+            // 'eraser',
+            // 'font',
+            // 'fontsize',
+            // 'brush',
+            // 'paragraph',
+            // 'image',
+            // 'table',
+            // 'link',
+            // 'align',
+            // 'undo',
+            // 'redo',
+            // 'hr',
+            // 'copyformat',
+        ],
+        height: 400,
+        useSplitMode: true
     }
 
     const handleEditor = (newContent) => {
-        // console.log('content type', typeof(newContent))
-        // console.log('content ', newContent)
         props.textSet(newContent);
     }
 
