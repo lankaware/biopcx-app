@@ -14,10 +14,9 @@ import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
 
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec, postRec, deleteRec } from '../../services/apiconnect'
-import TabPanel, { posTab } from '../commons/TabPanel'
 import { theme } from '../../services/customtheme'
-
 import { timeBr } from '../../services/dateutils'
+import TabPanel, { posTab } from '../commons/TabPanel'
 
 const objectRef = 'agenda/'
 const objectId = 'agendaid/'

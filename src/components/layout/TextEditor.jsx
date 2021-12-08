@@ -6,7 +6,7 @@ const TextEditor = props => {
     const editor = useRef(null)
 
     const config = {
-        readonly: false, // all options from https://xdsoft.net/jodit/doc/
+        readonly: props.disabled, // all options from https://xdsoft.net/jodit/doc/
         statusbar: false,
         language: 'pt_br',
         removeButtons: [
@@ -32,7 +32,8 @@ const TextEditor = props => {
             // 'copyformat',
         ],
         height: 400,
-        useSplitMode: true
+        useSplitMode: true,
+        autofocus: props.autofocus,
     }
 
     const handleEditor = (newContent) => {
@@ -42,6 +43,7 @@ const TextEditor = props => {
     return (
         <div className='text-editor'>
             <JoditEditor
+                id={'text-editor-dialog'}
                 ref={editor}
                 value={props.content}
                 config={config}

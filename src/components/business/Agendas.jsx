@@ -70,7 +70,6 @@ const Agendas = props => {
         let tempList = []
         getList(objectRef)
             .then(items => {
-                console.log('items.record', items.record)
                 items.record.forEach(element => {
                     tempList.push({
                         _id: element._id,

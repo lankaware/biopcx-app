@@ -19,7 +19,7 @@ import { useStyles } from "../../services/stylemui";
 import { getList, putRec, postRec, deleteRec } from "../../services/apiconnect";
 import { ageCalc } from "../../services/dateutils";
 import { imcCalc } from "../../services/genfunctions";
-import TextEditor from "../layout/TextEditor";
+import TextDialog from "./TextDialog";
 
 // import { timeBr } from '../../services/dateutils';
 
@@ -170,8 +170,8 @@ const Patient = (props) => {
         heightSet(items.record[0].height || "");
         weightSet(items.record[0].weight || "");
         imcSet(items.record[0].imc || "");
-        firstAppointSet(items.record[0].firstAppoint || "");
-        lastAppointSet(items.record[0].lastAppoint || "");
+        firstAppointSet((items.record[0].firstAppoint || "").substr(0,10));
+        lastAppointSet((items.record[0].lastAppoint || "").substr(0,10));
         clinicHistSet(items.record[0].clinicHist || "");
         familyHistSet(items.record[0].familyHist || "");
         patientHistSet(items.record[0].patientHist || "");
@@ -281,10 +281,10 @@ const Patient = (props) => {
       freeTextTwoTitle,
       freeTextTwo,
     };
-    if (id !== "0") {
+    if (_id !== "0") {
       recObj = JSON.stringify(recObj);
       putRec(objectId + _id, recObj)
-    } else {
+  } else {
       recObj = JSON.stringify(recObj);
       postRec(objectRef, recObj)
         .then((result) => {
@@ -1065,10 +1065,10 @@ const Patient = (props) => {
           onClick={(_) => openDialogClinicHist()} disabled={false}>Hist.Clínica
         </Button>
         <Button color="secondary" variant="contained" size="small" startIcon={''} sx={{ margin: "0px 2px" }}
-          onClick={(_) => openDialogPatientHist()} disabled={false}>Antec.Pessoais
+          onClick={(_) => openDialogPatientHist()} disabled={false}>Ant.Pessoais
         </Button>
         <Button color="success" variant="contained" size="small" startIcon={''} sx={{ margin: "0px 2px" }}
-          onClick={(_) => openDialogFamilyHist()} disabled={false}>Antec.Familía
+          onClick={(_) => openDialogFamilyHist()} disabled={false}>Ant.Familía
         </Button>
         <Button color="error" variant="contained" size="small" startIcon={''} sx={{ margin: "0px 2px" }}
           onClick={(_) => openDialogCatheter()} disabled={false}>Cateterismo
@@ -1077,13 +1077,23 @@ const Patient = (props) => {
           onClick={(_) => openDialogSurgery()} disabled={false}>Cirurgias
         </Button>
         <Button color="warning" variant="contained" size="small" startIcon={''} sx={{ margin: "0px 2px" }}
-          onClick={(_) => openDialogFreeTextOne()} disabled={false}>Texto Livre 1
+          onClick={(_) => openDialogFreeTextOne()} disabled={false}>Txt Livre 1
         </Button>
         <Button color="primary" variant="contained" size="small" startIcon={''} sx={{ margin: "0px 2px", backgroundColor: '#000957' }}
-          onClick={(_) => openDialogFreeTextTwo()} disabled={false}>Texto Livre 2
+          onClick={(_) => openDialogFreeTextTwo()} disabled={false}>Txt Livre 2
         </Button>
 
       </div>
+
+      <TextDialog
+      textDialog={textDialog}
+      textTitle={textTitle}
+      textContent={textContent}
+      textContentSet={textContentSet} 
+      textDialogSet={textDialogSet}
+      setEditMode={setEditMode}
+      patientId={_id}
+      />
 
       <Dialog open={photoDialog}>
         <DialogTitle id="alert-dialog-title">{"Foto"}</DialogTitle>
@@ -1106,32 +1116,6 @@ const Patient = (props) => {
           </Button>
           <Button onClick={() => { capture(); photoSetDialog(false); }}
             color="secondary" variant="contained">Tirar foto
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog open={textDialog} maxWidth={false}>
-        <DialogTitle id="alert-dialog-title">
-          <Grid container spacing={2}>
-            <Grid item xs={8}>
-              {textTitle}
-            </Grid>
-            <Grid item xs={4} sx={{ alignContent: "right" }}>
-              <Button onClick={() => { textDialogSet(false) }}
-                color="primary" variant="outlined">Carregar Texto Padrão
-              </Button>
-            </Grid>
-          </Grid>
-        </DialogTitle>
-        <DialogContent>
-          <TextEditor content={textContent} textSet={textContentSet}></TextEditor>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => { textDialogSet(false) }} color="primary" variant="contained"
-            autoFocus>Cancelar
-          </Button>
-          <Button onClick={() => { setEditMode(true); textDialogSet(false); }}
-            color="secondary" variant="contained">Salvar
           </Button>
         </DialogActions>
       </Dialog>

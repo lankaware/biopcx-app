@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
-  Grid,
-  TextField,
-  Typography,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
+  Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
 } from "@mui/material";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -308,10 +300,7 @@ const Medicine = (props) => {
         </Grid>
       </div>
 
-      <Dialog
-        open={deleteDialog}
-        // onClose={delCancel}
-      >
+      <Dialog open={deleteDialog}>
         <DialogTitle id="alert-dialog-title">
           {"Apagar o registro selecionado?"}
         </DialogTitle>
@@ -321,12 +310,7 @@ const Medicine = (props) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={delCancel}
-            color="primary"
-            variant="contained"
-            autoFocus
-          >
+          <Button onClick={delCancel} color="primary" variant="contained" autoFocus>
             Cancelar
           </Button>
           <Button onClick={delConfirm} color="secondary" variant="contained">
@@ -335,10 +319,7 @@ const Medicine = (props) => {
         </DialogActions>
       </Dialog>
 
-      <Dialog
-        open={deleteInfoDialog}
-        // onClose={delInformClose}
-      >
+      <Dialog open={deleteInfoDialog}>
         <DialogTitle id="alert-dialog-title">
           {"Registro removido do cadastro."}
         </DialogTitle>

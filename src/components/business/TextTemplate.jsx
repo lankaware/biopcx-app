@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import {
     Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
-    DialogContentText, DialogTitle
+    DialogContentText, DialogTitle, Table, TableBody, TableCell, TableContainer, TableHead,
+    TableRow, Paper
 } from '@mui/material'
 
 import EditIcon from '@mui/icons-material/Edit'
@@ -11,6 +12,7 @@ import CancelIcon from '@mui/icons-material/Cancel'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
 import TextEditor from "../layout/TextEditor";
+import HelpIcon from '@mui/icons-material/Help'
 
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec, postRec, deleteRec } from '../../services/apiconnect'
@@ -34,6 +36,7 @@ const TextTemplate = props => {
     const [deleteDialog, setDeleteDialog] = useState(false)
     const [deleteInfoDialog, setDeleteInfoDialog] = useState(false)
     const [emptyRecDialog, setEmptyRecDialog] = useState(false)
+    const [macroDialog, macroDialogSet] = useState(false)
 
     const classes = useStyles()
 
@@ -116,6 +119,10 @@ const TextTemplate = props => {
         setEmptyRecDialog(false)
     }
 
+    const macroDialogClose = () => {
+        macroDialogSet(false)
+    }
+
     return (
         <div>
             <div className='tool-bar'>
@@ -149,7 +156,7 @@ const TextTemplate = props => {
                             id='name'
                             label='Nome do Texto Padrão'
                             fullWidth={false}
-                            disabled={!insertMode}
+                            disabled={!editMode}
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                             variant='outlined'
                             size='small'
@@ -168,9 +175,14 @@ const TextTemplate = props => {
                             size='small'
                         />
                     </Grid>
+                    <Grid item xs={3}>
+                        <Button color='success' variant='contained' size='small' startIcon={<HelpIcon />}
+                            onClick={_ => macroDialogSet(true)} disabled={false}>
+                            Macros
+                        </Button>
+                    </Grid>
                     <Grid item xs={12}>
-                    <TextEditor content={text} textSet={textSet}></TextEditor>
-
+                        <TextEditor content={text} textSet={textSet} disabled={!editMode}></TextEditor>
                     </Grid>
                 </Grid>
             </div>
@@ -216,6 +228,85 @@ const TextTemplate = props => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={emptyRecClose} color="primary" variant='contained'>
+                        Ok
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={macroDialog}>
+                <DialogTitle id="title">{"Tabela de Macros"}</DialogTitle>
+                <DialogContent>
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 350 }}>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Macro</TableCell>
+                                    <TableCell >Função</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                <TableRow key={0} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                    <TableCell component="th" scope="row">
+                                        @nome
+                                    </TableCell>
+                                    <TableCell >
+                                        Nome do paciente
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow key={1} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                    <TableCell component="th" scope="row">
+                                        @idade
+                                    </TableCell>
+                                    <TableCell >
+                                        Idade do paciente
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow key={2} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                    <TableCell component="th" scope="row">
+                                        @sexo
+                                    </TableCell>
+                                    <TableCell >
+                                        Sexo do paciente
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow key={3} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                    <TableCell component="th" scope="row">
+                                        @nasc
+                                    </TableCell>
+                                    <TableCell >
+                                        Data de nasacimento do paciente
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow key={4} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                    <TableCell component="th" scope="row">
+                                        @matr
+                                    </TableCell>
+                                    <TableCell >
+                                        Número da matrícula interna do paciente
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow key={5} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                    <TableCell component="th" scope="row">
+                                        @ender
+                                    </TableCell>
+                                    <TableCell >
+                                        Endereço do paciente
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow key={6} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                    <TableCell component="th" scope="row">
+                                        @data
+                                    </TableCell>
+                                    <TableCell >
+                                        Data do dia
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={macroDialogClose} color="primary" variant='contained'>
                         Ok
                     </Button>
                 </DialogActions>
