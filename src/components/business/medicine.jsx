@@ -16,7 +16,6 @@ import { getList, putRec, postRec, deleteRec } from "../../services/apiconnect";
 const objectRef = "medicine/";
 const objectId = "medicineid/";
 
-console.log()
 
 const Medicine = (props) => {
   let { id } = useParams();
@@ -46,22 +45,21 @@ const Medicine = (props) => {
 
   useEffect(() => {
     if (id !== "0") {
-
-
       getList(objectId + id).then((items) => {
-        _idSet(items.record[0]._id)
+        console.log("Test", items);
+        console.log("Test 2", items.record);
 
-        nameSet(items.record[0].name || "");
-        chemNameSet(items.record[0].chemName || "");
-        wayOfuseSet(items.record[0].wayOfuse || "");
-        dosageSet(items.record[0].dosage || "");
-        labSet(items.record[0].lab || "");
-
-        nameSetTemp(items.record[0].name || "");
-        chemNameSetTemp(items.record[0].chemName || "");
-        wayOfuseSetTemp(items.record[0].wayOfuse || "");
-        dosageSetTemp(items.record[0].dosage || "");
-        labSetTemp(items.record[0].lab || "");
+        _idSet(items.record._id)
+        nameSet(items.record.name || "");
+        chemNameSet(items.record.chemName || "");
+        wayOfuseSet(items.record.wayOfuse || "");
+        dosageSet(items.record.dosage || "");
+        labSet(items.record.lab || "");
+        nameSetTemp(items.record.name || "");
+        chemNameSetTemp(items.record.chemName || "");
+        wayOfuseSetTemp(items.record.wayOfuse || "");
+        dosageSetTemp(items.record.dosage || "");
+        labSetTemp(items.record.lab || "");
       });
     }
   }, [id]);
@@ -81,13 +79,11 @@ const Medicine = (props) => {
     };
     if (_id !== "0") {
       recObj = JSON.stringify(recObj);
-      putRec(objectId + _id, recObj).then((result) => {
-        console.log("put", result);
-      });
+      putRec(objectId + _id, recObj)
     } else {
       recObj = JSON.stringify(recObj);
-      postRec(objectRef, recObj).then((result) => {
-        console.log("result", result);
+      postRec(objectRef, recObj)
+      .then((result) => {
         _idSet(result.record._id);
       });
     }

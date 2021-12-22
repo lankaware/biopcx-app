@@ -14,12 +14,14 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
+import NotesIcon from '@mui/icons-material/Notes';
 
 import { useStyles } from "../../services/stylemui";
 import { getList, putRec, postRec, deleteRec } from "../../services/apiconnect";
 import { ageCalc } from "../../services/dateutils";
 import { imcCalc } from "../../services/genfunctions";
 import TextDialog from "./TextDialog";
+import PrescDialog from "./Prescription";
 
 // import { timeBr } from '../../services/dateutils';
 
@@ -92,6 +94,9 @@ const Patient = (props) => {
   const [freeTextOne, freeTextOneSet] = useState("")
   const [freeTextTwoTitle, freeTextTwoTitleSet] = useState("")
   const [freeTextTwo, freeTextTwoSet] = useState("")
+  const [prescList, prescListSet] = useState()
+
+  const [prescDialog, prescDialogSet] = useState(false);
 
   const [cityList, cityListSet] = useState([])
   const [covenantList, covenantListSet] = useState([])
@@ -123,6 +128,7 @@ const Patient = (props) => {
   useEffect(() => {
     if (id !== "0") {
       getList(objectId + id).then((items) => {
+        console.log(items.record[0]);
         _idSet(items.record[0]._id);
 
         photoSet(items.record[0].photo || "");
@@ -170,8 +176,8 @@ const Patient = (props) => {
         heightSet(items.record[0].height || "");
         weightSet(items.record[0].weight || "");
         imcSet(items.record[0].imc || "");
-        firstAppointSet((items.record[0].firstAppoint || "").substr(0,10));
-        lastAppointSet((items.record[0].lastAppoint || "").substr(0,10));
+        firstAppointSet((items.record[0].firstAppoint || "").substr(0, 10));
+        lastAppointSet((items.record[0].lastAppoint || "").substr(0, 10));
         clinicHistSet(items.record[0].clinicHist || "");
         familyHistSet(items.record[0].familyHist || "");
         patientHistSet(items.record[0].patientHist || "");
@@ -181,6 +187,8 @@ const Patient = (props) => {
         freeTextOneSet(items.record[0].freeTextOne || "");
         freeTextTwoTitleSet(items.record[0].freeTextTwo || "");
         freeTextTwoSet(items.record[0].freeTextTwo || "");
+
+        prescListSet(items.record[0].prescription || []);
 
       });
     }
@@ -284,7 +292,7 @@ const Patient = (props) => {
     if (_id !== "0") {
       recObj = JSON.stringify(recObj);
       putRec(objectId + _id, recObj)
-  } else {
+    } else {
       recObj = JSON.stringify(recObj);
       postRec(objectRef, recObj)
         .then((result) => {
@@ -333,6 +341,10 @@ const Patient = (props) => {
     });
     photoSet(capturedPhoto);
   };
+
+  const openPresc = () => {
+    prescDialogSet(true)
+  }
 
   const openDialogClinicHist = () => {
     textTitle = 'História Clínica'
@@ -390,6 +402,12 @@ const Patient = (props) => {
           <Typography variant="h5" className="tool-title" noWrap={true}>Registro de Paciente</Typography>
         </div>
         <div className={classes.toolButtons + " button-link"}>
+        <Button color="primary" variant="contained" size="small" startIcon={''}
+          onClick={(_) => textDialogSet(true)} disabled={false}>Historico
+        </Button>
+        <Button color="secondary" variant="contained" size="small" startIcon={<NotesIcon />}
+            onClick={(_) => openPresc()} id="prescButton">Receitas
+          </Button>
           <Button color="primary" variant="contained" size="small" startIcon={<EditIcon />}
             onClick={(_) => setEditMode(true)} disabled={editMode}>EDITAR
           </Button>
@@ -1085,14 +1103,24 @@ const Patient = (props) => {
 
       </div>
 
+
+      <PrescDialog
+      prescDialog={prescDialog}
+      prescDialogSet={prescDialogSet}
+      prescList={prescList}
+      prescListSet={prescListSet}
+      _id={_id}
+      />
+
+      {/* <PrescDialog /> */}
       <TextDialog
-      textDialog={textDialog}
-      textTitle={textTitle}
-      textContent={textContent}
-      textContentSet={textContentSet} 
-      textDialogSet={textDialogSet}
-      setEditMode={setEditMode}
-      patientId={_id}
+        textDialog={textDialog}
+        textTitle={textTitle}
+        textContent={textContent}
+        textContentSet={textContentSet}
+        textDialogSet={textDialogSet}
+        setEditMode={setEditMode}
+        patientId={_id}
       />
 
       <Dialog open={photoDialog}>
