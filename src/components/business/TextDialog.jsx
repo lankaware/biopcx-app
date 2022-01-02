@@ -21,7 +21,6 @@ const TextDialog = props => {
     const [textContent, textContentSet] = useState('')
     const [editorFocus, editorFocusSet] = useState(true)
 
-
     useEffect(() => {
         getList('texttemplate/')
             .then(items => {

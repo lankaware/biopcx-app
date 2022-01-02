@@ -1,6 +1,7 @@
 import { React } from 'react'
 import { Switch, Route } from 'react-router-dom'
 
+import Login from '../business/Login'
 import Home from './Home'
 import User from './User'
 import TextEditor from './TextEditor'
@@ -25,6 +26,7 @@ const Content = props => {
                     <Route exact path='/'>
                         <Home />
                     </Route>
+                    <Route exact path="/login" component={Login} />
                     <Route exact path="/agendas" component={Agendas} />
                     <Route exact path="/agenda/:id" component={Agenda} />
                     <Route exact path="/patients" component={Patients} />

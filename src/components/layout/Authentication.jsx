@@ -9,7 +9,7 @@ import { useStyles } from '../../services/stylemui'
 import { postRec } from '../../services/apiconnect'
 import { Context } from '../../context/AuthContext'
 
-const Login = props => {
+const Authentication = props => {
 
     const {authenticated, userSign} = useContext(Context);
 
@@ -28,9 +28,14 @@ const Login = props => {
         recObj = JSON.stringify(recObj)
         postRec('userlogin/' + login, recObj)
         .then(result => {
-                userSign(result.token, result.name)
-            })
-    }
+            console.log('result.token', result.token)
+            if (!result.token) {
+                alert('Usuário ou login inválidos!')
+                return null
+            }
+            userSign(result.token, result.name)
+        })
+}
 
       return (
         <>
@@ -45,7 +50,7 @@ const Login = props => {
                         <Grid item xs={12}>
                             <TextField
                                 value={login}
-                                onChange={(event) => { loginSet(event.target.value.toUpperCase()) }}
+                                onChange={(event) => { loginSet(event.target.value) }}
                                 id='login'
                                 label='Login'
                                 fullWidth={false}
@@ -83,4 +88,4 @@ const Login = props => {
         </>
     )
 }
-export default Login
+export default Authentication

@@ -67,8 +67,8 @@ const AppMenu = (props) => {
                         <MenuItem> Gerais
                             <Link to='/' />
                         </MenuItem>
-                        <MenuItem> Segurança
-                            <Link to='/' />
+                        <MenuItem> Logins
+                            <Link to='/login' />
                         </MenuItem>
                     </SubMenu>
 

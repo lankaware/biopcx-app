@@ -6,7 +6,7 @@ import '../src/css/App.css'
 import PageHeader from './components/layout/PageHeader.jsx'
 import AppMenu from './components/layout/Menu.jsx'
 import Content from './components/layout/Content.jsx'
-import Login from './components/layout/Login.jsx'
+import Authentication from './components/layout/Authentication.jsx'
 
 import { Context } from './context/AuthContext.jsx'
 import './services/customtheme'
@@ -29,7 +29,7 @@ const App = (props) => {
             userName={username}
             toggleMenu={toggleMenu}
             />
-          <Login />
+          <Authentication />
         </ErrorBoundary>
       </div>
     )
