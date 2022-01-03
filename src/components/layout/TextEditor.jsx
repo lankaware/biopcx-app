@@ -31,12 +31,14 @@ const TextEditor = props => {
             // 'hr',
             // 'copyformat',
         ],
-        height: 400,
+        height: 380,
+        width: 1000, 
         useSplitMode: true,
         autofocus: props.autofocus,
     }
 
     const handleEditor = (newContent) => {
+        console.log("3", newContent)
         props.textSet(newContent);
     }
 

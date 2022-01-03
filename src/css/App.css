@@ -133,4 +133,10 @@
     height: 20vw;
 }
 
+.transition {
+    animation-name: example;
+    animation-duration: 4s;
+    animation-direction: reverse
+}
+
 

@@ -20,7 +20,7 @@ import { useStyles } from "../../services/stylemui";
 import { getList, putRec, postRec, deleteRec } from "../../services/apiconnect";
 import { ageCalc } from "../../services/dateutils";
 import { imcCalc } from "../../services/genfunctions";
-import TextDialog from "./TextDialog";
+import TextDialog from "./TextDialog.jsx";
 import PrescDialog from "./Prescription";
 
 // import { timeBr } from '../../services/dateutils';
@@ -28,9 +28,6 @@ import PrescDialog from "./Prescription";
 const objectRef = "patient/";
 const objectId = "patientid/";
 
-var textContent = null
-var textContentSet = null
-var textTitle = null
 
 const Patient = (props) => {
   let { id } = useParams()
@@ -85,15 +82,6 @@ const Patient = (props) => {
   const [imc, imcSet] = useState("")
   const [firstAppoint, firstAppointSet] = useState("")
   const [lastAppoint, lastAppointSet] = useState("")
-  const [clinicHist, clinicHistSet] = useState("")
-  const [familyHist, familyHistSet] = useState("")
-  const [patientHist, patientHistSet] = useState("")
-  const [catheter, catheterSet] = useState("")
-  const [surgery, surgerySet] = useState("")
-  const [freeTextOneTitle, freeTextOneTitleSet] = useState("")
-  const [freeTextOne, freeTextOneSet] = useState("")
-  const [freeTextTwoTitle, freeTextTwoTitleSet] = useState("")
-  const [freeTextTwo, freeTextTwoSet] = useState("")
   const [prescList, prescListSet] = useState()
 
   const [prescDialog, prescDialogSet] = useState(false);
@@ -128,7 +116,6 @@ const Patient = (props) => {
   useEffect(() => {
     if (id !== "0") {
       getList(objectId + id).then((items) => {
-        console.log(items.record[0]);
         _idSet(items.record[0]._id);
 
         photoSet(items.record[0].photo || "");
@@ -178,15 +165,6 @@ const Patient = (props) => {
         imcSet(items.record[0].imc || "");
         firstAppointSet((items.record[0].firstAppoint || "").substr(0, 10));
         lastAppointSet((items.record[0].lastAppoint || "").substr(0, 10));
-        clinicHistSet(items.record[0].clinicHist || "");
-        familyHistSet(items.record[0].familyHist || "");
-        patientHistSet(items.record[0].patientHist || "");
-        catheterSet(items.record[0].catheter || "");
-        surgerySet(items.record[0].surgery || "");
-        freeTextOneTitleSet(items.record[0].freeTextOneTitle || "");
-        freeTextOneSet(items.record[0].freeTextOne || "");
-        freeTextTwoTitleSet(items.record[0].freeTextTwo || "");
-        freeTextTwoSet(items.record[0].freeTextTwo || "");
 
         prescListSet(items.record[0].prescription || []);
 
@@ -279,15 +257,7 @@ const Patient = (props) => {
       imc,
       firstAppoint,
       lastAppoint,
-      clinicHist,
-      familyHist,
-      patientHist,
-      catheter,
-      surgery,
-      freeTextOneTitle,
-      freeTextOne,
-      freeTextTwoTitle,
-      freeTextTwo,
+
     };
     if (_id !== "0") {
       recObj = JSON.stringify(recObj);
@@ -346,52 +316,8 @@ const Patient = (props) => {
     prescDialogSet(true)
   }
 
-  const openDialogClinicHist = () => {
-    textTitle = 'História Clínica'
-    textContent = clinicHist
-    textContentSet = clinicHistSet
-    textDialogSet(true)
-  }
 
-  const openDialogPatientHist = () => {
-    textTitle = 'Antecedentes Pessoais'
-    textContent = patientHist
-    textContentSet = patientHistSet
-    textDialogSet(true)
-  }
-
-  const openDialogFamilyHist = () => {
-    textTitle = 'Antecedentes Familiares'
-    textContent = familyHist
-    textContentSet = familyHistSet
-    textDialogSet(true)
-  }
-
-  const openDialogCatheter = () => {
-    textTitle = 'Cateterismo'
-    textContent = catheter
-    textContentSet = catheterSet
-    textDialogSet(true)
-  }
-
-  const openDialogSurgery = () => {
-    textTitle = 'Cirurgias'
-    textContent = surgery
-    textContentSet = surgerySet
-    textDialogSet(true)
-  }
-
-  const openDialogFreeTextOne = () => {
-    textTitle = 'Texto Livre 1'
-    textContent = freeTextOne
-    textContentSet = freeTextOneSet
-    textDialogSet(true)
-  }
-
-  const openDialogFreeTextTwo = () => {
-    textTitle = 'Text Livre 2'
-    textContent = freeTextTwo
-    textContentSet = freeTextTwoSet
+  const openTextDialog = () => {
     textDialogSet(true)
   }
 
@@ -403,7 +329,7 @@ const Patient = (props) => {
         </div>
         <div className={classes.toolButtons + " button-link"}>
         <Button color="primary" variant="contained" size="small" startIcon={''}
-          onClick={(_) => textDialogSet(true)} disabled={false}>Historico
+          onClick={(_) => openTextDialog(true)} disabled={false}>Histórico
         </Button>
         <Button color="secondary" variant="contained" size="small" startIcon={<NotesIcon />}
             onClick={(_) => openPresc()} id="prescButton">Receitas
@@ -1078,30 +1004,7 @@ const Patient = (props) => {
 
         </Grid>
       </div>
-      <div className="data-form">
-        <Button color="primary" variant="contained" size="small" startIcon={''} sx={{ margin: "0px 2px" }}
-          onClick={(_) => openDialogClinicHist()} disabled={false}>Hist.Clínica
-        </Button>
-        <Button color="secondary" variant="contained" size="small" startIcon={''} sx={{ margin: "0px 2px" }}
-          onClick={(_) => openDialogPatientHist()} disabled={false}>Ant.Pessoais
-        </Button>
-        <Button color="success" variant="contained" size="small" startIcon={''} sx={{ margin: "0px 2px" }}
-          onClick={(_) => openDialogFamilyHist()} disabled={false}>Ant.Familía
-        </Button>
-        <Button color="error" variant="contained" size="small" startIcon={''} sx={{ margin: "0px 2px" }}
-          onClick={(_) => openDialogCatheter()} disabled={false}>Cateterismo
-        </Button>
-        <Button color="info" variant="contained" size="small" startIcon={''} sx={{ margin: "0px 2px" }}
-          onClick={(_) => openDialogSurgery()} disabled={false}>Cirurgias
-        </Button>
-        <Button color="warning" variant="contained" size="small" startIcon={''} sx={{ margin: "0px 2px" }}
-          onClick={(_) => openDialogFreeTextOne()} disabled={false}>Txt Livre 1
-        </Button>
-        <Button color="primary" variant="contained" size="small" startIcon={''} sx={{ margin: "0px 2px", backgroundColor: '#000957' }}
-          onClick={(_) => openDialogFreeTextTwo()} disabled={false}>Txt Livre 2
-        </Button>
-
-      </div>
+      
 
 
       <PrescDialog
@@ -1109,18 +1012,15 @@ const Patient = (props) => {
       prescDialogSet={prescDialogSet}
       prescList={prescList}
       prescListSet={prescListSet}
-      _id={_id}
+      patientId={_id}
       />
 
       {/* <PrescDialog /> */}
       <TextDialog
         textDialog={textDialog}
-        textTitle={textTitle}
-        textContent={textContent}
-        textContentSet={textContentSet}
         textDialogSet={textDialogSet}
-        setEditMode={setEditMode}
         patientId={_id}
+        patientName={name}
       />
 
       <Dialog open={photoDialog}>

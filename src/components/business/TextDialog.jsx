@@ -1,191 +1,185 @@
 import React, { useState, useEffect } from 'react'
 import {
-    Grid, Button, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText
+  Grid, Button, Dialog, DialogActions, DialogTitle, DialogContentText, Box
 } from "@mui/material";
-import DataTable from 'react-data-table-component'
 
-import { getList } from '../../services/apiconnect'
-import { customStyles1, paginationBr } from '../../services/datatablestyle'
+import { getList, putRec } from '../../services/apiconnect'
+import TextDialogContent from './TextDialogContent'
 
-import TextEditor from "../layout/TextEditor";
-import { defaultDateBr, prettyDate } from '../../services/dateutils';
-import { parseTextMacro } from '../../services/textutils';
+var textTitle = null
+var textContent = null
+var textContentSet = null
 
 const TextDialog = props => {
 
-    const [loadDialog, loadDialogSet] = useState(false)
-    const [textApplied, textAppliedSet] = useState('')
-    const [textList, textListSet] = useState('')
-    const [confirmDialog, confirmDialogSet] = useState(false)
-    const [selectText, selectTextSet] = useState('')
-    const [textContent, textContentSet] = useState('')
-    const [editorFocus, editorFocusSet] = useState(true)
+  const [clinicHist, clinicHistSet] = useState("")
+  const [familyHist, familyHistSet] = useState("")
+  const [patientHist, patientHistSet] = useState("")
+  const [catheter, catheterSet] = useState("")
+  const [surgery, surgerySet] = useState("")
+  const [freeTextOneTitle, freeTextOneTitleSet] = useState("")
+  const [freeTextOne, freeTextOneSet] = useState("")
+  const [freeTextTwoTitle, freeTextTwoTitleSet] = useState("")
+  const [freeTextTwo, freeTextTwoSet] = useState("")
+  const [updated, updatedSet] = useState(false)
 
-    useEffect(() => {
-        getList('texttemplate/')
-            .then(items => {
-                textListSet(items.record)
-            })
-        }, [])
 
-    useEffect(() => {
-            let uptoDated = prettyDate(defaultDateBr().substr(0,10))
-            textContentSet(`${props.textContent} <strong>${uptoDated}:</strong><p> </p>`)
-        }, [props.textContent])
 
-    const columns = [
-        {
-            name: 'Nome',
-            selector: row => row.name,
-            sortable: true,
-            width: '20vw',
-        },
-        {
-            name: 'Tipo',
-            selector: row => row.type,
-            sortable: true,
-            width: '10vw',
-        },
-    ]
+  const patientId = props.patientId
 
-    const loadDialogOpen = () => {
-        editorFocusSet(false)
-        loadDialogSet(true)
+  useEffect(() => {
+    getList('patientid/' + patientId)
+      .then((items) => {
+        clinicHistSet(items.record[0].clinicHist || "");
+        familyHistSet(items.record[0].familyHist || "");
+        patientHistSet(items.record[0].patientHist || "");
+        catheterSet(items.record[0].catheter || "");
+        surgerySet(items.record[0].surgery || "");
+        freeTextOneTitleSet(items.record[0].freeTextOneTitle || "");
+        freeTextOneSet(items.record[0].freeTextOne || "");
+        freeTextTwoTitleSet(items.record[0].freeTextTwo || "");
+        freeTextTwoSet(items.record[0].freeTextTwo || "");
+
+
+      })
+
+      textTitle = 'História Clínica'
+      textContent = clinicHist
+      textContentSet = clinicHistSet
+  }, [patientId, props.textDialog]);
+
+  useEffect(() => {
+    textContentSet(textContent);
+  }, [updated]);
+
+  const saveRec = () => {
+    let recObj = {
+      clinicHist,
+      familyHist,
+      patientHist,
+      catheter,
+      surgery,
+      freeTextOneTitle,
+      freeTextOne,
+      freeTextTwoTitle,
+      freeTextTwo,
     }
+    console.log("test", recObj)
+    recObj = JSON.stringify(recObj);
+    putRec('patientid/' + patientId, recObj)
+  }
 
-    const loadText = (textName, textToLoad) => {
-        selectTextSet(textName)
-        textAppliedSet(textToLoad)
-        confirmDialogSet(true)
-    }
+  const changeContentToClinicHist = () => {
+    updatedSet(false)
+    textTitle = 'História Clínica'
+    textContent = clinicHist
+    textContentSet = clinicHistSet
+  }
 
-    const loadTextConfirm = async function () {
-        await parseTextMacro(textApplied, props.patientId)
-            .then(newText => {
-                console.log('newText', newText);
-                textContentSet(textContent + newText);
-                confirmDialogSet(false);
-                editorFocusSet(true);
-                loadDialogSet(false);
-                document.getElementById('text-editor-dialog').focus();
-            });
-    }
+  const changeContentToPatientHist = () => {
+    updatedSet(false)
+    textTitle = 'Antecedentes Pessoais'
+    textContent = patientHist
+    textContentSet = patientHistSet
+  }
 
-    const loadDialogClose = () => {
-        confirmDialogSet(false)
-        editorFocusSet(true)
-        loadDialogSet(false)
-        document.getElementById('text-editor-dialog').focus();
-    }
+  const changeContentToFamilyHist = () => {
+    updatedSet(false)
+    textTitle = 'Antecedentes Familiares'
+    textContent = familyHist
+    textContentSet = familyHistSet
+  }
 
-    const confirmDialogClose = () => {
-        confirmDialogSet(false)
-    }
+  const changeContentToCatheter = () => {
 
-    const updateOriginText = () => {
-        props.textContentSet(textContent)
-        props.setEditMode(true); 
-        props.textDialogSet(false);
-    }
+    updatedSet(false)
+    textTitle = 'Cateterismo'
+    textContent = catheter
+    textContentSet = catheterSet
+  }
 
-    const cancelUpdateText = () => {
-        textContentSet(props.textContent)
-        props.setEditMode(true); 
-        props.textDialogSet(false);
-    }
+  const changeContentToSurgery = () => {
+    updatedSet(false)
+    textTitle = 'Cirurgias'
+    textContent = surgery
+    textContentSet = surgerySet
+  }
 
-    return (
-        <>
-            <Dialog open={props.textDialog} maxWidth={false}>
-                <DialogTitle id="alert-dialog-title">
-                    <Grid container spacing={2}>
-                        <Grid item xs={8}>
-                            {props.textTitle}
-                        </Grid>
-                        <Grid item xs={4} sx={{ alignContent: "right" }}>
-                            <Button onClick={loadDialogOpen} color="primary" variant="outlined">
-                                Carregar Texto Padrão
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </DialogTitle>
-                <DialogContent>
-                    <TextEditor 
-                    content={textContent} 
-                    textSet={textContentSet}
-                    autofocus={editorFocus}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={updateOriginText} color="primary" variant="contained" size='small'>
-                        Salvar
-                    </Button>
-                    <Button onClick={cancelUpdateText} color="secondary" variant="contained" size='small'>
-                        Cancelar
-                    </Button>
-                </DialogActions>
-            </Dialog>
+  const changeContentToFreeTextOne = () => {
+    updatedSet(false)
+    textTitle = 'Texto Livre 1'
+    textContent = freeTextOne
+    textContentSet = freeTextOneSet
+  }
 
-            <Dialog open={loadDialog} maxWidth={false}>
-                <DialogTitle id="alert-dialog-title">
-                    <Grid container spacing={2}>
-                        <Grid item xs={8}>
-                            Textos Padrões
-                        </Grid>
-                    </Grid>
-                </DialogTitle>
-                <DialogContent>
-                    <div >
-                        <DataTable
-                            // title=""
-                            noHeader={true}
-                            columns={columns}
-                            customStyles={customStyles1}
-                            data={textList}
-                            //selectableRows 
-                            Clicked
-                            // onSelectedRowsChange={handleChange}
-                            keyField={'_id'}
-                            highlightOnHover={true}
-                            pagination={false}
-                            fixedHeader={true}
-                            // noContextMenu={true}
-                            paginationComponentOptions={paginationBr}
-                            paginationPerPage={10}
-                            noDataComponent={'Nenhum registro disponível.'}
-                            onRowClicked={(row, event) => { loadText(row.name, row.text) }}
-                        />
-                    </div>
+  const changeContentToFreeTextTwo = () => {
+    updatedSet(false)
+    textTitle = 'Text Livre 2'
+    textContent = freeTextTwo
+    textContentSet = freeTextTwoSet
+  }
 
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={loadDialogClose} color="secondary" variant="contained" size='small'>
-                        Cancelar
-                    </Button>
-                </DialogActions>
-            </Dialog>
+  const updateOriginText = () => {
+    saveRec();
+    props.textDialogSet(false)
 
-            <Dialog open={confirmDialog}>
-                <DialogTitle id="alert-dialog-title">
-                    {"Confirma o carregamento do texto selecionado?"}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        {selectText}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={loadTextConfirm} color="primary" variant="contained" autoFocus size='small'>
-                        Confirmar
-                    </Button>
-                    <Button onClick={confirmDialogClose} color="secondary" variant="contained" size='small'>
-                        Cancelar
-                    </Button>
-                </DialogActions>
-            </Dialog>
+  }
 
-        </>
-    )
+  const cancelUpdateText = () => {
+    props.textDialogSet(false)
+  }
+
+
+
+  return (
+    <>
+      <Dialog open={props.textDialog} maxWidth={false}>
+        <DialogTitle id="alert-dialog-title">
+          <Box className="data-form" display="flex"
+            justifyContent="space-between">
+            <Button color="primary" variant="contained" size="large" startIcon={''} 
+              onClick={(_) => changeContentToClinicHist()} disabled={false}>Hist.Clínica
+            </Button>
+            <Button color="secondary" variant="contained" size="large" startIcon={''} 
+              onClick={(_) => changeContentToPatientHist()} disabled={false}>Ant.Pessoais
+            </Button>
+            <Button color="success" variant="contained" size="large" startIcon={''} 
+              onClick={(_) => changeContentToFamilyHist()} disabled={false}>Ant.Familía
+            </Button>
+            <Button color="error" variant="contained" size="large" startIcon={''} 
+              onClick={(_) => changeContentToCatheter()} disabled={false}>Cateterismo
+            </Button>
+            <Button color="info" variant="contained" size="large" startIcon={''} 
+              onClick={(_) => changeContentToSurgery()} disabled={false}>Cirurgias
+            </Button>
+            <Button color="warning" variant="contained" size="large" startIcon={''} 
+              onClick={(_) => changeContentToFreeTextOne()} disabled={false}>Txt Livre 1
+            </Button>
+            <Button color="primary" variant="contained" size="large" startIcon={''} sx={{ backgroundColor: '#000957' }}
+              onClick={(_) => changeContentToFreeTextTwo()} disabled={false}>Txt Livre 2
+            </Button>
+
+          </Box>
+        </DialogTitle>
+        <TextDialogContent
+          textTitle={textTitle}
+          textContent={textContent}
+          textContentSet={textContentSet}
+          patientId={patientId}
+          updated={updated}
+          updatedSet={updatedSet}
+        />
+        <DialogActions>
+          <Button onClick={updateOriginText} color="primary" variant="contained" size='small'>
+            Salvar
+          </Button>
+          <Button onClick={cancelUpdateText} color="secondary" variant="contained" size='small'>
+            Cancelar
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  )
 }
 
 export default TextDialog
