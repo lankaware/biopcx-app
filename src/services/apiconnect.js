@@ -1,4 +1,3 @@
-// export const apiURI = 'http://vndl4:8080/'
 export const apiURI = process.env.REACT_APP_APIURL.trim()
 
 export async function getList(apiDesc) {

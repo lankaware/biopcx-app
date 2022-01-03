@@ -12,6 +12,7 @@ var textContentSet = null
 
 const TextDialog = props => {
 
+<<<<<<< HEAD
   const [clinicHist, clinicHistSet] = useState("")
   const [familyHist, familyHistSet] = useState("")
   const [patientHist, patientHistSet] = useState("")
@@ -63,6 +64,46 @@ const TextDialog = props => {
       freeTextOne,
       freeTextTwoTitle,
       freeTextTwo,
+=======
+    const [loadDialog, loadDialogSet] = useState(false)
+    const [textApplied, textAppliedSet] = useState('')
+    const [textList, textListSet] = useState('')
+    const [confirmDialog, confirmDialogSet] = useState(false)
+    const [selectText, selectTextSet] = useState('')
+    const [textContent, textContentSet] = useState('')
+    const [editorFocus, editorFocusSet] = useState(true)
+
+    useEffect(() => {
+        getList('texttemplate/')
+            .then(items => {
+                textListSet(items.record)
+            })
+        }, [])
+
+    useEffect(() => {
+            let uptoDated = prettyDate(defaultDateBr().substr(0,10))
+            textContentSet(`${props.textContent} <strong>${uptoDated}:</strong><p> </p>`)
+        }, [props.textContent])
+
+    const columns = [
+        {
+            name: 'Nome',
+            selector: row => row.name,
+            sortable: true,
+            width: '20vw',
+        },
+        {
+            name: 'Tipo',
+            selector: row => row.type,
+            sortable: true,
+            width: '10vw',
+        },
+    ]
+
+    const loadDialogOpen = () => {
+        editorFocusSet(false)
+        loadDialogSet(true)
+>>>>>>> 3dae7a82827c02cc845dc37abee156c95ec676be
     }
     console.log("test", recObj)
     recObj = JSON.stringify(recObj);
