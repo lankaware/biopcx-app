@@ -14,7 +14,7 @@ import Patients from '../business/Patients'
 import Agenda from '../business/Agenda'
 import Agendas from '../business/Agendas'
 import Medicine from '../business/medicine'
-import MedicineList from '../business/medicineList'
+import MedicineList from '../business/MedicineList'
 import TextTemplate from '../business/TextTemplate'
 import TextTemplateList from '../business/TextTemplateList'
 
