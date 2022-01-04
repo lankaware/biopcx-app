@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import {
   Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
-  DialogContentText, DialogTitle, Autocomplete, MenuItem
+  DialogContentText, DialogTitle, MenuItem,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import Webcam from "react-webcam";
@@ -48,7 +48,7 @@ const Patient = (props) => {
   const [addressComplement, addressComplementSet] = useState("")
   const [neighborhood, neighborhoodSet] = useState("")
   const [cityId, cityIdSet] = useState("")
-  const [cityName, cityNameSet] = useState("")
+  // const [cityName, cityNameSet] = useState("")
   const [covenantId, covenantIdSet] = useState("")
   const [covenantName, covenantNameSet] = useState("")
   const [covPlan, covPlanSet] = useState("")
@@ -56,13 +56,13 @@ const Patient = (props) => {
   const [covValid, covValidSet] = useState("")
   const [birthDate, birthDateSet] = useState("")
   const [birthCityId, birthCityIdSet] = useState("")
-  const [birthCityName, birthCityNameSet] = useState("")
+  // const [birthCityName, birthCityNameSet] = useState("")
   const [cpf, cpfSet] = useState("")
   const [rg, rgSet] = useState("")
   const [rgDate, rgDateSet] = useState("")
   const [rgAgency, rgAgencySet] = useState("")
   const [rgStateId, rgStateIdSet] = useState("")
-  const [rgStateName, rgStateNameSet] = useState("")
+  // const [rgStateName, rgStateNameSet] = useState("")
   const [mothersName, mothersNameSet] = useState("")
   const [fathersName, fathersNameSet] = useState("")
   const [gender, genderSet] = useState("")
@@ -74,7 +74,7 @@ const Patient = (props) => {
   const [responsiblePhone, responsiblePhoneSet] = useState("")
   const [registerDate, registerDateSet] = useState("")
   const [relativeId, relativeIdSet] = useState("")
-  const [relativeName, relativeNameSet] = useState("")
+  // const [relativeName, relativeNameSet] = useState("")
   const [relativeType, relativeTypeSet] = useState("")
   const [height, heightSet] = useState("")
   const [weight, weightSet] = useState("")
@@ -114,9 +114,14 @@ const Patient = (props) => {
 
   useEffect(() => {
     if (id !== "0") {
+      getList("unit/").then((items) => { unitListSet(items.record) })
+      getList("city/").then((items) => { cityListSet(items.record) })
+      getList("covenant/").then((items) => { covenantListSet(items.record) })
+      getList("state/").then((items) => { stateListSet(items.record) })
+
+      getList("patient/").then((items) => { relativeListSet(items.record) })
       getList(objectId + id).then((items) => {
         _idSet(items.record[0]._id);
-
         photoSet(items.record[0].photo || "");
         nameSet(items.record[0].name || "");
         lastnameSet(items.record[0].lastname || "");
@@ -131,7 +136,7 @@ const Patient = (props) => {
         addressComplementSet(items.record[0].addressComplement || "");
         neighborhoodSet(items.record[0].neighborhood || "");
         cityIdSet(items.record[0].city_id || "");
-        cityNameSet(items.record[0].city_name[0] || "");
+        // cityNameSet(items.record[0].city_name[0] || "");
         covenantIdSet(items.record[0].covenant_id || "");
         covenantNameSet(items.record[0].covenant_name[0] || "");
         covPlanSet(items.record[0].covPlan || "");
@@ -139,13 +144,13 @@ const Patient = (props) => {
         covValidSet((items.record[0].covValid || "").substr(0, 10));
         birthDateSet((items.record[0].birthDate || "").substr(0, 10));
         birthCityIdSet(items.record[0].birthCity_id || "");
-        birthCityNameSet(items.record[0].birthCity_name[0] || "");
+        // birthCityNameSet(items.record[0].birthCity_name[0] || "");
         cpfSet(items.record[0].cpf || "");
         rgSet(items.record[0].rg || "");
         rgDateSet((items.record[0].rgDate || "").substr(0, 10));
         rgAgencySet(items.record[0].rgAgency || "");
         rgStateIdSet(items.record[0].rgState_id || "");
-        rgStateNameSet(items.record[0].rgState_name[0] || "");
+        // rgStateNameSet(items.record[0].rgState_name[0] || "");
         mothersNameSet(items.record[0].mothersName || "");
         fathersNameSet(items.record[0].fathersName || "");
         genderSet(items.record[0].gender || "");
@@ -157,7 +162,7 @@ const Patient = (props) => {
         responsiblePhoneSet(items.record[0].responsiblePhone || "");
         registerDateSet((items.record[0].registerDate || "").substr(0, 10));
         relativeIdSet(items.record[0].relative_id || "");
-        relativeNameSet(items.record[0].relative_name[0] || "");
+        // relativeNameSet(items.record[0].relative_name[0] || "");
         relativeTypeSet(items.record[0].relativeType || "");
         heightSet(items.record[0].height || "");
         weightSet(items.record[0].weight || "");
@@ -169,11 +174,6 @@ const Patient = (props) => {
 
       });
     }
-    getList("city/").then((items) => { cityListSet(items.record) })
-    getList("covenant/").then((items) => { covenantListSet(items.record) })
-    getList("state/").then((items) => { stateListSet(items.record) })
-    getList("patient/").then((items) => { relativeListSet(items.record) })
-    getList("unit/").then((items) => { unitListSet(items.record) })
     setRecUpdated(true)
   }, [id, recUpdated]);
 
@@ -204,7 +204,7 @@ const Patient = (props) => {
       return null;
     }
     if (!internalRegister) {
-      setEmptyFieldDialog('Matrícula Interna')
+      setEmptyFieldDialog('Registro Clínica')
       setEmptyRecDialog(true);
       return null;
     }
@@ -327,10 +327,10 @@ const Patient = (props) => {
           <Typography variant="h5" className="tool-title" noWrap={true}>Registro de Paciente</Typography>
         </div>
         <div className={classes.toolButtons + " button-link"}>
-        <Button color="primary" variant="contained" size="small" startIcon={''}
-          onClick={(_) => openTextDialog(true)} disabled={false}>Histórico
-        </Button>
-        <Button color="secondary" variant="contained" size="small" startIcon={<NotesIcon />}
+          <Button color="primary" variant="contained" size="small" startIcon={''}
+            onClick={(_) => openTextDialog(true)} disabled={false}>Histórico
+          </Button>
+          <Button color="secondary" variant="contained" size="small" startIcon={<NotesIcon />}
             onClick={(_) => openPresc()} id="prescButton">Receitas
           </Button>
           <Button color="primary" variant="contained" size="small" startIcon={<EditIcon />}
@@ -374,6 +374,19 @@ const Patient = (props) => {
           <Grid item xs={8}>
             <Grid container spacing={2}>
               <Grid item xs={5}>
+                <TextField
+                  value={internalRegister}
+                  onChange={(event) => { internalRegisterSet(event.target.value.toUpperCase()) }}
+                  id="internalRegister"
+                  label="Registro Clínica"
+                  fullWidth={true}
+                  disabled={!editMode}
+                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  variant="outlined"
+                  size="small"
+                />
+              </Grid>
+              <Grid item xs={7}>
                 <TextField
                   value={name}
                   onChange={(event) => { nameSet(event.target.value.toUpperCase()) }}
@@ -456,7 +469,22 @@ const Patient = (props) => {
                 />
               </Grid>
               <Grid item xs={3}>
-                <Autocomplete
+                <TextField
+                  id='covenant'
+                  label='Convênio'
+                  value={covenantId}
+                  onChange={(event) => { covenantIdSet(event.target.value) }}
+                  size='small'
+                  fullWidth={true}
+                  disabled={!editMode}
+                  type='text'
+                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  select>
+                  {covenantList.map((option) => (
+                    <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                  ))}
+                </TextField>
+                {/* <Autocomplete
                   id="covenant"
                   options={covenantList}
                   getOptionLabel={(option) => option.name}
@@ -475,7 +503,7 @@ const Patient = (props) => {
                       inputProps={{ ...params.inputProps }}
                     />
                   )}
-                />
+                /> */}
               </Grid>
               <Grid item xs={5}>
                 <TextField
@@ -490,7 +518,7 @@ const Patient = (props) => {
                   size="small"
                 />
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <TextField
                   value={covRegistration}
                   onChange={(event) => { covRegistrationSet(event.target.value) }}
@@ -536,36 +564,10 @@ const Patient = (props) => {
                   ))}
                 </TextField>
               </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  value={internalRegister}
-                  onChange={(event) => { internalRegisterSet(event.target.value.toUpperCase()) }}
-                  id="internalRegister"
-                  label="Matrícula Interna"
-                  fullWidth={true}
-                  disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                  variant="outlined"
-                  size="small"
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  value={registerDate}
-                  onChange={(event) => { registerDateSet(event.target.value) }}
-                  id="registerDate"
-                  label="Data de Cadastro"
-                  fullWidth={true}
-                  disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                  variant="outlined"
-                  size="small"
-                  inputProps={{ type: "date" }}
-                />
-              </Grid>
             </Grid>
           </Grid>
           <Grid item xs={2}>
+
             <Grid container spacing={2}>
               <Grid item xs={2}></Grid>
               <Grid item xs={10}>
@@ -610,6 +612,21 @@ const Patient = (props) => {
                   variant="outlined"
                   size="small"
                   inputProps={{ type: "number" }}
+                />
+              </Grid>
+              <Grid item xs={2}></Grid>
+              <Grid item xs={10}>
+                <TextField
+                  value={registerDate}
+                  onChange={(event) => { registerDateSet(event.target.value) }}
+                  id="registerDate"
+                  label="Data de Cadastro"
+                  fullWidth={true}
+                  disabled={!editMode}
+                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  variant="outlined"
+                  size="small"
+                  inputProps={{ type: "date" }}
                 />
               </Grid>
             </Grid>
@@ -725,7 +742,23 @@ const Patient = (props) => {
             />
           </Grid>
           <Grid item xs={3}>
-            <Autocomplete
+            <TextField
+              id='city'
+              label='Cidade'
+              value={cityId}
+              onChange={(event) => { cityIdSet(event.target.value) }}
+              size='small'
+              fullWidth={true}
+              disabled={!editMode}
+              type='text'
+              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              select>
+              {cityList.map((option) => (
+                <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+              ))}
+            </TextField>
+
+            {/* <Autocomplete
               id="city"
               options={cityList}
               getOptionLabel={(option) => option.name}
@@ -744,7 +777,7 @@ const Patient = (props) => {
                   inputProps={{ ...params.inputProps }}
                 />
               )}
-            />
+            /> */}
           </Grid>
 
         </Grid>
@@ -780,7 +813,23 @@ const Patient = (props) => {
             />
           </Grid>
           <Grid item xs={3}>
-            <Autocomplete
+            <TextField
+              id='relative'
+              label='Parente Cadastrado'
+              value={relativeId}
+              onChange={(event) => { relativeIdSet(event.target.value) }}
+              size='small'
+              fullWidth={true}
+              disabled={!editMode}
+              type='text'
+              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              select>
+              {relativeList.map((option) => (
+                <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+              ))}
+            </TextField>
+
+            {/* <Autocomplete
               id="relative"
               options={relativeList}
               getOptionLabel={(option) => option.name}
@@ -799,7 +848,7 @@ const Patient = (props) => {
                   inputProps={{ ...params.inputProps }}
                 />
               )}
-            />
+            /> */}
           </Grid>
           <Grid item xs={3}>
             <TextField
@@ -816,7 +865,22 @@ const Patient = (props) => {
             />
           </Grid>
           <Grid item xs={3}>
-            <Autocomplete
+            <TextField
+              id='birthCity'
+              label='Cidade'
+              value={birthCityId}
+              onChange={(event) => { birthCityIdSet(event.target.value) }}
+              size='small'
+              fullWidth={true}
+              disabled={!editMode}
+              type='text'
+              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              select>
+              {cityList.map((option) => (
+                <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+              ))}
+            </TextField>
+            {/* <Autocomplete
               id="birthCity"
               options={cityList}
               getOptionLabel={(option) => option.name}
@@ -835,7 +899,7 @@ const Patient = (props) => {
                   inputProps={{ ...params.inputProps }}
                 />
               )}
-            />
+            /> */}
           </Grid>
           <Grid item xs={3}>
             <TextField
@@ -894,7 +958,22 @@ const Patient = (props) => {
             />
           </Grid>
           <Grid item xs={2}>
-            <Autocomplete
+            <TextField
+              id='rgState'
+              label='Estado'
+              value={rgStateId}
+              onChange={(event) => { rgStateIdSet(event.target.value) }}
+              size='small'
+              fullWidth={true}
+              disabled={!editMode}
+              type='text'
+              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              select>
+              {stateList.map((option) => (
+                <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+              ))}
+            </TextField>
+            {/* <Autocomplete
               id="rgState"
               options={stateList}
               getOptionLabel={(option) => option.name}
@@ -913,7 +992,7 @@ const Patient = (props) => {
                   inputProps={{ ...params.inputProps }}
                 />
               )}
-            />
+            /> */}
           </Grid>
           <Grid item xs={3}>
             <TextField
@@ -1003,15 +1082,15 @@ const Patient = (props) => {
 
         </Grid>
       </div>
-      
+
 
 
       <PrescDialog
-      prescDialog={prescDialog}
-      prescDialogSet={prescDialogSet}
-      prescList={prescList}
-      prescListSet={prescListSet}
-      patientId={_id}
+        prescDialog={prescDialog}
+        prescDialogSet={prescDialogSet}
+        prescList={prescList}
+        prescListSet={prescListSet}
+        patientId={_id}
       />
 
       {/* <PrescDialog /> */}

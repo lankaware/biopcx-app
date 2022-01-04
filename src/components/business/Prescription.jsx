@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import {
-    Grid, Box, FormControlLabel, DialogContentText, Button, Dialog, Autocomplete, DialogContent, DialogTitle, TextField, DialogActions
+    Grid, Box, FormControlLabel, DialogContentText, Button, Dialog, Autocomplete, DialogContent, DialogTitle, TextField, DialogActions,
+    MenuItem,
 } from "@mui/material";
 import TextEditor from "../layout/TextEditor";
 import { useState } from 'react';
 import { getList, putRec } from "../../services/apiconnect";
 import ReactToPrint from "react-to-print"
 import { parseTextMacro } from '../../services/textutils';
+import { useStyles } from "../../services/stylemui";
 
 var header = null;
 var footer = null;
@@ -14,7 +16,7 @@ var footer = null;
 const PrescDialog = props => {
     const [medicineName, medicineNameSet] = useState('');
     const [medicineDose, medicineDoseSet] = useState('');
-    const [medicineList, medicineListSet] = useState('');
+    const [medicineList, medicineListSet] = useState([]);
     const [medicineId, medicineIdSet] = useState('');
     const [prescList, prescListSet] = useState([]);
     const [printDialog, printDialogSet] = useState(false);
@@ -22,6 +24,7 @@ const PrescDialog = props => {
     const patientId = props.patientId;
 
     const [prescText, prescTextSet] = useState('');
+    const classes = useStyles();
 
     useEffect(() => {
         getList("medicine/").then((items) => { medicineListSet(items.record) })
@@ -79,8 +82,15 @@ const PrescDialog = props => {
     const notPrint = () => {
         printDialogSet(false)
     }
+
     const printPresc = () => {
         printDialogSet(false)
+    }
+
+    const handleMedicineChange = (e) => {
+        const currentItemTemp = medicineList.findIndex((item) => { return item._id === e })
+        medicineNameSet(medicineList[currentItemTemp].name)
+        medicineIdSet(e)
     }
 
     return (
@@ -93,7 +103,21 @@ const PrescDialog = props => {
                     <div className="data-form">
                         <Grid container spacing={2}>
                             <Grid item xs={3}>
-                                <Autocomplete
+                                <TextField
+                                    id='medicineId'
+                                    label='Nome do medicamento'
+                                    value={medicineId}
+                                    onChange={(event) => { handleMedicineChange(event.target.value) }}
+                                    size='small'
+                                    fullWidth={true}
+                                    type='text'
+                                    InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                                    select>
+                                    {medicineList.map((option) => (
+                                        <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                                    ))}
+                                </TextField>
+                                {/* <Autocomplete
                                     id="medicine"
                                     options={medicineList}
                                     getOptionLabel={(option) => option.name}
@@ -108,7 +132,7 @@ const PrescDialog = props => {
                                             fullWidth={true} value={medicineName} onChange={(event) => medicineNameSet(event.target.value)}
                                         />
                                     )}
-                                />
+                                /> */}
                             </Grid>
                             <Grid item xs={2}>
                                 <TextField label="Dosagem"

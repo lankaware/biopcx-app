@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom'
 import { Form } from 'reactstrap';
 import {
     Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
-    DialogContentText, DialogTitle, Checkbox, Autocomplete, FormControlLabel,
-    AppBar, Tabs, Tab
+    DialogContentText, DialogTitle, Checkbox, FormControlLabel,
+    AppBar, Tabs, Tab, MenuItem
 } from '@mui/material'
 
 import EditIcon from '@mui/icons-material/Edit'
@@ -73,6 +73,8 @@ const Professional = props => {
         if (id !== '0') {
             var tempList = []
 
+            getList('specialty/').then(items => { specialtyListSet(items.record)})
+  
             getList(objectId + id)
                 .then(items => {
                     // _idSet(items)
@@ -130,10 +132,6 @@ const Professional = props => {
                     availabilityListSet(tempList)
                 })
         }
-        getList('specialty/')
-            .then(items => {
-                specialtyListSet(items.record)
-            })
     }, [id])
 
     const saveRec = () => {
@@ -304,7 +302,22 @@ const Professional = props => {
                         />
                     </Grid>
                     <Grid item xs={3}>
-                        <Autocomplete
+                        <TextField
+                            id='specialty'
+                            label='Convênio'
+                            value={specialtyId}
+                            onChange={(event) => { specialtyIdSet(event.target.value) }}
+                            size='small'
+                            fullWidth={true}
+                            disabled={!editMode}
+                            type='text'
+                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                            select>
+                            {specialtyList.map((option) => (
+                                <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                            ))}
+                        </TextField>
+                        {/* <Autocomplete
                             id="specialty"
                             options={specialtyList}
                             getOptionLabel={(option) => option.name}
@@ -321,7 +334,7 @@ const Professional = props => {
                                     InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                                     inputProps={{ ...params.inputProps }}
                                 />}
-                        />
+                        /> */}
                     </Grid>
                     <Grid item xs={3}>
                         <TextField
