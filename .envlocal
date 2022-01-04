@@ -1,0 +1,5 @@
+REACT_APP_SECRET='390579e2935ef8b3d8f0'
+
+REACT_APP_APIURL=https://biopcx-api.rj.r.appspot.com/
+REACT_APP_APIURL=http://vndl4:8080/
+

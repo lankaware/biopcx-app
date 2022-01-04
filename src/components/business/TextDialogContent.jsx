@@ -3,7 +3,6 @@ import {
     Grid, Button, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Box
 } from "@mui/material";
 import DataTable from 'react-data-table-component'
-import ReactCSSTransitionReplace from 'react-css-transition-replace';
 
 import { getList } from '../../services/apiconnect'
 import { customStyles1, paginationBr } from '../../services/datatablestyle'

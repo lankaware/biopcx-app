@@ -38,7 +38,6 @@ const TextEditor = props => {
     }
 
     const handleEditor = (newContent) => {
-        console.log("3", newContent)
         props.textSet(newContent);
     }
 

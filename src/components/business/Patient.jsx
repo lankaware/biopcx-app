@@ -28,7 +28,6 @@ import PrescDialog from "./Prescription";
 const objectRef = "patient/";
 const objectId = "patientid/";
 
-
 const Patient = (props) => {
   let { id } = useParams()
 
