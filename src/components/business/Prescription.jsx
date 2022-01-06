@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-    Grid, Box, FormControlLabel, DialogContentText, Button, Dialog, Autocomplete, DialogContent, DialogTitle, TextField, DialogActions,
+    Grid, Box, DialogContentText, Button, Dialog, DialogContent, DialogTitle, TextField, DialogActions,
     MenuItem,
 } from "@mui/material";
 import TextEditor from "../layout/TextEditor";
@@ -9,6 +9,8 @@ import { getList, putRec } from "../../services/apiconnect";
 import ReactToPrint from "react-to-print"
 import { parseTextMacro } from '../../services/textutils';
 import { useStyles } from "../../services/stylemui";
+import { prettyDate } from '../../services/dateutils';
+import TabPanel from '../commons/TabPanel';
 
 var header = null;
 var footer = null;
@@ -37,6 +39,10 @@ const PrescDialog = props => {
                     footer = subItem.text
                 }
             }
+        })
+        getList('patientid/' + patientId)
+        .then((items) => {
+          prescListSet(items.record[0].prescription || {}); 
         })
     }, []);
 
@@ -93,6 +99,15 @@ const PrescDialog = props => {
         medicineIdSet(e)
     }
 
+    // const createTab = (presc, index) => {
+    //     return (
+    //     <>
+    //         <Tab label={prettyDate(presc.date)} value={index} />
+    //         <TabPanel> </TabPanel>
+    //     </>
+    //     )
+    // }
+
     return (
         <>
             <Dialog open={props.prescDialog} maxWidth={false}>
@@ -100,6 +115,19 @@ const PrescDialog = props => {
                     Nova Receita
                 </DialogTitle>
                 <DialogContent >
+                    <div>
+                        <Tabs
+                            orientation="vertical"
+                            variant="scrollable"
+                            value={value}
+                            onChange={handleChange}
+                            sx={{ borderRight: 1, borderColor: 'divider' }}
+                        >
+                            {
+                                prescList.map(createTab())
+                            }
+                        </Tabs>
+                    </div>
                     <div className="data-form">
                         <Grid container spacing={2}>
                             <Grid item xs={3}>
