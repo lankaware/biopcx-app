@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {
-  Grid, Button, Dialog, DialogActions, DialogTitle, DialogContentText, Box
+  Button, Dialog, DialogActions, DialogTitle, DialogContentText, Box
 } from "@mui/material";
 
 import { getList, putRec } from '../../services/apiconnect'
