@@ -1,90 +1,125 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarContent, SidebarFooter } from 'react-pro-sidebar'
+import React, { useContext, useState } from 'react';
+import {
+    Navbar, Nav, NavbarBrand, NavbarText, UncontrolledDropdown, DropdownToggle,
+    DropdownMenu, DropdownItem
+} from 'reactstrap'
+import { Button, Dialog, DialogTitle, DialogActions } from '@mui/material'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'
+import { Context } from '../../context/AuthContext'
 
-import HomeIcon from '@mui/icons-material/Home'
-import ListAltIcon from '@mui/icons-material/ListAlt'
-import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar'
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
-import SettingsIcon from '@mui/icons-material/Settings'
-import SpellcheckIcon from '@mui/icons-material/Spellcheck'
+const AppMenu = props => {
+    const { userSign } = useContext(Context)
+    const [confirmDialog, setConfirmDialog] = useState(false)
 
-import 'react-pro-sidebar/dist/css/styles.css'
+    const logout = () => {
+        setConfirmDialog(true)
+    }
 
-const AppMenu = (props) => {
+    const logoutConfirm = () => {
+        userSign(false)
+        setConfirmDialog(false)
+    }
 
-    // const [menuCollapse, setMenuCollapse] = useState(false)
+    const stayIn = () => {
+        setConfirmDialog(false)
+    }
+
+    const menu = (authent) => {
+        if (authent) {
+            return (
+                <Nav className="mr-auto " navbar>
+                    <UncontrolledDropdown nav inNavbar >
+                        <DropdownToggle nav caret className='nav-item text-white' >
+                            Atendimento
+                        </DropdownToggle>
+                        <DropdownMenu className='menu-item'>
+                            <DropdownItem className='menu-item' href="/agendas">Agendas</DropdownItem>
+                        </DropdownMenu>
+                    </UncontrolledDropdown>
+                    <UncontrolledDropdown nav inNavbar>
+                        <DropdownToggle nav caret className='nav-item text-white'>
+                            Cadastros
+                        </DropdownToggle>
+                        <DropdownMenu className='menu-item'>
+                            <DropdownItem className='menu-item' href="/patients">Pacientes</DropdownItem>
+                            <DropdownItem className='menu-item' href="/professionals">Profissionais</DropdownItem>
+                            <DropdownItem className='menu-item' href="/covenants">Convênios</DropdownItem>
+                            <DropdownItem className='menu-item' href="/procedures">Procedimentos</DropdownItem>
+                            <DropdownItem className='menu-item' href="/medicineList">Medicamentos</DropdownItem>
+                        </DropdownMenu>
+                    </UncontrolledDropdown>
+                    <UncontrolledDropdown nav inNavbar>
+                        <DropdownToggle nav caret className='nav-item text-white'>
+                            Impressos
+                        </DropdownToggle>
+                        <DropdownMenu className='menu-item'>
+                            <DropdownItem className='menu-item' href="/texttemplateList">Textos Padrões</DropdownItem>
+                        </DropdownMenu>
+                    </UncontrolledDropdown>
+                    <UncontrolledDropdown nav inNavbar>
+                        <DropdownToggle nav caret className='nav-item text-white'>
+                            Relatórios
+                        </DropdownToggle>
+                        <DropdownMenu className='menu-item'>
+                            <DropdownItem className='menu-item' href="/agenda">Agenda</DropdownItem>
+                            <DropdownItem className='menu-item' href="/">Atendimentos</DropdownItem>
+                        </DropdownMenu>
+                    </UncontrolledDropdown>
+                    <UncontrolledDropdown nav inNavbar>
+                        <DropdownToggle nav caret className='nav-item text-white'>
+                        Configurações
+                        </DropdownToggle>
+                        <DropdownMenu className='menu-item'>
+                            <DropdownItem className='menu-item' href="/">Gerais</DropdownItem>
+                            <DropdownItem className='menu-item' href="/login">Logins</DropdownItem>
+                        </DropdownMenu>
+                    </UncontrolledDropdown>
+                </Nav>
+            )
+        } else {
+            return (
+                <Nav className='mr-auto ' navbar >
+                </Nav>
+            )
+        }
+    }
+
     return (
-        <div>
-            <ProSidebar className='menu'
-                collapsed={props.collapseMenu}
-                width={200}
-            // image={'../../../public/BackgroundImageMenu.jpg'}
+        <div >
+            <Navbar color="primary" dark expand="xs" fixed='top'>
+                <NavbarBrand className="d-sm-none d-md-block" href="/">
+                    BIOPCX &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </NavbarBrand>
+                {/* <NavbarToggler onClick={toggle} /> */}
+                {/* <Collapse isOpen={isOpen} navbar> */}
+                {menu(props.authenticated)}
+                <NavbarText className="d-sm-none d-md-block">{props.userName}</NavbarText>
+                {/* </Collapse> */}
+                <Button
+                    color='inherit'
+                    variant='standard'
+                    size='small'
+                    onClick={logout}//{setConfirmDialog(true)}
+                    startIcon={<ExitToAppIcon />}
+                >
+                </Button>
+            </Navbar>
+            <Dialog
+                open={confirmDialog}
             >
-                <SidebarHeader>
-                </SidebarHeader>
-                <Menu iconShape='circle'>
-                    <MenuItem icon={<HomeIcon />}>
-                        Início
-                        <Link to='/' />
-                    </MenuItem>
-                    <SubMenu title='Atendimento' icon={<PermContactCalendarIcon />}>
-                        <MenuItem > Agenda
-                            <Link to='/agendas' />
-                        </MenuItem>
-                    </SubMenu>
-                    <SubMenu title='Cadastros' icon={<ListAltIcon />}>
-                        <MenuItem> Pacientes
-                            <Link to='/patients' />
-                        </MenuItem>
-                        <MenuItem> Profissionais
-                            <Link to='/professionals' />
-                        </MenuItem>
-                        <MenuItem> Convênios
-                            <Link to='/covenants' />
-                        </MenuItem>
-                        <MenuItem> Procedimentos
-                            <Link to='/procedures' />
-                        </MenuItem>
-                        <MenuItem> Medicamentos
-                            <Link to='/medicineList' />
-                        </MenuItem>
-                    </SubMenu>
-                    <SubMenu title='Impressos' icon={<SpellcheckIcon />}>
-                        <MenuItem> Textos Padrões
-                            <Link to='/texttemplateList' />
-                        </MenuItem>
-                    </SubMenu>
-                    <SubMenu title='Relatórios' icon={<PictureAsPdfIcon />}>
-                        <MenuItem> Agenda
-                            <Link to='/agenda' />
-                        </MenuItem>
-                        <MenuItem> Atendimentos
-                            <Link to='/' />
-                        </MenuItem>
-                    </SubMenu>
-                    <SubMenu title='Configurações' icon={<SettingsIcon />}>
-                        <MenuItem> Gerais
-                            <Link to='/' />
-                        </MenuItem>
-                        <MenuItem> Logins
-                            <Link to='/login' />
-                        </MenuItem>
-                    </SubMenu>
+                <DialogTitle id="alert-dialog-title">{"Deseja sair do sistema?"}</DialogTitle>
+                <DialogActions>
+                    <Button onClick={logoutConfirm} color="primary" variant='contained' autoFocus>
+                        Confirmar
+                    </Button>
+                    <Button onClick={stayIn} color="secondary" variant='contained'>
+                        Cancelar
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
-                </Menu>
-
-                <SidebarContent>
-                    {/**  You can add the content of the sidebar ex: menu, profile details, ... */}
-                </SidebarContent>
-                <SidebarFooter>
-                    Lankaware
-                </SidebarFooter>
-
-            </ProSidebar >
         </div>
     )
 }
 
 export default AppMenu
-
