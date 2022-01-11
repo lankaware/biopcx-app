@@ -1083,8 +1083,6 @@ const Patient = (props) => {
         </Grid>
       </div>
 
-
-
       <PrescDialog
         prescDialog={prescDialog}
         prescDialogSet={prescDialogSet}

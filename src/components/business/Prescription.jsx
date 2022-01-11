@@ -7,10 +7,8 @@ import TextEditor from "../layout/TextEditor";
 import { useState } from 'react';
 import { getList, putRec } from "../../services/apiconnect";
 import ReactToPrint from "react-to-print"
-import { parseTextMacro } from '../../services/textutils';
 import { useStyles } from "../../services/stylemui";
-import { prettyDate } from '../../services/dateutils';
-import TabPanel from '../commons/TabPanel';
+import PrescHist from './PrescHist';
 
 var header = null;
 var footer = null;
@@ -23,28 +21,39 @@ const PrescDialog = props => {
     const [prescList, prescListSet] = useState([]);
     const [printDialog, printDialogSet] = useState(false);
 
-    const patientId = props.patientId;
+    let patientId = props.patientId;
+    console.log("presc id", patientId);
 
     const [prescText, prescTextSet] = useState('');
+
+
     const classes = useStyles();
 
     useEffect(() => {
-        getList("medicine/").then((items) => { medicineListSet(items.record) })
-        getList('texttemplate/').then(items => {
-            for (const subItem of items.record) {
-                if (subItem.name == "HEADER") {
-                    header = subItem.text
+        getList("medicine/")
+            .then((items) => { medicineListSet(items.record) })
+        getList('texttemplate/')
+            .then(items => {
+                for (const subItem of items.record) {
+                    if (subItem.name == "HEADER") {
+                        header = subItem.text
+                    }
+                    if (subItem.name == "FOOTER") {
+                        footer = subItem.text
+                    }
                 }
-                if (subItem.name == "FOOTER") {
-                    footer = subItem.text
-                }
-            }
-        })
-        getList('patientid/' + patientId)
-        .then((items) => {
-          prescListSet(items.record[0].prescription || {}); 
-        })
+            })
+
     }, []);
+
+    useEffect(() => {
+        getList('patientid/' + patientId)
+            .then((items) => {
+                prescListSet(items.record[0].prescription);
+            })
+
+    }, [patientId]);
+    console.log("out", prescList)
 
     const addMed = () => {
         prescTextSet(prescText + medicineName + " " + medicineDose + " <br>")
@@ -71,11 +80,7 @@ const PrescDialog = props => {
         }
 
         recObj = JSON.stringify(recObj)
-        console.log(recObj)
         putRec("patientid/" + patientId, recObj)
-            .then(result => {
-                console.log('put', result)
-            })
 
         props.prescDialogSet(false)
     }
@@ -99,14 +104,6 @@ const PrescDialog = props => {
         medicineIdSet(e)
     }
 
-    // const createTab = (presc, index) => {
-    //     return (
-    //     <>
-    //         <Tab label={prettyDate(presc.date)} value={index} />
-    //         <TabPanel> </TabPanel>
-    //     </>
-    //     )
-    // }
 
     return (
         <>
@@ -114,21 +111,12 @@ const PrescDialog = props => {
                 <DialogTitle>
                     Nova Receita
                 </DialogTitle>
-                <DialogContent >
-                    <div>
-                        <Tabs
-                            orientation="vertical"
-                            variant="scrollable"
-                            value={value}
-                            onChange={handleChange}
-                            sx={{ borderRight: 1, borderColor: 'divider' }}
-                        >
-                            {
-                                prescList.map(createTab())
-                            }
-                        </Tabs>
-                    </div>
-                    <div className="data-form">
+                <DialogContent style={{ display: "flex", gap: "1rem" }}>
+                    <Box sx={{ width: 3/10 }}>
+                    <PrescHist prescList={prescList} />
+                    </Box>
+                    {/*  <div >   className="data-form" */}
+                    <Box className="data-form" sx={{ width: 7/10 }}>
                         <Grid container spacing={2}>
                             <Grid item xs={3}>
                                 <TextField
@@ -197,13 +185,14 @@ const PrescDialog = props => {
                                 textSet={prescTextSet}
                             />
                         </Box>
-                    </div>
+                    </Box>
 
-                    <DialogActions>
-                        <Button color="primary" size="small" sx={{ margin: "0px 2px" }} variant="contained" onClick={savePresc}>Salvar</Button>
-                        <Button color="secondary" size="small" sx={{ margin: "0px 2px" }} variant="contained" onClick={cancelPresc}>Cancelar</Button>
-                    </DialogActions>
                 </DialogContent>
+                <DialogActions>
+                    <Button color="primary" size="small" sx={{ margin: "0px 2px" }} variant="contained" onClick={savePresc}>Salvar</Button>
+                    <Button color="secondary" size="small" sx={{ margin: "0px 2px" }} variant="contained" onClick={cancelPresc}>Cancelar</Button>
+                </DialogActions>
+
             </Dialog>
 
             <Dialog open={printDialog}>

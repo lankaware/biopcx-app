@@ -32,7 +32,7 @@ const TextEditor = props => {
             // 'copyformat',
         ],
         height: 380,
-        width: 1000, 
+        width: 700, 
         useSplitMode: true,
         autofocus: props.autofocus,
     }

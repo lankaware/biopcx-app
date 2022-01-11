@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^12.8.3",
     "crypto-js": "^4.1.1",
     "fontsource-roboto": "^4.0.0",
+    "html-react-parser": "^1.4.5",
     "jodit-react": "^1.1.11",
     "jsonwebtoken": "^8.5.1",
     "react": "^17.0.2",
