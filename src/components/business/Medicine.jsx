@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
-  Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
+  Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Box
 } from "@mui/material";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -83,9 +83,9 @@ const Medicine = (props) => {
     } else {
       recObj = JSON.stringify(recObj);
       postRec(objectRef, recObj)
-      .then((result) => {
-        _idSet(result.record._id);
-      });
+        .then((result) => {
+          _idSet(result.record._id);
+        });
     }
     nameSetTemp(name);
     chemNameSetTemp(chemName);
@@ -116,7 +116,7 @@ const Medicine = (props) => {
 
   const delConfirm = () => {
     console.log("_id", _id);
-    deleteRec(objectId + _id).then((result) => {});
+    deleteRec(objectId + _id).then((result) => { });
     setDeleteDialog(false);
     setDeleteInfoDialog(true);
   };
@@ -141,58 +141,68 @@ const Medicine = (props) => {
             Registro de Medicamento
           </Typography>
         </div>
-        <div className={classes.toolButtons + " button-link"}>
-          <Button
-            color="primary"
-            variant="contained"
-            size="small"
-            startIcon={<EditIcon />}
-            onClick={(_) => setEditMode(true)}
-            disabled={editMode}
-          >
-            EDITAR
-          </Button>
-          <Button
-            color="primary"
-            variant="contained"
-            size="small"
-            startIcon={<SaveAltIcon />}
-            onClick={(_) => saveRec()}
-            disabled={!editMode}
-          >
-            SALVAR
-          </Button>
-          <Button
-            color="primary"
-            variant="contained"
-            size="small"
-            startIcon={<CancelIcon />}
-            onClick={(_) => refreshRec()}
-            disabled={!editMode}
-          >
-            CANCELAR
-          </Button>
-          <Button
-            color="primary"
-            variant="contained"
-            size="small"
-            startIcon={<DeleteForeverIcon />}
-            onClick={(_) => delRec()}
-            disabled={editMode}
-          >
-            APAGAR
-          </Button>
-          <Button
-            color="primary"
-            variant="contained"
-            size="small"
-            startIcon={<KeyboardReturnIcon />}
-            href="/medicineList"
-            id="backButton"
-            disabled={editMode}
-          >
-            VOLTAR
-          </Button>
+        <div className='tool-buttons'>
+          <Box m={1}>
+            <Button
+              color="primary"
+              variant="contained"
+              size="small"
+              startIcon={<EditIcon />}
+              onClick={(_) => setEditMode(true)}
+              disabled={editMode}
+            >
+              EDITAR
+            </Button>
+          </Box>
+          <Box m={1}>
+            <Button
+              color="primary"
+              variant="contained"
+              size="small"
+              startIcon={<SaveAltIcon />}
+              onClick={(_) => saveRec()}
+              disabled={!editMode}
+            >
+              SALVAR
+            </Button>
+          </Box>
+          <Box m={1}>
+            <Button
+              color="primary"
+              variant="contained"
+              size="small"
+              startIcon={<CancelIcon />}
+              onClick={(_) => refreshRec()}
+              disabled={!editMode}
+            >
+              CANCELAR
+            </Button>
+          </Box>
+          <Box m={1}>
+            <Button
+              color="primary"
+              variant="contained"
+              size="small"
+              startIcon={<DeleteForeverIcon />}
+              onClick={(_) => delRec()}
+              disabled={editMode}
+            >
+              APAGAR
+            </Button>
+          </Box>
+          <Box m={1}>
+            <Button
+              color="primary"
+              variant="contained"
+              size="small"
+              startIcon={<KeyboardReturnIcon />}
+              href="/medicineList"
+              id="backButton"
+              disabled={editMode}
+            >
+              VOLTAR
+            </Button>
+          </Box>
         </div>
       </div>
       <div className="data-form">
@@ -333,7 +343,7 @@ const Medicine = (props) => {
 
       <Dialog
         open={emptyRecDialog}
-        // onClose={emptyRecClose}
+      // onClose={emptyRecClose}
       >
         <DialogTitle id="alert-dialog-title">
           {"Registro sem descrição ou já existente não pode ser gravado."}

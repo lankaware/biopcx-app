@@ -4,8 +4,6 @@ import {
 } from "@mui/material";
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { useState } from 'react';
-// import { getList, putRec } from "../../services/apiconnect";
-// import { prettyDate } from '../../services/dateutils';
 import TabPanel, { posTab } from '../commons/TabPanel';
 import parse from 'html-react-parser';
 import { prettyDate } from '../../services/dateutils'

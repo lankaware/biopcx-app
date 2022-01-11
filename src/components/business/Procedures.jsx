@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import DataTable from 'react-data-table-component'
 
-import { Button, Box, Typography, Grid, TextField, } from '@mui/material'
+import { Button, Box, Typography, Grid, TextField } from '@mui/material'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
 import SearchIcon from '@mui/icons-material/Search'
@@ -111,7 +111,7 @@ const Procedures = props => {
                     <Typography variant='h6' className='tool-title' noWrap={true}>Lista de Procedimentos</Typography>
                 </div>
 
-                <div className={classes.toolButtons + ' button-link'}>
+                <div className='tool-buttons'>
                     <Box m={1}>
                         <Button color="primary" size='small' variant='contained' startIcon={<OpenInNewIcon />}
                             href="/procedure/0">INCLUIR

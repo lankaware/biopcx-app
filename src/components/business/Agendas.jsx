@@ -46,6 +46,13 @@ const Agendas = props => {
             right: false,
         },
         {
+            name: 'Telefone',
+            selector: row => row.patient_phone,
+            sortable: true,
+            width: '10vw',
+            right: false,
+        },
+        {
             name: 'Procedimento',
             selector: row => row.procedure_name,
             sortable: true,
@@ -80,6 +87,7 @@ const Agendas = props => {
                         professional_name: element.professional_name[0],
                         patient_id: element.patient_id,
                         patient_name: element.patient_name[0],
+                        patient_phone: element.patient_phone[0],
                         procedure_id: element.procedure_id,
                         procedure_name: element.procedure_name[0],
                         planName: element.planName,
@@ -122,7 +130,7 @@ const Agendas = props => {
                     <Typography variant='h6' className='tool-title' noWrap={true}>Lista de Agendas</Typography>
                 </div>
 
-                <div className={classes.toolButtons + ' button-link'}>
+                <div className='tool-buttons'>
                     <Box m={1}>
                         <Button color="primary" size='small' variant='contained' startIcon={<OpenInNewIcon />}
                             href="/agenda/0" 

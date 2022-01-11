@@ -40,6 +40,7 @@
     border-style: solid;
     border-width: 1px;
     width: 90vw;
+    margin-left: 3vw;
 }
 
 .data-form-level1 {
@@ -49,6 +50,7 @@
     border-style: solid;
     border-width: 1px;
     width: 90vw;
+    margin-left: 3vw;
 }
 
 .data-table {
@@ -57,14 +59,16 @@
     border-width: 1px;
     width: 90vw;
     margin-top: 5px;
+    margin-left: 3vw;
 }
 
 .data-table-level1 {
     border: rgb(172, 164, 164);
     border-style: solid;
     border-width: 1px;
-    width: 95vw;
+    width: 80vw;
     margin-top: 5px;
+    /* margin-left: 3vw; */
 }
 
 .menu {
@@ -107,13 +111,14 @@
     /* background-color: #b1e2f1; */
     padding-left: 10px;
     padding-top: 10px;
+    margin-left: 3vw;
 }
 
 .tool-title {
     /* verified */
     margin-top: 5px;
     padding: 5px 15px 5px 0px;
-    width: 40vw;
+    width: 43vw;
     /* visibility: hidden; */
 }
 
@@ -150,3 +155,15 @@
     animation-duration: 4s;
     animation-direction: reverse
 }
+
+.tool-buttons {
+    display: flex;
+    width: 50vw;
+    justify-content: flex-end;
+  }
+
+.tool-buttons a:hover {
+    /* verified */
+    color: #ffffff;
+}
+

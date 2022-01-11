@@ -137,25 +137,25 @@ const TextDialog = props => {
         <DialogTitle id="alert-dialog-title">
           <Box className="data-form" display="flex"
             justifyContent="space-between">
-            <Button color="primary" variant="contained" size="large" startIcon={''} 
+            <Button color="primary" variant="contained" size="medium" startIcon={''} 
               onClick={(_) => changeContentToClinicHist()} disabled={false}>Hist.Clínica
             </Button>
-            <Button color="secondary" variant="contained" size="large" startIcon={''} 
+            <Button color="secondary" variant="contained" size="medium" startIcon={''} 
               onClick={(_) => changeContentToPatientHist()} disabled={false}>Ant.Pessoais
             </Button>
-            <Button color="success" variant="contained" size="large" startIcon={''} 
+            <Button color="success" variant="contained" size="medium" startIcon={''} 
               onClick={(_) => changeContentToFamilyHist()} disabled={false}>Ant.Familía
             </Button>
-            <Button color="error" variant="contained" size="large" startIcon={''} 
+            <Button color="error" variant="contained" size="medium" startIcon={''} 
               onClick={(_) => changeContentToCatheter()} disabled={false}>Cateterismo
             </Button>
-            <Button color="info" variant="contained" size="large" startIcon={''} 
+            <Button color="info" variant="contained" size="medium" startIcon={''} 
               onClick={(_) => changeContentToSurgery()} disabled={false}>Cirurgias
             </Button>
-            <Button color="warning" variant="contained" size="large" startIcon={''} 
+            <Button color="warning" variant="contained" size="medium" startIcon={''} 
               onClick={(_) => changeContentToFreeTextOne()} disabled={false}>Txt Livre 1
             </Button>
-            <Button color="primary" variant="contained" size="large" startIcon={''} sx={{ backgroundColor: '#000957' }}
+            <Button color="primary" variant="contained" size="medium" startIcon={''} sx={{ backgroundColor: '#000957' }}
               onClick={(_) => changeContentToFreeTextTwo()} disabled={false}>Txt Livre 2
             </Button>
 

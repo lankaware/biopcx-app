@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { Form } from 'reactstrap';
 import {
     Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
-    DialogContentText, DialogTitle, Checkbox, FormControlLabel,
+    DialogContentText, DialogTitle, Checkbox, FormControlLabel, Box,
     AppBar, Tabs, Tab, MenuItem
 } from '@mui/material'
 
@@ -73,8 +73,8 @@ const Professional = props => {
         if (id !== '0') {
             var tempList = []
 
-            getList('specialty/').then(items => { specialtyListSet(items.record)})
-  
+            getList('specialty/').then(items => { specialtyListSet(items.record) })
+
             getList(objectId + id)
                 .then(items => {
                     // _idSet(items)
@@ -255,22 +255,32 @@ const Professional = props => {
                 <div >
                     <Typography variant='h5' className='tool-title' noWrap={true}>Registro de Profissional</Typography>
                 </div>
-                <div className={classes.toolButtons + ' button-link'}>
-                    <Button color='primary' variant='contained' size='small' startIcon={<EditIcon />}
-                        onClick={_ => setEditMode(true)} disabled={editMode}>EDITAR
-                    </Button>
-                    <Button color='primary' variant='contained' size='small' startIcon={<SaveAltIcon />}
-                        onClick={_ => saveRec()} disabled={!editMode}>SALVAR
-                    </Button>
-                    <Button color='primary' variant='contained' size='small' startIcon={<CancelIcon />}
-                        onClick={_ => refreshRec()} disabled={!editMode}>CANCELAR
-                    </Button>
-                    <Button color='primary' variant='contained' size='small' startIcon={<DeleteForeverIcon />}
-                        onClick={_ => delRec()} disabled={editMode}>APAGAR
-                    </Button>
-                    <Button color='primary' variant='contained' size='small' startIcon={<KeyboardReturnIcon />}
-                        href="/professionals" id='backButton' disabled={editMode}>VOLTAR
-                    </Button>
+                <div className='tool-buttons'>
+                    <Box m={1}>
+                        <Button color='primary' variant='contained' size='small' startIcon={<EditIcon />}
+                            onClick={_ => setEditMode(true)} disabled={editMode}>EDITAR
+                        </Button>
+                    </Box>
+                    <Box m={1}>
+                        <Button color='primary' variant='contained' size='small' startIcon={<SaveAltIcon />}
+                            onClick={_ => saveRec()} disabled={!editMode}>SALVAR
+                        </Button>
+                    </Box>
+                    <Box m={1}>
+                        <Button color='primary' variant='contained' size='small' startIcon={<CancelIcon />}
+                            onClick={_ => refreshRec()} disabled={!editMode}>CANCELAR
+                        </Button>
+                    </Box>
+                    <Box m={1}>
+                        <Button color='primary' variant='contained' size='small' startIcon={<DeleteForeverIcon />}
+                            onClick={_ => delRec()} disabled={editMode}>APAGAR
+                        </Button>
+                    </Box>
+                    <Box m={1}>
+                        <Button color='primary' variant='contained' size='small' startIcon={<KeyboardReturnIcon />}
+                            href="/professionals" id='backButton' disabled={editMode}>VOLTAR
+                        </Button>
+                    </Box>
                 </div>
             </div>
             <div className='data-form'>

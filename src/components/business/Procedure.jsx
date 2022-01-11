@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import {
     Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
-    DialogContentText, DialogTitle
+    DialogContentText, DialogTitle, Box
 } from '@mui/material'
 
 import EditIcon from '@mui/icons-material/Edit'
@@ -136,22 +136,33 @@ const Procedure = props => {
                 <div >
                     <Typography variant='h5' className='tool-title' noWrap={true}>Registro de Procedimento</Typography>
                 </div>
-                <div className={classes.toolButtons + ' button-link'}>
-                    <Button color='primary' variant='contained' size='small' startIcon={<EditIcon />}
-                        onClick={_ => setEditMode(true)} disabled={editMode}>EDITAR
-                    </Button>
-                    <Button color='primary' variant='contained' size='small' startIcon={<SaveAltIcon />}
-                        onClick={_ => saveRec()} disabled={!editMode}>SALVAR
-                    </Button>
-                    <Button color='primary' variant='contained' size='small' startIcon={<CancelIcon />}
-                        onClick={_ => refreshRec()} disabled={!editMode}>CANCELAR
-                    </Button>
-                    <Button color='primary' variant='contained' size='small' startIcon={<DeleteForeverIcon />}
-                        onClick={_ => delRec()} disabled={editMode}>APAGAR
-                    </Button>
-                    <Button color='primary' variant='contained' size='small' startIcon={<KeyboardReturnIcon />}
-                        href="/procedures" id='backButton' disabled={editMode}>VOLTAR
-                    </Button>
+                <div className='tool-buttons'>
+                    <Box m={1}>
+
+                        <Button color='primary' variant='contained' size='small' startIcon={<EditIcon />}
+                            onClick={_ => setEditMode(true)} disabled={editMode}>EDITAR
+                        </Button>
+                    </Box>
+                    <Box m={1}>
+                        <Button color='primary' variant='contained' size='small' startIcon={<SaveAltIcon />}
+                            onClick={_ => saveRec()} disabled={!editMode}>SALVAR
+                        </Button>
+                    </Box>
+                    <Box m={1}>
+                        <Button color='primary' variant='contained' size='small' startIcon={<CancelIcon />}
+                            onClick={_ => refreshRec()} disabled={!editMode}>CANCELAR
+                        </Button>
+                    </Box>
+                    <Box m={1}>
+                        <Button color='primary' variant='contained' size='small' startIcon={<DeleteForeverIcon />}
+                            onClick={_ => delRec()} disabled={editMode}>APAGAR
+                        </Button>
+                    </Box>
+                    <Box m={1}>
+                        <Button color='primary' variant='contained' size='small' startIcon={<KeyboardReturnIcon />}
+                            href="/procedures" id='backButton' disabled={editMode}>VOLTAR
+                        </Button>
+                    </Box>
                 </div>
             </div>
             <div className='data-form'>
