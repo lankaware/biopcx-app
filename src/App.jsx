@@ -3,7 +3,6 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { BrowserRouter as Router } from 'react-router-dom'
 
 import '../src/css/App.css'
-import PageHeader from './components/layout/PageHeader.jsx'
 import AppMenu from './components/layout/Menu.jsx'
 import Content from './components/layout/Content.jsx'
 import Authentication from './components/layout/Authentication.jsx'
@@ -25,11 +24,12 @@ const App = (props) => {
     return (
       <div className='app-content'>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <PageHeader
-            userName={username}
-            toggleMenu={toggleMenu}
-            />
+        <Router>
+            <AppMenu
+              userName={username}
+              authenticated={authenticated} />
           <Authentication />
+          </Router>
         </ErrorBoundary>
       </div>
     )
@@ -37,12 +37,10 @@ const App = (props) => {
     return (
       <div className='app-content'>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <Router>
-            <PageHeader
-              userName={username}
-              toggleMenu={toggleMenu}
-            />
-            <AppMenu collapseMenu={collapseMenu} />
+        <Router>
+            <AppMenu
+              userName={username} 
+              authenticated={authenticated}/>
             <Content />
           </Router>
         </ErrorBoundary>
