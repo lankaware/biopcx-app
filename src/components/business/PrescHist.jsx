@@ -12,10 +12,11 @@ const PrescHist = props => {
     const [tabValue, tabValueSet] = useState(false);
     const [dialog, dialogSet] = useState(false)
     const [dialogText, dialogTextSet] = useState("")
-
-    console.log("prescHist list", props.prescList)
     const prescList = props.prescList
 
+    const deletePresc = () => {
+        
+    }
 
     return (
         <>
@@ -27,15 +28,37 @@ const PrescHist = props => {
                 scrollButtons={false}
                 sx={{ borderRight: 1, borderColor: 'divider', height: 1 }}
             >
-                {prescList.map((item, index) => {
-                    console.log("date ", item.date, "index:", index);
-                    return (
-                        <Tab label={prettyDate(item.date)} onClick={() => {
-                            dialogSet(true)
-                            dialogTextSet(item.prescContent)
-                        }} /> // openPopper(item.prescContent) onClick={}
-                    )
-                })}
+                {/* <List dense={dense}> */}
+                    {prescList.map((item, index) => {
+                        console.log("date ", item.date, "index:", index);
+                        return (
+                            <Tab label={prettyDate(item.date)} onClick={() => {
+                                dialogSet(true)
+                                dialogTextSet(item.prescContent)
+                            }} />
+                        )
+
+                        // return (
+                        //     <ListItem
+                        //         secondaryAction={
+                        //             <IconButton edge="end" aria-label="delete" onClick={deletePresc(item.id)}>
+                        //                 <DeleteIcon />
+                        //             </IconButton>
+                        //         }
+                        //     >
+                        //         <ListItemAvatar>
+                        //             <Avatar>
+                        //                 <FolderIcon />
+                        //             </Avatar>
+                        //         </ListItemAvatar>
+                        //         <ListItemText
+                        //             primary="Single-line item"
+                        //             secondary={secondary ? 'Secondary text' : null}
+                        //         />
+                        //     </ListItem>
+                        // )
+                    })}
+                {/* </List> */}
             </Tabs>
             {/* {prescList.map((item, index) => {
                 return (
@@ -43,13 +66,13 @@ const PrescHist = props => {
 
                 )
             })} */}
-                <Dialog open={dialog} onClose={() => {dialogSet(false)}} >
-                    <DialogContent >
+            <Dialog open={dialog} onClose={() => { dialogSet(false) }} >
+                <DialogContent >
                     <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper', minWidth: 296, minHeight: 420 }}>
                         {parse(dialogText)}
                     </Box>
-                    </DialogContent>
-                </Dialog>
+                </DialogContent>
+            </Dialog>
         </>
     )
 }

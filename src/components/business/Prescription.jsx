@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
     Grid, Box, DialogContentText, Button, Dialog, DialogContent, DialogTitle, TextField, DialogActions,
     MenuItem,
@@ -9,6 +9,8 @@ import { getList, putRec } from "../../services/apiconnect";
 import ReactToPrint from "react-to-print"
 import { useStyles } from "../../services/stylemui";
 import PrescHist from './PrescHist';
+import parse from 'html-react-parser';
+import PrescToPrint from './PrescToPrint';
 
 var header = null;
 var footer = null;
@@ -25,6 +27,8 @@ const PrescDialog = props => {
     console.log("presc id", patientId);
 
     const [prescText, prescTextSet] = useState('');
+
+    const textRef = useRef()
 
 
     const classes = useStyles();
@@ -94,8 +98,12 @@ const PrescDialog = props => {
         printDialogSet(false)
     }
 
-    const printPresc = () => {
-        printDialogSet(false)
+    const printPresc = (prescText) => {
+        return (
+            <div>
+                {parse(prescText)}
+            </div>
+        )
     }
 
     const handleMedicineChange = (e) => {
@@ -105,6 +113,8 @@ const PrescDialog = props => {
     }
 
 
+
+
     return (
         <>
             <Dialog open={props.prescDialog} maxWidth={false}>
@@ -112,11 +122,11 @@ const PrescDialog = props => {
                     Nova Receita
                 </DialogTitle>
                 <DialogContent style={{ display: "flex", gap: "1rem" }}>
-                    <Box sx={{ width: 3/10 }}>
-                    <PrescHist prescList={prescList} />
+                    <Box sx={{ width: 3 / 10 }}>
+                        <PrescHist prescList={prescList} />
                     </Box>
                     {/*  <div >   className="data-form" */}
-                    <Box className="data-form" sx={{ width: 7/10 }}>
+                    <Box className="data-form" sx={{ width: 7 / 10 }}>
                         <Grid container spacing={2}>
                             <Grid item xs={3}>
                                 <TextField
@@ -199,12 +209,14 @@ const PrescDialog = props => {
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         Deseja imprimir a receita?
+                        <PrescToPrint ref={textRef} prescText={prescText} />
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Box m={1}>
                         <Button onClick={notPrint} color="primary" size='small' variant="contained" autoFocus>Cancelar</Button>
                     </Box>
+                    {console.log(prescText)}
                     <ReactToPrint
                         trigger={() =>
                             <Box m={1}>
@@ -213,9 +225,10 @@ const PrescDialog = props => {
                                 </Button>
                             </Box>
                         }
-                        content={() => prescText}
+                        content={() => textRef.current}
                         onAfterPrint={() => { printDialogSet(false) }}
                         documentTitle={"Presc" + props.patientName + new Date()}
+                        pageStyle="@page { size: 2.5in 4in }"
                     />
                 </DialogActions>
             </Dialog>
