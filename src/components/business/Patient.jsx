@@ -51,7 +51,7 @@ const Patient = (props) => {
   const [cityId, cityIdSet] = useState("")
   // const [cityName, cityNameSet] = useState("")
   const [covenantId, covenantIdSet] = useState("")
-  const [covenantName, covenantNameSet] = useState("")
+  // const [covenantName, covenantNameSet] = useState("")
   const [covPlan, covPlanSet] = useState("")
   const [covRegistration, covRegistrationSet] = useState("")
   const [covValid, covValidSet] = useState("")
@@ -139,7 +139,7 @@ const Patient = (props) => {
         cityIdSet(items.record[0].city_id || "");
         // cityNameSet(items.record[0].city_name[0] || "");
         covenantIdSet(items.record[0].covenant_id || "");
-        covenantNameSet(items.record[0].covenant_name[0] || "");
+        // covenantNameSet(items.record[0].covenant_name[0] || "");
         covPlanSet(items.record[0].covPlan || "");
         covRegistrationSet(items.record[0].covRegistration || "");
         covValidSet((items.record[0].covValid || "").substr(0, 10));
@@ -330,12 +330,12 @@ const Patient = (props) => {
         <div className='tool-buttons'>
           <Box m={1}>
             <Button color="primary" variant="contained" size="small" startIcon={<HistoryEduIcon/>}
-              onClick={(_) => openTextDialog(true)} disabled={false}>Histórico
+              onClick={(_) => openTextDialog(true)} disabled={insertMode}>Histórico
             </Button>
           </Box>
           <Box m={1}>
             <Button color="secondary" variant="contained" size="small" startIcon={<NotesIcon />}
-              onClick={(_) => openPresc()} id="prescButton">Receitas
+              onClick={(_) => openPresc()} id="prescButton" disabled={insertMode}>Receitas
             </Button>
           </Box>
           <Box m={1}>

@@ -9,7 +9,6 @@ import { getList, putRec } from "../../services/apiconnect";
 import ReactToPrint from "react-to-print"
 import { useStyles } from "../../services/stylemui";
 import PrescHist from './PrescHist';
-import parse from 'html-react-parser';
 import PrescToPrint from './PrescToPrint';
 
 var header = null;
@@ -24,7 +23,6 @@ const PrescDialog = props => {
     const [printDialog, printDialogSet] = useState(false);
 
     let patientId = props.patientId;
-    console.log("presc id", patientId);
 
     const [prescText, prescTextSet] = useState('');
 
@@ -39,10 +37,10 @@ const PrescDialog = props => {
         getList('texttemplate/')
             .then(items => {
                 for (const subItem of items.record) {
-                    if (subItem.name == "HEADER") {
+                    if (subItem.name === "HEADER") {
                         header = subItem.text
                     }
-                    if (subItem.name == "FOOTER") {
+                    if (subItem.name === "FOOTER") {
                         footer = subItem.text
                     }
                 }
@@ -57,7 +55,7 @@ const PrescDialog = props => {
             })
 
     }, [patientId]);
-    console.log("out", prescList)
+
 
     const addMed = () => {
         prescTextSet(prescText + medicineName + " " + medicineDose + " <br>")
@@ -98,13 +96,6 @@ const PrescDialog = props => {
         printDialogSet(false)
     }
 
-    const printPresc = (prescText) => {
-        return (
-            <div>
-                {parse(prescText)}
-            </div>
-        )
-    }
 
     const handleMedicineChange = (e) => {
         const currentItemTemp = medicineList.findIndex((item) => { return item._id === e })
@@ -123,7 +114,7 @@ const PrescDialog = props => {
                 </DialogTitle>
                 <DialogContent style={{ display: "flex", gap: "1rem" }}>
                     <Box sx={{ width: 3 / 10 }}>
-                        <PrescHist prescList={prescList} />
+                        <PrescHist prescList={prescList} prescListSet={prescListSet} prescTextSet={prescTextSet}/>
                     </Box>
                     {/*  <div >   className="data-form" */}
                     <Box className="data-form" sx={{ width: 7 / 10 }}>
@@ -216,7 +207,6 @@ const PrescDialog = props => {
                     <Box m={1}>
                         <Button onClick={notPrint} color="primary" size='small' variant="contained" autoFocus>Cancelar</Button>
                     </Box>
-                    {console.log(prescText)}
                     <ReactToPrint
                         trigger={() =>
                             <Box m={1}>

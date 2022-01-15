@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { BrowserRouter as Router } from 'react-router-dom'
 
@@ -11,12 +11,6 @@ import { Context } from './context/AuthContext.jsx'
 import './services/customtheme'
 
 const App = (props) => {
-
-  const [collapseMenu, setCollapseMenu] = useState(false)
-
-  const toggleMenu = () => {
-    setCollapseMenu(!collapseMenu)
-  }
 
   const { authenticated, username } = useContext(Context);
 

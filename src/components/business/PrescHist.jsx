@@ -1,71 +1,78 @@
 import React, { useEffect } from 'react';
 import {
-    Box, Tab, Tabs, Dialog, DialogContent
+    Box, Dialog, Avatar, DialogContent, List, ListItem, ListItemButton, ListItemAvatar, ListItemText, IconButton
 } from "@mui/material";
-import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { useState } from 'react';
-import TabPanel, { posTab } from '../commons/TabPanel';
 import parse from 'html-react-parser';
 import { prettyDate } from '../../services/dateutils'
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SendIcon from '@mui/icons-material/Send';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 const PrescHist = props => {
-    const [tabValue, tabValueSet] = useState(false);
     const [dialog, dialogSet] = useState(false)
     const [dialogText, dialogTextSet] = useState("")
+    const [update, updateSet] = useState(false)
     const prescList = props.prescList
+    const prescListSet = props.prescListSet
+    const prescTextSet = props.prescTextSet
 
-    const deletePresc = () => {
-        
+    useEffect(() => {
+        updateSet(false)
+
+    }, [update]);
+
+    const deletePresc = (item) => {
+        var array = prescList;
+        array.splice(array.indexOf(item), 1);
+        prescListSet(array);
+        updateSet(true)
+    }
+
+    const openText = (content) => {
+        prescTextSet(content);
+        updateSet(true)
     }
 
     return (
         <>
-            <Tabs
-                value={tabValue}
-                onChange={(event, newValue) => { tabValueSet(newValue) }}
-                orientation="vertical"
-                variant="scrollable"
-                scrollButtons={false}
-                sx={{ borderRight: 1, borderColor: 'divider', height: 1 }}
-            >
-                {/* <List dense={dense}> */}
-                    {prescList.map((item, index) => {
-                        console.log("date ", item.date, "index:", index);
-                        return (
-                            <Tab label={prettyDate(item.date)} onClick={() => {
+            <List style={{ maxHeight: '100%', overflow: 'auto' }}>
+                {prescList.map((item, index) => {
+                    return (
+                        <ListItem
+                            secondaryAction={
+                                <Box>
+                                    <IconButton edge="end" aria-label="delete" onClick={() => deletePresc(item)}>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                    <IconButton edge="end" aria-label="Open">
+                                        <SendIcon />
+                                    </IconButton>
+                                    <IconButton edge="end" aria-label="Open" onClick={() => openText(item.prescContent)}>
+                                        <OpenInNewIcon />
+                                    </IconButton>
+                                </Box>
+                            }
+                        >
+                            <ListItemButton onClick={() => {
                                 dialogSet(true)
                                 dialogTextSet(item.prescContent)
-                            }} />
-                        )
+                            }}>
+                                <ListItemAvatar>
+                                    <Avatar>
+                                        <ReceiptLongIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={prettyDate(item.date)}
+                                />
+                            </ListItemButton>
+                        </ListItem>
 
-                        // return (
-                        //     <ListItem
-                        //         secondaryAction={
-                        //             <IconButton edge="end" aria-label="delete" onClick={deletePresc(item.id)}>
-                        //                 <DeleteIcon />
-                        //             </IconButton>
-                        //         }
-                        //     >
-                        //         <ListItemAvatar>
-                        //             <Avatar>
-                        //                 <FolderIcon />
-                        //             </Avatar>
-                        //         </ListItemAvatar>
-                        //         <ListItemText
-                        //             primary="Single-line item"
-                        //             secondary={secondary ? 'Secondary text' : null}
-                        //         />
-                        //     </ListItem>
-                        // )
-                    })}
-                {/* </List> */}
-            </Tabs>
-            {/* {prescList.map((item, index) => {
-                return (
-                    <TabPanel value={tabValue} index={index}>{parse(item.prescContent)}</TabPanel>
-
-                )
-            })} */}
+                    )
+                })}
+            </List>
             <Dialog open={dialog} onClose={() => { dialogSet(false) }} >
                 <DialogContent >
                     <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper', minWidth: 296, minHeight: 420 }}>
