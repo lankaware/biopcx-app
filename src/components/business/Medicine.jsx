@@ -18,7 +18,7 @@ const objectId = "medicineid/";
 
 
 const Medicine = (props) => {
-  let { id } = useParams();
+  let id = props.id;
 
   const [_id, _idSet] = useState(id);
   const [name, nameSet] = useState("");
@@ -44,6 +44,7 @@ const Medicine = (props) => {
   const classes = useStyles();
 
   useEffect(() => {
+    console.log(id)
     if (id !== "0") {
       getList(objectId + id).then((items) => {
         console.log("Test", items);
@@ -135,78 +136,17 @@ const Medicine = (props) => {
 
   return (
     <div>
-      <div className="tool-bar">
+      <div className="tool-bar medicineAdd">
         <div>
           <Typography variant="h5" className="tool-title" noWrap={true}>
             Registro de Medicamento
           </Typography>
         </div>
-        <div className='tool-buttons'>
-          <Box m={1}>
-            <Button
-              color="primary"
-              variant="contained"
-              size="small"
-              startIcon={<EditIcon />}
-              onClick={(_) => setEditMode(true)}
-              disabled={editMode}
-            >
-              EDITAR
-            </Button>
-          </Box>
-          <Box m={1}>
-            <Button
-              color="primary"
-              variant="contained"
-              size="small"
-              startIcon={<SaveAltIcon />}
-              onClick={(_) => saveRec()}
-              disabled={!editMode}
-            >
-              SALVAR
-            </Button>
-          </Box>
-          <Box m={1}>
-            <Button
-              color="primary"
-              variant="contained"
-              size="small"
-              startIcon={<CancelIcon />}
-              onClick={(_) => refreshRec()}
-              disabled={!editMode}
-            >
-              CANCELAR
-            </Button>
-          </Box>
-          <Box m={1}>
-            <Button
-              color="primary"
-              variant="contained"
-              size="small"
-              startIcon={<DeleteForeverIcon />}
-              onClick={(_) => delRec()}
-              disabled={editMode}
-            >
-              APAGAR
-            </Button>
-          </Box>
-          <Box m={1}>
-            <Button
-              color="primary"
-              variant="contained"
-              size="small"
-              startIcon={<KeyboardReturnIcon />}
-              href="/medicineList"
-              id="backButton"
-              disabled={editMode}
-            >
-              VOLTAR
-            </Button>
-          </Box>
+        <div className='tool-buttons medicineAdd'>
         </div>
       </div>
-      <div className="data-form">
-        <Grid container spacing={2}>
+      <div className="data-form medicineAdd">
+        <Grid container spacing={2} sx={{ width: 1}}>
           <Grid item xs={6}>
             <TextField
               value={name}
@@ -301,6 +241,67 @@ const Medicine = (props) => {
               variant="outlined"
               size="small"
             />
+                      <Box m={1}>
+            <Button
+              color="primary"
+              variant="contained"
+              size="small"
+              startIcon={<EditIcon />}
+              onClick={(_) => setEditMode(true)}
+              disabled={editMode}
+            >
+              EDITAR
+            </Button>
+          </Box>
+          <Box m={1}>
+            <Button
+              color="primary"
+              variant="contained"
+              size="small"
+              startIcon={<SaveAltIcon />}
+              onClick={(_) => saveRec()}
+              disabled={!editMode}
+            >
+              SALVAR
+            </Button>
+          </Box>
+          <Box m={1}>
+            <Button
+              color="primary"
+              variant="contained"
+              size="small"
+              startIcon={<CancelIcon />}
+              onClick={(_) => refreshRec()}
+              disabled={!editMode}
+            >
+              CANCELAR
+            </Button>
+          </Box>
+          <Box m={1}>
+            <Button
+              color="primary"
+              variant="contained"
+              size="small"
+              startIcon={<DeleteForeverIcon />}
+              onClick={(_) => delRec()}
+              disabled={editMode}
+            >
+              APAGAR
+            </Button>
+          </Box>
+          <Box m={1}>
+            <Button
+              color="primary"
+              variant="contained"
+              size="small"
+              startIcon={<KeyboardReturnIcon />}
+              href="/medicineList"
+              id="backButton"
+              disabled={editMode}
+            >
+              VOLTAR
+            </Button>
+          </Box>
           </Grid>
 
         </Grid>

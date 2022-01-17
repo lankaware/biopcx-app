@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import {
-    Grid, Box, DialogContentText, Button, Dialog, DialogContent, DialogTitle, TextField, DialogActions,
-    MenuItem,
+    Grid, Box, DialogContentText, Button, Dialog, DialogContent, DialogTitle, TextField, DialogActions, Checkbox, MenuItem, FormControlLabel,
 } from "@mui/material";
 import TextEditor from "../layout/TextEditor";
 import { useState } from 'react';
@@ -11,7 +10,9 @@ import { useStyles } from "../../services/stylemui";
 import PrescHist from './PrescHist';
 import PrescToPrint from './PrescToPrint';
 
+var headerText = null;
 var header = null;
+var footerText = null;
 var footer = null;
 
 const PrescDialog = props => {
@@ -21,6 +22,9 @@ const PrescDialog = props => {
     const [medicineId, medicineIdSet] = useState('');
     const [prescList, prescListSet] = useState([]);
     const [printDialog, printDialogSet] = useState(false);
+    const [headerAdd, headerAddSet] = useState(false);
+    const [footerAdd, footerAddSet] = useState(false);
+
 
     let patientId = props.patientId;
 
@@ -38,10 +42,10 @@ const PrescDialog = props => {
             .then(items => {
                 for (const subItem of items.record) {
                     if (subItem.name === "HEADER") {
-                        header = subItem.text
+                        headerText = subItem.text
                     }
                     if (subItem.name === "FOOTER") {
-                        footer = subItem.text
+                        footerText = subItem.text
                     }
                 }
             })
@@ -50,10 +54,10 @@ const PrescDialog = props => {
 
     useEffect(() => {
         if (patientId) {
-        getList('patientid/' + patientId)
-            .then((items) => {
-                prescListSet(items.record[0].prescription);
-            })
+            getList('patientid/' + patientId)
+                .then((items) => {
+                    prescListSet(items.record[0].prescription);
+                })
         }
     }, [patientId]);
 
@@ -64,14 +68,24 @@ const PrescDialog = props => {
     }
 
     const headerFunc = () => {
-        prescTextSet(header + prescText)
+        if (headerAdd === true) {
+            headerAddSet(false)
+        } else {
+            headerAddSet(true)
+        }
     }
 
     const footerFunc = () => {
-        prescTextSet(prescText + footer);
+        if (footerAdd === true) {
+            footerAddSet(false)
+        } else {
+            footerAddSet(true)
+        }
     }
 
     const savePresc = () => {
+        header = headerAdd === true ?  headerText :  "&nbsp;"
+        footer = footerAdd === true ? footerText : "&nbsp;"
         printDialogSet(true)
         let presc = [...prescList, {
             "date": new Date(),
@@ -114,7 +128,7 @@ const PrescDialog = props => {
                 </DialogTitle>
                 <DialogContent style={{ display: "flex", gap: "1rem" }}>
                     <Box sx={{ width: 3 / 10 }}>
-                        <PrescHist prescList={prescList} prescListSet={prescListSet} prescTextSet={prescTextSet}/>
+                        <PrescHist prescList={prescList} prescListSet={prescListSet} prescTextSet={prescTextSet} />
                     </Box>
                     {/*  <div >   className="data-form" */}
                     <Box className="data-form" sx={{ width: 7 / 10 }}>
@@ -162,17 +176,17 @@ const PrescDialog = props => {
                             <Grid item xs={2}>
                                 <Button variant="outlined" onClick={addMed}>Adicionar</Button>
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={1}>
                             </Grid>
 
                             <Grid item xs={3}>
                                 <Box display="flex"
                                     justifyContent="center">
                                     <Box mx={1}>
-                                        <Button variant="contained" color="secondary" onClick={headerFunc}>Cabeçalho</Button>
+                                        <FormControlLabel checked={headerAdd} control={<Checkbox onClick={headerFunc} />} label="Cabeçalho" />
                                     </Box>
                                     <Box mx={1}>
-                                        <Button variant="contained" color="success" onClick={footerFunc}>Rodapé</Button>
+                                        <FormControlLabel checked={footerAdd} control={<Checkbox onClick={footerFunc} />} label="Rodapé" />
                                     </Box>
                                 </Box>
                             </Grid>
@@ -200,7 +214,7 @@ const PrescDialog = props => {
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         Deseja imprimir a receita?
-                        <PrescToPrint ref={textRef} prescText={prescText} />
+                        <PrescToPrint ref={textRef} prescText={prescText} header={header} footer={footer}/>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

@@ -145,7 +145,8 @@
     padding: 10px 0;
 }
 
-.webcam, img {
+.webcam,
+img {
     width: 16vw;
     height: 20vw;
 }
@@ -160,10 +161,17 @@
     display: flex;
     width: 50vw;
     justify-content: flex-end;
-  }
+}
 
 .tool-buttons a:hover {
     /* verified */
     color: #ffffff;
 }
 
+div .medicine {
+    width: 60vw
+}
+
+div .medicineAdd {
+    max-width: 30vw
+}
