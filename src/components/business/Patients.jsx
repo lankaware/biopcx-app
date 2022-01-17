@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import DataTable from 'react-data-table-component'
 
@@ -64,7 +64,6 @@ const Patients = props => {
         if (lastnameFilter) recObj = { 'lastname': { "$regex": lastnameFilter } }
         if (covenantFilter) recObj = { ...recObj, 'covenant.name  ': { "$regex": covenantFilter } }
 
-
         recObj = JSON.stringify(recObj)
         putRec(objectRef, recObj)
             .then(items => {
@@ -94,13 +93,13 @@ const Patients = props => {
                     <Box m={1}>
                         <Button color="primary" size='small' variant='contained' startIcon={<OpenInNewIcon />}
                             href="/patient/0"
-                            >INCLUIR
+                        >INCLUIR
                         </Button>
                     </Box>
                     <Box m={1}>
                         <Button color='primary' size='small' variant='contained' startIcon={<KeyboardReturnIcon />}
                             href="/" id='backButton'
-                            >VOLTAR
+                        >VOLTAR
                         </Button>
                     </Box>
                 </div>

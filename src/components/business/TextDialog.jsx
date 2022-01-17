@@ -23,33 +23,32 @@ const TextDialog = props => {
   const [freeTextTwo, freeTextTwoSet] = useState("")
   const [updated, updatedSet] = useState(false)
 
-
-
   const patientId = props.patientId
 
   useEffect(() => {
-    getList('patientid/' + patientId)
-      .then((items) => {
-        clinicHistSet(items.record[0].clinicHist || "");
-        familyHistSet(items.record[0].familyHist || "");
-        patientHistSet(items.record[0].patientHist || "");
-        catheterSet(items.record[0].catheter || "");
-        surgerySet(items.record[0].surgery || "");
-        freeTextOneTitleSet(items.record[0].freeTextOneTitle || "");
-        freeTextOneSet(items.record[0].freeTextOne || "");
-        freeTextTwoTitleSet(items.record[0].freeTextTwo || "");
-        freeTextTwoSet(items.record[0].freeTextTwo || "");
-
-
-      })
-
+    if (patientId) {
+      getList('patientid/' + patientId)
+        .then((items) => {
+          clinicHistSet(items.record[0].clinicHist || "");
+          familyHistSet(items.record[0].familyHist || "");
+          patientHistSet(items.record[0].patientHist || "");
+          catheterSet(items.record[0].catheter || "");
+          surgerySet(items.record[0].surgery || "");
+          freeTextOneTitleSet(items.record[0].freeTextOneTitle || "");
+          freeTextOneSet(items.record[0].freeTextOne || "");
+          freeTextTwoTitleSet(items.record[0].freeTextTwo || "");
+          freeTextTwoSet(items.record[0].freeTextTwo || "");
+        })
       textTitle = 'História Clínica'
       textContent = clinicHist
       textContentSet = clinicHistSet
+    }
   }, [patientId, props.textDialog]);
 
   useEffect(() => {
-    textContentSet(textContent);
+    if (textContent) {
+      textContentSet(textContent);
+    }
   }, [updated]);
 
   const saveRec = () => {
@@ -137,22 +136,22 @@ const TextDialog = props => {
         <DialogTitle id="alert-dialog-title">
           <Box className="data-form" display="flex"
             justifyContent="space-between">
-            <Button color="primary" variant="contained" size="medium" startIcon={''} 
+            <Button color="primary" variant="contained" size="medium" startIcon={''}
               onClick={(_) => changeContentToClinicHist()} disabled={false}>Hist.Clínica
             </Button>
-            <Button color="secondary" variant="contained" size="medium" startIcon={''} 
+            <Button color="secondary" variant="contained" size="medium" startIcon={''}
               onClick={(_) => changeContentToPatientHist()} disabled={false}>Ant.Pessoais
             </Button>
-            <Button color="success" variant="contained" size="medium" startIcon={''} 
+            <Button color="success" variant="contained" size="medium" startIcon={''}
               onClick={(_) => changeContentToFamilyHist()} disabled={false}>Ant.Familía
             </Button>
-            <Button color="error" variant="contained" size="medium" startIcon={''} 
+            <Button color="error" variant="contained" size="medium" startIcon={''}
               onClick={(_) => changeContentToCatheter()} disabled={false}>Cateterismo
             </Button>
-            <Button color="info" variant="contained" size="medium" startIcon={''} 
+            <Button color="info" variant="contained" size="medium" startIcon={''}
               onClick={(_) => changeContentToSurgery()} disabled={false}>Cirurgias
             </Button>
-            <Button color="warning" variant="contained" size="medium" startIcon={''} 
+            <Button color="warning" variant="contained" size="medium" startIcon={''}
               onClick={(_) => changeContentToFreeTextOne()} disabled={false}>Txt Livre 1
             </Button>
             <Button color="primary" variant="contained" size="medium" startIcon={''} sx={{ backgroundColor: '#000957' }}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
 import {
   Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
@@ -24,13 +24,18 @@ import { imcCalc } from "../../services/genfunctions";
 import TextDialog from "./TextDialog.jsx";
 import PrescDialog from "./Prescription";
 
+import { Context } from '../../context/PatientContext'
+
 // import { timeBr } from '../../services/dateutils';
 
 const objectRef = "patient/";
 const objectId = "patientid/";
 
 const Patient = (props) => {
-  let { id } = useParams()
+
+  const { id } = useParams()
+
+  const { cityList, covenantList, stateList, relativeList, unitList } = useContext(Context);
 
   const webcamRef = useRef("")
 
@@ -73,7 +78,7 @@ const Patient = (props) => {
   const [indicatedBy, indicatedBySet] = useState("")
   const [responsible, responsibleSet] = useState("")
   const [responsiblePhone, responsiblePhoneSet] = useState("")
-  const [registerDate, registerDateSet] = useState("")
+  const [createdAt, createdAtSet] = useState("")
   const [relativeId, relativeIdSet] = useState("")
   // const [relativeName, relativeNameSet] = useState("")
   const [relativeType, relativeTypeSet] = useState("")
@@ -86,11 +91,12 @@ const Patient = (props) => {
 
   const [prescDialog, prescDialogSet] = useState(false);
 
-  const [cityList, cityListSet] = useState([])
-  const [covenantList, covenantListSet] = useState([])
-  const [stateList, stateListSet] = useState([])
-  const [relativeList, relativeListSet] = useState([])
-  const [unitList, unitListSet] = useState([])
+  // const [cityList, cityListSet] = useState([])
+  // const [covenantList, covenantListSet] = useState([])
+  // const [stateList, stateListSet] = useState([])
+  // const [relativeList, relativeListSet] = useState([])
+  // const [unitList, unitListSet] = useState([])
+
   // const [availabilityList, availabilityListSet] = useState([])
 
   const [insertMode, setInsertMode] = useState(id === "0");
@@ -115,65 +121,60 @@ const Patient = (props) => {
 
   useEffect(() => {
     if (id !== "0") {
-      getList("unit/").then((items) => { unitListSet(items.record) })
-      getList("city/").then((items) => { cityListSet(items.record) })
-      getList("covenant/").then((items) => { covenantListSet(items.record) })
-      getList("state/").then((items) => { stateListSet(items.record) })
+      getList(objectId + id)
+        .then((items) => {
+          _idSet(items.record[0]._id);
+          photoSet(items.record[0].photo || "");
+          nameSet(items.record[0].name || "");
+          lastnameSet(items.record[0].lastname || "");
+          internalRegisterSet(items.record[0].internalRegister || "");
+          unitIdSet(items.record[0].unit_id || "");
+          // unitNameSet(items.record[0].unit_name[0] || "");
+          phoneSet(items.record[0].phone || "");
+          emailSet(items.record[0].email || "");
+          zipSet(items.record[0].zip || "");
+          addressSet(items.record[0].address || "");
+          addressNumberSet(items.record[0].addressNumber || "");
+          addressComplementSet(items.record[0].addressComplement || "");
+          neighborhoodSet(items.record[0].neighborhood || "");
+          cityIdSet(items.record[0].city_id || "");
+          // cityNameSet(items.record[0].city_name[0] || "");
+          covenantIdSet(items.record[0].covenant_id || "");
+          // covenantNameSet(items.record[0].covenant_name[0] || "");
+          covPlanSet(items.record[0].covPlan || "");
+          covRegistrationSet(items.record[0].covRegistration || "");
+          covValidSet((items.record[0].covValid || "").substr(0, 10));
+          birthDateSet((items.record[0].birthDate || "").substr(0, 10));
+          birthCityIdSet(items.record[0].birthCity_id || "");
+          // birthCityNameSet(items.record[0].birthCity_name[0] || "");
+          cpfSet(items.record[0].cpf || "");
+          rgSet(items.record[0].rg || "");
+          rgDateSet((items.record[0].rgDate || "").substr(0, 10));
+          rgAgencySet(items.record[0].rgAgency || "");
+          rgStateIdSet(items.record[0].rgState_id || "");
+          // rgStateNameSet(items.record[0].rgState_name[0] || "");
+          mothersNameSet(items.record[0].mothersName || "");
+          fathersNameSet(items.record[0].fathersName || "");
+          genderSet(items.record[0].gender || "");
+          maritalStatusSet(items.record[0].maritalStatus || "");
+          blodyTypeSet(items.record[0].blodyType || "");
+          cnsSet(items.record[0].cns || "");
+          indicatedBySet(items.record[0].indicatedBy || "");
+          responsibleSet(items.record[0].responsible || "");
+          responsiblePhoneSet(items.record[0].responsiblePhone || "");
+          createdAtSet((items.record[0].createdAt || "").substr(0, 10));
+          relativeIdSet(items.record[0].relative_id || "");
+          // relativeNameSet(items.record[0].relative_name[0] || "");
+          relativeTypeSet(items.record[0].relativeType || "");
+          heightSet(items.record[0].height || "");
+          weightSet(items.record[0].weight || "");
+          imcSet(items.record[0].imc || "");
+          firstAppointSet((items.record[0].firstAppoint || "").substr(0, 10));
+          lastAppointSet((items.record[0].lastAppoint || "").substr(0, 10));
 
-      getList("patient/").then((items) => { relativeListSet(items.record) })
-      getList(objectId + id).then((items) => {
-        _idSet(items.record[0]._id);
-        photoSet(items.record[0].photo || "");
-        nameSet(items.record[0].name || "");
-        lastnameSet(items.record[0].lastname || "");
-        internalRegisterSet(items.record[0].internalRegister || "");
-        unitIdSet(items.record[0].unit_id || "");
-        // unitNameSet(items.record[0].unit_name[0] || "");
-        phoneSet(items.record[0].phone || "");
-        emailSet(items.record[0].email || "");
-        zipSet(items.record[0].zip || "");
-        addressSet(items.record[0].address || "");
-        addressNumberSet(items.record[0].addressNumber || "");
-        addressComplementSet(items.record[0].addressComplement || "");
-        neighborhoodSet(items.record[0].neighborhood || "");
-        cityIdSet(items.record[0].city_id || "");
-        // cityNameSet(items.record[0].city_name[0] || "");
-        covenantIdSet(items.record[0].covenant_id || "");
-        // covenantNameSet(items.record[0].covenant_name[0] || "");
-        covPlanSet(items.record[0].covPlan || "");
-        covRegistrationSet(items.record[0].covRegistration || "");
-        covValidSet((items.record[0].covValid || "").substr(0, 10));
-        birthDateSet((items.record[0].birthDate || "").substr(0, 10));
-        birthCityIdSet(items.record[0].birthCity_id || "");
-        // birthCityNameSet(items.record[0].birthCity_name[0] || "");
-        cpfSet(items.record[0].cpf || "");
-        rgSet(items.record[0].rg || "");
-        rgDateSet((items.record[0].rgDate || "").substr(0, 10));
-        rgAgencySet(items.record[0].rgAgency || "");
-        rgStateIdSet(items.record[0].rgState_id || "");
-        // rgStateNameSet(items.record[0].rgState_name[0] || "");
-        mothersNameSet(items.record[0].mothersName || "");
-        fathersNameSet(items.record[0].fathersName || "");
-        genderSet(items.record[0].gender || "");
-        maritalStatusSet(items.record[0].maritalStatus || "");
-        blodyTypeSet(items.record[0].blodyType || "");
-        cnsSet(items.record[0].cns || "");
-        indicatedBySet(items.record[0].indicatedBy || "");
-        responsibleSet(items.record[0].responsible || "");
-        responsiblePhoneSet(items.record[0].responsiblePhone || "");
-        registerDateSet((items.record[0].registerDate || "").substr(0, 10));
-        relativeIdSet(items.record[0].relative_id || "");
-        // relativeNameSet(items.record[0].relative_name[0] || "");
-        relativeTypeSet(items.record[0].relativeType || "");
-        heightSet(items.record[0].height || "");
-        weightSet(items.record[0].weight || "");
-        imcSet(items.record[0].imc || "");
-        firstAppointSet((items.record[0].firstAppoint || "").substr(0, 10));
-        lastAppointSet((items.record[0].lastAppoint || "").substr(0, 10));
+          prescListSet(items.record[0].prescription || []);
 
-        prescListSet(items.record[0].prescription || []);
-
-      });
+        });
     }
     setRecUpdated(true)
   }, [id, recUpdated]);
@@ -249,7 +250,7 @@ const Patient = (props) => {
       indicatedBy,
       responsible,
       responsiblePhone,
-      registerDate,
+      // createdAt,
       relative_id: relativeId || null,
       relativeType,
       height,
@@ -329,7 +330,7 @@ const Patient = (props) => {
         </div>
         <div className='tool-buttons'>
           <Box m={1}>
-            <Button color="primary" variant="contained" size="small" startIcon={<HistoryEduIcon/>}
+            <Button color="primary" variant="contained" size="small" startIcon={<HistoryEduIcon />}
               onClick={(_) => openTextDialog(true)} disabled={insertMode}>Histórico
             </Button>
           </Box>
@@ -393,7 +394,7 @@ const Patient = (props) => {
                   value={internalRegister}
                   onChange={(event) => { internalRegisterSet(event.target.value.toUpperCase()) }}
                   id="internalRegister"
-                  label="Registro Clínica"
+                  label="Registro Clínica *"
                   fullWidth={true}
                   disabled={!editMode}
                   InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
@@ -406,7 +407,7 @@ const Patient = (props) => {
                   value={name}
                   onChange={(event) => { nameSet(event.target.value.toUpperCase()) }}
                   id="name"
-                  label="Nome"
+                  label="Nome *"
                   fullWidth={true}
                   disabled={!editMode}
                   InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
@@ -419,7 +420,7 @@ const Patient = (props) => {
                   value={lastname}
                   onChange={(event) => { lastnameSet(event.target.value.toUpperCase()) }}
                   id="lastname"
-                  label="Sobrenome"
+                  label="Sobrenome *"
                   fullWidth={true}
                   disabled={!editMode}
                   InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
@@ -432,7 +433,7 @@ const Patient = (props) => {
                   value={gender}
                   onChange={(event) => { genderSet(event.target.value.toUpperCase()) }}
                   id="gender"
-                  label="Sexo"
+                  label="Sexo *"
                   fullWidth={true}
                   disabled={!editMode}
                   InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
@@ -446,7 +447,7 @@ const Patient = (props) => {
                   value={birthDate}
                   onChange={(event) => { birthDateSet(event.target.value) }}
                   id="birthDate"
-                  label="Data de Nascimento"
+                  label="Data de Nascimento *"
                   fullWidth={true}
                   disabled={!editMode}
                   InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
@@ -474,7 +475,7 @@ const Patient = (props) => {
                   value={cpf}
                   onChange={(event) => { cpfSet(event.target.value) }}
                   id="cpf"
-                  label="CPF"
+                  label="CPF *"
                   fullWidth={true}
                   disabled={!editMode}
                   InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
@@ -564,7 +565,7 @@ const Patient = (props) => {
               <Grid item xs={5}>
                 <TextField
                   id='unit'
-                  label='Unidade'
+                  label='Unidade *'
                   value={unitId}
                   onChange={(event) => { unitIdSet(event.target.value) }}
                   size='small'
@@ -632,12 +633,12 @@ const Patient = (props) => {
               <Grid item xs={2}></Grid>
               <Grid item xs={10}>
                 <TextField
-                  value={registerDate}
-                  onChange={(event) => { registerDateSet(event.target.value) }}
-                  id="registerDate"
+                  value={createdAt}
+                  onChange={(event) => { createdAtSet(event.target.value) }}
+                  id="createdAt"
                   label="Data de Cadastro"
                   fullWidth={true}
-                  disabled={!editMode}
+                  disabled={true}
                   InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                   variant="outlined"
                   size="small"

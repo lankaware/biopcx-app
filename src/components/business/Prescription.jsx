@@ -49,13 +49,13 @@ const PrescDialog = props => {
     }, []);
 
     useEffect(() => {
+        if (patientId) {
         getList('patientid/' + patientId)
             .then((items) => {
                 prescListSet(items.record[0].prescription);
             })
-
+        }
     }, [patientId]);
-
 
     const addMed = () => {
         prescTextSet(prescText + medicineName + " " + medicineDose + " <br>")

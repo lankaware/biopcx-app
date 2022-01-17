@@ -6,6 +6,7 @@ import { ThemeProvider } from '@mui/material'
 import { theme } from './services/customtheme'
 
 import { AuthProvider } from './context/AuthContext.jsx'
+import { ListsProvider } from './context/PatientContext.jsx'
 import App from './App.jsx'
 
 // import reportWebVitals from './reportWebVitals';
@@ -14,7 +15,9 @@ ReactDOM.render(
   <React.StrictMode>
     <AuthProvider>
       <ThemeProvider theme={theme}>
-        <App />
+        <ListsProvider>
+          <App />
+        </ListsProvider>
       </ThemeProvider>
     </AuthProvider>
   </React.StrictMode>,
