@@ -18,14 +18,19 @@ const objectRef = 'medicine/'
 const MedicineList = props => {
     const [id, idSet] = useState("0");
 
+    const [insertMode, setInsertMode] = useState(id === "0");
+    const [editMode, setEditMode] = useState(id === "0");
+
     const columns = [
         {
             name: 'Nome do medicamento',
             selector: row => row.name,
             sortable: true,
             width: '20vw',
-            cell: row => (<Link  component="button" variant="body2" onClick={() => {
-                idSet(row._id)}}>{row.name}</Link>)
+            cell: row => (<Link component="button" variant="body2" onClick={() => {
+                setInsertMode(false)
+                idSet(row._id)
+            }}>{row.name}</Link>)
         },
         {
             name: 'Composto',
@@ -155,7 +160,11 @@ const MedicineList = props => {
                 </div>
             </Box>
 
-                <Medicine id={id}/>
+            <Medicine id={id}
+                insertMode={insertMode}
+                setInsertMode={setInsertMode}
+                editMode={editMode}
+                setEditMode={setEditMode} />
         </>
     )
 

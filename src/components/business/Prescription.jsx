@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import {
     Grid, Box, DialogContentText, Button, Dialog, DialogContent, DialogTitle, TextField, DialogActions, Checkbox, MenuItem, FormControlLabel,
 } from "@mui/material";
-import TextEditor from "../layout/TextEditor";
+import PrescTextEditor from "../layout/PrescTextEditor";
 import { useState } from 'react';
 import { getList, putRec } from "../../services/apiconnect";
 import ReactToPrint from "react-to-print"
@@ -15,9 +15,11 @@ var header = null;
 var footerText = null;
 var footer = null;
 
+
 const PrescDialog = props => {
     const [medicineName, medicineNameSet] = useState('');
     const [medicineDose, medicineDoseSet] = useState('');
+    const [medicineWayOfUse, medicineWayOfUseSet] = useState('');
     const [medicineList, medicineListSet] = useState([]);
     const [medicineId, medicineIdSet] = useState('');
     const [prescList, prescListSet] = useState([]);
@@ -25,13 +27,16 @@ const PrescDialog = props => {
     const [headerAdd, headerAddSet] = useState(false);
     const [footerAdd, footerAddSet] = useState(false);
 
-
     let patientId = props.patientId;
 
+    const [intMedicine, intMedicineSet] = useState('');
+    const [extMedicine, extMedicineSet] = useState('');
     const [prescText, prescTextSet] = useState('');
 
-    const textRef = useRef()
+    const [update, updateSet] = useState(false)
 
+
+    const textRef = useRef()
 
     const classes = useStyles();
 
@@ -61,8 +66,27 @@ const PrescDialog = props => {
         }
     }, [patientId]);
 
+    useEffect(() => {
+        prescTextSet(extMedicine + intMedicine)
+    }, [extMedicine, intMedicine]);
+
     const addMed = () => {
-        prescTextSet(prescText + medicineName + " " + medicineDose + " <br>")
+
+        if (medicineWayOfUse === "Interno") {
+            if (intMedicine.search("Interno:") !== -1) {
+                intMedicineSet(intMedicine + medicineName + " " + medicineDose + " <br>")
+            } else {
+                intMedicineSet("Interno:" + " <br>" + intMedicine + medicineName + " " + medicineDose + " <br>")
+            }
+        }
+
+        if (medicineWayOfUse === "Externo") {
+            if (extMedicine.search("Externo:") !== -1) {
+                extMedicineSet(extMedicine + medicineName + " " + medicineDose + " <br>")
+            } else {
+                extMedicineSet("Externo:" + " <br>" + extMedicine + medicineName + " " + medicineDose + " <br>")
+            }
+        }
         medicineNameSet("");
         medicineDoseSet("");
     }
@@ -84,8 +108,11 @@ const PrescDialog = props => {
     }
 
     const savePresc = () => {
-        header = headerAdd === true ?  headerText :  "&nbsp;"
+        header = headerAdd === true ? headerText : "&nbsp;"
         footer = footerAdd === true ? footerText : "&nbsp;"
+        console.log(extMedicine)
+        console.log(intMedicine)
+        console.log("prescText", prescText)
         printDialogSet(true)
         let presc = [...prescList, {
             "date": new Date(),
@@ -110,15 +137,13 @@ const PrescDialog = props => {
         printDialogSet(false)
     }
 
-
     const handleMedicineChange = (e) => {
         const currentItemTemp = medicineList.findIndex((item) => { return item._id === e })
         medicineNameSet(medicineList[currentItemTemp].name)
+        medicineWayOfUseSet(medicineList[currentItemTemp].wayOfuse)
         medicineIdSet(e)
+
     }
-
-
-
 
     return (
         <>
@@ -128,7 +153,8 @@ const PrescDialog = props => {
                 </DialogTitle>
                 <DialogContent style={{ display: "flex", gap: "1rem" }}>
                     <Box sx={{ width: 3 / 10 }}>
-                        <PrescHist prescList={prescList} prescListSet={prescListSet} prescTextSet={prescTextSet} />
+                        <PrescHist prescList={prescList} prescListSet={prescListSet} intMedicineSet={intMedicineSet}
+                            extMedicineSet={extMedicineSet} />
                     </Box>
                     {/*  <div >   className="data-form" */}
                     <Box className="data-form" sx={{ width: 7 / 10 }}>
@@ -195,13 +221,14 @@ const PrescDialog = props => {
                             display="flex"
                             justifyContent="center"
                             m={1}>
-                            <TextEditor
-                                content={prescText}
-                                textSet={prescTextSet}
+                            <PrescTextEditor
+                                intMedicine={intMedicine}
+                                intMedicineSet={intMedicineSet}
+                                extMedicine={extMedicine}
+                                extMedicineSet={extMedicineSet}
                             />
                         </Box>
                     </Box>
-
                 </DialogContent>
                 <DialogActions>
                     <Button color="primary" size="small" sx={{ margin: "0px 2px" }} variant="contained" onClick={savePresc}>Salvar</Button>
@@ -214,7 +241,7 @@ const PrescDialog = props => {
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         Deseja imprimir a receita?
-                        <PrescToPrint ref={textRef} prescText={prescText} header={header} footer={footer}/>
+                        <PrescToPrint ref={textRef} prescText={prescText} header={header} footer={footer} />
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

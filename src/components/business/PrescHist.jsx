@@ -16,11 +16,11 @@ const PrescHist = props => {
     const [update, updateSet] = useState(false)
     const prescList = props.prescList
     const prescListSet = props.prescListSet
-    const prescTextSet = props.prescTextSet
+const extMedicineSet = props.extMedicineSet    
+const intMedicineSet = props.intMedicineSet
 
     useEffect(() => {
         updateSet(false)
-
     }, [update]);
 
     const deletePresc = (item) => {
@@ -31,7 +31,12 @@ const PrescHist = props => {
     }
 
     const openText = (content) => {
-        prescTextSet(content);
+        let contentS = null;
+        if (content.search("Externo:") !== -1) {
+            contentS = content.split("Externo:");
+            extMedicineSet("Externo:" + contentS[1]);
+            intMedicineSet(contentS[0]);
+        }
         updateSet(true)
     }
 

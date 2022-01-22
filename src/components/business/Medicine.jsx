@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
-  Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Box
+  Grid, TextField, Typography, Button, Dialog, DialogActions, MenuItem, DialogContent, DialogContentText, DialogTitle, Box
 } from "@mui/material";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -33,8 +33,10 @@ const Medicine = (props) => {
   const [dosageTemp, dosageSetTemp] = useState("");
   const [labTemp, labSetTemp] = useState("");
 
-  const [insertMode, setInsertMode] = useState(id === "0");
-  const [editMode, setEditMode] = useState(id === "0");
+  let insertMode = props.insertMode;
+  let setInsertMode = props.setInsertMode;
+  let editMode = props.editMode;
+  let setEditMode = props.setEditMode;
 
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [deleteInfoDialog, setDeleteInfoDialog] = useState(false);
@@ -102,11 +104,11 @@ const Medicine = (props) => {
     if (insertMode) {
       document.getElementById("backButton").click();
     }
-    nameSet(nameTemp);
-    chemNameSet(chemNameTemp);
-    wayOfuseSet(wayOfuseTemp);
-    dosageSet(dosageTemp);
-    labSet(labTemp);
+    nameSet("");
+    chemNameSet("");
+    wayOfuseSet("");
+    dosageSet("");
+    labSet("");
 
     setEditMode(false);
   };
@@ -146,12 +148,12 @@ const Medicine = (props) => {
         </div>
       </div>
       <div className="data-form medicineAdd">
-        <Grid container spacing={2} sx={{ width: 1}}>
+        <Grid container spacing={2} sx={{ width: 1 }}>
           <Grid item xs={6}>
             <TextField
               value={name}
               onChange={(event) => {
-                nameSet(event.target.value.toUpperCase());
+                nameSet(event.target.value);
               }}
               id="name"
               label="Nome do medicamento"
@@ -202,7 +204,10 @@ const Medicine = (props) => {
               }}
               variant="outlined"
               size="small"
-            />
+              select>
+              <MenuItem key='1' value={"Interno"}>Interno</MenuItem>
+              <MenuItem key='2' value={"Externo"}>Externo</MenuItem>
+            </TextField>
           </Grid>
           <Grid item xs={4}>
             <TextField
@@ -241,19 +246,20 @@ const Medicine = (props) => {
               variant="outlined"
               size="small"
             />
-                      <Box m={1}>
-            <Button
-              color="primary"
-              variant="contained"
-              size="small"
-              startIcon={<EditIcon />}
-              onClick={(_) => setEditMode(true)}
-              disabled={editMode}
-            >
-              EDITAR
-            </Button>
-          </Box>
-          <Box m={1}>
+          </Grid>
+          {/* <Box m={1}>
+              <Button
+                color="primary"
+                variant="contained"
+                size="small"
+                startIcon={<EditIcon />}
+                onClick={(_) => setEditMode(true)}
+                disabled={editMode}
+              >
+                EDITAR
+              </Button>
+            </Box> */}
+          <Grid item xs={4}>
             <Button
               color="primary"
               variant="contained"
@@ -264,20 +270,22 @@ const Medicine = (props) => {
             >
               SALVAR
             </Button>
-          </Box>
-          <Box m={1}>
+          </Grid>
+          <Grid item xs={4}>
             <Button
               color="primary"
               variant="contained"
               size="small"
               startIcon={<CancelIcon />}
-              onClick={(_) => refreshRec()}
+              onClick={(_) => {
+                refreshRec()
+              }}
               disabled={!editMode}
             >
               CANCELAR
             </Button>
-          </Box>
-          <Box m={1}>
+          </Grid>
+          <Grid item xs={4}>
             <Button
               color="primary"
               variant="contained"
@@ -288,8 +296,8 @@ const Medicine = (props) => {
             >
               APAGAR
             </Button>
-          </Box>
-          <Box m={1}>
+          </Grid>
+          {/* <Grid item xs={4}>
             <Button
               color="primary"
               variant="contained"
@@ -301,8 +309,7 @@ const Medicine = (props) => {
             >
               VOLTAR
             </Button>
-          </Box>
-          </Grid>
+          </Grid> */}
 
         </Grid>
       </div>
