@@ -34,6 +34,7 @@ const intMedicineSet = props.intMedicineSet
         let contentS = null;
         if (content.search("Externo:") !== -1) {
             contentS = content.split("Externo:");
+            console.log(contentS, content);
             extMedicineSet("Externo:" + contentS[1]);
             intMedicineSet(contentS[0]);
         }

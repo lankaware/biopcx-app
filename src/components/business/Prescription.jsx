@@ -33,7 +33,6 @@ const PrescDialog = props => {
     const [extMedicine, extMedicineSet] = useState('');
     const [prescText, prescTextSet] = useState('');
 
-    const [update, updateSet] = useState(false)
 
 
     const textRef = useRef()
@@ -67,21 +66,23 @@ const PrescDialog = props => {
     }, [patientId]);
 
     useEffect(() => {
-        prescTextSet(extMedicine + intMedicine)
+        prescTextSet(intMedicine + extMedicine)
     }, [extMedicine, intMedicine]);
 
     const addMed = () => {
-
         if (medicineWayOfUse === "Interno") {
             if (intMedicine.search("Interno:") !== -1) {
+                console.log("ACHOU INT", intMedicine, intMedicine.search("Interno:"))
                 intMedicineSet(intMedicine + medicineName + " " + medicineDose + " <br>")
             } else {
+                console.log("Não devia aparecer", intMedicine, extMedicine, intMedicine.search("Interno:"))
                 intMedicineSet("Interno:" + " <br>" + intMedicine + medicineName + " " + medicineDose + " <br>")
             }
         }
 
         if (medicineWayOfUse === "Externo") {
             if (extMedicine.search("Externo:") !== -1) {
+                console.log("ACHOU EXT", extMedicine.search("Externo:"))
                 extMedicineSet(extMedicine + medicineName + " " + medicineDose + " <br>")
             } else {
                 extMedicineSet("Externo:" + " <br>" + extMedicine + medicineName + " " + medicineDose + " <br>")
