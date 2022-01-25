@@ -43,7 +43,7 @@ const AppMenu = props => {
                         <DropdownMenu className='menu-item'>
                             <DropdownItem className='menu-item' href="/patients">Pacientes</DropdownItem>
                             <DropdownItem className='menu-item' href="/professionals">Profissionais</DropdownItem>
-                            <DropdownItem className='menu-item' href="/covenants">Convênios</DropdownItem>
+                            <DropdownItem className='menu-item' href="/covenantList">Convênios</DropdownItem>
                             <DropdownItem className='menu-item' href="/procedures">Procedimentos</DropdownItem>
                             <DropdownItem className='menu-item' href="/medicineList">Medicamentos</DropdownItem>
                         </DropdownMenu>

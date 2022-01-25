@@ -331,7 +331,7 @@ const Agenda = props => {
                     </Grid>
                 </Grid>
             </div>
-            <Form className='data-form-level1'>
+            {/* <Form className='data-form-level1'>
 
                 <div >
                     <AppBar position="static" color="default">
@@ -347,15 +347,15 @@ const Agenda = props => {
                         </Tabs>
                     </AppBar>
                     <TabPanel value={tabValue} index={0} dir={theme.direction}>
-                        {/* <AgendaAvailability
+                        <AgendaAvailability
                             itemList={availabilityList}
                             editMode={editMode}
                             onChangeSublist={availabilityListSet}
-                        /> */}
+                        />
                     </TabPanel>
                 </div>
 
-            </Form>
+            </Form> */}
 
             <Dialog
                 open={deleteDialog}
