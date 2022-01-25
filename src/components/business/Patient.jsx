@@ -367,6 +367,9 @@ const Patient = (props) => {
         </div>
       </div>
       <div className="data-form">
+        <div>
+          <Typography variant="h6" className="tool-title-level1" noWrap={true} color="primary">Dados Principais</Typography>
+        </div>
         <Grid container spacing={1}>
           <Grid item xs={2}>
             <Grid container spacing={1}>
@@ -500,26 +503,6 @@ const Patient = (props) => {
                     <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
                   ))}
                 </TextField>
-                {/* <Autocomplete
-                  id="covenant"
-                  options={covenantList}
-                  getOptionLabel={(option) => option.name}
-                  // style={{ width: 230 }}
-                  size="small"
-                  disabled={!editMode}
-                  onChange={(event, newValue) => { covenantIdSet(newValue._id) }}
-                  inputValue={covenantName}
-                  onInputChange={(event, newInputValue) => { if (event && event.type !== "blur") covenantNameSet(newInputValue) }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Convênio"
-                      variant="outlined"
-                      InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                      inputProps={{ ...params.inputProps }}
-                    />
-                  )}
-                /> */}
               </Grid>
               <Grid item xs={5}>
                 <TextField
@@ -650,8 +633,11 @@ const Patient = (props) => {
         </Grid>
       </div>
       <div className="data-form">
+        <div>
+          <Typography variant="h6" className="tool-title-level1" noWrap={true} color="primary">Dados de Contato</Typography>
+        </div>
         <Grid container spacing={2}>
-          <Grid item xs={4}>
+          <Grid item xs={3}>
             <TextField
               value={phone}
               onChange={(event) => { phoneSet(event.target.value) }}
@@ -664,7 +650,7 @@ const Patient = (props) => {
               size="small"
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={3}>
             <TextField
               value={email}
               onChange={(event) => { emailSet(event.target.value) }}
@@ -676,33 +662,6 @@ const Patient = (props) => {
               variant="outlined"
               size="small"
               inputProps={{ type: "text" }}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <TextField
-              value={indicatedBy}
-              onChange={(event) => { indicatedBySet(event.target.value.toUpperCase()) }}
-              id="indicatedBy"
-              label="Indicado Por"
-              fullWidth={true}
-              disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-              variant="outlined"
-              size="small"
-              inputProps={{ type: "text" }}
-            />
-          </Grid>
-          <Grid item xs={2}>
-            <TextField
-              value={zip}
-              onChange={(event) => { zipSet(event.target.value) }}
-              id="zip"
-              label="CEP"
-              fullWidth={true}
-              disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-              variant="outlined"
-              size="small"
             />
           </Grid>
           <Grid item xs={4}>
@@ -774,33 +733,22 @@ const Patient = (props) => {
               ))}
             </TextField>
 
-            {/* <Autocomplete
-              id="city"
-              options={cityList}
-              getOptionLabel={(option) => option.name}
-              // style={{ width: 230 }}
-              size="small"
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              value={zip}
+              onChange={(event) => { zipSet(event.target.value) }}
+              id="zip"
+              label="CEP"
+              fullWidth={true}
               disabled={!editMode}
-              onChange={(event, newValue) => { cityIdSet(newValue._id) }}
-              inputValue={cityName}
-              onInputChange={(event, newInputValue) => { if (event && event.type !== "blur") cityNameSet(newInputValue) }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Cidade"
-                  variant="outlined"
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                  inputProps={{ ...params.inputProps }}
-                />
-              )}
-            /> */}
+              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              variant="outlined"
+              size="small"
+            />
           </Grid>
 
-        </Grid>
-      </div>
-      <div className="data-form">
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <TextField
               value={responsible}
               onChange={(event) => { responsibleSet(event.target.value.toUpperCase()) }}
@@ -845,28 +793,8 @@ const Patient = (props) => {
               ))}
             </TextField>
 
-            {/* <Autocomplete
-              id="relative"
-              options={relativeList}
-              getOptionLabel={(option) => option.name}
-              // style={{ width: 230 }}
-              size="small"
-              disabled={!editMode}
-              onChange={(event, newValue) => { relativeIdSet(newValue._id) }}
-              inputValue={relativeName}
-              onInputChange={(event, newInputValue) => { if (event && event.type !== "blur") relativeNameSet(newInputValue) }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Parente Cadastrado"
-                  variant="outlined"
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                  inputProps={{ ...params.inputProps }}
-                />
-              )}
-            /> */}
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <TextField
               value={relativeType}
               onChange={(event) => { relativeTypeSet(event.target.value.toUpperCase()) }}
@@ -880,10 +808,17 @@ const Patient = (props) => {
               inputProps={{ type: "text" }}
             />
           </Grid>
+        </Grid>
+      </div>
+      <div className="data-form">
+        <div>
+          <Typography variant="h6" className="tool-title-level1" noWrap={true} color="primary">Informações Complementares</Typography>
+        </div>
+        <Grid container spacing={2}>
           <Grid item xs={3}>
             <TextField
               id='birthCity'
-              label='Cidade'
+              label='Cidade de Nascimento'
               value={birthCityId}
               onChange={(event) => { birthCityIdSet(event.target.value) }}
               size='small'
@@ -896,26 +831,6 @@ const Patient = (props) => {
                 <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
               ))}
             </TextField>
-            {/* <Autocomplete
-              id="birthCity"
-              options={cityList}
-              getOptionLabel={(option) => option.name}
-              // style={{ width: 230 }}
-              size="small"
-              disabled={!editMode}
-              onChange={(event, newValue) => { birthCityIdSet(newValue._id) }}
-              inputValue={birthCityName}
-              onInputChange={(event, newInputValue) => { if (event && event.type !== "blur") birthCityNameSet(newInputValue) }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Cidade de Nascimento"
-                  variant="outlined"
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                  inputProps={{ ...params.inputProps }}
-                />
-              )}
-            /> */}
           </Grid>
           <Grid item xs={3}>
             <TextField
@@ -989,26 +904,6 @@ const Patient = (props) => {
                 <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
               ))}
             </TextField>
-            {/* <Autocomplete
-              id="rgState"
-              options={stateList}
-              getOptionLabel={(option) => option.name}
-              // style={{ width: 230 }}
-              size="small"
-              disabled={!editMode}
-              onChange={(event, newValue) => { rgStateIdSet(newValue._id) }}
-              inputValue={rgStateName}
-              onInputChange={(event, newInputValue) => { if (event && event.type !== "blur") rgStateNameSet(newInputValue) }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Estado do RG"
-                  variant="outlined"
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                  inputProps={{ ...params.inputProps }}
-                />
-              )}
-            /> */}
           </Grid>
           <Grid item xs={3}>
             <TextField
@@ -1058,6 +953,20 @@ const Patient = (props) => {
               onChange={(event) => { blodyTypeSet(event.target.value.toUpperCase()) }}
               id="blodyType"
               label="Tipo Sanguineo"
+              fullWidth={true}
+              disabled={!editMode}
+              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              variant="outlined"
+              size="small"
+              inputProps={{ type: "text" }}
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              value={indicatedBy}
+              onChange={(event) => { indicatedBySet(event.target.value.toUpperCase()) }}
+              id="indicatedBy"
+              label="Indicado Por"
               fullWidth={true}
               disabled={!editMode}
               InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}

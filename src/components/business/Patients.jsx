@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import DataTable from 'react-data-table-component'
 
@@ -20,11 +20,11 @@ const Patients = props => {
             name: 'Nome do Paciente',
             selector: row => row.name,
             sortable: true,
-            width: '10vw',
+            width: '30vw',
             cell: row => (<Link to={"/patient/" + row._id}>{row.name}</Link>)
         },
         {
-            name: 'sobrenome do Paciente',
+            name: 'Sobrenome do Paciente',
             selector: row => row.lastname,
             sortable: true,
             width: '20vw',
@@ -34,7 +34,7 @@ const Patients = props => {
             name: 'Telefone',
             selector: row => row.phone,
             sortable: true,
-            width: '20vw'
+            width: '15vw'
         },
         {
             name: 'Convênio',

@@ -37,7 +37,7 @@
     background-color: white;
     padding: 15px;
     border: rgb(172, 164, 164);
-    border-style: solid;
+    border-style: none; /*solid;*/
     border-width: 1px;
     width: 90vw;
     margin-left: 3vw;
@@ -55,7 +55,7 @@
 
 .data-table {
     border: rgb(172, 164, 164);
-    border-style: solid;
+    border-style: none; /*solid;*/
     border-width: 1px;
     width: 90vw;
     margin-top: 5px;
@@ -64,7 +64,7 @@
 
 .data-table-level1 {
     border: rgb(172, 164, 164);
-    border-style: solid;
+    border-style: none; /*solid;*/
     border-width: 1px;
     width: 80vw;
     margin-top: 5px;
@@ -103,7 +103,7 @@
     /* verified */
     display: flex;
     border: #a0a0a0;
-    border-style: solid;
+    border-style: none; /*solid;*/
     border-width: 1px;
     width: 90vw;
     min-height: 60px;
@@ -118,6 +118,14 @@
     /* verified */
     margin-top: 5px;
     padding: 5px 15px 5px 0px;
+    width: 43vw;
+    /* visibility: hidden; */
+}
+
+.tool-title-level1 {
+    /* verified */
+    margin-top: 0;
+    padding: 0px 15px 15px 0px;
     width: 43vw;
     /* visibility: hidden; */
 }
