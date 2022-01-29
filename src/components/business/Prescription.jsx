@@ -72,17 +72,14 @@ const PrescDialog = props => {
     const addMed = () => {
         if (medicineWayOfUse === "Interno") {
             if (intMedicine.search("Interno:") !== -1) {
-                console.log("ACHOU INT", intMedicine, intMedicine.search("Interno:"))
                 intMedicineSet(intMedicine + medicineName + " " + medicineDose + " <br>")
             } else {
-                console.log("Não devia aparecer", intMedicine, extMedicine, intMedicine.search("Interno:"))
-                intMedicineSet("Interno:" + " <br>" + intMedicine + medicineName + " " + medicineDose + " <br>")
+               intMedicineSet("Interno:" + " <br>" + intMedicine + medicineName + " " + medicineDose + " <br>")
             }
         }
 
         if (medicineWayOfUse === "Externo") {
             if (extMedicine.search("Externo:") !== -1) {
-                console.log("ACHOU EXT", extMedicine.search("Externo:"))
                 extMedicineSet(extMedicine + medicineName + " " + medicineDose + " <br>")
             } else {
                 extMedicineSet("Externo:" + " <br>" + extMedicine + medicineName + " " + medicineDose + " <br>")
@@ -111,9 +108,6 @@ const PrescDialog = props => {
     const savePresc = () => {
         header = headerAdd === true ? headerText : "&nbsp;"
         footer = footerAdd === true ? footerText : "&nbsp;"
-        console.log(extMedicine)
-        console.log(intMedicine)
-        console.log("prescText", prescText)
         printDialogSet(true)
         let presc = [...prescList, {
             "date": new Date(),

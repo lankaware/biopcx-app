@@ -63,7 +63,6 @@ const PrescTextEditor = props => {
                 config={config}
                 tabIndex={1} // tabIndex of textarea
                 onBlur={newContent => handleEditor(newContent)} // preferred to use only this option to update the content for performance reasons
-                onChange={newContent => { }}
             />
         </div>
     )
