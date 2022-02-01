@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
     Grid, Button, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Box
 } from "@mui/material";
 import DataTable from 'react-data-table-component'
+import JoditEditor from "jodit-react"
 
 import { getList } from '../../services/apiconnect'
 import { customStyles1, paginationBr } from '../../services/datatablestyle'
 
-import TextEditor from "../layout/TextEditor";
+// import TextEditor from "../layout/TextEditor";
 import { defaultDateBr, prettyDate } from '../../services/dateutils';
 import { parseTextMacro } from '../../services/textutils';
 
@@ -18,9 +19,8 @@ const TextDialogContent = props => {
     const [textList, textListSet] = useState('')
     const [confirmDialog, confirmDialogSet] = useState(false)
     const [selectText, selectTextSet] = useState('')
-    // const [textContent, textContentSet] = useState('')
+    const [textContent, textContentSet] = useState('')
     const [editorFocus, editorFocusSet] = useState(true)
-
 
     useEffect(() => {
         getList('texttemplate/')
@@ -31,9 +31,9 @@ const TextDialogContent = props => {
 
     useEffect(() => {
         let uptoDated = prettyDate(defaultDateBr())
-        props.textContentSet(`${props.textContent} <strong>${uptoDated}:</strong><p> </p>`)
-        props.updatedSet(true)
-    }, [props.textContent, props.updated])
+        textContentSet(`${props.textContent} <strong>${uptoDated}:</strong><p> </p>`)
+        
+    }, [props.textContent])
 
     const columns = [
         {
@@ -64,12 +64,12 @@ const TextDialogContent = props => {
     const loadTextConfirm = async function () {
         await parseTextMacro(textApplied, props.patientId)
             .then(newText => {
-                console.log('newText', newText);
-                props.textContentSet(props.textContent + newText);
+                textContentSet(textContent + newText);
+                console.log('newText', props.textContent + newText);
                 confirmDialogSet(false);
-                editorFocusSet(true);
                 loadDialogSet(false);
-                document.getElementById('text-editor-dialog').focus();
+                editorFocusSet(true);
+                // document.getElementById('text-editor-dialog').focus();
             });
     }
 
@@ -84,6 +84,26 @@ const TextDialogContent = props => {
         confirmDialogSet(false)
     }
 
+    const editor = useRef(null)
+
+    const config = {
+        readonly: false, // props.disabled, // all options from https://xdsoft.net/jodit/doc/
+        statusbar: false,
+        language: 'pt_br',
+        removeButtons: [
+            'fullsize',
+            'dots',
+            'source',
+        ],
+        height: 380,
+        width: 900,
+        useSplitMode: true,
+        autofocus: editorFocus,
+    }
+
+    const handleEditor = (newContent) => {
+        props.textContentSet(newContent);
+    }
 
     return (
         <>
@@ -93,10 +113,8 @@ const TextDialogContent = props => {
                 <Box display="flex"
                     justifyContent="space-between">
                     <Box m={1}>
-                            <p className="transition">{props.textTitle}</p>
+                        <p className="transition">{props.textTitle}</p>
                     </Box>
-
-
                     <Box m={1}>
                         <Button onClick={loadDialogOpen} color="primary" variant="outlined">
                             Carregar Texto Padrão
@@ -110,11 +128,24 @@ const TextDialogContent = props => {
                     display="flex"
                     justifyContent="center"
                     m={1}>
-                    <TextEditor
+
+                    <div className='text-editor'>
+                        <JoditEditor
+                            id={'text-editor-dialog'}
+                            ref={editor}
+                            value={textContent}
+                            config={config}
+                            tabIndex={1} // tabIndex of textarea
+                            onBlur={newContent => handleEditor(newContent)} // preferred to use only this option to update the content for performance reasons
+                            onChange={newContent => { }}
+                        />
+                    </div>
+
+                    {/* <TextEditor
                         content={props.textContent}
                         textSet={props.textContentSet}
                         autofocus={editorFocus}
-                    />
+                    /> */}
                 </Box>
             </DialogContent>
             {/* </Dialog> */}

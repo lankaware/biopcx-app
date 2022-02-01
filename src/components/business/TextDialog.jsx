@@ -46,9 +46,11 @@ const TextDialog = props => {
   }, [patientId, props.textDialog]);
 
   useEffect(() => {
+    console.log('textContent', textContent)
     if (textContent) {
       textContentSet(textContent);
     }
+    updatedSet(true)
   }, [updated]);
 
   const saveRec = () => {
@@ -63,7 +65,7 @@ const TextDialog = props => {
       freeTextTwoTitle,
       freeTextTwo,
     }
-    console.log("test", recObj)
+    console.log("recObj", recObj)
     recObj = JSON.stringify(recObj);
     putRec('patientid/' + patientId, recObj)
   }
@@ -121,13 +123,11 @@ const TextDialog = props => {
   const updateOriginText = () => {
     saveRec();
     props.textDialogSet(false)
-
   }
 
   const cancelUpdateText = () => {
     props.textDialogSet(false)
   }
-
 
 
   return (

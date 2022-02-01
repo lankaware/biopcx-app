@@ -16,7 +16,7 @@ export function timeBr(argTime) {
 export function defaultDateBr() {
   const dateDefault = new Date()
   const tempDate = dateDefault.toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' })
-  const stringDate = tempDate.substr(6, 4) + '-' + tempDate.substr(3, 2) + '-' + tempDate.substr(0, 2)
+  const stringDate = tempDate.substring(6, 10) + '-' + tempDate.substring(3, 5) + '-' + tempDate.substring(0, 2)
   return stringDate
 }
 
