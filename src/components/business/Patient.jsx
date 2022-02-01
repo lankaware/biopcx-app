@@ -331,12 +331,12 @@ const Patient = (props) => {
         <div className='tool-buttons'>
           <Box m={1}>
             <Button color="primary" variant="contained" size="small" startIcon={<HistoryEduIcon />}
-              onClick={(_) => openTextDialog(true)} disabled={insertMode}>Histórico
+              onClick={(_) => openTextDialog()} disabled={insertMode}>HISTÓRICO
             </Button>
           </Box>
           <Box m={1}>
             <Button color="secondary" variant="contained" size="small" startIcon={<NotesIcon />}
-              onClick={(_) => openPresc()} id="prescButton" disabled={insertMode}>Receitas
+              onClick={(_) => openPresc()} id="prescButton" disabled={insertMode}>RECEITAS
             </Button>
           </Box>
           <Box m={1}>

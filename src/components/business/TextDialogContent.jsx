@@ -18,7 +18,7 @@ const TextDialogContent = props => {
     const [textList, textListSet] = useState('')
     const [confirmDialog, confirmDialogSet] = useState(false)
     const [selectText, selectTextSet] = useState('')
-    const [textContent, textContentSet] = useState('')
+    // const [textContent, textContentSet] = useState('')
     const [editorFocus, editorFocusSet] = useState(true)
 
 
@@ -30,8 +30,8 @@ const TextDialogContent = props => {
     }, [])
 
     useEffect(() => {
-        let uptoDated = prettyDate(defaultDateBr().substr(0, 10))
-        textContentSet(`${props.textContent} <strong>${uptoDated}:</strong><p> </p>`)
+        let uptoDated = prettyDate(defaultDateBr())
+        props.textContentSet(`${props.textContent} <strong>${uptoDated}:</strong><p> </p>`)
         props.updatedSet(true)
     }, [props.textContent, props.updated])
 
@@ -65,7 +65,7 @@ const TextDialogContent = props => {
         await parseTextMacro(textApplied, props.patientId)
             .then(newText => {
                 console.log('newText', newText);
-                textContentSet(textContent + newText);
+                props.textContentSet(props.textContent + newText);
                 confirmDialogSet(false);
                 editorFocusSet(true);
                 loadDialogSet(false);
