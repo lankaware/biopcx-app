@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import {
-    Grid, Box, DialogContentText, Button, Dialog, DialogContent, DialogTitle, TextField, DialogActions, Checkbox, MenuItem, FormControlLabel,
+    Grid, Box, DialogContentText, Button, Dialog, DialogContent, DialogTitle, TextField, DialogActions, Checkbox,
+    MenuItem, FormControlLabel, Typography
 } from "@mui/material";
 import PrescTextEditor from "../layout/PrescTextEditor";
 import { useState } from 'react';
@@ -74,7 +75,7 @@ const PrescDialog = props => {
             if (intMedicine.search("Interno:") !== -1) {
                 intMedicineSet(intMedicine + medicineName + " " + medicineDose + " <br>")
             } else {
-               intMedicineSet("Interno:" + " <br>" + intMedicine + medicineName + " " + medicineDose + " <br>")
+                intMedicineSet("Interno:" + " <br>" + intMedicine + medicineName + " " + medicineDose + " <br>")
             }
         }
 
@@ -144,7 +145,7 @@ const PrescDialog = props => {
         <>
             <Dialog open={props.prescDialog} maxWidth={false}>
                 <DialogTitle>
-                    Nova Receita
+                    <Typography variant="h6" className="tool-title-level1" noWrap={true} color="primary">Nova Receita</Typography>
                 </DialogTitle>
                 <DialogContent style={{ display: "flex", gap: "1rem" }}>
                     <Box sx={{ width: 3 / 10 }}>

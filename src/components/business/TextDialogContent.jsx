@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import {
-    Grid, Button, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Box
+    Grid, Button, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Box, Typography
 } from "@mui/material";
 import DataTable from 'react-data-table-component'
 import JoditEditor from "jodit-react"
@@ -31,8 +31,12 @@ const TextDialogContent = props => {
 
     useEffect(() => {
         let uptoDated = prettyDate(defaultDateBr())
-        textContentSet(`${props.textContent} <strong>${uptoDated}:</strong><p> </p>`)
-        
+        if (props.textContent && !props.textContent.includes(uptoDated)) {
+            textContentSet(`${props.textContent} <strong>${uptoDated}:</strong><p> </p>`)
+        } else {
+            textContentSet(`${props.textContent}`)
+        }
+
     }, [props.textContent])
 
     const columns = [
@@ -96,7 +100,7 @@ const TextDialogContent = props => {
             'source',
         ],
         height: 380,
-        width: 900,
+        width: 980,
         useSplitMode: true,
         autofocus: editorFocus,
     }
@@ -108,26 +112,24 @@ const TextDialogContent = props => {
     return (
         <>
             <DialogContent>
-                {/* <Dialog open={props.textDialog} maxWidth={false}>
-                <DialogTitle id="alert-dialog-title"> */}
-                <Box display="flex"
-                    justifyContent="space-between">
-                    <Box m={1}>
-                        <p className="transition">{props.textTitle}</p>
+                <Box display="flex" backgroundColor={props.textColor}>
+                    <Box >
+                        <Typography
+                            variant="h5"
+                            className="tool-title2"
+                            noWrap={true}
+                            sx={{color: '#fff', 'padding': '10px'}}
+                        >
+                            {props.textTitle}
+                        </Typography>
                     </Box>
                     <Box m={1}>
-                        <Button onClick={loadDialogOpen} color="primary" variant="outlined">
+                        <Button onClick={loadDialogOpen} variant="outlined" sx={{backgroundColor: '#fff'}}>
                             Carregar Texto Padrão
                         </Button>
                     </Box>
                 </Box>
-
-                {/* </DialogTitle>
-                <DialogContent> */}
-                <Box
-                    display="flex"
-                    justifyContent="center"
-                    m={1}>
+                <Box display="flex">
 
                     <div className='text-editor'>
                         <JoditEditor
@@ -141,16 +143,10 @@ const TextDialogContent = props => {
                         />
                     </div>
 
-                    {/* <TextEditor
-                        content={props.textContent}
-                        textSet={props.textContentSet}
-                        autofocus={editorFocus}
-                    /> */}
                 </Box>
             </DialogContent>
-            {/* </Dialog> */}
 
-            <Dialog open={loadDialog} maxWidth={false}>
+            <Dialog open={loadDialog} maxWidth={'md'}>
                 <DialogTitle id="alert-dialog-title">
                     <Grid container spacing={2}>
                         <Grid item xs={8}>
@@ -197,15 +193,14 @@ const TextDialogContent = props => {
                     <DialogContentText id="alert-dialog-description">
                         {selectText}
                     </DialogContentText>
-                    {/* </DialogContent>
-                <DialogActions> */}
-                    <Button onClick={loadTextConfirm} color="primary" variant="contained" autoFocus size='small'>
-                        Confirmar
-                    </Button>
-                    <Button onClick={confirmDialogClose} color="secondary" variant="contained" size='small'>
-                        Cancelar
-                    </Button>
-                    {/* </DialogActions> */}
+                    <DialogActions>
+                        <Button onClick={loadTextConfirm} color="primary" variant="contained" autoFocus size='small'>
+                            Confirmar
+                        </Button>
+                        <Button onClick={confirmDialogClose} color="secondary" variant="contained" size='small'>
+                            Cancelar
+                        </Button>
+                    </DialogActions>
                 </DialogContent>
             </Dialog>
 

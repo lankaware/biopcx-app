@@ -115,11 +115,15 @@
 }
 
 .tool-title {
-    /* verified */
     margin-top: 5px;
     padding: 5px 15px 5px 0px;
     width: 43vw;
-    /* visibility: hidden; */
+}
+
+.tool-title2 {
+    margin-top: 5px;
+    padding: 5px 15px 5px 0px;
+    width: 55vw;
 }
 
 .tool-title-level1 {

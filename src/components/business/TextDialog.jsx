@@ -5,8 +5,10 @@ import {
 
 import { getList, putRec } from '../../services/apiconnect'
 import TextDialogContent from './TextDialogContent'
+import { minWidth } from '@mui/system';
 
 var textTitle = null
+var textColor = null
 var textContent = null
 var textContentSet = null
 
@@ -39,9 +41,11 @@ const TextDialog = props => {
           freeTextTwoTitleSet(items.record[0].freeTextTwo || "");
           freeTextTwoSet(items.record[0].freeTextTwo || "");
         })
-      textTitle = 'História Clínica'
-      textContent = clinicHist
-      textContentSet = clinicHistSet
+      // textTitle = 'História Clínica'
+      // textContent = clinicHist
+      // textContentSet = clinicHistSet
+      // textColor = 'primary'
+      changeContentToClinicHist()
     }
   }, [patientId, props.textDialog]);
 
@@ -75,6 +79,7 @@ const TextDialog = props => {
     textTitle = 'História Clínica'
     textContent = clinicHist
     textContentSet = clinicHistSet
+    textColor = '#1976d2'
   }
 
   const changeContentToPatientHist = () => {
@@ -82,6 +87,7 @@ const TextDialog = props => {
     textTitle = 'Antecedentes Pessoais'
     textContent = patientHist
     textContentSet = patientHistSet
+    textColor = '#9c27b0'
   }
 
   const changeContentToFamilyHist = () => {
@@ -89,6 +95,7 @@ const TextDialog = props => {
     textTitle = 'Antecedentes Familiares'
     textContent = familyHist
     textContentSet = familyHistSet
+    textColor = '#2e7d32'
   }
 
   const changeContentToCatheter = () => {
@@ -97,6 +104,7 @@ const TextDialog = props => {
     textTitle = 'Cateterismo'
     textContent = catheter
     textContentSet = catheterSet
+    textColor = '#d32f2f'
   }
 
   const changeContentToSurgery = () => {
@@ -104,6 +112,7 @@ const TextDialog = props => {
     textTitle = 'Cirurgias'
     textContent = surgery
     textContentSet = surgerySet
+    textColor = '#f00'
   }
 
   const changeContentToFreeTextOne = () => {
@@ -111,13 +120,15 @@ const TextDialog = props => {
     textTitle = 'Texto Livre 1'
     textContent = freeTextOne
     textContentSet = freeTextOneSet
+    textColor = '#ED6C02'
   }
-
+  
   const changeContentToFreeTextTwo = () => {
     updatedSet(false)
-    textTitle = 'Text Livre 2'
+    textTitle = 'Texto Livre 2'
     textContent = freeTextTwo
     textContentSet = freeTextTwoSet
+    textColor = '#000957'
   }
 
   const updateOriginText = () => {
@@ -129,39 +140,51 @@ const TextDialog = props => {
     props.textDialogSet(false)
   }
 
-
   return (
     <>
-      <Dialog open={props.textDialog} maxWidth={false}>
+      <Dialog open={props.textDialog} maxWidth={'lg'}>
         <DialogTitle id="alert-dialog-title">
-          <Box className="data-form" display="flex"
-            justifyContent="space-between">
-            <Button color="primary" variant="contained" size="medium" startIcon={''}
-              onClick={(_) => changeContentToClinicHist()} disabled={false}>Hist.Clínica
-            </Button>
-            <Button color="secondary" variant="contained" size="medium" startIcon={''}
-              onClick={(_) => changeContentToPatientHist()} disabled={false}>Ant.Pessoais
-            </Button>
-            <Button color="success" variant="contained" size="medium" startIcon={''}
-              onClick={(_) => changeContentToFamilyHist()} disabled={false}>Ant.Familía
-            </Button>
-            <Button color="error" variant="contained" size="medium" startIcon={''}
-              onClick={(_) => changeContentToCatheter()} disabled={false}>Cateterismo
-            </Button>
-            <Button color="info" variant="contained" size="medium" startIcon={''}
-              onClick={(_) => changeContentToSurgery()} disabled={false}>Cirurgias
-            </Button>
-            <Button color="warning" variant="contained" size="medium" startIcon={''}
-              onClick={(_) => changeContentToFreeTextOne()} disabled={false}>Txt Livre 1
-            </Button>
-            <Button color="primary" variant="contained" size="medium" startIcon={''} sx={{ backgroundColor: '#000957' }}
-              onClick={(_) => changeContentToFreeTextTwo()} disabled={false}>Txt Livre 2
-            </Button>
-
+          <Box display="flex">
+            <Box m={1}>
+              <Button color="primary" variant="contained" size="medium" startIcon={''}
+                onClick={(_) => changeContentToClinicHist()} disabled={false}>Hist.Clínica
+              </Button>
+            </Box>
+            <Box m={1}>
+              <Button color="secondary" variant="contained" size="medium" startIcon={''}
+                onClick={(_) => changeContentToPatientHist()} disabled={false}>Ant.Pessoais
+              </Button>
+            </Box>
+            <Box m={1}>
+              <Button color="success" variant="contained" size="medium" startIcon={''}
+                onClick={(_) => changeContentToFamilyHist()} disabled={false}>Ant.Familía
+              </Button>
+            </Box>
+            <Box m={1}>
+              <Button color="error" variant="contained" size="medium" startIcon={''}
+                onClick={(_) => changeContentToCatheter()} disabled={false}>Cateterismo
+              </Button>
+            </Box>
+            <Box m={1}>
+              <Button color="info" variant="contained" size="medium" startIcon={''}
+                onClick={(_) => changeContentToSurgery()} disabled={false}>Cirurgias
+              </Button>
+            </Box>
+            <Box m={1}>
+              <Button color="warning" variant="contained" size="medium" startIcon={''}
+                onClick={(_) => changeContentToFreeTextOne()} disabled={false}>Txt Livre 1
+              </Button>
+            </Box>
+            <Box m={1}>
+              <Button color="primary" variant="contained" size="medium" startIcon={''} sx={{ backgroundColor: '#000957' }}
+                onClick={(_) => changeContentToFreeTextTwo()} disabled={false}>Txt Livre 2
+              </Button>
+            </Box>
           </Box>
         </DialogTitle>
         <TextDialogContent
           textTitle={textTitle}
+          textColor={textColor}
           textContent={textContent}
           textContentSet={textContentSet}
           patientId={patientId}
