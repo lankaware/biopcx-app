@@ -23,6 +23,7 @@ const TextDialog = props => {
   const [freeTextOne, freeTextOneSet] = useState("")
   const [freeTextTwoTitle, freeTextTwoTitleSet] = useState("")
   const [freeTextTwo, freeTextTwoSet] = useState("")
+  const [alert, alertSet] = useState("")
   const [updated, updatedSet] = useState(false)
 
   const patientId = props.patientId
@@ -40,6 +41,7 @@ const TextDialog = props => {
           freeTextOneSet(items.record[0].freeTextOne || "");
           freeTextTwoTitleSet(items.record[0].freeTextTwo || "");
           freeTextTwoSet(items.record[0].freeTextTwo || "");
+          alertSet(items.record[0].alert || "");
         })
       // textTitle = 'História Clínica'
       // textContent = clinicHist
@@ -68,6 +70,7 @@ const TextDialog = props => {
       freeTextOne,
       freeTextTwoTitle,
       freeTextTwo,
+      alert,
     }
     console.log("recObj", recObj)
     recObj = JSON.stringify(recObj);
@@ -112,7 +115,7 @@ const TextDialog = props => {
     textTitle = 'Cirurgias'
     textContent = surgery
     textContentSet = surgerySet
-    textColor = '#f00'
+    textColor = '#36aea2'
   }
 
   const changeContentToFreeTextOne = () => {
@@ -122,13 +125,21 @@ const TextDialog = props => {
     textContentSet = freeTextOneSet
     textColor = '#ED6C02'
   }
-  
+
   const changeContentToFreeTextTwo = () => {
     updatedSet(false)
     textTitle = 'Texto Livre 2'
     textContent = freeTextTwo
     textContentSet = freeTextTwoSet
     textColor = '#000957'
+  }
+
+  const changeContentToAlert = () => {
+    updatedSet(false)
+    textTitle = 'Alertas'
+    textContent = alert
+    textContentSet = alertSet
+    textColor = '#f00'
   }
 
   const updateOriginText = () => {
@@ -166,7 +177,7 @@ const TextDialog = props => {
               </Button>
             </Box>
             <Box m={1}>
-              <Button color="info" variant="contained" size="medium" startIcon={''}
+              <Button sx={{ backgroundColor: '#36aea2' }} variant="contained" size="medium" startIcon={''}
                 onClick={(_) => changeContentToSurgery()} disabled={false}>Cirurgias
               </Button>
             </Box>
@@ -178,6 +189,11 @@ const TextDialog = props => {
             <Box m={1}>
               <Button color="primary" variant="contained" size="medium" startIcon={''} sx={{ backgroundColor: '#000957' }}
                 onClick={(_) => changeContentToFreeTextTwo()} disabled={false}>Txt Livre 2
+              </Button>
+            </Box>
+            <Box m={1}>
+              <Button color="info" variant="contained" size="medium" startIcon={''}
+                onClick={(_) => changeContentToAlert()} disabled={false}>Alertas
               </Button>
             </Box>
           </Box>
