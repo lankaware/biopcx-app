@@ -109,6 +109,7 @@ const Patient = (props) => {
   const [deleteInfoDialog, setDeleteInfoDialog] = useState(false);
   const [emptyRecDialog, setEmptyRecDialog] = useState(false);
   const [emptyFieldDialog, setEmptyFieldDialog] = useState('');
+  const [show, showSet] = useState(false);
   const [recUpdated, setRecUpdated] = useState(true)
 
   const classes = useStyles();
@@ -330,14 +331,34 @@ const Patient = (props) => {
         </div>
         <div className='tool-buttons'>
           <Box m={1}>
-            <Button color="primary" variant="contained" size="small" startIcon={<HistoryEduIcon />}
-              onClick={(_) => openTextDialog()} disabled={insertMode}>HISTÓRICO
+            <Button color="primary" variant="contained" size="small" startIcon={(show ? <CancelIcon /> : <HistoryEduIcon /> )} 
+              onClick={() => (show ? showSet(false) : showSet(true))}
+                        > INFO
             </Button>
-          </Box>
-          <Box m={1}>
-            <Button color="secondary" variant="contained" size="small" startIcon={<NotesIcon />}
-              onClick={(_) => openPresc()} id="prescButton" disabled={insertMode}>RECEITAS
-            </Button>
+            {show &&
+              <div className="absolute">
+                <Box m={1}>
+                  <Button color="secondary" variant="contained" size="small" startIcon={<NotesIcon />}
+                    onMouseOver={() => showSet(true)}
+                    onClick={(_) => openPresc()} id="prescButton" disabled={insertMode}>RECEITAS
+                  </Button>
+                </Box>
+                <Box m={1}>
+                  <Button color="secondary" variant="contained" size="small" startIcon={<NotesIcon />}
+                    onMouseOver={() => showSet(true)}
+                   
+                    onClick={(_) => openPresc()} id="prescButton" disabled={insertMode}>SOLICITA.
+                  </Button>
+                </Box>
+                <Box m={1}>
+                  <Button color="secondary" variant="contained" size="small" startIcon={<HistoryEduIcon />}
+                    onMouseOver={() => showSet(true)}
+                    
+                    onClick={(_) => openTextDialog()} disabled={insertMode}>HISTÓRICO                  </Button>
+                </Box>
+              </div>
+
+            }
           </Box>
           <Box m={1}>
             <Button color="primary" variant="contained" size="small" startIcon={<EditIcon />}

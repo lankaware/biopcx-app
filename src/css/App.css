@@ -187,3 +187,8 @@ div .medicine {
 div .medicineAdd {
     max-width: 30vw
 }
+
+.absolute {
+    position: absolute !important;
+    z-index: 99;
+}
