@@ -72,6 +72,9 @@ const Covenant = props => {
     const [planName, planNameSet] = useState('')
 
     const [editPriceDialog, editPriceDialogSet] = useState(false)
+
+    const [covenantplanId, covenantplanIdSet] = useState('')
+    const [covenantplanName, covenantplanNameSet] = useState('')
     const [procedureId, procedureIdSet] = useState('')
     const [procedureName, procedureNameSet] = useState('')
     const [ambPrice, ambPriceSet] = useState(0)
@@ -89,6 +92,12 @@ const Covenant = props => {
     ];
 
     const columnsPrice = [
+        {
+            name: 'Plano',
+            selector: row => row.covenant_name,
+            sortable: true,
+            width: '30vw',
+        },
         {
             name: 'Procedimento',
             selector: row => row.procedure_name,
@@ -127,13 +136,12 @@ const Covenant = props => {
                 })
             getList(`pricecovenant/${id}`)
                 .then(items => {
-                    priceListSet(items.record)
+                    priceListSet(items.record[0])
                 })
             getList('procedure/')
                 .then(items => {
                     procedureListSet(items.record)
                 })
-
         }
         setRecUpdated(true)
     }, [id, recUpdated])
@@ -171,7 +179,6 @@ const Covenant = props => {
         }
         setEditMode(false)
         setInsertMode(false)
-
     }
 
     const planSave = (parentId) => {
@@ -196,8 +203,10 @@ const Covenant = props => {
 
     const priceSave = (parentId) => {
         for (var subitem in priceList) {
+            console.log('price list', priceList[subitem]._id) 
             let recObj = {
                 covenant_id: parentId,
+                covenantplan_id: covenantplanId,
                 procedure_id: priceList[subitem].procedure_id,
                 ambPrice: priceList[subitem].ambPrice,
                 price: priceList[subitem].price,
@@ -206,10 +215,19 @@ const Covenant = props => {
                 deleteRec('priceid/' + priceList[subitem]._id)
             } else if (typeof (priceList[subitem]._id) !== 'number') {
                 recObj = JSON.stringify(recObj)
+                console.log('price obj', recObj )
                 putRec('priceid/' + priceList[subitem]._id, recObj)
+                .then(result => {
+                    console.log('price result', result)
+                })
+
             } else {
                 recObj = JSON.stringify(recObj)
+                console.log('post price obj', recObj )
                 postRec('price/', recObj)
+                .then(result => {
+                    console.log('post price result', result)
+                })
             }
         }
         setRecUpdated(false)
@@ -299,6 +317,7 @@ const Covenant = props => {
         let currentPriceTemp = 0
         if (priceList) currentPriceTemp = priceList.length
 
+        covenantplanIdSet('')
         procedureIdSet('')
         ambPriceSet('')
         priceSet('')
@@ -327,7 +346,15 @@ const Covenant = props => {
     }
 
     const editPriceConfirm = () => {
+        const procedureIndex = procedureList.findIndex((item) => { return item._id === procedureId })
+        const procedureNameList = procedureList[procedureIndex].name
+ 
+        const planIndex = planList.findIndex((item) => { return item._id === covenantplanId })
+        const covenantplanNameList = planList[planIndex].name
+ 
         priceListTemp[currentPrice].procedure_id = procedureId
+        priceListTemp[currentPrice].procedure_name = procedureNameList
+
         priceListTemp[currentPrice].ambPrice = ambPrice
         priceListTemp[currentPrice].price = price
 
@@ -584,26 +611,47 @@ const Covenant = props => {
                 {/* <p/> */}
                 <DialogContent dividers>
                     <div className='modal-form'>
-                        <Grid item xs={4}>
-                            <TextField
-                                id='procedure'
-                                label='Procedimento'
-                                value={procedureId}
-                                onChange={(event) => { procedureIdSet(event.target.value) }}
-                                size='small'
-                                fullWidth={true}
-                                disabled={!editMode}
-                                type='text'
-                                InputLabelProps={{ shrink: true, sx: { color: 'black' } }}
-                                // sx={{ width: 150 }}
-                                select
-                            >
-                                {procedureList.map((option) => (
-                                    <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
-                                ))}
-                            </TextField>
-                        </Grid>
-                        <Grid container spacing={1} >
+                        <Grid container spacing={2} >
+                            <Grid item xs={6}>
+                                <TextField
+                                    id='procedure'
+                                    label='Procedimento'
+                                    value={procedureId}
+                                    onChange={(event) => { procedureIdSet(event.target.value) }}
+                                    size='small'
+                                    fullWidth={true}
+                                    disabled={false}
+                                    type='text'
+                                    InputLabelProps={{ shrink: true, sx: { color: 'black' } }}
+                                    // sx={{ width: 150 }}
+                                    select
+                                >
+                                    {procedureList.map((option) => (
+                                        <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    id='covenantplan'
+                                    label='Plano'
+                                    value={covenantplanId}
+                                    onChange={(event) => { covenantplanIdSet(event.target.value) }}
+                                    size='small'
+                                    fullWidth={true}
+                                    disabled={false}
+                                    type='text'
+                                    InputLabelProps={{ shrink: true, sx: { color: 'black' } }}
+                                    // sx={{ width: 150 }}
+                                    select
+                                >
+                                    {planList.map((option) => (
+                                        <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                        {/* </Grid>
+                        <Grid container spacing={2} > */}
                             <Grid item xs={6}>
                                 <TextField
                                     label='Tabela AMB'
@@ -615,8 +663,8 @@ const Covenant = props => {
                                 // sx={{ width: 350 }}
                                 />
                             </Grid>
-                        </Grid>
-                        <Grid container spacing={1} >
+                        {/* </Grid>
+                        <Grid container spacing={2} > */}
                             <Grid item xs={6}>
                                 <TextField
                                     label='Valor'
