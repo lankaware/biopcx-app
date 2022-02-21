@@ -135,18 +135,18 @@
 }
 
 .photo-square {
-    float: left;
+    float: center;
 }
 
 .photo-square img {
-    width: 16vh;
-    height: 20vh;
-    margin-bottom: 16px;
+    width: 20vh;
+    height: 25vh;
+    margin-bottom: 8px;
     align-self: center;
     border: rgb(172, 164, 164);
     border-style: solid;
     border-width: 1px;
-    padding: 1px;
+    padding: 0px;
     border-radius: 5px;
 }
 

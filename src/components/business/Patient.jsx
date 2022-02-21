@@ -394,18 +394,18 @@ const Patient = (props) => {
         <Grid container spacing={1}>
           <Grid item xs={2}>
             <Grid container spacing={1}>
-              <Grid item xs={12}>
+              <Grid item xs={12} sx={{ justifyContent: 'center' }}>
                 <Box className="photo-square">
                   {photo !== "" ? <img src={photo} alt={'Foto do Paciente'} /> : <img src="" alt={''} />}
                 </Box>
               </Grid>
-              <Grid item xs={8}>
-                <Button color="primary" variant="contained" size="small" startIcon={<CameraAltIcon />}
+              <Grid item xs={8} >
+                <Button sx={{alignSelf: 'center'}}  color="primary" variant="contained" size="small" startIcon={<CameraAltIcon />}
                   disabled={!editMode} onClick={(e) => { photoSetDialog(true) }} fullWidth={true}>Editar
                 </Button>
               </Grid>
-              <Grid item xs={8}>
-                <Button color="error" variant="contained" size="small" startIcon={<DeleteIcon />}
+              <Grid item xs={8} >
+                <Button sx={{alignSelf: 'center'}} color="error" variant="contained" size="small" startIcon={<DeleteIcon />}
                   disabled={photo === "" || !editMode} onClick={(e) => { photoSet("") }} fullWidth={true}>Excluir
                 </Button>
               </Grid>
