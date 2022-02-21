@@ -6,22 +6,42 @@ import {
     DialogContentText, DialogTitle, Checkbox, FormControlLabel, Box,
     AppBar, Tabs, Tab, MenuItem
 } from '@mui/material'
+import DataTable from 'react-data-table-component'
 
 import EditIcon from '@mui/icons-material/Edit'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import CancelIcon from '@mui/icons-material/Cancel'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
+import AddIcon from '@mui/icons-material/Add';
 
 import { getList, putRec, postRec, deleteRec } from '../../services/apiconnect'
 import TabPanel, { posTab } from '../commons/TabPanel'
 import { theme } from '../../services/customtheme-bkp'
+import { customStyles1 } from '../../services/datatablestyle'
 
-import ProfessionalAvailability from './ProfessionalAvailability'
 import { timeBr } from '../../services/dateutils';
 
 const objectRef = 'covenant/'
 const objectId = 'covenantid/'
+
+var currentPlan = 0
+const currentPlanSet = (value) => {
+    currentPlan = value
+}
+var planListTemp = []
+const planListTempSet = (newObject) => {
+    planListTemp = newObject
+}
+
+var currentPrice = 0
+const currentPriceSet = (value) => {
+    currentPrice = value
+}
+var priceListTemp = []
+const priceListTempSet = (newObject) => {
+    priceListTemp = newObject
+}
 
 const Covenant = props => {
 
@@ -38,6 +58,7 @@ const Covenant = props => {
 
     const [planList, planListSet] = useState([])
     const [priceList, priceListSet] = useState([])
+    const [procedureList, procedureListSet] = useState([])
 
     const [insertMode, setInsertMode] = useState(id === '0')
     const [editMode, setEditMode] = useState(id === '0')
@@ -47,7 +68,55 @@ const Covenant = props => {
     const [deleteInfoDialog, setDeleteInfoDialog] = useState(false)
     const [emptyRecDialog, setEmptyRecDialog] = useState(false)
 
+    const [editPlanDialog, editPlanDialogSet] = useState(false)
+    const [planName, planNameSet] = useState('')
+
+    const [editPriceDialog, editPriceDialogSet] = useState(false)
+
+    const [covenantplanId, covenantplanIdSet] = useState('')
+    const [covenantplanName, covenantplanNameSet] = useState('')
+    const [procedureId, procedureIdSet] = useState('')
+    const [procedureName, procedureNameSet] = useState('')
+    const [ambPrice, ambPriceSet] = useState(0)
+    const [price, priceSet] = useState(0)
+
     const [tabValue, setTabValue] = useState(0);
+
+    const columnsPlan = [
+        {
+            name: 'Nome do Plano',
+            selector: row => row.name,
+            sortable: true,
+            width: '30vw',
+        },
+    ];
+
+    const columnsPrice = [
+        {
+            name: 'Plano',
+            selector: row => row.covenant_name,
+            sortable: true,
+            width: '30vw',
+        },
+        {
+            name: 'Procedimento',
+            selector: row => row.procedure_name,
+            sortable: true,
+            width: '30vw',
+        },
+        {
+            name: 'Tabela AMB',
+            selector: row => row.ambPrice,
+            sortable: true,
+            width: '30vw',
+        },
+        {
+            name: 'Valor',
+            selector: row => row.price,
+            sortable: true,
+            width: '30vw',
+        },
+    ];
 
     useEffect(() => {
         if (id !== '0') {
@@ -61,8 +130,18 @@ const Covenant = props => {
                     billingDaySet(items.record.billingDay || '')
                     paymentDaySet(items.record.paymentDay || '')
                 })
-            planListSet([])
-            priceListSet([])
+            getList(`covenantplancovenant/${id}`)
+                .then(items => {
+                    planListSet(items.record)
+                })
+            getList(`pricecovenant/${id}`)
+                .then(items => {
+                    priceListSet(items.record[0])
+                })
+            getList('procedure/')
+                .then(items => {
+                    procedureListSet(items.record)
+                })
         }
         setRecUpdated(true)
     }, [id, recUpdated])
@@ -85,18 +164,73 @@ const Covenant = props => {
             recObj = JSON.stringify(recObj)
             putRec(objectId + _id, recObj)
                 .then(result => {
+                    planSave(_id)
+                    priceSave(_id)
                     console.log('put', result)
                 })
         } else {
             recObj = JSON.stringify(recObj)
             postRec(objectRef, recObj)
-                .then(result => {
-                    console.log('result', result)
+                .then(async result => {
                     _idSet(result.record._id)
+                    planSave(result.record._id)
+                    priceSave(result.record._id)
                 })
         }
         setEditMode(false)
         setInsertMode(false)
+    }
+
+    const planSave = (parentId) => {
+        for (var subitem in planList) {
+            let recObj = {
+                covenant_id: parentId,
+                name: planList[subitem].name,
+            }
+            if (planList[subitem].name === '* EXCLUIR *') {
+                console.log('sub', planList[subitem]._id)
+                deleteRec('covenantplanid/' + planList[subitem]._id)
+            } else if (typeof (planList[subitem]._id) !== 'number') {
+                recObj = JSON.stringify(recObj)
+                putRec('covenantplanid/' + planList[subitem]._id, recObj)
+            } else {
+                recObj = JSON.stringify(recObj)
+                postRec('covenantplan/', recObj)
+            }
+        }
+        // setRecUpdated(false)
+    }
+
+    const priceSave = (parentId) => {
+        for (var subitem in priceList) {
+            console.log('price list', priceList[subitem]._id) 
+            let recObj = {
+                covenant_id: parentId,
+                covenantplan_id: covenantplanId,
+                procedure_id: priceList[subitem].procedure_id,
+                ambPrice: priceList[subitem].ambPrice,
+                price: priceList[subitem].price,
+            }
+            if (priceList[subitem].procedure_id === '* EXCLUIR *') {
+                deleteRec('priceid/' + priceList[subitem]._id)
+            } else if (typeof (priceList[subitem]._id) !== 'number') {
+                recObj = JSON.stringify(recObj)
+                console.log('price obj', recObj )
+                putRec('priceid/' + priceList[subitem]._id, recObj)
+                .then(result => {
+                    console.log('price result', result)
+                })
+
+            } else {
+                recObj = JSON.stringify(recObj)
+                console.log('post price obj', recObj )
+                postRec('price/', recObj)
+                .then(result => {
+                    console.log('post price result', result)
+                })
+            }
+        }
+        setRecUpdated(false)
     }
 
     const refreshRec = () => {
@@ -130,6 +264,115 @@ const Covenant = props => {
 
     const emptyRecClose = () => {
         setEmptyRecDialog(false)
+    }
+
+    const addPlan = () => {
+        let currentPlanTemp = 0
+        if (planList) currentPlanTemp = planList.length
+
+        planNameSet('')
+
+        if (planList) {
+            planListTempSet([...planList, { _id: currentPlanTemp, name: 'x' }])
+        } else {
+            planListTempSet([{ _id: currentPlanTemp, name: 'x' }])
+        }
+
+        currentPlanSet(currentPlanTemp)
+        editPlanDialogSet(true)
+        return null
+    }
+
+    const editPlanOpen = (rowid) => {
+        planListTempSet(planList)
+        const currentPlanTemp = planList.findIndex((item) => { return item._id === rowid })
+
+        planNameSet(planListTemp[currentPlanTemp].name)
+
+        currentPlanSet(currentPlanTemp)
+        editPlanDialogSet(true)
+    }
+
+    const editPlanConfirm = () => {
+        planListTemp[currentPlan].name = planName
+
+        planListSet(planListTemp)
+        editPlanDialogSet(false)
+        setEditMode(true)
+    }
+
+    const editPlanCancel = () => {
+        editPlanDialogSet(false)
+    }
+
+    const editPlanDelete = () => {
+        planListTemp[currentPlan].name = '* EXCLUIR *'
+        planListSet(planListTemp)
+
+        editPlanDialogSet(false)
+        setEditMode(true)
+    }
+
+    const addPrice = () => {
+        let currentPriceTemp = 0
+        if (priceList) currentPriceTemp = priceList.length
+
+        covenantplanIdSet('')
+        procedureIdSet('')
+        ambPriceSet('')
+        priceSet('')
+
+        if (priceList) {
+            priceListTempSet([...priceList, { _id: currentPriceTemp, procedureId: '', ambPrice: 0, price: 0 }])
+        } else {
+            priceListTempSet([{ _id: currentPriceTemp, procedureId: '', ambPrice: 0, price: 0 }])
+        }
+
+        currentPriceSet(currentPriceTemp)
+        editPriceDialogSet(true)
+        return null
+    }
+
+    const editPriceOpen = (rowid) => {
+        priceListTempSet(priceList)
+        const currentPriceTemp = priceList.findIndex((item) => { return item._id === rowid })
+
+        procedureIdSet(priceListTemp[currentPriceTemp].procedure_id)
+        ambPriceSet(priceListTemp[currentPriceTemp].ambPrice)
+        priceSet(priceListTemp[currentPriceTemp].price)
+
+        currentPriceSet(currentPriceTemp)
+        editPriceDialogSet(true)
+    }
+
+    const editPriceConfirm = () => {
+        const procedureIndex = procedureList.findIndex((item) => { return item._id === procedureId })
+        const procedureNameList = procedureList[procedureIndex].name
+ 
+        const planIndex = planList.findIndex((item) => { return item._id === covenantplanId })
+        const covenantplanNameList = planList[planIndex].name
+ 
+        priceListTemp[currentPrice].procedure_id = procedureId
+        priceListTemp[currentPrice].procedure_name = procedureNameList
+
+        priceListTemp[currentPrice].ambPrice = ambPrice
+        priceListTemp[currentPrice].price = price
+
+        priceListSet(priceListTemp)
+        editPriceDialogSet(false)
+        setEditMode(true)
+    }
+
+    const editPriceCancel = () => {
+        editPriceDialogSet(false)
+    }
+
+    const editPriceDelete = () => {
+        priceListTemp[currentPrice].procedure_id = '* EXCLUIR *'
+        priceListSet(priceListTemp)
+
+        editPriceDialogSet(false)
+        setEditMode(true)
     }
 
     return (
@@ -251,7 +494,7 @@ const Covenant = props => {
                             inputProps={{ type: 'number', min: 1, max: 30, step: 1 }}
                         />
                     </Grid>
-                    <Grid item xs={1}></Grid> 
+                    <Grid item xs={1}></Grid>
                     <Grid item xs={2}>
                         <TextField
                             value={paymentDay}
@@ -285,22 +528,169 @@ const Covenant = props => {
                         </Tabs>
                     </AppBar>
                     <TabPanel value={tabValue} index={0} dir={theme.direction}>
-                        <ProfessionalAvailability
-                            itemList={planList}
-                            editMode={editMode}
-                            onChangeSublist={planListSet}
-                        />
+                        <div className='tool-title-sub'>
+                            <Button color='primary' variant='contained' size='small' endIcon={<AddIcon />}
+                                onClick={_ => addPlan()} disabled={(false)} />
+                        </div>
+                        <div >
+                            <DataTable
+                                noHeader={true}
+                                columns={columnsPlan}
+                                customStyles={customStyles1}
+                                data={planList}
+                                Clicked
+                                keyField={'_id'}
+                                highlightOnHover={true}
+                                fixedHeader={true}
+                                paginationPerPage={6}
+                                onRowClicked={(row, event) => { editPlanOpen(row._id) }}
+                            />
+                        </div>
+
                     </TabPanel>
                     <TabPanel value={tabValue} index={1} dir={theme.direction}>
-                        <ProfessionalAvailability
-                            itemList={priceList}
-                            editMode={editMode}
-                            onChangeSublist={priceListSet}
-                        />
+                        <div className='tool-title-sub'>
+                            <Button color='primary' variant='contained' size='small' endIcon={<AddIcon />}
+                                onClick={_ => addPrice()} disabled={(false)} />
+                        </div>
+                        <div >
+                            <DataTable
+                                noHeader={true}
+                                columns={columnsPrice}
+                                customStyles={customStyles1}
+                                data={priceList}
+                                Clicked
+                                keyField={'_id'}
+                                highlightOnHover={true}
+                                fixedHeader={true}
+                                paginationPerPage={6}
+                                onRowClicked={(row, event) => { editPriceOpen(row._id) }}
+                            />
+                        </div>
+
                     </TabPanel>
                 </div>
 
             </Form>
+
+            <Dialog open={editPlanDialog}>
+                <DialogTitle id="alert-dialog-title">{"Inclusão/Alteração de Planos"}</DialogTitle>
+                {/* <p/> */}
+                <DialogContent dividers>
+                    <div className='modal-form'>
+                        <Grid container spacing={1} >
+                            <Grid item xs={12}>
+                                <TextField
+                                    label='Nome do Plano'
+                                    value={planName}
+                                    onChange={(event) => { planNameSet(event.target.value) }}
+                                    size='small'
+                                    type="text"
+                                    InputLabelProps={{ shrink: true, sx: { color: 'black' } }}
+                                    sx={{ width: 350 }}
+                                />
+                            </Grid>
+                        </Grid>
+                    </div>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={editPlanDelete} color="primary" variant='contained' size='small'>
+                        EXCLUIR
+                    </Button>
+                    <Button onClick={editPlanConfirm} color="primary" variant='contained' size='small'>
+                        SALVAR
+                    </Button>
+                    <Button onClick={editPlanCancel} color="primary" variant='contained' size='small'>
+                        CANCELAR
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={editPriceDialog}>
+                <DialogTitle id="alert-dialog-title">{"Inclusão/Alteração de Planos"}</DialogTitle>
+                {/* <p/> */}
+                <DialogContent dividers>
+                    <div className='modal-form'>
+                        <Grid container spacing={2} >
+                            <Grid item xs={6}>
+                                <TextField
+                                    id='procedure'
+                                    label='Procedimento'
+                                    value={procedureId}
+                                    onChange={(event) => { procedureIdSet(event.target.value) }}
+                                    size='small'
+                                    fullWidth={true}
+                                    disabled={false}
+                                    type='text'
+                                    InputLabelProps={{ shrink: true, sx: { color: 'black' } }}
+                                    // sx={{ width: 150 }}
+                                    select
+                                >
+                                    {procedureList.map((option) => (
+                                        <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    id='covenantplan'
+                                    label='Plano'
+                                    value={covenantplanId}
+                                    onChange={(event) => { covenantplanIdSet(event.target.value) }}
+                                    size='small'
+                                    fullWidth={true}
+                                    disabled={false}
+                                    type='text'
+                                    InputLabelProps={{ shrink: true, sx: { color: 'black' } }}
+                                    // sx={{ width: 150 }}
+                                    select
+                                >
+                                    {planList.map((option) => (
+                                        <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                        {/* </Grid>
+                        <Grid container spacing={2} > */}
+                            <Grid item xs={6}>
+                                <TextField
+                                    label='Tabela AMB'
+                                    value={ambPrice}
+                                    onChange={(event) => { ambPriceSet(event.target.value) }}
+                                    size='small'
+                                    type="number"
+                                    InputLabelProps={{ shrink: true, sx: { color: 'black' } }}
+                                // sx={{ width: 350 }}
+                                />
+                            </Grid>
+                        {/* </Grid>
+                        <Grid container spacing={2} > */}
+                            <Grid item xs={6}>
+                                <TextField
+                                    label='Valor'
+                                    value={price}
+                                    onChange={(event) => { priceSet(event.target.value) }}
+                                    size='small'
+                                    type="number"
+                                    InputLabelProps={{ shrink: true, sx: { color: 'black' } }}
+                                // sx={{ width: 350 }}
+                                />
+                            </Grid>
+                        </Grid>
+                    </div>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={editPriceDelete} color="primary" variant='contained' size='small'>
+                        EXCLUIR
+                    </Button>
+                    <Button onClick={editPriceConfirm} color="primary" variant='contained' size='small'>
+                        SALVAR
+                    </Button>
+                    <Button onClick={editPriceCancel} color="primary" variant='contained' size='small'>
+                        CANCELAR
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
             <Dialog
                 open={deleteDialog}
