@@ -5,7 +5,7 @@ import {
 
 import { getList, putRec } from '../../services/apiconnect'
 import TextDialogContent from './TextDialogContent'
-import { minWidth } from '@mui/system';
+// import { minWidth } from '@mui/system';
 
 var textTitle = null
 var textColor = null

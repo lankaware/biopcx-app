@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { Form } from 'reactstrap';
 import {
     Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
-    DialogContentText, DialogTitle, Checkbox, FormControlLabel, Box,
+    DialogContentText, DialogTitle, Box,
     AppBar, Tabs, Tab, MenuItem
 } from '@mui/material'
 import DataTable from 'react-data-table-component'
@@ -19,8 +19,6 @@ import { getList, putRec, postRec, deleteRec } from '../../services/apiconnect'
 import TabPanel, { posTab } from '../commons/TabPanel'
 import { theme } from '../../services/customtheme-bkp'
 import { customStyles1 } from '../../services/datatablestyle'
-
-import { timeBr } from '../../services/dateutils';
 
 const objectRef = 'covenant/'
 const objectId = 'covenantid/'
@@ -74,9 +72,9 @@ const Covenant = props => {
     const [editPriceDialog, editPriceDialogSet] = useState(false)
 
     const [covenantplanId, covenantplanIdSet] = useState('')
-    const [covenantplanName, covenantplanNameSet] = useState('')
+    // const [covenantplanName, covenantplanNameSet] = useState('')
     const [procedureId, procedureIdSet] = useState('')
-    const [procedureName, procedureNameSet] = useState('')
+    // const [procedureName, procedureNameSet] = useState('')
     const [ambPrice, ambPriceSet] = useState(0)
     const [price, priceSet] = useState(0)
 
@@ -129,7 +127,7 @@ const Covenant = props => {
     ];
 
     useEffect(() => {
-        if (id !== '0') {
+        if (_id !== '0') {  // Testar !!!!!!!!!!!!!!!!!!
             getList(objectId + id)
                 .then(items => {
                     nameSet(items.record.name || '')
@@ -216,7 +214,7 @@ const Covenant = props => {
             console.log('price list', priceList[subitem]._id)
             let recObj = {
                 covenant_id: parentId,
-                covenantplan_id: covenantplanId,
+                covenantplan_id: priceList[subitem].covenantplan_id,
                 procedure_id: priceList[subitem].procedure_id,
                 ambPrice: priceList[subitem].ambPrice,
                 price: priceList[subitem].price,
@@ -333,9 +331,9 @@ const Covenant = props => {
         priceSet('')
 
         if (priceList) {
-            priceListTempSet([...priceList, { _id: currentPriceTemp, procedureId: '', ambPrice: 0, price: 0 }])
+            priceListTempSet([...priceList, { _id: currentPriceTemp, procedureId: '', covenantplanId: '', ambPrice: 0, price: 0 }])
         } else {
-            priceListTempSet([{ _id: currentPriceTemp, procedureId: '', ambPrice: 0, price: 0 }])
+            priceListTempSet([{ _id: currentPriceTemp, procedureId: '', covenantplanId: '', ambPrice: 0, price: 0 }])
         }
 
         currentPriceSet(currentPriceTemp)
@@ -348,6 +346,7 @@ const Covenant = props => {
         const currentPriceTemp = priceList.findIndex((item) => { return item._id === rowid })
 
         procedureIdSet(priceListTemp[currentPriceTemp].procedure_id)
+        covenantplanIdSet(priceListTemp[currentPriceTemp].covenantplan_id)
         ambPriceSet(priceListTemp[currentPriceTemp].ambPrice)
         priceSet(priceListTemp[currentPriceTemp].price)
 
@@ -475,7 +474,7 @@ const Covenant = props => {
                             InputLabelProps={{ shrink: true, disabled: false }}
                             variant='outlined'
                             size='small'
-                            inputProps={{ type: 'date' }}
+                            inputProps={{ type: 'text' }}
                         />
                     </Grid>
                     <Grid item xs={3}>
@@ -619,7 +618,7 @@ const Covenant = props => {
             </Dialog>
 
             <Dialog open={editPriceDialog}>
-                <DialogTitle id="alert-dialog-title">{"Inclusão/Alteração de Planos"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{"Inclusão/Alteração de Preços"}</DialogTitle>
                 {/* <p/> */}
                 <DialogContent dividers>
                     <div className='modal-form'>
@@ -638,9 +637,11 @@ const Covenant = props => {
                                     // sx={{ width: 150 }}
                                     select
                                 >
-                                    {planList.map((option) => (
+                                    {planList.map((option) => {
+                                        if (typeof option._id === 'number') return
+                                        return (
                                         <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
-                                    ))}
+                                    )})}
                                 </TextField>
                             </Grid>
                             <Grid item xs={6}>

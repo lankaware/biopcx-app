@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { Form } from 'reactstrap';
 import {
     Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
-    DialogContentText, DialogTitle, AppBar, Tabs, Tab, MenuItem, Box
+    DialogContentText, DialogTitle, MenuItem, Box
 } from '@mui/material'
 
 import EditIcon from '@mui/icons-material/Edit'
@@ -14,9 +13,7 @@ import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
 
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec, postRec, deleteRec } from '../../services/apiconnect'
-import { theme } from '../../services/customtheme'
 import { timeBr } from '../../services/dateutils'
-import TabPanel, { posTab } from '../commons/TabPanel'
 
 const objectRef = 'agenda/'
 const objectId = 'agendaid/'
@@ -61,7 +58,7 @@ const Agenda = props => {
     const [deleteInfoDialog, setDeleteInfoDialog] = useState(false)
     const [emptyRecDialog, setEmptyRecDialog] = useState(false)
 
-    const [tabValue, setTabValue] = useState(0);
+    // const [tabValue, setTabValue] = useState(0);
 
     const classes = useStyles()
 

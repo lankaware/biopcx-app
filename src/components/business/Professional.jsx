@@ -70,11 +70,9 @@ const Professional = props => {
     const classes = useStyles()
 
     useEffect(() => {
+        getList('specialty/').then(items => { specialtyListSet(items.record) })
         if (id !== '0') {
             var tempList = []
-
-            getList('specialty/').then(items => { specialtyListSet(items.record) })
-
             getList(objectId + id)
                 .then(items => {
                     // _idSet(items)
@@ -314,7 +312,7 @@ const Professional = props => {
                     <Grid item xs={3}>
                         <TextField
                             id='specialty'
-                            label='Convênio'
+                            label='Especialidade'
                             value={specialtyId}
                             onChange={(event) => { specialtyIdSet(event.target.value) }}
                             size='small'
