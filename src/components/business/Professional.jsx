@@ -71,9 +71,9 @@ const Professional = props => {
 
     useEffect(() => {
         getList('specialty/').then(items => { specialtyListSet(items.record) })
-        if (id !== '0') {
+        if (_id !== '0') {
             var tempList = []
-            getList(objectId + id)
+            getList(objectId + _id)
                 .then(items => {
                     // _idSet(items)
 
@@ -130,7 +130,7 @@ const Professional = props => {
                     availabilityListSet(tempList)
                 })
         }
-    }, [id])
+    }, [_id])
 
     const saveRec = () => {
         if (!name) {
