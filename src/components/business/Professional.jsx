@@ -12,6 +12,7 @@ import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import CancelIcon from '@mui/icons-material/Cancel'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
+import AddIcon from '@mui/icons-material/Add';
 
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec, postRec, deleteRec } from '../../services/apiconnect'
@@ -42,24 +43,12 @@ const Professional = props => {
     const [cbo, cboSet] = useState('')
     const [internal, internalSet] = useState(false)
 
-    const [nameTemp, nameSetTemp] = useState('')
-    const [cpfTemp, cpfSetTemp] = useState('')
-    const [specialtyIdTemp, specialtyIdSetTemp] = useState('')
-    const [specialtyNameTemp, specialtyNameSetTemp] = useState('')
-    const [crmTemp, crmSetTemp] = useState('')
-    const [emailTemp, emailSetTemp] = useState('')
-    const [phoneTemp, phoneSetTemp] = useState('')
-    const [admissionDateTemp, admissionDateSetTemp] = useState('')
-    const [dismissalDateTemp, dismissalDateSetTemp] = useState('')
-    const [cnsTemp, cnsSetTemp] = useState('')
-    const [cboTemp, cboSetTemp] = useState('')
-    const [internalTemp, internalSetTemp] = useState(false)
-
     const [specialtyList, specialtyListSet] = useState([])
     const [availabilityList, availabilityListSet] = useState([])
 
     const [insertMode, setInsertMode] = useState(id === '0')
     const [editMode, setEditMode] = useState(id === '0')
+    const [recUpdated, setRecUpdated] = useState(true)
 
     const [deleteDialog, setDeleteDialog] = useState(false)
     const [deleteInfoDialog, setDeleteInfoDialog] = useState(false)
@@ -90,19 +79,6 @@ const Professional = props => {
                     cboSet(items.record[0].cbo || '')
                     internalSet(items.record[0].internal || false)
 
-                    nameSetTemp(items.record[0].name || '')
-                    cpfSetTemp(items.record[0].cpf || '')
-                    specialtyNameSetTemp(items.record[0].specialty_name[0] || '')
-                    specialtyIdSetTemp(items.record[0].specialty_id || '')
-                    crmSetTemp(items.record[0].crm || '')
-                    emailSetTemp(items.record[0].email || '')
-                    phoneSetTemp(items.record[0].phone || '')
-                    admissionDateSetTemp((items.record[0].admissionDate || '').substr(0, 10))
-                    dismissalDateSetTemp((items.record[0].dismissalDate || '').substr(0, 10))
-                    cnsSetTemp(items.record[0].cns || '')
-                    cboSetTemp(items.record[0].cbo || '')
-                    internalSetTemp(items.record[0].internal || false)
-
                     for (const subItem of items.record[0].availability) {
                         const newLine = {
                             '_id': subItem._id,
@@ -116,21 +92,23 @@ const Professional = props => {
                         tempList = ([...tempList, newLine])
                     }
                 })
-                .then(_ => {
-                    if (tempList.length === 0) {
-                        const newLine = {
-                            '_id': '0',
-                            'weekDay': 1,
-                            'initialTime': '00:00',
-                            'finalTime': '00:00',
-                            'interval': 0,
-                        }
-                        tempList = ([newLine])
-                    }
-                    availabilityListSet(tempList)
-                })
+            // .then(_ => {
+            //     if (tempList.length === 0) {
+            //         const newLine = {
+            //             '_id': '0',
+            //             'weekDay': 1,
+            //             'initialTime': '00:00',
+            //             'finalTime': '00:00',
+            //             'interval': 0,
+            //         }
+            //         tempList = ([newLine])
+            //     }
+            //     availabilityListSet(tempList)
+            // })
         }
-    }, [_id])
+        setRecUpdated(true)
+
+    }, [_id, recUpdated])
 
     const saveRec = () => {
         if (!name) {
@@ -185,19 +163,7 @@ const Professional = props => {
                     _idSet(result.record._id)
                 })
         }
-        nameSetTemp(name)
-        cpfSetTemp(cpf)
-        specialtyIdSetTemp(specialtyId)
-        specialtyNameSetTemp(specialtyName)
-        crmSetTemp(crm)
-        emailSetTemp(email)
-        phoneSetTemp(phone)
-        admissionDateSetTemp(admissionDate)
-        dismissalDateSetTemp(dismissalDate)
-        cnsSetTemp(cns)
-        cboSetTemp(cbo)
-        internalSetTemp(internal)
-
+        setRecUpdated(false)
         setEditMode(false)
         setInsertMode(false)
     }
@@ -206,19 +172,7 @@ const Professional = props => {
         if (insertMode) {
             document.getElementById("backButton").click();
         }
-        nameSet(nameTemp)
-        cpfSet(cpfTemp)
-        specialtyIdSet(specialtyIdTemp)
-        specialtyNameSet(specialtyNameTemp)
-        crmSet(crmTemp)
-        emailSet(emailTemp)
-        phoneSet(phoneTemp)
-        admissionDateSet(admissionDateTemp)
-        dismissalDateSet(dismissalDateTemp)
-        cnsSet(cnsTemp)
-        cboSet(cboTemp)
-        internalSet(internalTemp)
-
+        setRecUpdated(false)
         setEditMode(false)
     }
 
@@ -245,6 +199,10 @@ const Professional = props => {
 
     const emptyRecClose = () => {
         setEmptyRecDialog(false)
+    }
+
+    const addAvailability = () => {
+        return null
     }
 
     return (
@@ -325,24 +283,6 @@ const Professional = props => {
                                 <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
                             ))}
                         </TextField>
-                        {/* <Autocomplete
-                            id="specialty"
-                            options={specialtyList}
-                            getOptionLabel={(option) => option.name}
-                            // style={{ width: 230 }}
-                            size='small'
-                            disabled={!editMode}
-                            onChange={(event, newValue) => { specialtyIdSet(newValue._id) }}
-                            inputValue={specialtyName}
-                            onInputChange={(event, newInputValue) => { if (event && event.type !== 'blur') specialtyNameSet(newInputValue) }}
-                            renderInput={(params) =>
-                                <TextField {...params}
-                                    label="Especialidade"
-                                    variant="outlined"
-                                    InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                                    inputProps={{ ...params.inputProps }}
-                                />}
-                        /> */}
                     </Grid>
                     <Grid item xs={3}>
                         <TextField
@@ -355,7 +295,6 @@ const Professional = props => {
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                             variant='outlined'
                             size='small'
-                        // inputProps={{ type: 'number' }}
                         />
                     </Grid>
                     <Grid item xs={3}>
@@ -471,6 +410,10 @@ const Professional = props => {
                         </Tabs>
                     </AppBar>
                     <TabPanel value={tabValue} index={0} dir={theme.direction}>
+                        <div className='tool-title-sub'>
+                            <Button color='primary' variant='contained' size='small' endIcon={<AddIcon />}
+                                onClick={_ => addAvailability()} disabled={(false)} />
+                        </div>
                         <ProfessionalAvailability
                             itemList={availabilityList}
                             editMode={editMode}
