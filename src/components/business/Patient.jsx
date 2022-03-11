@@ -16,13 +16,15 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import NotesIcon from '@mui/icons-material/Notes';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 import { useStyles } from "../../services/stylemui";
 import { getList, putRec, postRec, deleteRec } from "../../services/apiconnect";
 import { ageCalc } from "../../services/dateutils";
 import { imcCalc } from "../../services/genfunctions";
 import TextDialog from "./TextDialog.jsx";
-import PrescDialog from "./Prescription";
+import PrescDialog from "./Prescription/Prescription";
+import ReqDialog from "./Request/Request"
 
 import { Context } from '../../context/PatientContext'
 
@@ -87,9 +89,12 @@ const Patient = (props) => {
   const [imc, imcSet] = useState("")
   const [firstAppoint, firstAppointSet] = useState("")
   const [lastAppoint, lastAppointSet] = useState("")
-  const [prescList, prescListSet] = useState()
+  const [prescList, prescListSet] = useState("");
+  const [reqList, reqListSet] = useState("");
+
 
   const [prescDialog, prescDialogSet] = useState(false);
+  const [reqDialog, reqDialogSet] = useState(false);
 
   // const [cityList, cityListSet] = useState([])
   // const [covenantList, covenantListSet] = useState([])
@@ -174,6 +179,7 @@ const Patient = (props) => {
           lastAppointSet((items.record[0].lastAppoint || "").substr(0, 10));
 
           prescListSet(items.record[0].prescription || []);
+          reqListSet(items.record[0].request || []);
 
         });
     }
@@ -318,6 +324,10 @@ const Patient = (props) => {
     prescDialogSet(true)
   }
 
+  const openReq = () => {
+    reqDialogSet(true)
+  }
+
 
   const openTextDialog = () => {
     textDialogSet(true)
@@ -331,9 +341,9 @@ const Patient = (props) => {
         </div>
         <div className='tool-buttons'>
           <Box m={1}>
-            <Button color="primary" variant="contained" size="small" startIcon={(show ? <CancelIcon /> : <HistoryEduIcon /> )} 
+            <Button color="primary" variant="contained" size="small" startIcon={(show ? <CancelIcon /> : <HistoryEduIcon />)}
               onClick={() => (show ? showSet(false) : showSet(true))}
-                        > INFO
+            > INFO
             </Button>
             {show &&
               <div className="absolute">
@@ -344,16 +354,16 @@ const Patient = (props) => {
                   </Button>
                 </Box>
                 <Box m={1}>
-                  <Button color="secondary" variant="contained" size="small" startIcon={<NotesIcon />}
+                  <Button color="secondary" variant="contained" size="small" startIcon={<AssignmentIcon />}
                     onMouseOver={() => showSet(true)}
-                   
-                    onClick={(_) => openPresc()} id="prescButton" disabled={insertMode}>SOLICITA.
+
+                    onClick={(_) => openReq()} id="prescButton" disabled={insertMode}>SOLICITA.
                   </Button>
                 </Box>
                 <Box m={1}>
                   <Button color="secondary" variant="contained" size="small" startIcon={<HistoryEduIcon />}
                     onMouseOver={() => showSet(true)}
-                    
+
                     onClick={(_) => openTextDialog()} disabled={insertMode}>HISTÓRICO                  </Button>
                 </Box>
               </div>
@@ -400,12 +410,12 @@ const Patient = (props) => {
                 </Box>
               </Grid>
               <Grid item xs={8} >
-                <Button sx={{alignSelf: 'center'}}  color="primary" variant="contained" size="small" startIcon={<CameraAltIcon />}
+                <Button sx={{ alignSelf: 'center' }} color="primary" variant="contained" size="small" startIcon={<CameraAltIcon />}
                   disabled={!editMode} onClick={(e) => { photoSetDialog(true) }} fullWidth={true}>Editar
                 </Button>
               </Grid>
               <Grid item xs={8} >
-                <Button sx={{alignSelf: 'center'}} color="error" variant="contained" size="small" startIcon={<DeleteIcon />}
+                <Button sx={{ alignSelf: 'center' }} color="error" variant="contained" size="small" startIcon={<DeleteIcon />}
                   disabled={photo === "" || !editMode} onClick={(e) => { photoSet("") }} fullWidth={true}>Excluir
                 </Button>
               </Grid>
@@ -1037,7 +1047,14 @@ const Patient = (props) => {
         patientId={_id}
       />
 
-      {/* <PrescDialog /> */}
+      <ReqDialog
+        reqDialog={reqDialog}
+        reqDialogSet={reqDialogSet}
+        reqList={reqList}
+        reqListSet={reqListSet}
+        patientId={_id}
+      />
+
       <TextDialog
         textDialog={textDialog}
         textDialogSet={textDialogSet}

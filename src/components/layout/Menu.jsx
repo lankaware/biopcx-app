@@ -46,6 +46,7 @@ const AppMenu = props => {
                             <DropdownItem className='menu-item' href="/covenantList">Convênios</DropdownItem>
                             <DropdownItem className='menu-item' href="/procedures">Procedimentos</DropdownItem>
                             <DropdownItem className='menu-item' href="/medicineList">Medicamentos</DropdownItem>
+                            <DropdownItem className='menu-item' href="/examList">Itens de Solicitação</DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
                     <UncontrolledDropdown nav inNavbar>

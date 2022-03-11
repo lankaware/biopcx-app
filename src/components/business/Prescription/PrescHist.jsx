@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Box, Dialog, Avatar, DialogContent, List, ListItem, ListItemButton, ListItemAvatar, ListItemText, IconButton
 } from "@mui/material";
-import { useState } from 'react';
 import parse from 'html-react-parser';
-import { prettyDate } from '../../services/dateutils'
+
+import { prettyDate } from '../../../services/dateutils'
+
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
@@ -16,8 +17,8 @@ const PrescHist = props => {
     const [update, updateSet] = useState(false)
     const prescList = props.prescList
     const prescListSet = props.prescListSet
-const extMedicineSet = props.extMedicineSet    
-const intMedicineSet = props.intMedicineSet
+    const extMedicineSet = props.extMedicineSet
+    const intMedicineSet = props.intMedicineSet
 
     useEffect(() => {
         updateSet(false)

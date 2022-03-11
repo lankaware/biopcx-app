@@ -10,18 +10,20 @@ import Procedures from '../business/Procedures'
 import Professional from '../business/Professional'
 import Professionals from '../business/Professionals'
 import Patient from '../business/Patient'
-import Patients from '../business/Patients' 
+import Patients from '../business/Patients'
 import Covenant from '../business/Covenant'
-import CovenantList from '../business/CovenantList' 
+import CovenantList from '../business/CovenantList'
 import Agenda from '../business/Agenda'
 import Agendas from '../business/Agendas'
 import Medicine from '../business/Medicine'
 import MedicineList from '../business/MedicineList'
 import TextTemplate from '../business/TextTemplate'
 import TextTemplateList from '../business/TextTemplateList'
+import Exam from '../business/Exam'
+import ExamList from '../business/ExamList'
 
 const Content = props => {
-    return ( 
+    return (
         <>
             <main className='content'>
                 <Switch>
@@ -41,6 +43,8 @@ const Content = props => {
                     <Route exact path="/professional/:id" component={Professional} />
                     <Route exact path="/medicineList" component={MedicineList} />
                     <Route exact path="/medicine/:id" component={Medicine} />
+                    <Route exact path="/examList" component={ExamList} />
+                    <Route exact path="/exam/:id" component={Exam} />
                     <Route exact path="/texttemplateList" component={TextTemplateList} />
                     <Route exact path="/texttemplate/:id" component={TextTemplate} />
                     <Route exact path="/user" component={User} />
