@@ -3,8 +3,7 @@ import { useParams } from 'react-router-dom'
 import { Form } from 'reactstrap';
 import {
     Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
-    DialogContentText, DialogTitle, Box,
-    AppBar, Tabs, Tab, MenuItem
+    DialogContentText, DialogTitle, Box, AppBar, Tabs, Tab, MenuItem
 } from '@mui/material'
 import DataTable from 'react-data-table-component'
 
@@ -128,7 +127,7 @@ const Covenant = props => {
 
     useEffect(() => {
         if (_id !== '0') {  // Testar !!!!!!!!!!!!!!!!!!
-            getList(objectId + id)
+            getList(objectId + _id)
                 .then(items => {
                     nameSet(items.record.name || '')
                     phoneSet(items.record.phone || '')
@@ -138,11 +137,11 @@ const Covenant = props => {
                     billingDaySet(items.record.billingDay || '')
                     paymentDaySet(items.record.paymentDay || '')
                 })
-            getList(`covenantplancovenant/${id}`)
+            getList(`covenantplancovenant/${_id}`)
                 .then(items => {
                     planListSet(items.record)
                 })
-            getList(`pricecovenant/${id}`)
+            getList(`pricecovenant/${_id}`)
                 .then(items => {
                     console.log('items.record', items.record)
                     priceListSet(items.record)
@@ -153,7 +152,7 @@ const Covenant = props => {
                 })
         }
         setRecUpdated(true)
-    }, [id, recUpdated])
+    }, [_id, recUpdated])
 
     const saveRec = () => {
         if (!name) {
