@@ -41,7 +41,7 @@ const Patient = (props) => {
 
   const webcamRef = useRef("")
 
-  const [_id, _idSet] = useState("")
+  const [_id, _idSet] = useState(id)
   const [photo, photoSet] = useState("")
   const [name, nameSet] = useState("")
   const [lastname, lastnameSet] = useState("")
@@ -126,7 +126,8 @@ const Patient = (props) => {
   };
 
   useEffect(() => {
-    if (id !== "0") {
+    console.log(_id)
+    if (_id !== '0') {
       getList(objectId + id)
         .then((items) => {
           _idSet(items.record[0]._id);
@@ -267,7 +268,7 @@ const Patient = (props) => {
       lastAppoint,
 
     };
-    if (_id !== "0") {
+    if (_id !== '0') {
       recObj = JSON.stringify(recObj);
       putRec(objectId + _id, recObj)
     } else {

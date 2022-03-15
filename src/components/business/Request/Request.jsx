@@ -3,13 +3,13 @@ import {
     Grid, Box, DialogContentText, Button, Dialog, DialogContent, DialogTitle, TextField, DialogActions, Checkbox,
     MenuItem, FormControlLabel, Typography
 } from "@mui/material";
-import PrescTextEditor from "../../layout/PrescTextEditor";
+import ReqTextEditor from "../../layout/ReqTextEditor";
 import { useState } from 'react';
 import { getList, putRec } from "../../../services/apiconnect";
 import ReactToPrint from "react-to-print"
 import { useStyles } from "../../../services/stylemui";
-import reqHist from './ReqHist';
-import reqToPrint from './ReqToPrint';
+import ReqHist from './ReqHist';
+import ReqToPrint from './ReqToPrint';
 
 var headerText = null;
 var header = null;
@@ -22,7 +22,7 @@ const ReqDialog = props => {
     const [examName, examNameSet] = useState('');
     const [examList, examListSet] = useState([]);
     const [examId, examIdSet] = useState('');
-    const [reqList,reqListSet] = useState([]);
+    const [reqList, reqListSet] = useState([]);
     const [printDialog, printDialogSet] = useState(false);
     const [headerAdd, headerAddSet] = useState(false);
     const [footerAdd, footerAddSet] = useState(false);
@@ -34,8 +34,8 @@ const ReqDialog = props => {
     const classes = useStyles();
 
     useEffect(() => {
-        // getList("medicine/")
-        //     .then((items) => { medicineListSet(items.record) })
+        getList("exam/")
+             .then((items) => { examListSet(items.record) })
         getList('texttemplate/')
             .then(items => {
                 for (const subItem of items.record) {
@@ -54,7 +54,7 @@ const ReqDialog = props => {
         if (patientId) {
             getList('patientid/' + patientId)
                 .then((items) => {
-                    reqListSet(items.record[0].request);
+                    reqListSet(items.record[0].request || "");
                 })
         }
     }, [patientId]);
@@ -64,7 +64,7 @@ const ReqDialog = props => {
     // }, [extMedicine, intMedicine]);
 
     const addExam = () => {
-        reqTextSet(`${reqText} <br>${examName} <br>`)
+        reqTextSet(`${reqText} ${examName} <br>`)
         // if (medicineWayOfUse === "Interno") {
         //     if (intMedicine.search("Interno:") !== -1) {
         //         intMedicineSet(intMedicine + medicineName + " " + medicineDose + " <br>")
@@ -100,7 +100,7 @@ const ReqDialog = props => {
         }
     }
 
-    const savereq = () => {
+    const saveReq = () => {
         header = headerAdd === true ? headerText : "&nbsp;"
         footer = footerAdd === true ? footerText : "&nbsp;"
         printDialogSet(true)
@@ -109,7 +109,7 @@ const ReqDialog = props => {
             "reqContent": reqText
         }];
         let recObj = {
-            req: req
+            request: req
         }
 
         recObj = JSON.stringify(recObj)
@@ -142,12 +142,12 @@ const ReqDialog = props => {
                 </DialogTitle>
                 <DialogContent style={{ display: "flex", gap: "1rem" }}>
                     <Box sx={{ width: 3 / 10 }}>
-                        <reqHist reqList={reqList} reqListSet={reqListSet} reqTextSet={reqTextSet} />
+                        <ReqHist reqList={reqList} reqListSet={reqListSet} reqTextSet={reqTextSet} />
                     </Box>
                     {/*  <div >   className="data-form" */}
                     <Box className="data-form" sx={{ width: 7 / 10 }}>
                         <Grid container spacing={2}>
-                            <Grid item xs={3}>
+                            <Grid item xs={6}>
                                 <TextField
                                     id='Id'
                                     label='Nome do Exame'
@@ -190,9 +190,6 @@ const ReqDialog = props => {
                             <Grid item xs={2}>
                                 <Button variant="outlined" onClick={addExam}>Adicionar</Button>
                             </Grid>
-                            <Grid item xs={1}>
-                            </Grid>
-
                             <Grid item xs={3}>
                                 <Box display="flex"
                                     justifyContent="center">
@@ -209,7 +206,7 @@ const ReqDialog = props => {
                             display="flex"
                             justifyContent="center"
                             m={1}>
-                            <reqTextEditor
+                            <ReqTextEditor
                                 reqText={reqText}
                                 reqTextSet={reqTextSet}
                             />
@@ -217,7 +214,7 @@ const ReqDialog = props => {
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button color="primary" size="small" sx={{ margin: "0px 2px" }} variant="contained" onClick={savereq}>Salvar</Button>
+                    <Button color="primary" size="small" sx={{ margin: "0px 2px" }} variant="contained" onClick={saveReq}>Salvar</Button>
                     <Button color="secondary" size="small" sx={{ margin: "0px 2px" }} variant="contained" onClick={cancelreq}>Cancelar</Button>
                 </DialogActions>
 

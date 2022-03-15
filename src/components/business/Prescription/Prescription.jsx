@@ -62,7 +62,7 @@ const PrescDialog = props => {
         if (patientId) {
             getList('patientid/' + patientId)
                 .then((items) => {
-                    prescListSet(items.record[0].prescription);
+                    prescListSet(items.record[0].prescription || []);
                 })
         }
     }, [patientId]);
