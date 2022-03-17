@@ -35,7 +35,7 @@ const ReqDialog = props => {
 
     useEffect(() => {
         getList("exam/")
-             .then((items) => { examListSet(items.record) })
+            .then((items) => { examListSet(items.record) })
         getList('texttemplate/')
             .then(items => {
                 for (const subItem of items.record) {
@@ -59,29 +59,8 @@ const ReqDialog = props => {
         }
     }, [patientId]);
 
-    // useEffect(() => {
-    //     reqTextSet(intMedicine + extMedicine)
-    // }, [extMedicine, intMedicine]);
-
     const addExam = () => {
         reqTextSet(`${reqText} ${examName} <br>`)
-        // if (medicineWayOfUse === "Interno") {
-        //     if (intMedicine.search("Interno:") !== -1) {
-        //         intMedicineSet(intMedicine + medicineName + " " + medicineDose + " <br>")
-        //     } else {
-        //         intMedicineSet("Interno:" + " <br>" + intMedicine + medicineName + " " + medicineDose + " <br>")
-        //     }
-        // }
-
-        // if (medicineWayOfUse === "Externo") {
-        //     if (extMedicine.search("Externo:") !== -1) {
-        //         extMedicineSet(extMedicine + medicineName + " " + medicineDose + " <br>")
-        //     } else {
-        //         extMedicineSet("Externo:" + " <br>" + extMedicine + medicineName + " " + medicineDose + " <br>")
-        //     }
-        // }
-        // medicineNameSet("");
-        // medicineDoseSet("");
     }
 
     const headerFunc = () => {
@@ -144,10 +123,9 @@ const ReqDialog = props => {
                     <Box sx={{ width: 3 / 10 }}>
                         <ReqHist reqList={reqList} reqListSet={reqListSet} reqTextSet={reqTextSet} />
                     </Box>
-                    {/*  <div >   className="data-form" */}
                     <Box className="data-form" sx={{ width: 7 / 10 }}>
                         <Grid container spacing={2}>
-                            <Grid item xs={6}>
+                            <Grid item xs={5}>
                                 <TextField
                                     id='Id'
                                     label='Nome do Exame'
@@ -162,34 +140,11 @@ const ReqDialog = props => {
                                         <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
                                     ))}
                                 </TextField>
-                                {/* <Autocomplete
-                                    id="medicine"
-                                    options={medicineList}
-                                    getOptionLabel={(option) => option.name}
-                                    size="small"
-                                    onChange={(event, newValue) => { medicineIdSet(newValue._id) }}
-                                    inputValue={medicineName}
-                                    onInputChange={(event, newInputValue) => { if (event && event.type !== "blur") medicineNameSet(newInputValue) }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="Nome do medicamento"
-                                            fullWidth={true} value={medicineName} onChange={(event) => medicineNameSet(event.target.value)}
-                                        />
-                                    )}
-                                /> */}
                             </Grid>
-                            {/* <Grid item xs={2}>
-                                <TextField label="Dosagem"
-                                    fullWidth={true} value={medicineDose}
-                                    InputLabelProps={{ shrink: true, disabled: false }}
-                                    variant="outlined"
-                                    size="small"
-                                    onChange={(event) => medicineDoseSet(event.target.value)} />
-                            </Grid> */}
                             <Grid item xs={2}>
                                 <Button variant="outlined" onClick={addExam}>Adicionar</Button>
                             </Grid>
+                            <Grid item xs={1}></Grid>
                             <Grid item xs={3}>
                                 <Box display="flex"
                                     justifyContent="center">

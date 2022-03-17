@@ -39,7 +39,7 @@ const ReqTextEditor = props => {
             // 'copyformat',
         ],
         height: 380,
-        width: 800,
+        width: 680,
         useSplitMode: true,
         autofocus: props.autofocus,
     }

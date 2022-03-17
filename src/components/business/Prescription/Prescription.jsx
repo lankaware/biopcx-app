@@ -71,6 +71,12 @@ const PrescDialog = props => {
         prescTextSet(intMedicine + extMedicine)
     }, [extMedicine, intMedicine]);
 
+    const cleanText = () => {
+        intMedicineSet("");
+        extMedicineSet("");
+
+    }
+
     const addMed = () => {
         if (medicineWayOfUse === "Interno") {
             if (intMedicine.search("Interno:") !== -1) {
@@ -126,11 +132,12 @@ const PrescDialog = props => {
     }
 
     const cancelPresc = () => {
-        prescTextSet("");
+        cleanText()
         props.prescDialogSet(false)
     }
 
     const notPrint = () => {
+        cleanText();
         printDialogSet(false)
     }
 
@@ -156,7 +163,7 @@ const PrescDialog = props => {
                     {/*  <div >   className="data-form" */}
                     <Box className="data-form" sx={{ width: 7 / 10 }}>
                         <Grid container spacing={2}>
-                            <Grid item xs={3}>
+                            <Grid item xs={6}>
                                 <TextField
                                     id='medicineId'
                                     label='Nome do medicamento'
@@ -171,24 +178,8 @@ const PrescDialog = props => {
                                         <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
                                     ))}
                                 </TextField>
-                                {/* <Autocomplete
-                                    id="medicine"
-                                    options={medicineList}
-                                    getOptionLabel={(option) => option.name}
-                                    size="small"
-                                    onChange={(event, newValue) => { medicineIdSet(newValue._id) }}
-                                    inputValue={medicineName}
-                                    onInputChange={(event, newInputValue) => { if (event && event.type !== "blur") medicineNameSet(newInputValue) }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="Nome do medicamento"
-                                            fullWidth={true} value={medicineName} onChange={(event) => medicineNameSet(event.target.value)}
-                                        />
-                                    )}
-                                /> */}
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={6}>
                                 <TextField label="Dosagem"
                                     fullWidth={true} value={medicineDose}
                                     InputLabelProps={{ shrink: true, disabled: false }}
@@ -196,7 +187,7 @@ const PrescDialog = props => {
                                     size="small"
                                     onChange={(event) => medicineDoseSet(event.target.value)} />
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={7}>
                                 <Button variant="outlined" onClick={addMed}>Adicionar</Button>
                             </Grid>
                             <Grid item xs={1}>
@@ -254,7 +245,10 @@ const PrescDialog = props => {
                             </Box>
                         }
                         content={() => textRef.current}
-                        onAfterPrint={() => { printDialogSet(false) }}
+                        onAfterPrint={() => {
+                            cleanText()
+                            printDialogSet(false)
+                        }}
                         documentTitle={"Presc" + props.patientName + new Date()}
                         pageStyle="@page { size: 2.5in 4in }"
                     />

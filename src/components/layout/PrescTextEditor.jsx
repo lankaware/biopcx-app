@@ -38,8 +38,8 @@ const PrescTextEditor = props => {
             // 'hr',
             // 'copyformat',
         ],
-        height: 380,
-        width: 700,
+        height: 320,
+        width: 680,
         useSplitMode: true,
         autofocus: props.autofocus,
     }
@@ -50,6 +50,8 @@ const PrescTextEditor = props => {
             contentS = newContent.split("Externo:");
             props.extMedicineSet("Externo:" + contentS[1]);
             props.intMedicineSet(contentS[0]);
+        } else {
+            props.intMedicineSet(newContent)
         }
 
     }
