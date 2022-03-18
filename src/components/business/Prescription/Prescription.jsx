@@ -17,7 +17,6 @@ var header = null;
 var footerText = null;
 var footer = null;
 
-
 const PrescDialog = props => {
     const [medicineName, medicineNameSet] = useState('');
     const [medicineDose, medicineDoseSet] = useState('');
@@ -34,8 +33,6 @@ const PrescDialog = props => {
     const [intMedicine, intMedicineSet] = useState('');
     const [extMedicine, extMedicineSet] = useState('');
     const [prescText, prescTextSet] = useState('');
-
-
 
     const textRef = useRef()
 
@@ -74,7 +71,6 @@ const PrescDialog = props => {
     const cleanText = () => {
         intMedicineSet("");
         extMedicineSet("");
-
     }
 
     const addMed = () => {
@@ -95,6 +91,7 @@ const PrescDialog = props => {
         }
         medicineNameSet("");
         medicineDoseSet("");
+        medicineIdSet('')
     }
 
     const headerFunc = () => {
@@ -146,7 +143,6 @@ const PrescDialog = props => {
         medicineNameSet(medicineList[currentItemTemp].name)
         medicineWayOfUseSet(medicineList[currentItemTemp].wayOfuse)
         medicineIdSet(e)
-
     }
 
     return (

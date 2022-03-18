@@ -344,28 +344,27 @@ const Patient = (props) => {
           <Box m={1}>
             <Button color="primary" variant="contained" size="small" startIcon={(show ? <CancelIcon /> : <HistoryEduIcon />)}
               onClick={() => (show ? showSet(false) : showSet(true))}
-            > INFO
+            > ARQUIVOS
             </Button>
             {show &&
               <div className="absolute">
                 <Box m={1}>
                   <Button color="secondary" variant="contained" size="small" startIcon={<NotesIcon />}
                     onMouseOver={() => showSet(true)}
-                    onClick={(_) => openPresc()} id="prescButton" disabled={insertMode}>RECEITAS
+                    onClick={(_) => openPresc()} id="prescButton" disabled={insertMode}>RECEITAS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   </Button>
                 </Box>
                 <Box m={1}>
                   <Button color="secondary" variant="contained" size="small" startIcon={<AssignmentIcon />}
                     onMouseOver={() => showSet(true)}
-
-                    onClick={(_) => openReq()} id="prescButton" disabled={insertMode}>SOLICITA.
+                    onClick={(_) => openReq()} id="prescButton" disabled={insertMode}>SOLICITAÇÕES
                   </Button>
                 </Box>
                 <Box m={1}>
                   <Button color="secondary" variant="contained" size="small" startIcon={<HistoryEduIcon />}
                     onMouseOver={() => showSet(true)}
-
-                    onClick={(_) => openTextDialog()} disabled={insertMode}>HISTÓRICO                  </Button>
+                    onClick={(_) => openTextDialog()} disabled={insertMode}>HISTÓRICO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  </Button>
                 </Box>
               </div>
 
