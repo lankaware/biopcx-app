@@ -1,10 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     Grid, Box, DialogContentText, Button, Dialog, DialogContent, DialogTitle, TextField, DialogActions, Checkbox,
     MenuItem, FormControlLabel, Typography
 } from "@mui/material";
 import ReqTextEditor from "../../layout/ReqTextEditor";
-import { useState } from 'react';
 import { getList, putRec } from "../../../services/apiconnect";
 import ReactToPrint from "react-to-print"
 import { useStyles } from "../../../services/stylemui";
@@ -61,6 +60,7 @@ const ReqDialog = props => {
 
     const addExam = () => {
         reqTextSet(`${reqText} ${examName} <br>`)
+        examIdSet('')
     }
 
     const headerFunc = () => {
@@ -110,7 +110,6 @@ const ReqDialog = props => {
         const currentItemTemp = examList.findIndex((item) => { return item._id === e })
         examNameSet(examList[currentItemTemp].name)
         examIdSet(e)
-
     }
 
     return (
@@ -179,7 +178,7 @@ const ReqDialog = props => {
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         Deseja imprimir a Solicitação?
-                        <reqToPrint ref={textRef} reqText={reqText} header={header} footer={footer} />
+                        <ReqToPrint ref={textRef} reqText={reqText} header={header} footer={footer} />
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -203,8 +202,6 @@ const ReqDialog = props => {
             </Dialog>
 
         </>
-
-
     );
 
 }
