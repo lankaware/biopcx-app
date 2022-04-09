@@ -9,7 +9,6 @@ const PrescTextEditor = props => {
 
     useEffect(() => {
         contentSet(props.intMedicine + props.extMedicine)
-
     }, [props.intMedicine, props.extMedicine]);
 
     const config = {
@@ -42,6 +41,9 @@ const PrescTextEditor = props => {
         width: 680,
         useSplitMode: true,
         autofocus: props.autofocus,
+        // style: {
+        //     font: '24px Arial'
+        // },
     }
 
     const handleEditor = (newContent) => {
@@ -53,6 +55,7 @@ const PrescTextEditor = props => {
         } else {
             props.intMedicineSet(newContent)
         }
+        console.log('contentS', contentS)
 
     }
 

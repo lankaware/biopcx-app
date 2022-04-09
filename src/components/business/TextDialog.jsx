@@ -5,7 +5,6 @@ import {
 
 import { getList, putRec } from '../../services/apiconnect'
 import TextDialogContent from './TextDialogContent'
-// import { minWidth } from '@mui/system';
 
 var textTitle = null
 var textColor = null
@@ -43,10 +42,6 @@ const TextDialog = props => {
           freeTextTwoSet(items.record[0].freeTextTwo || "");
           alertSet(items.record[0].alert || "");
         })
-      // textTitle = 'História Clínica'
-      // textContent = clinicHist
-      // textContentSet = clinicHistSet
-      // textColor = 'primary'
       changeContentToClinicHist()
     }
   }, [patientId, props.textDialog]);
@@ -177,36 +172,35 @@ const TextDialog = props => {
               </Button>
             </Box>
             <Box m={1}>
-              <Button sx={{ backgroundColor: '#36aea2' }} variant="contained" size="medium" startIcon={''}
+              <Button variant="contained" size="medium" startIcon={''} sx={{ backgroundColor: '#36aea2' }}
                 onClick={(_) => changeContentToSurgery()} disabled={false}>Cirurgias
               </Button>
             </Box>
             <Box m={1}>
+              <Button color="info" variant="contained" size="medium" startIcon={''}
+                onClick={(_) => changeContentToAlert()} disabled={false}>&nbsp;&nbsp;&nbsp;Alertas&nbsp;&nbsp;&nbsp;
+              </Button>
+            </Box>
+            <Box m={1}>
               <Button color="warning" variant="contained" size="medium" startIcon={''}
-                onClick={(_) => changeContentToFreeTextOne()} disabled={false}>Txt Livre 1
+                onClick={(_) => changeContentToFreeTextOne()} disabled={false}>Livre-1
               </Button>
             </Box>
             <Box m={1}>
               <Button color="primary" variant="contained" size="medium" startIcon={''} sx={{ backgroundColor: '#000957' }}
-                onClick={(_) => changeContentToFreeTextTwo()} disabled={false}>Txt Livre 2
-              </Button>
-            </Box>
-            <Box m={1}>
-              <Button color="info" variant="contained" size="medium" startIcon={''}
-                onClick={(_) => changeContentToAlert()} disabled={false}>Alertas
+                onClick={(_) => changeContentToFreeTextTwo()} disabled={false}>Livre-2
               </Button>
             </Box>
           </Box>
         </DialogTitle>
+
         <TextDialogContent
           textTitle={textTitle}
           textColor={textColor}
           textContent={textContent}
           textContentSet={textContentSet}
           patientId={patientId}
-          updated={updated}
-          updatedSet={updatedSet}
-        />
+          />
         <DialogActions>
           <Button onClick={updateOriginText} color="primary" variant="contained" size='small'>
             Salvar

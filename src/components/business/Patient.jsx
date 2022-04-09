@@ -47,7 +47,6 @@ const Patient = (props) => {
   const [lastname, lastnameSet] = useState("")
   const [internalRegister, internalRegisterSet] = useState("")
   const [unitId, unitIdSet] = useState("")
-  // const [unitName, unitNameSet] = useState("");
   const [phone, phoneSet] = useState("")
   const [email, emailSet] = useState("")
   const [zip, zipSet] = useState("")
@@ -56,21 +55,17 @@ const Patient = (props) => {
   const [addressComplement, addressComplementSet] = useState("")
   const [neighborhood, neighborhoodSet] = useState("")
   const [cityId, cityIdSet] = useState("")
-  // const [cityName, cityNameSet] = useState("")
   const [covenantId, covenantIdSet] = useState("")
-  // const [covenantName, covenantNameSet] = useState("")
   const [covPlan, covPlanSet] = useState("")
   const [covRegistration, covRegistrationSet] = useState("")
   const [covValid, covValidSet] = useState("")
   const [birthDate, birthDateSet] = useState("")
   const [birthCityId, birthCityIdSet] = useState("")
-  // const [birthCityName, birthCityNameSet] = useState("")
   const [cpf, cpfSet] = useState("")
   const [rg, rgSet] = useState("")
   const [rgDate, rgDateSet] = useState("")
   const [rgAgency, rgAgencySet] = useState("")
   const [rgStateId, rgStateIdSet] = useState("")
-  // const [rgStateName, rgStateNameSet] = useState("")
   const [mothersName, mothersNameSet] = useState("")
   const [fathersName, fathersNameSet] = useState("")
   const [gender, genderSet] = useState("")
@@ -82,7 +77,6 @@ const Patient = (props) => {
   const [responsiblePhone, responsiblePhoneSet] = useState("")
   const [createdAt, createdAtSet] = useState("")
   const [relativeId, relativeIdSet] = useState("")
-  // const [relativeName, relativeNameSet] = useState("")
   const [relativeType, relativeTypeSet] = useState("")
   const [height, heightSet] = useState("")
   const [weight, weightSet] = useState("")
@@ -92,29 +86,18 @@ const Patient = (props) => {
   const [prescList, prescListSet] = useState("");
   const [reqList, reqListSet] = useState("");
 
-
   const [prescDialog, prescDialogSet] = useState(false);
   const [reqDialog, reqDialogSet] = useState(false);
-
-  // const [cityList, cityListSet] = useState([])
-  // const [covenantList, covenantListSet] = useState([])
-  // const [stateList, stateListSet] = useState([])
-  // const [relativeList, relativeListSet] = useState([])
-  // const [unitList, unitListSet] = useState([])
-
-  // const [availabilityList, availabilityListSet] = useState([])
 
   const [insertMode, setInsertMode] = useState(id === "0");
   const [editMode, setEditMode] = useState(id === "0");
 
   const [photoDialog, photoSetDialog] = useState(false);
   const [textDialog, textDialogSet] = useState(false);
-  // const [textContent, textContentSet] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [deleteInfoDialog, setDeleteInfoDialog] = useState(false);
   const [emptyRecDialog, setEmptyRecDialog] = useState(false);
   const [emptyFieldDialog, setEmptyFieldDialog] = useState('');
-  const [show, showSet] = useState(false);
   const [recUpdated, setRecUpdated] = useState(true)
 
   const classes = useStyles();
@@ -136,7 +119,6 @@ const Patient = (props) => {
           lastnameSet(items.record[0].lastname || "");
           internalRegisterSet(items.record[0].internalRegister || "");
           unitIdSet(items.record[0].unit_id || "");
-          // unitNameSet(items.record[0].unit_name[0] || "");
           phoneSet(items.record[0].phone || "");
           emailSet(items.record[0].email || "");
           zipSet(items.record[0].zip || "");
@@ -145,21 +127,17 @@ const Patient = (props) => {
           addressComplementSet(items.record[0].addressComplement || "");
           neighborhoodSet(items.record[0].neighborhood || "");
           cityIdSet(items.record[0].city_id || "");
-          // cityNameSet(items.record[0].city_name[0] || "");
           covenantIdSet(items.record[0].covenant_id || "");
-          // covenantNameSet(items.record[0].covenant_name[0] || "");
           covPlanSet(items.record[0].covPlan || "");
           covRegistrationSet(items.record[0].covRegistration || "");
           covValidSet((items.record[0].covValid || "").substr(0, 10));
           birthDateSet((items.record[0].birthDate || "").substr(0, 10));
           birthCityIdSet(items.record[0].birthCity_id || "");
-          // birthCityNameSet(items.record[0].birthCity_name[0] || "");
           cpfSet(items.record[0].cpf || "");
           rgSet(items.record[0].rg || "");
           rgDateSet((items.record[0].rgDate || "").substr(0, 10));
           rgAgencySet(items.record[0].rgAgency || "");
           rgStateIdSet(items.record[0].rgState_id || "");
-          // rgStateNameSet(items.record[0].rgState_name[0] || "");
           mothersNameSet(items.record[0].mothersName || "");
           fathersNameSet(items.record[0].fathersName || "");
           genderSet(items.record[0].gender || "");
@@ -171,7 +149,6 @@ const Patient = (props) => {
           responsiblePhoneSet(items.record[0].responsiblePhone || "");
           createdAtSet((items.record[0].createdAt || "").substr(0, 10));
           relativeIdSet(items.record[0].relative_id || "");
-          // relativeNameSet(items.record[0].relative_name[0] || "");
           relativeTypeSet(items.record[0].relativeType || "");
           heightSet(items.record[0].height || "");
           weightSet(items.record[0].weight || "");
@@ -342,35 +319,6 @@ const Patient = (props) => {
         </div>
         <div className='tool-buttons'>
           <Box m={1}>
-            <Button color="primary" variant="contained" size="small" startIcon={(show ? <CancelIcon /> : <HistoryEduIcon />)}
-              onClick={() => (show ? showSet(false) : showSet(true))}
-            > ARQUIVOS
-            </Button>
-            {show &&
-              <div className="absolute">
-                <Box m={1}>
-                  <Button color="secondary" variant="contained" size="small" startIcon={<NotesIcon />}
-                    onMouseOver={() => showSet(true)}
-                    onClick={(_) => openPresc()} id="prescButton" disabled={insertMode}>RECEITAS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  </Button>
-                </Box>
-                <Box m={1}>
-                  <Button color="secondary" variant="contained" size="small" startIcon={<AssignmentIcon />}
-                    onMouseOver={() => showSet(true)}
-                    onClick={(_) => openReq()} id="prescButton" disabled={insertMode}>SOLICITAÇÕES
-                  </Button>
-                </Box>
-                <Box m={1}>
-                  <Button color="secondary" variant="contained" size="small" startIcon={<HistoryEduIcon />}
-                    onMouseOver={() => showSet(true)}
-                    onClick={(_) => openTextDialog()} disabled={insertMode}>HISTÓRICO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  </Button>
-                </Box>
-              </div>
-
-            }
-          </Box>
-          <Box m={1}>
             <Button color="primary" variant="contained" size="small" startIcon={<EditIcon />}
               onClick={(_) => setEditMode(true)} disabled={editMode}>EDITAR
             </Button>
@@ -397,10 +345,34 @@ const Patient = (props) => {
           </Box>
         </div>
       </div>
-      <div className="data-form">
-        <div>
-          <Typography variant="h6" className="tool-title-level1" noWrap={true} color="primary">Dados Principais</Typography>
+
+      <div className="data-form2">
+        <div className="tool-bar">
+          <div>
+            <Typography variant="h6" className="tool-title-level1" noWrap={true} color="primary">Dados Principais</Typography>
+          </div>
+
+          <Box m={1}>
+            <div className='tool-buttons2'>
+              <Box mr={1} mb={1}>
+                <Button color="warning" variant="contained" size="small" startIcon={<HistoryEduIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
+                  onClick={(_) => openTextDialog()} disabled={insertMode}>HISTÓRICO
+                </Button>
+              </Box>
+              <Box mr={1}>
+                <Button color="warning" variant="contained" size="small" startIcon={<NotesIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
+                  onClick={(_) => openPresc()} id="prescButton" >RECEITAS
+                </Button>
+              </Box>
+              <Box mr={1}>
+                <Button color="warning" variant="contained" size="small" startIcon={<AssignmentIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
+                  onClick={(_) => openReq()} id="prescButton" >SOLICITAÇÕES
+                </Button>
+              </Box>
+            </div>
+          </Box>
         </div>
+
         <Grid container spacing={1}>
           <Grid item xs={2}>
             <Grid container spacing={1}>
@@ -1060,6 +1032,10 @@ const Patient = (props) => {
         textDialogSet={textDialogSet}
         patientId={_id}
         patientName={name}
+        reqList={reqList}
+        reqListSet={reqListSet}
+        prescList={prescList}
+        prescListSet={prescListSet}
       />
 
       <Dialog open={photoDialog}>

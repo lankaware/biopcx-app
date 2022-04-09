@@ -43,6 +43,16 @@
     margin-left: 3vw;
 }
 
+.data-form2 {
+    background-color: white;
+    padding: 0px 15px 0px 15px;
+    border: rgb(172, 164, 164);
+    border-style: none; /*solid;*/
+    border-width: 1px;
+    width: 90vw;
+    margin-left: 3vw;
+}
+
 .data-form-level1 {
     background-color: white;
     padding: 5px;
@@ -95,8 +105,13 @@
 }
 
 .tool-bar {
-    /* verified */
     display: flex;
+}
+
+.tool-bar-bottom {
+    width: 65vw;
+    display: flex;
+    justify-content: flex-start;
 }
 
 .tool-bar-filters {
@@ -180,6 +195,12 @@ img {
     color: #ffffff;
 }
 
+.tool-buttons2 {
+    display: flex;
+    width: 44vw;
+    justify-content: flex-end;
+}
+
 div .medicine {
     width: 60vw
 }
@@ -192,3 +213,4 @@ div .medicineAdd {
     position: absolute !important;
     z-index: 99;
 }
+

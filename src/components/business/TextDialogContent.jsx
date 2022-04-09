@@ -8,7 +8,6 @@ import JoditEditor from "jodit-react"
 import { getList } from '../../services/apiconnect'
 import { customStyles1, paginationBr } from '../../services/datatablestyle'
 
-// import TextEditor from "../layout/TextEditor";
 import { defaultDateBr, prettyDate } from '../../services/dateutils';
 import { parseTextMacro } from '../../services/textutils';
 
@@ -36,7 +35,6 @@ const TextDialogContent = props => {
         } else {
             textContentSet(`${props.textContent}`)
         }
-
     }, [props.textContent])
 
     const columns = [

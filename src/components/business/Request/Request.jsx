@@ -93,8 +93,6 @@ const ReqDialog = props => {
 
         recObj = JSON.stringify(recObj)
         putRec("patientid/" + patientId, recObj)
-
-        props.reqDialogSet(false)
     }
 
     const cancelreq = () => {
@@ -102,8 +100,10 @@ const ReqDialog = props => {
         props.reqDialogSet(false)
     }
 
-    const notPrint = () => {
+    const closePrintDialog = () => {
+        reqTextSet("");
         printDialogSet(false)
+        props.reqDialogSet(false)
     }
 
     const handleExamChange = (e) => {
@@ -116,7 +116,7 @@ const ReqDialog = props => {
         <>
             <Dialog open={props.reqDialog} maxWidth={false}>
                 <DialogTitle>
-                    <Typography variant="h6" className="tool-title-level1" noWrap={true} color="primary">Nova Solicitação</Typography>
+                    <Typography className="tool-title-level1" noWrap={true} color="primary">Nova Solicitação</Typography>
                 </DialogTitle>
                 <DialogContent style={{ display: "flex", gap: "1rem" }}>
                     <Box sx={{ width: 3 / 10 }}>
@@ -183,7 +183,7 @@ const ReqDialog = props => {
                 </DialogContent>
                 <DialogActions>
                     <Box m={1}>
-                        <Button onClick={notPrint} color="primary" size='small' variant="contained" autoFocus>Cancelar</Button>
+                        <Button onClick={closePrintDialog} color="primary" size='small' variant="contained" autoFocus>Cancelar</Button>
                     </Box>
                     <ReactToPrint
                         trigger={() =>
@@ -194,7 +194,7 @@ const ReqDialog = props => {
                             </Box>
                         }
                         content={() => textRef.current}
-                        onAfterPrint={() => { printDialogSet(false) }}
+                        onAfterPrint={() => { closePrintDialog() }}
                         documentTitle={"req" + props.patientName + new Date()}
                         pageStyle="@page { size: 2.5in 4in }"
                     />

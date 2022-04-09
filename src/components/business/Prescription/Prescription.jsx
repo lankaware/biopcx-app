@@ -122,10 +122,9 @@ const PrescDialog = props => {
             prescription: presc
         }
 
+        console.log('prescText', prescText)
         recObj = JSON.stringify(recObj)
         putRec("patientid/" + patientId, recObj)
-
-        props.prescDialogSet(false)
     }
 
     const cancelPresc = () => {
@@ -133,9 +132,10 @@ const PrescDialog = props => {
         props.prescDialogSet(false)
     }
 
-    const notPrint = () => {
+    const closePrintDialog = () => {
         cleanText();
         printDialogSet(false)
+        props.prescDialogSet(false)
     }
 
     const handleMedicineChange = (e) => {
@@ -149,14 +149,13 @@ const PrescDialog = props => {
         <>
             <Dialog open={props.prescDialog} maxWidth={false}>
                 <DialogTitle>
-                    <Typography variant="h6" className="tool-title-level1" noWrap={true} color="primary">Nova Receita</Typography>
+                    <Typography className="tool-title-level1" noWrap={true} color="primary">Nova Receita</Typography>
                 </DialogTitle>
                 <DialogContent style={{ display: "flex", gap: "1rem" }}>
                     <Box sx={{ width: 3 / 10 }}>
                         <PrescHist prescList={prescList} prescListSet={prescListSet} intMedicineSet={intMedicineSet}
                             extMedicineSet={extMedicineSet} />
                     </Box>
-                    {/*  <div >   className="data-form" */}
                     <Box className="data-form" sx={{ width: 7 / 10 }}>
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
@@ -230,7 +229,7 @@ const PrescDialog = props => {
                 </DialogContent>
                 <DialogActions>
                     <Box m={1}>
-                        <Button onClick={notPrint} color="primary" size='small' variant="contained" autoFocus>Cancelar</Button>
+                        <Button onClick={closePrintDialog} color="primary" size='small' variant="contained" autoFocus>Cancelar</Button>
                     </Box>
                     <ReactToPrint
                         trigger={() =>
@@ -242,20 +241,14 @@ const PrescDialog = props => {
                         }
                         content={() => textRef.current}
                         onAfterPrint={() => {
-                            cleanText()
-                            printDialogSet(false)
+                            closePrintDialog()
                         }}
                         documentTitle={"Presc" + props.patientName + new Date()}
-                        pageStyle="@page { size: 2.5in 4in }"
                     />
                 </DialogActions>
             </Dialog>
-
         </>
-
-
     );
-
 }
 
 export default PrescDialog;
