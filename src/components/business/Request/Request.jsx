@@ -8,13 +8,15 @@ import { getList, putRec } from "../../../services/apiconnect";
 import ReactToPrint from "react-to-print"
 import { useStyles } from "../../../services/stylemui";
 import ReqHist from './ReqHist';
+import DataTable from 'react-data-table-component'
 import ReqToPrint from './ReqToPrint';
+import { parseTextMacro } from '../../../services/textutils';
+import { customStyles1, paginationBr } from '../../../services/datatablestyle'
 
 var headerText = null;
 var header = null;
 var footerText = null;
 var footer = null;
-
 
 const ReqDialog = props => {
     const [reqText, reqTextSet] = useState('');
@@ -25,6 +27,13 @@ const ReqDialog = props => {
     const [printDialog, printDialogSet] = useState(false);
     const [headerAdd, headerAddSet] = useState(false);
     const [footerAdd, footerAddSet] = useState(false);
+
+    const [loadDialog, loadDialogSet] = useState(false)
+    const [editorFocus, editorFocusSet] = useState(true)
+    const [textApplied, textAppliedSet] = useState('')
+    const [selectText, selectTextSet] = useState('')
+    const [confirmDialog, confirmDialogSet] = useState(false)
+    const [textList, textListSet] = useState('')
 
     let patientId = props.patientId;
 
@@ -57,6 +66,28 @@ const ReqDialog = props => {
                 })
         }
     }, [patientId]);
+
+    useEffect(() => {
+        getList('texttemplate/')
+            .then(items => {
+                textListSet(items.record)
+            })
+    }, [])
+
+    const columns = [
+        {
+            name: 'Nome',
+            selector: row => row.name,
+            sortable: true,
+            width: '20vw',
+        },
+        {
+            name: 'Tipo',
+            selector: row => row.type,
+            sortable: true,
+            width: '10vw',
+        },
+    ]
 
     const addExam = () => {
         reqTextSet(`${reqText} ${examName} <br>`)
@@ -100,6 +131,35 @@ const ReqDialog = props => {
         props.reqDialogSet(false)
     }
 
+    const loadDialogOpen = () => {
+        editorFocusSet(false)
+        loadDialogSet(true)
+    }
+
+    const loadText = (textName, textToLoad) => {
+        selectTextSet(textName)
+        textAppliedSet(textToLoad)
+        confirmDialogSet(true)
+    }
+
+    const loadTextConfirm = async function () {
+        await parseTextMacro(textApplied, props.patientId)
+            .then(newText => {
+               // intMedicineSet(newText + intMedicine);
+                confirmDialogSet(false);
+                loadDialogSet(false);
+                editorFocusSet(true);
+                // document.getElementById('text-editor-dialog').focus();
+            });
+    }
+
+    const loadDialogClose = () => {
+        confirmDialogSet(false)
+        editorFocusSet(true)
+        loadDialogSet(false)
+        // document.getElementById('text-editor-dialog').focus();
+    }
+
     const closePrintDialog = () => {
         reqTextSet("");
         printDialogSet(false)
@@ -110,6 +170,10 @@ const ReqDialog = props => {
         const currentItemTemp = examList.findIndex((item) => { return item._id === e })
         examNameSet(examList[currentItemTemp].name)
         examIdSet(e)
+    }
+
+    const confirmDialogClose = () => {
+        confirmDialogSet(false)
     }
 
     return (
@@ -124,10 +188,10 @@ const ReqDialog = props => {
                     </Box>
                     <Box className="data-form" sx={{ width: 7 / 10 }}>
                         <Grid container spacing={2}>
-                            <Grid item xs={5}>
+                            <Grid item xs={6}>
                                 <TextField
                                     id='Id'
-                                    label='Nome do Exame'
+                                    label='Nome do Item Solicitado'
                                     value={examId}
                                     onChange={(event) => { handleExamChange(event.target.value) }}
                                     size='small'
@@ -140,10 +204,18 @@ const ReqDialog = props => {
                                     ))}
                                 </TextField>
                             </Grid>
-                            <Grid item xs={2}>
-                                <Button variant="outlined" onClick={addExam}>Adicionar</Button>
+                            <Grid item xs={6}></Grid>
+                            <Grid item xs={3}>
+                                <Button variant="outlined" onClick={addExam}>Adicionar Item</Button>
                             </Grid>
-                            <Grid item xs={1}></Grid>
+                            <Grid item xs={4}>
+                                <Box >
+                                    <Button onClick={loadDialogOpen} variant="outlined" sx={{ backgroundColor: '#fff' }}>
+                                        Carregar Texto Padrão
+                                    </Button>
+                                </Box>
+                            </Grid>
+
                             <Grid item xs={3}>
                                 <Box display="flex"
                                     justifyContent="center">
@@ -173,6 +245,62 @@ const ReqDialog = props => {
                 </DialogActions>
 
             </Dialog>
+            <Dialog open={loadDialog} maxWidth={'md'}>
+                <DialogTitle id="alert-dialog-title">
+                    <Grid container spacing={2}>
+                        <Grid item xs={8}>
+                            Textos Padrões
+                        </Grid>
+                    </Grid>
+                </DialogTitle>
+                <DialogContent>
+                    <div >
+                        <DataTable
+                            // title=""
+                            noHeader={true}
+                            columns={columns}
+                            customStyles={customStyles1}
+                            data={textList}
+                            //selectableRows 
+                            Clicked
+                            // onSelectedRowsChange={handleChange}
+                            keyField={'_id'}
+                            highlightOnHover={true}
+                            pagination={false}
+                            fixedHeader={true}
+                            // noContextMenu={true}
+                            paginationComponentOptions={paginationBr}
+                            paginationPerPage={10}
+                            noDataComponent={'Nenhum registro disponível.'}
+                            onRowClicked={(row, event) => { loadText(row.name, row.text) }}
+                        />
+                    </div>
+
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={loadDialogClose} color="secondary" variant="contained" size='small'>
+                        Cancelar
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog open={confirmDialog}>
+                <DialogTitle id="alert-dialog-title">
+                    {"Confirma o carregamento do texto selecionado?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        {selectText}
+                    </DialogContentText>
+                    <DialogActions>
+                        <Button onClick={loadTextConfirm} color="primary" variant="contained" autoFocus size='small'>
+                            Confirmar
+                        </Button>
+                        <Button onClick={confirmDialogClose} color="secondary" variant="contained" size='small'>
+                            Cancelar
+                        </Button>
+                    </DialogActions>
+                </DialogContent>
+            </Dialog>
 
             <Dialog open={printDialog}>
                 <DialogContent>
@@ -196,7 +324,7 @@ const ReqDialog = props => {
                         content={() => textRef.current}
                         onAfterPrint={() => { closePrintDialog() }}
                         documentTitle={"req" + props.patientName + new Date()}
-                        pageStyle="@page { size: 2.5in 4in }"
+                    // pageStyle="@page { size: 2.5in 4in }"
                     />
                 </DialogActions>
             </Dialog>

@@ -6,20 +6,24 @@ import parse from 'html-react-parser';
 const RecToPrint = React.forwardRef((props, ref) => {
     return (
         <div ref={ref}>
-            <table style={{ 'width': '298px', 'height': '420px' }}>
-                <thead style={{ 'width': '1', 'maxHeight': '15%', 'minHeight': '10%' }}>
-                    <td>
-                        {console.log(parse(props.header))}
+            <style>
+                {`@media print {@page {width: 210mm; heigth: 297mm; margin: 15mm 15mm 0mm 15mm}}`}
+            </style>
+            <table >
+                <thead style={{ 'verticalAlign': 'top' }}>
+                    <td style={{ 'width': '100vw', 'height': '10vh' }}>
                         {parse(props.header)}
                     </td>
                 </thead>
-                <tbody style={{ 'width': '1', 'minHeight': '70%', 'maxHeight': '80%' }}>
-                    <td>{parse(props.reqText)}</td>
+                <tbody>
+                    <td style={{ 'height': '80vh', 'fontSize': '21px', 'verticalAlign': 'top' }}>
+                        {parse(props.reqText)}
+                    </td>
                 </tbody>
-                <tfoot style={{ 'width': '1', 'maxHeight': '15%', 'minHeight': '10%' }}>
-                    <td>
-                        {console.log(parse(props.footer))}
-                        {parse(props.footer)}</td>
+                <tfoot >
+                    <td style={{ 'width': '100vw', 'height': '5vh' }}>
+                        {parse(props.footer)}
+                    </td>
                 </tfoot>
             </table>
         </div>

@@ -122,7 +122,7 @@ const TextDialogContent = props => {
                         </Typography>
                     </Box>
                     <Box m={1}>
-                        <Button onClick={loadDialogOpen} variant="outlined" sx={{backgroundColor: '#fff'}}>
+                        <Button onClick={loadDialogOpen} variant="outlined" sx={{backgroundColor: '#fff',  '&:hover': {backgroundColor: '#d1d1e0' } }}>
                             Carregar Texto Padrão
                         </Button>
                     </Box>

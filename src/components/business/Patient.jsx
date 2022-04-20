@@ -306,7 +306,6 @@ const Patient = (props) => {
     reqDialogSet(true)
   }
 
-
   const openTextDialog = () => {
     textDialogSet(true)
   }
@@ -361,12 +360,12 @@ const Patient = (props) => {
               </Box>
               <Box mr={1}>
                 <Button color="warning" variant="contained" size="small" startIcon={<NotesIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
-                  onClick={(_) => openPresc()} id="prescButton" >RECEITAS
+                  onClick={(_) => openPresc()} disabled={insertMode} id="prescButton" >RECEITAS
                 </Button>
               </Box>
               <Box mr={1}>
                 <Button color="warning" variant="contained" size="small" startIcon={<AssignmentIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
-                  onClick={(_) => openReq()} id="prescButton" >SOLICITAÇÕES
+                  onClick={(_) => openReq()} disabled={insertMode} id="prescButton" >SOLICITAÇÕES
                 </Button>
               </Box>
             </div>
