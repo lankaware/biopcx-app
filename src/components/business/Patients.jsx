@@ -20,7 +20,7 @@ const Patients = props => {
             name: 'Nome do Paciente',
             selector: row => row.name,
             sortable: true,
-            width: '30vw',
+            width: '20vw',
             cell: row => (<Link to={"/patient/" + row._id}>{row.name}</Link>)
         },
         {

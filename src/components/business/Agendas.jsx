@@ -21,7 +21,7 @@ const Agendas = props => {
             name: 'Data',
             selector: row => row.date,
             sortable: true,
-            width: '5vw',
+            width: '6vw',
             cell: row => (<Link to={"/agenda/" + row._id}>{prettyDate(row.date)}</Link>)
         },
         {
