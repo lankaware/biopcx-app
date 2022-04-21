@@ -33,10 +33,10 @@ const PrescHist = props => {
 
     const openText = (content) => {
         let contentS = null;
-        if (content.search("Externo:") !== -1) {
-            contentS = content.split("Externo:");
+        if (content.search("Uso externo:") !== -1) {
+            contentS = content.split("Uso externo:");
             console.log(contentS, content);
-            extMedicineSet("Externo:" + contentS[1]);
+            extMedicineSet("Uso externo:" + contentS[1]);
             intMedicineSet(contentS[0]);
         }
         updateSet(true)

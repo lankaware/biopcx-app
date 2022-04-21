@@ -3,14 +3,17 @@ import {
     Grid, Box, DialogContentText, Button, Dialog, DialogContent, DialogTitle, TextField, DialogActions, Checkbox,
     MenuItem, FormControlLabel, Typography
 } from "@mui/material";
+import DataTable from 'react-data-table-component'
 import ReactToPrint from "react-to-print"
 
 import PrescTextEditor from "../../layout/PrescTextEditor";
 import { getList, putRec } from "../../../services/apiconnect";
 import { useStyles } from "../../../services/stylemui";
+import { customStyles1, paginationBr } from '../../../services/datatablestyle'
 
 import PrescHist from './PrescHist';
 import PrescToPrint from './PrescToPrint';
+import { parseTextMacro } from '../../../services/textutils';
 
 var headerText = null;
 var header = null;
@@ -33,6 +36,13 @@ const PrescDialog = props => {
     const [intMedicine, intMedicineSet] = useState('');
     const [extMedicine, extMedicineSet] = useState('');
     const [prescText, prescTextSet] = useState('');
+    const [loadDialog, loadDialogSet] = useState(false)
+
+    const [confirmDialog, confirmDialogSet] = useState(false)
+    const [textApplied, textAppliedSet] = useState('')
+    const [textList, textListSet] = useState('')
+    const [selectText, selectTextSet] = useState('')
+    const [editorFocus, editorFocusSet] = useState(true)
 
     const textRef = useRef()
 
@@ -68,25 +78,47 @@ const PrescDialog = props => {
         prescTextSet(intMedicine + extMedicine)
     }, [extMedicine, intMedicine]);
 
+    useEffect(() => {
+        getList('texttemplate/')
+            .then(items => {
+                textListSet(items.record)
+            })
+    }, [])
+
     const cleanText = () => {
         intMedicineSet("");
         extMedicineSet("");
     }
+    
+    const columns = [
+        {
+            name: 'Nome',
+            selector: row => row.name,
+            sortable: true,
+            width: '20vw',
+        },
+        {
+            name: 'Tipo',
+            selector: row => row.type,
+            sortable: true,
+            width: '10vw',
+        },
+    ]
 
     const addMed = () => {
         if (medicineWayOfUse === "Interno") {
-            if (intMedicine.search("Interno:") !== -1) {
+            if (intMedicine.search("Uso interno:") !== -1) {
                 intMedicineSet(intMedicine + medicineName + " " + medicineDose + " <br>")
             } else {
-                intMedicineSet("Interno:" + " <br>" + intMedicine + medicineName + " " + medicineDose + " <br>")
+                intMedicineSet(intMedicine + "<p> <strong>Uso interno: </strong>" + " <br>" + medicineName + " " + medicineDose + " <br>")
             }
         }
 
         if (medicineWayOfUse === "Externo") {
-            if (extMedicine.search("Externo:") !== -1) {
+            if (extMedicine.search("Uso externo:") !== -1) {
                 extMedicineSet(extMedicine + medicineName + " " + medicineDose + " <br>")
             } else {
-                extMedicineSet("Externo:" + " <br>" + extMedicine + medicineName + " " + medicineDose + " <br>")
+                extMedicineSet(" <p> <strong> Uso externo: </strong>" + " <br>" + extMedicine + medicineName + " " + medicineDose + " <br>")
             }
         }
         medicineNameSet("");
@@ -145,6 +177,39 @@ const PrescDialog = props => {
         medicineIdSet(e)
     }
 
+    const loadDialogOpen = () => {
+        editorFocusSet(false)
+        loadDialogSet(true)
+    }
+
+    const loadText = (textName, textToLoad) => {
+        selectTextSet(textName)
+        textAppliedSet(textToLoad)
+        confirmDialogSet(true)
+    }
+
+    const loadTextConfirm = async function () {
+        await parseTextMacro(textApplied, props.patientId)
+            .then(newText => {
+                intMedicineSet(newText + intMedicine);
+                confirmDialogSet(false);
+                loadDialogSet(false);
+                editorFocusSet(true);
+                // document.getElementById('text-editor-dialog').focus();
+            });
+    }
+
+    const loadDialogClose = () => {
+        confirmDialogSet(false)
+        editorFocusSet(true)
+        loadDialogSet(false)
+        // document.getElementById('text-editor-dialog').focus();
+    }
+
+    const confirmDialogClose = () => {
+        confirmDialogSet(false)
+    }
+
     return (
         <>
             <Dialog open={props.prescDialog} maxWidth={false}>
@@ -182,10 +247,15 @@ const PrescDialog = props => {
                                     size="small"
                                     onChange={(event) => medicineDoseSet(event.target.value)} />
                             </Grid>
-                            <Grid item xs={7}>
-                                <Button variant="outlined" onClick={addMed}>Adicionar</Button>
+                            <Grid item xs={3}>
+                                <Button variant="outlined" onClick={addMed}>Adicionar Medicamento</Button>
                             </Grid>
-                            <Grid item xs={1}>
+                            <Grid item xs={4}>
+                                <Box >
+                                    <Button onClick={loadDialogOpen} variant="outlined" sx={{ backgroundColor: '#fff' }}>
+                                        Carregar Texto Padrão
+                                    </Button>
+                                </Box>
                             </Grid>
 
                             <Grid item xs={3}>
@@ -201,6 +271,7 @@ const PrescDialog = props => {
                             </Grid>
                         </Grid>
                         <Box
+                            id={'text-editor-dialog'} // testar
                             display="flex"
                             justifyContent="center"
                             m={1}>
@@ -209,6 +280,7 @@ const PrescDialog = props => {
                                 intMedicineSet={intMedicineSet}
                                 extMedicine={extMedicine}
                                 extMedicineSet={extMedicineSet}
+                                // autofocus={editorFocus}
                             />
                         </Box>
                     </Box>
@@ -247,6 +319,65 @@ const PrescDialog = props => {
                     />
                 </DialogActions>
             </Dialog>
+
+            <Dialog open={loadDialog} maxWidth={'md'}>
+                <DialogTitle id="alert-dialog-title">
+                    <Grid container spacing={2}>
+                        <Grid item xs={8}>
+                            Textos Padrões
+                        </Grid>
+                    </Grid>
+                </DialogTitle>
+                <DialogContent>
+                    <div >
+                        <DataTable
+                            // title=""
+                            noHeader={true}
+                            columns={columns}
+                            customStyles={customStyles1}
+                            data={textList}
+                            //selectableRows 
+                            Clicked
+                            // onSelectedRowsChange={handleChange}
+                            keyField={'_id'}
+                            highlightOnHover={true}
+                            pagination={false}
+                            fixedHeader={true}
+                            // noContextMenu={true}
+                            paginationComponentOptions={paginationBr}
+                            paginationPerPage={10}
+                            noDataComponent={'Nenhum registro disponível.'}
+                            onRowClicked={(row, event) => { loadText(row.name, row.text) }}
+                        />
+                    </div>
+
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={loadDialogClose} color="secondary" variant="contained" size='small'>
+                        Cancelar
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog open={confirmDialog}>
+                <DialogTitle id="alert-dialog-title">
+                    {"Confirma o carregamento do texto selecionado?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        {selectText}
+                    </DialogContentText>
+                    <DialogActions>
+                        <Button onClick={loadTextConfirm} color="primary" variant="contained" autoFocus size='small'>
+                            Confirmar
+                        </Button>
+                        <Button onClick={confirmDialogClose} color="secondary" variant="contained" size='small'>
+                            Cancelar
+                        </Button>
+                    </DialogActions>
+                </DialogContent>
+            </Dialog>
+
+
         </>
     );
 }

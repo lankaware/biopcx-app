@@ -48,10 +48,10 @@ const PrescTextEditor = props => {
 
     const handleEditor = (newContent) => {
         let contentS = null;
-        if (newContent.search("Externo:") !== -1) {
-            contentS = newContent.split("Externo:");
-            props.extMedicineSet("Externo:" + contentS[1]);
+        if (newContent.search("Uso externo:") !== -1) {
+            contentS = newContent.split("Uso externo:");
             props.intMedicineSet(contentS[0]);
+            props.extMedicineSet("Uso externo:" + contentS[1]);
         } else {
             props.intMedicineSet(newContent)
         }
