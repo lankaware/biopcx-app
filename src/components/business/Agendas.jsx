@@ -72,6 +72,10 @@ const Agendas = props => {
     const [list, setList] = useState([])
     const [dateFilter, dateFilterSet] = useState('')
     const [patientFilter, patientFilterSet] = useState('')
+    
+    const [openAgenda, openAgendaSet] = useState('')
+
+    
 
     useEffect(() => {
         let tempList = []
@@ -117,6 +121,11 @@ const Agendas = props => {
         console.log('Selected Rows: ', state.selectedRows);
     };
 
+    const agendaDialog = (agendaID) => {
+        openAgendaSet(true);
+        
+    } 
+
     const launchSearch = (e) => {
         if (e.key === 'Enter') {
             document.getElementById("searchButton").click();
@@ -131,17 +140,11 @@ const Agendas = props => {
                 </div>
 
                 <div className='tool-buttons'>
-                    <Box m={1}>
-                        <Button color="primary" size='small' variant='contained' startIcon={<OpenInNewIcon />}
-                            href="/agenda/0" 
-                            // target="_blank"
-                            >INCLUIR
-                        </Button>
-                    </Box>
+
                     <Box m={1}>
                         <Button color='primary' size='small' variant='contained' startIcon={<KeyboardReturnIcon />}
                             href="/" id='backButton'
-                            >VOLTAR
+                        >VOLTAR
                         </Button>
                     </Box>
                 </div>
@@ -191,11 +194,20 @@ const Agendas = props => {
                     highlightOnHover={true}
                     pagination={true}
                     fixedHeader={true}
+                    onRowClicked={(row, event) => {agendaDialog(row._id) }}
                     // noContextMenu={true}
                     paginationComponentOptions={paginationBr}
                     paginationPerPage={10}
                 />
+                <Box m={1}>
+                    <Button color="primary" size='small' variant='contained' startIcon={<OpenInNewIcon />} target="_blank" 
+                    onClick={() => agendaDialog(0)}
+                    >INCLUIR
+                    </Button>
+                </Box>
             </div>
+
+            
 
         </div>
     )
