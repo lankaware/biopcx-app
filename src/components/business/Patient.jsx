@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
 import {
   Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
-  DialogContentText, DialogTitle, MenuItem,
+  DialogContentText, DialogTitle, MenuItem, Box
 } from "@mui/material";
-import { Box } from "@mui/system";
+// import { Box } from "@mui/system";
 import Webcam from "react-webcam";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -18,7 +18,7 @@ import NotesIcon from '@mui/icons-material/Notes';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
-import { useStyles } from "../../services/stylemui";
+// import { useStyles } from "../../services/stylemui";
 import { getList, putRec, postRec, deleteRec } from "../../services/apiconnect";
 import { ageCalc } from "../../services/dateutils";
 import { imcCalc } from "../../services/genfunctions";
@@ -98,9 +98,9 @@ const Patient = (props) => {
   const [deleteInfoDialog, setDeleteInfoDialog] = useState(false);
   const [emptyRecDialog, setEmptyRecDialog] = useState(false);
   const [emptyFieldDialog, setEmptyFieldDialog] = useState('');
-  const [recUpdated, setRecUpdated] = useState(false)
+  const [recUpdated, setRecUpdated] = useState(true)
 
-  const classes = useStyles();
+  // const classes = useStyles();
 
   const videoConstraints = {
     width: 160,
@@ -135,6 +135,7 @@ const Patient = (props) => {
           cpfSet(items.record[0].cpf || "");
           rgSet(items.record[0].rg || "");
           rgDateSet((items.record[0].rgDate || "").substr(0, 10));
+
           rgAgencySet(items.record[0].rgAgency || "");
           rgStateIdSet(items.record[0].rgState_id || "");
           mothersNameSet(items.record[0].mothersName || "");
@@ -155,11 +156,12 @@ const Patient = (props) => {
           firstAppointSet((items.record[0].firstAppoint || "").substr(0, 10));
           lastAppointSet((items.record[0].lastAppoint || "").substr(0, 10));
 
-          prescListSet(items.record[0].prescription || []);
-          reqListSet(items.record[0].request || []);
+          // prescListSet(items.record[0].prescription || []);
+          // reqListSet(items.record[0].request || []);
 
         });
     }
+    console.log('XXX')
     setRecUpdated(true)
   }, [_id, recUpdated]);
 
@@ -403,7 +405,7 @@ const Patient = (props) => {
                   label="Registro Clínica *"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  InputLabelProps={{ shrink: true, disabled: false, }}
                   variant="outlined"
                   size="small"
                 />
@@ -416,7 +418,7 @@ const Patient = (props) => {
                   label="Nome *"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  InputLabelProps={{ shrink: true, disabled: false, }}
                   variant="outlined"
                   size="small"
                 />
@@ -429,7 +431,7 @@ const Patient = (props) => {
                   label="Sobrenome *"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  InputLabelProps={{ shrink: true, disabled: false, }}
                   variant="outlined"
                   size="small"
                 />
@@ -442,7 +444,7 @@ const Patient = (props) => {
                   label="Sexo *"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  InputLabelProps={{ shrink: true, disabled: false, }}
                   variant="outlined"
                   size="small"
                   inputProps={{ type: "text" }}
@@ -456,7 +458,7 @@ const Patient = (props) => {
                   label="Data de Nascimento *"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  InputLabelProps={{ shrink: true, disabled: false, }}
                   variant="outlined"
                   size="small"
                   inputProps={{ type: "date" }}
@@ -471,7 +473,7 @@ const Patient = (props) => {
                   disabled={true}
                   variant="outlined"
                   size="small"
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  InputLabelProps={{ shrink: true, disabled: false, }}
                   sx={{ color: "black" }}
                 />
               </Grid>
@@ -484,7 +486,7 @@ const Patient = (props) => {
                   label="CPF *"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  InputLabelProps={{ shrink: true, disabled: false, }}
                   variant="outlined"
                   size="small"
                   inputProps={{ type: "text" }}
@@ -500,7 +502,7 @@ const Patient = (props) => {
                   fullWidth={true}
                   disabled={!editMode}
                   type='text'
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  InputLabelProps={{ shrink: true, disabled: false, }}
                   select>
                   {covenantList.map((option) => (
                     <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
@@ -515,7 +517,7 @@ const Patient = (props) => {
                   label="Plano"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  InputLabelProps={{ shrink: true, disabled: false, }}
                   variant="outlined"
                   size="small"
                 />
@@ -528,7 +530,7 @@ const Patient = (props) => {
                   label="Matrícula Convênio"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  InputLabelProps={{ shrink: true, disabled: false, }}
                   variant="outlined"
                   size="small"
                   inputProps={{ type: "number" }}
@@ -542,7 +544,7 @@ const Patient = (props) => {
                   label="Validade do Plano"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  InputLabelProps={{ shrink: true, disabled: false, }}
                   variant="outlined"
                   size="small"
                   inputProps={{ type: "date" }}
@@ -558,7 +560,7 @@ const Patient = (props) => {
                   fullWidth={true}
                   disabled={!editMode}
                   type='text'
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  InputLabelProps={{ shrink: true, disabled: false, }}
                   // sx={{ width: 150 }}
                   select>
                   {unitList.map((option) => (
@@ -580,7 +582,7 @@ const Patient = (props) => {
                   label="Altura"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  InputLabelProps={{ shrink: true, disabled: false, }}
                   variant="outlined"
                   size="small"
                   inputProps={{ type: "number" }}
@@ -596,7 +598,7 @@ const Patient = (props) => {
                   label="Peso"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  InputLabelProps={{ shrink: true, disabled: false, }}
                   variant="outlined"
                   size="small"
                   inputProps={{ type: "number" }}
@@ -610,7 +612,7 @@ const Patient = (props) => {
                   label="IMC"
                   fullWidth={true}
                   disabled={true}
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  InputLabelProps={{ shrink: true, disabled: false, }}
                   variant="outlined"
                   size="small"
                   inputProps={{ type: "number" }}
@@ -625,7 +627,7 @@ const Patient = (props) => {
                   label="Data de Cadastro"
                   fullWidth={true}
                   disabled={true}
-                  InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                  InputLabelProps={{ shrink: true, disabled: false, }}
                   variant="outlined"
                   size="small"
                   inputProps={{ type: "date" }}
@@ -648,7 +650,7 @@ const Patient = (props) => {
               label="Telefones"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
             />
@@ -661,7 +663,7 @@ const Patient = (props) => {
               label="Email"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
               inputProps={{ type: "text" }}
@@ -675,7 +677,7 @@ const Patient = (props) => {
               label="Endereço"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
             />
@@ -688,7 +690,7 @@ const Patient = (props) => {
               label="Número"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
             />
@@ -701,7 +703,7 @@ const Patient = (props) => {
               label="Complemento"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
             />
@@ -714,7 +716,7 @@ const Patient = (props) => {
               label="Bairro"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
             />
@@ -729,7 +731,7 @@ const Patient = (props) => {
               fullWidth={true}
               disabled={!editMode}
               type='text'
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               select>
               {cityList.map((option) => (
                 <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
@@ -745,7 +747,7 @@ const Patient = (props) => {
               label="CEP"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
             />
@@ -759,7 +761,7 @@ const Patient = (props) => {
               label="Responsável"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
               inputProps={{ type: "text" }}
@@ -773,7 +775,7 @@ const Patient = (props) => {
               label="Telefone do Responsável"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
               inputProps={{ type: "text" }}
@@ -789,7 +791,7 @@ const Patient = (props) => {
               fullWidth={true}
               disabled={!editMode}
               type='text'
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               select>
               {relativeList.map((option) => (
                 <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
@@ -805,7 +807,7 @@ const Patient = (props) => {
               label="Grau Parentesco"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
               inputProps={{ type: "text" }}
@@ -828,7 +830,7 @@ const Patient = (props) => {
               fullWidth={true}
               disabled={!editMode}
               type='text'
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               select>
               {cityList.map((option) => (
                 <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
@@ -843,7 +845,7 @@ const Patient = (props) => {
               label="Estado Civil"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
               inputProps={{ type: "text" }}
@@ -857,7 +859,7 @@ const Patient = (props) => {
               label="RG"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
               inputProps={{ type: "text" }}
@@ -871,7 +873,7 @@ const Patient = (props) => {
               label="Data Emissão RG"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
               inputProps={{ type: "date" }}
@@ -885,7 +887,7 @@ const Patient = (props) => {
               label="Órgão Emissor"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
               inputProps={{ type: "text" }}
@@ -901,7 +903,7 @@ const Patient = (props) => {
               fullWidth={true}
               disabled={!editMode}
               type='text'
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               select>
               {stateList.map((option) => (
                 <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
@@ -916,7 +918,7 @@ const Patient = (props) => {
               label="Nome da Mãe"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
               inputProps={{ type: "text" }}
@@ -930,7 +932,7 @@ const Patient = (props) => {
               label="Nome do Pai"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
               inputProps={{ type: "text" }}
@@ -944,7 +946,7 @@ const Patient = (props) => {
               label="CNS"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
               inputProps={{ type: "text" }}
@@ -958,7 +960,7 @@ const Patient = (props) => {
               label="Tipo Sanguineo"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
               inputProps={{ type: "text" }}
@@ -972,7 +974,7 @@ const Patient = (props) => {
               label="Indicado Por"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
               inputProps={{ type: "text" }}
@@ -987,7 +989,7 @@ const Patient = (props) => {
               label="Data da primeira consulta"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
               inputProps={{ type: "date" }}
@@ -1001,7 +1003,7 @@ const Patient = (props) => {
               label="Data da ultima consulta"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+              InputLabelProps={{ shrink: true, disabled: false, }}
               variant="outlined"
               size="small"
               inputProps={{ type: "date" }}
