@@ -48,6 +48,7 @@ const PrescHist = props => {
                 {prescList.map((item, index) => {
                     return (
                         <ListItem
+                            key={index}
                             secondaryAction={
                                 <Box>
                                     <IconButton edge="end" aria-label="delete" onClick={() => deletePresc(item)}>
@@ -76,7 +77,6 @@ const PrescHist = props => {
                                 />
                             </ListItemButton>
                         </ListItem>
-
                     )
                 })}
             </List>

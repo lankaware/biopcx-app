@@ -107,7 +107,7 @@ const Covenant = props => {
                 style: 'currency',
                 currency: 'BRL',
             })
-            .format(row.ambPrice),
+                .format(row.ambPrice),
             sortable: true,
             width: '10vw',
             right: true,
@@ -118,7 +118,7 @@ const Covenant = props => {
                 style: 'currency',
                 currency: 'BRL',
             })
-            .format(row.price),
+                .format(row.price),
             sortable: true,
             width: '10vw',
             right: true,
@@ -637,10 +637,11 @@ const Covenant = props => {
                                     select
                                 >
                                     {planList.map((option) => {
-                                        if (typeof option._id === 'number') return
+                                        if (typeof option._id === 'number') return null
                                         return (
-                                        <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
-                                    )})}
+                                            <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                                        )
+                                    })}
                                 </TextField>
                             </Grid>
                             <Grid item xs={6}>
@@ -672,7 +673,7 @@ const Covenant = props => {
                                     size='small'
                                     type="number"
                                     InputLabelProps={{ shrink: true, sx: { color: 'black' }, min: 0 }}
-                                    InputProps={{ inputProps: {min: 0} }}
+                                    InputProps={{ inputProps: { min: 0 } }}
                                 // sx={{ width: 350 }}
                                 />
                             </Grid>
@@ -686,7 +687,7 @@ const Covenant = props => {
                                     size='small'
                                     type="number"
                                     InputLabelProps={{ shrink: true, sx: { color: 'black' } }}
-                                    InputProps={{ inputProps: {min: 0} }}
+                                    InputProps={{ inputProps: { min: 0 } }}
                                 // sx={{ width: 350 }}
                                 />
                             </Grid>

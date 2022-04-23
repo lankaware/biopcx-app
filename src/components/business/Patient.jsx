@@ -98,7 +98,7 @@ const Patient = (props) => {
   const [deleteInfoDialog, setDeleteInfoDialog] = useState(false);
   const [emptyRecDialog, setEmptyRecDialog] = useState(false);
   const [emptyFieldDialog, setEmptyFieldDialog] = useState('');
-  const [recUpdated, setRecUpdated] = useState(true)
+  const [recUpdated, setRecUpdated] = useState(false)
 
   const classes = useStyles();
 
@@ -109,9 +109,8 @@ const Patient = (props) => {
   };
 
   useEffect(() => {
-    console.log(_id)
     if (_id !== '0') {
-      getList(objectId + id)
+      getList(objectId + _id)
         .then((items) => {
           _idSet(items.record[0]._id);
           photoSet(items.record[0].photo || "");
@@ -162,7 +161,7 @@ const Patient = (props) => {
         });
     }
     setRecUpdated(true)
-  }, [id, recUpdated]);
+  }, [_id, recUpdated]);
 
   const saveRec = () => {
     if (!name) {
@@ -255,7 +254,7 @@ const Patient = (props) => {
           _idSet(result.record._id);
         });
     }
-
+    setRecUpdated(false)
     setEditMode(false);
     setInsertMode(false);
   };
@@ -299,6 +298,7 @@ const Patient = (props) => {
   };
 
   const openPresc = () => {
+    // setRecUpdated(false)
     prescDialogSet(true)
   }
 
@@ -309,6 +309,7 @@ const Patient = (props) => {
   const openTextDialog = () => {
     textDialogSet(true)
   }
+
 
   return (
     <div>
@@ -1016,6 +1017,7 @@ const Patient = (props) => {
         prescList={prescList}
         prescListSet={prescListSet}
         patientId={_id}
+        callUpdate={setRecUpdated}
       />
 
       <ReqDialog
@@ -1024,6 +1026,7 @@ const Patient = (props) => {
         reqList={reqList}
         reqListSet={reqListSet}
         patientId={_id}
+        callUpdate={setRecUpdated}
       />
 
       <TextDialog
@@ -1035,6 +1038,7 @@ const Patient = (props) => {
         reqListSet={reqListSet}
         prescList={prescList}
         prescListSet={prescListSet}
+        callUpdate={setRecUpdated}
       />
 
       <Dialog open={photoDialog}>

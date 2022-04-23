@@ -34,6 +34,7 @@ const ReqDialog = props => {
     const [selectText, selectTextSet] = useState('')
     const [confirmDialog, confirmDialogSet] = useState(false)
     const [textList, textListSet] = useState('')
+    const [recUpdated, setRecUpdated] = useState(false)
 
     let patientId = props.patientId;
 
@@ -65,7 +66,8 @@ const ReqDialog = props => {
                     reqListSet(items.record[0].request || "");
                 })
         }
-    }, [patientId]);
+        setRecUpdated(true)
+    }, [patientId, recUpdated]);
 
     useEffect(() => {
         getList('texttemplate/')
@@ -128,6 +130,8 @@ const ReqDialog = props => {
 
     const cancelreq = () => {
         reqTextSet("");
+        setRecUpdated(false)
+        props.callUpdate(false)
         props.reqDialogSet(false)
     }
 
@@ -145,7 +149,7 @@ const ReqDialog = props => {
     const loadTextConfirm = async function () {
         await parseTextMacro(textApplied, props.patientId)
             .then(newText => {
-               // intMedicineSet(newText + intMedicine);
+                reqTextSet(reqText + newText)
                 confirmDialogSet(false);
                 loadDialogSet(false);
                 editorFocusSet(true);
@@ -163,6 +167,8 @@ const ReqDialog = props => {
     const closePrintDialog = () => {
         reqTextSet("");
         printDialogSet(false)
+        setRecUpdated(false)
+        props.callUpdate(false)
         props.reqDialogSet(false)
     }
 
@@ -306,8 +312,8 @@ const ReqDialog = props => {
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         Deseja imprimir a Solicitação?
-                        <ReqToPrint ref={textRef} reqText={reqText} header={header} footer={footer} />
                     </DialogContentText>
+                    <ReqToPrint ref={textRef} reqText={reqText} header={header} footer={footer} />
                 </DialogContent>
                 <DialogActions>
                     <Box m={1}>

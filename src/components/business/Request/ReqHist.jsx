@@ -42,6 +42,7 @@ const ReqHist = props => {
                 {reqList && reqList.map((item, index) => {
                     return (
                         <ListItem
+                            key={index}
                             secondaryAction={
                                 <Box>
                                     <IconButton edge="end" aria-label="delete" onClick={() => deleteReq(item)}>
@@ -70,7 +71,6 @@ const ReqHist = props => {
                                 />
                             </ListItemButton>
                         </ListItem>
-
                     )
                 })}
             </List>

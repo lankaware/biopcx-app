@@ -10,19 +10,25 @@ const PrescToPrint = React.forwardRef((props, ref) => {
 
             <table >
                 <thead style={{ 'verticalAlign': 'top' }}>
-                    <td style={{ 'width': '100vw', 'height': '10vh' }}>
-                        {parse(props.header)}
-                    </td>
+                    <tr>
+                        <td style={{ 'width': '100vw', 'height': '10vh' }}>
+                            {parse(props.header)}
+                        </td>
+                    </tr>
                 </thead >
                 <tbody >
-                    <td style={{ 'height': '80vh', 'fontSize': '21px', 'verticalAlign': 'top' }}>
-                        {parse(props.prescText)}
-                    </td>
+                    <tr>
+                        <td style={{ 'height': '80vh', 'fontSize': '21px', 'verticalAlign': 'top' }}>
+                            {parse(props.prescText)}
+                        </td>
+                    </tr>
                 </tbody>
                 <tfoot >
-                    <td style={{ 'width': '100vw', 'height': '5vh' }}>
-                        {parse(props.footer)}
-                    </td>
+                    <tr>
+                        <td style={{ 'width': '100vw', 'height': '5vh' }}>
+                            {parse(props.footer)}
+                        </td>
+                    </tr>
                 </tfoot>
             </table>
         </div>

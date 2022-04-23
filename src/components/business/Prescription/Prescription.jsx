@@ -43,6 +43,7 @@ const PrescDialog = props => {
     const [textList, textListSet] = useState('')
     const [selectText, selectTextSet] = useState('')
     const [editorFocus, editorFocusSet] = useState(true)
+    const [recUpdated, setRecUpdated] = useState(false)
 
     const textRef = useRef()
 
@@ -72,7 +73,8 @@ const PrescDialog = props => {
                     prescListSet(items.record[0].prescription || []);
                 })
         }
-    }, [patientId]);
+        setRecUpdated(true)
+    }, [patientId, recUpdated]);
 
     useEffect(() => {
         prescTextSet(intMedicine + extMedicine)
@@ -89,7 +91,7 @@ const PrescDialog = props => {
         intMedicineSet("");
         extMedicineSet("");
     }
-    
+
     const columns = [
         {
             name: 'Nome',
@@ -110,7 +112,7 @@ const PrescDialog = props => {
             if (intMedicine.search("Uso interno:") !== -1) {
                 intMedicineSet(intMedicine + medicineName + " " + medicineDose + " <br>")
             } else {
-                intMedicineSet(intMedicine + "<p> <strong>Uso interno: </strong>" + " <br>" + medicineName + " " + medicineDose + " <br>")
+                intMedicineSet(intMedicine + "<p> <strong>Uso interno: </strong> <br>" + medicineName + " " + medicineDose + " <br>")
             }
         }
 
@@ -118,7 +120,7 @@ const PrescDialog = props => {
             if (extMedicine.search("Uso externo:") !== -1) {
                 extMedicineSet(extMedicine + medicineName + " " + medicineDose + " <br>")
             } else {
-                extMedicineSet(" <p> <strong> Uso externo: </strong>" + " <br>" + extMedicine + medicineName + " " + medicineDose + " <br>")
+                extMedicineSet(" <p> <strong> Uso externo: </strong> <br>" + extMedicine + medicineName + " " + medicineDose + " <br>")
             }
         }
         medicineNameSet("");
@@ -161,12 +163,16 @@ const PrescDialog = props => {
 
     const cancelPresc = () => {
         cleanText()
+        setRecUpdated(false)
+        props.callUpdate(false)
         props.prescDialogSet(false)
     }
 
     const closePrintDialog = () => {
         cleanText();
         printDialogSet(false)
+        setRecUpdated(false)
+        props.callUpdate(false)
         props.prescDialogSet(false)
     }
 
@@ -280,7 +286,7 @@ const PrescDialog = props => {
                                 intMedicineSet={intMedicineSet}
                                 extMedicine={extMedicine}
                                 extMedicineSet={extMedicineSet}
-                                // autofocus={editorFocus}
+                            // autofocus={editorFocus}
                             />
                         </Box>
                     </Box>
@@ -296,8 +302,8 @@ const PrescDialog = props => {
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         Deseja imprimir a receita?
-                        <PrescToPrint ref={textRef} prescText={prescText} header={header} footer={footer} />
                     </DialogContentText>
+                    <PrescToPrint ref={textRef} prescText={prescText} header={header} footer={footer} />
                 </DialogContent>
                 <DialogActions>
                     <Box m={1}>
