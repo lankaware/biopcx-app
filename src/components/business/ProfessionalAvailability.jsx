@@ -4,6 +4,9 @@ import { customStyles2, paginationBr } from '../../services/datatablestyle'
 import { Grid, TextField, Button, Dialog, DialogActions, DialogContent,
     DialogTitle, MenuItem
 } from '@mui/material'
+
+import AddIcon from '@mui/icons-material/Add';
+
 import { useStyles } from '../../services/stylemui'
 import { DaysOfWeek, dayOfWeekLabel } from '../commons/DayOfWeek'
 
@@ -15,7 +18,6 @@ const ProfessionalAvailability = props => {
     const [interval, intervalSet] = useState(0)
     const [currentItem, currentItemSet] = useState(0)
 
-    const [editDialog, editDialogSet] = useState(false)
     const [itemList, itemListSet] = useState(props.itemList)
     
     const classes = useStyles()
@@ -57,7 +59,7 @@ const ProfessionalAvailability = props => {
     ];
 
     const editOpen = (rowid) => {
-        if (!props.editMode) return
+        // if (!props.editMode) return
         const currentItemTemp = itemList.findIndex((item) => { return item._id === rowid })
 
         weekDaySet(itemList[currentItemTemp].weekDay)
@@ -66,12 +68,11 @@ const ProfessionalAvailability = props => {
         intervalSet(itemList[currentItemTemp].interval)
 
         currentItemSet(currentItemTemp)
-        editDialogSet(true)
+        props.editDialogSet(true)
     }
 
 
     const editNew = () => {
-
         itemListSet([...itemList, {
             '_id': toString(currentItem),
             'weekDay': 1,
@@ -98,15 +99,23 @@ const ProfessionalAvailability = props => {
 
         props.onChangeSublist(itemList)
 
-        editDialogSet(false)
+        props.editDialogSet(false)
+    }
+
+    const editDelete = () => {
+        
     }
 
     const editCancel = () => {
-        editDialogSet(false)
+        props.editDialogSet(false)
     }
 
     return (
         <div>
+            <div className='tool-title-sub'>
+                            <Button color='primary' variant='contained' size='small' endIcon={<AddIcon />}
+                                onClick={_ => {props.editDialogSet(true); editNew()}} disabled={(false)} />
+                        </div>
             <div className='data-table-level1'>
                 <DataTable
                     // title=""
@@ -129,7 +138,7 @@ const ProfessionalAvailability = props => {
                 />
             </div>
             <Dialog
-                open={editDialog}
+                open={props.editDialog}
                 >
                 <DialogTitle id="alert-dialog-title">{"Alteração de Disponibilidade"}</DialogTitle>
                 {/* <p/> */}
@@ -190,10 +199,7 @@ const ProfessionalAvailability = props => {
                     </div>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={editNew} color="primary" variant='contained' size='small'>
-                        INCLUIR
-                    </Button>
-                    <Button onClick={editConfirm} color="primary" variant='contained' size='small'>
+                    <Button onClick={editDelete} color="primary" variant='contained' size='small'>
                         APAGAR
                     </Button>
                     <Button onClick={editConfirm} color="primary" variant='contained' size='small'>

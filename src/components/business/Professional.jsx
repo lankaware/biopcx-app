@@ -12,7 +12,6 @@ import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import CancelIcon from '@mui/icons-material/Cancel'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
-import AddIcon from '@mui/icons-material/Add';
 
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec, postRec, deleteRec } from '../../services/apiconnect'
@@ -56,6 +55,9 @@ const Professional = props => {
 
     const [tabValue, setTabValue] = useState(0);
 
+    const [editDialog, editDialogSet] = useState(false)
+
+
     const classes = useStyles()
 
     useEffect(() => {
@@ -92,19 +94,19 @@ const Professional = props => {
                         tempList = ([...tempList, newLine])
                     }
                 })
-            // .then(_ => {
-            //     if (tempList.length === 0) {
-            //         const newLine = {
-            //             '_id': '0',
-            //             'weekDay': 1,
-            //             'initialTime': '00:00',
-            //             'finalTime': '00:00',
-            //             'interval': 0,
-            //         }
-            //         tempList = ([newLine])
-            //     }
-            //     availabilityListSet(tempList)
-            // })
+            .then(_ => {
+                if (tempList.length === 0) {
+                    const newLine = {
+                        '_id': '0',
+                        'weekDay': 1,
+                        'initialTime': '00:00',
+                        'finalTime': '00:00',
+                        'interval': 0,
+                    }
+                    tempList = ([newLine])
+                }
+                availabilityListSet(tempList)
+            })
         }
         setRecUpdated(true)
 
@@ -410,14 +412,14 @@ const Professional = props => {
                         </Tabs>
                     </AppBar>
                     <TabPanel value={tabValue} index={0} dir={theme.direction}>
-                        <div className='tool-title-sub'>
-                            <Button color='primary' variant='contained' size='small' endIcon={<AddIcon />}
-                                onClick={_ => addAvailability()} disabled={(false)} />
-                        </div>
+                        
                         <ProfessionalAvailability
                             itemList={availabilityList}
                             editMode={editMode}
                             onChangeSublist={availabilityListSet}
+                            editDialogSet={editDialogSet}
+                            editDialog={editDialog}
+
                         />
                     </TabPanel>
                 </div>
