@@ -93,20 +93,20 @@ const Professional = props => {
                         console.log('newLine', newLine)
                         tempList = ([...tempList, newLine])
                     }
+                    availabilityListSet(tempList)
                 })
-            .then(_ => {
-                if (tempList.length === 0) {
-                    const newLine = {
-                        '_id': '0',
-                        'weekDay': 1,
-                        'initialTime': '00:00',
-                        'finalTime': '00:00',
-                        'interval': 0,
-                    }
-                    tempList = ([newLine])
-                }
-                availabilityListSet(tempList)
-            })
+            // .then(_ => {
+            //     if (tempList.length === 0) {
+            //         const newLine = {
+            //             '_id': '0',
+            //             'weekDay': 1,
+            //             'initialTime': '00:00',
+            //             'finalTime': '00:00',
+            //             'interval': 0,
+            //         }
+            //         tempList = ([newLine])
+            //     }
+            // })
         }
         setRecUpdated(true)
 
@@ -119,6 +119,7 @@ const Professional = props => {
         }
         let recSubList = availabilityList.map(item => {
             console.log('item', item)
+            // Tratar registros apagados 
             if (item._id && item._id.length === 24) {
                 return {
                     _id: item._id,
@@ -412,14 +413,13 @@ const Professional = props => {
                         </Tabs>
                     </AppBar>
                     <TabPanel value={tabValue} index={0} dir={theme.direction}>
-                        
+
                         <ProfessionalAvailability
                             itemList={availabilityList}
                             editMode={editMode}
                             onChangeSublist={availabilityListSet}
                             editDialogSet={editDialogSet}
                             editDialog={editDialog}
-
                         />
                     </TabPanel>
                 </div>

@@ -38,14 +38,14 @@ const ProfessionalAvailability = props => {
             name: 'Hora Inicial',
             selector: row => row.initialTime,
             sortable: true,
-            width: '20vw',
+            width: '15vw',
             cell: row => row.initialTime.substr(0, 5)
         },
         {
             name: 'Hora Final',
             selector: row => row.finalTime,
             sortable: true,
-            width: '10vw',
+            width: '15vw',
             right: false,
             cell: row => row.finalTime.substr(0, 5)
         },
@@ -53,13 +53,13 @@ const ProfessionalAvailability = props => {
             name: 'Intervalo',
             selector: row => row.interval,
             sortable: true,
-            width: '10vw',
+            width: '15vw',
             right: true,
         },
     ];
 
     const editOpen = (rowid) => {
-        // if (!props.editMode) return
+        if (!props.editMode) return
         const currentItemTemp = itemList.findIndex((item) => { return item._id === rowid })
 
         weekDaySet(itemList[currentItemTemp].weekDay)
@@ -103,7 +103,12 @@ const ProfessionalAvailability = props => {
     }
 
     const editDelete = () => {
-        
+        // itemList.splice(currentItem, 1)
+        // itemList[currentItem].initialTime = 'Excluído'
+        // itemList[currentItem].finalTime = 'Excluído'
+        itemList[currentItem].interval = '*** Excluído ***'
+        props.onChangeSublist(itemList)
+        props.editDialogSet(false)
     }
 
     const editCancel = () => {
@@ -114,7 +119,7 @@ const ProfessionalAvailability = props => {
         <div>
             <div className='tool-title-sub'>
                             <Button color='primary' variant='contained' size='small' endIcon={<AddIcon />}
-                                onClick={_ => {props.editDialogSet(true); editNew()}} disabled={(false)} />
+                                onClick={_ => {props.editDialogSet(true); editNew()}} disabled={!props.editMode} />
                         </div>
             <div className='data-table-level1'>
                 <DataTable
@@ -123,18 +128,14 @@ const ProfessionalAvailability = props => {
                     columns={columns}
                     customStyles={customStyles2}
                     data={itemList}
-                    // selectableRows 
-                    Clicked
-                    // onSelectedRowsChange={handleChange}
                     keyField={'_id'}
                     highlightOnHover={true}
                     pagination={true}
                     fixedHeader={true}
-                    // noContextMenu={true}
                     paginationComponentOptions={paginationBr}
                     paginationPerPage={5}
                     noDataComponent={'Nenhum registro disponível.'}
-                    onRowClicked={(row, event) => {editOpen(row._id)}}
+                    onRowClicked={(row, event) => editOpen(row._id) }
                 />
             </div>
             <Dialog
@@ -203,7 +204,7 @@ const ProfessionalAvailability = props => {
                         APAGAR
                     </Button>
                     <Button onClick={editConfirm} color="primary" variant='contained' size='small'>
-                        SALVAR
+                        CONFIRMAR
                     </Button>
                     <Button onClick={editCancel} color="primary" variant='contained' size='small'>
                         CANCELAR

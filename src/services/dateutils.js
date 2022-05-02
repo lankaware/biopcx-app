@@ -9,8 +9,8 @@ export function dateBr(argDate) {
 export function timeBr(argTime) {
   if (!argTime) return ''
   const tempDate = new Date(argTime)
-  // return tempDate.toLocaleTimeString('pt-BR', { timeZone: 'UTC' })
-  return tempDate.toLocaleTimeString()
+  return tempDate.toLocaleTimeString('pt-BR', { timeZone: 'UTC' })
+  // return tempDate.toLocaleTimeString()
 }
 
 export function defaultDateBr() {
