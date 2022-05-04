@@ -20,7 +20,8 @@ const objectId = 'agendaid/'
 
 const Agenda = props => {
 
-    let { id } = useParams()
+    let id = props.agendaID
+    // let { id } = useParams()
 
     const [_id, _idSet] = useState('')
     const [date, dateSet] = useState('')
@@ -51,8 +52,8 @@ const Agenda = props => {
     const [patientList, patientListSet] = useState([])
     const [procedureList, procedureListSet] = useState([])
 
-    const [insertMode, setInsertMode] = useState(id === '0')
-    const [editMode, setEditMode] = useState(id === '0')
+    const [insertMode, setInsertMode] = useState(id === 0)
+    const [editMode, setEditMode] = useState(id === 0)
 
     const [deleteDialog, setDeleteDialog] = useState(false)
     const [deleteInfoDialog, setDeleteInfoDialog] = useState(false)
@@ -63,8 +64,9 @@ const Agenda = props => {
     const classes = useStyles()
 
     useEffect(() => {
-        if (id !== '0') {
-            getList(objectId + id)
+        if (props.agendaID !== 0) {
+            console.log(props.agendaID)
+            getList(objectId + props.agendaID)
                 .then(items => {
                     _idSet(items.record[0]._id)
 
@@ -110,7 +112,8 @@ const Agenda = props => {
             planName,
             status
         }
-        if (id !== '0') {
+        console.log("recObj", recObj)
+        if (id !== 0) {
             recObj = JSON.stringify(recObj)
             putRec(objectId + id, recObj)
                 .then(result => {
@@ -185,43 +188,20 @@ const Agenda = props => {
         setEmptyRecDialog(false)
     }
 
+    const cancelRec = () => {
+        props.openAgendaSet(false)
+    }
+
     return (
         <div>
             <div className='tool-bar'>
-                <div >
+                <DialogTitle >
                     <Typography variant='h5' className='tool-title' noWrap={true}>Registro de Agenda</Typography>
-                </div>
-                <div className='tool-buttons'>
-                    <Box m={1}>
-                        <Button color='primary' variant='contained' size='small' startIcon={<EditIcon />}
-                            onClick={_ => setEditMode(true)} disabled={editMode}>EDITAR
-                        </Button>
-                    </Box>
-                    <Box m={1}>
-                        <Button color='primary' variant='contained' size='small' startIcon={<SaveAltIcon />}
-                            onClick={_ => saveRec()} disabled={!editMode}>SALVAR
-                        </Button>
-                    </Box>
-                    <Box m={1}>
-                        <Button color='primary' variant='contained' size='small' startIcon={<CancelIcon />}
-                            onClick={_ => refreshRec()} disabled={!editMode}>CANCELAR
-                        </Button>
-                    </Box>
-                    <Box m={1}>
-                        <Button color='primary' variant='contained' size='small' startIcon={<DeleteForeverIcon />}
-                            onClick={_ => delRec()} disabled={editMode}>APAGAR
-                        </Button>
-                    </Box>
-                    <Box m={1}>
-                        <Button color='primary' variant='contained' size='small' startIcon={<KeyboardReturnIcon />}
-                            href="/agendas" id='backButton' disabled={editMode}>VOLTAR
-                        </Button>
-                    </Box>
-                </div>
+                </DialogTitle>
             </div>
-            <div className='data-form'>
+                <div className='data-form'> 
                 <Grid container spacing={2} >
-                    <Grid item xs={2}>
+                    <Grid item xs={4}>
                         <TextField
                             id='date'
                             label='Data'
@@ -236,12 +216,12 @@ const Agenda = props => {
                         // inputProps={{ type: 'date' }}
                         />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={4}>
                         <TextField
                             id='initialTime'
                             label='Início'
                             value={initialTime}
-                            onChange={(event) => { initialTimeSet(event.target.value) }}
+                            onChange={(event) => { initialTimeSet(event.target.value); console.log(event.target.value) }}
                             size='small'
                             fullWidth={true}
                             disabled={!editMode}
@@ -251,7 +231,7 @@ const Agenda = props => {
                             inputProps={{ step: 300 }}
                         />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={4}>
                         <TextField
                             id='finalTime'
                             label='Término'
@@ -266,9 +246,8 @@ const Agenda = props => {
                             inputProps={{ step: 300 }}
                         />
                     </Grid>
-                    <Grid item xs={6} />
 
-                    <Grid item xs={5}>
+                    <Grid item xs={12}>
                         <TextField
                             id='patient'
                             label='Paciente'
@@ -286,8 +265,7 @@ const Agenda = props => {
                             ))}
                         </TextField>
                     </Grid>
-                    <Grid item xs={6} />
-                    <Grid item xs={5}>
+                    <Grid item xs={12}>
                         <TextField
                             id='professional'
                             label='Profissional'
@@ -306,8 +284,7 @@ const Agenda = props => {
                             ))}
                         </TextField>
                     </Grid>
-                    <Grid item xs={6} />
-                    <Grid item xs={4}>
+                    <Grid item xs={12}>
                         <TextField
                             id='procedure'
                             label='Procedimento'
@@ -353,6 +330,35 @@ const Agenda = props => {
                 </div>
 
             </Form> */}
+            <DialogActions>
+                <div className='tool-buttons'>
+                    <Box m={1}>
+                        <Button color='primary' variant='contained' size='small' startIcon={<EditIcon />}
+                            onClick={_ => setEditMode(true)} disabled={editMode}>EDITAR
+                        </Button>
+                    </Box>
+                    <Box m={1}>
+                        <Button color='primary' variant='contained' size='small' startIcon={<SaveAltIcon />}
+                            onClick={_ => saveRec()} disabled={!editMode}>SALVAR
+                        </Button>
+                    </Box>
+                    <Box m={1}>
+                        <Button color='primary' variant='contained' size='small' startIcon={<CancelIcon />}
+                            onClick={_ => refreshRec()} disabled={!editMode}>CANCELAR
+                        </Button>
+                    </Box>
+                    <Box m={1}>
+                        <Button color='primary' variant='contained' size='small' startIcon={<DeleteForeverIcon />}
+                            onClick={_ => delRec()} disabled={editMode}>APAGAR
+                        </Button>
+                    </Box>
+                    <Box m={1}>
+                        <Button color='primary' variant='contained' size='small' startIcon={<KeyboardReturnIcon />}
+                            onClick={_ => cancelRec()} id='backButton' disabled={editMode}>VOLTAR
+                        </Button>
+                    </Box>
+                </div>
+            </DialogActions>
 
             <Dialog
                 open={deleteDialog}

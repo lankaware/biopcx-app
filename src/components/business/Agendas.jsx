@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import DataTable from 'react-data-table-component'
 
-import { Button, Box, Typography, Grid, TextField, } from '@mui/material'
+import { Button, Box, Typography, Grid, TextField, Dialog, } from '@mui/material'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
 import SearchIcon from '@mui/icons-material/Search'
@@ -12,6 +12,7 @@ import { getList, putRec } from '../../services/apiconnect'
 import { customStyles1, paginationBr } from '../../services/datatablestyle'
 import { prettyDate, timeBr } from '../../services/dateutils'
 
+import Agenda from './Agenda'
 const objectRef = 'agenda/'
 
 const Agendas = props => {
@@ -22,7 +23,7 @@ const Agendas = props => {
             selector: row => row.date,
             sortable: true,
             width: '6vw',
-            cell: row => (<Link to={"/agenda/" + row._id}>{prettyDate(row.date)}</Link>)
+            cell: row => prettyDate(row.date)
         },
         {
             name: 'Início',
@@ -68,14 +69,16 @@ const Agendas = props => {
         },
     ];
 
+    const [agendaID, agendaIDSet] = useState('0');
+
     const classes = useStyles();
     const [list, setList] = useState([])
     const [dateFilter, dateFilterSet] = useState('')
     const [patientFilter, patientFilterSet] = useState('')
-    
+
     const [openAgenda, openAgendaSet] = useState('')
 
-    
+
 
     useEffect(() => {
         let tempList = []
@@ -121,10 +124,11 @@ const Agendas = props => {
         console.log('Selected Rows: ', state.selectedRows);
     };
 
-    const agendaDialog = (agendaID) => {
+    const agendaDialog = (agendaId) => {
+        agendaIDSet(agendaId);
+        console.log("Agendas id", {agendaID, agendaId})
         openAgendaSet(true);
-        
-    } 
+    }
 
     const launchSearch = (e) => {
         if (e.key === 'Enter') {
@@ -194,22 +198,27 @@ const Agendas = props => {
                     highlightOnHover={true}
                     pagination={true}
                     fixedHeader={true}
-                    onRowClicked={(row, event) => {agendaDialog(row._id) }}
+                    onRowClicked={(row, event) => { agendaDialog(row._id) }}
                     // noContextMenu={true}
                     paginationComponentOptions={paginationBr}
                     paginationPerPage={10}
                 />
                 <Box m={1}>
-                    <Button color="primary" size='small' variant='contained' startIcon={<OpenInNewIcon />} target="_blank" 
-                    onClick={() => agendaDialog(0)}
+                    <Button color="primary" size='small' variant='contained' startIcon={<OpenInNewIcon />} target="_blank"
+                        onClick={() => agendaDialog(0)}
                     >INCLUIR
                     </Button>
                 </Box>
             </div>
-
-            
-
+            <div>
+                <Dialog open={openAgenda} maxWidth={false}>
+                    <Agenda agendaID={agendaID}
+                    openAgendaSet={openAgendaSet}>
+                    </Agenda>
+                </Dialog>
+            </div>
         </div>
+
     )
 }
 
