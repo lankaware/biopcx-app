@@ -117,26 +117,34 @@ const Professional = props => {
             setEmptyRecDialog(true)
             return null
         }
-        let recSubList = availabilityList.map(item => {
-            console.log('item', item)
-            // Tratar registros apagados 
-            if (item._id && item._id.length === 24) {
-                return {
-                    _id: item._id,
-                    weekDay: item.weekDay,
-                    initialTime: '1970-01-01T' + item.initialTime,
-                    finalTime: '1970-01-01T' + item.finalTime,
-                    interval: item.interval
+
+        let recSubList = availabilityList
+            .filter(element => element.interval !== '*** Excluído ***')
+            .map(item => {
+                if (item._id && item._id.length === 24) {
+                    return {
+                        _id: item._id,
+                        weekDay: item.weekDay,
+                        initialTime: '1970-01-01T' + item.initialTime,
+                        finalTime: '1970-01-01T' + item.finalTime,
+                        interval: item.interval
+                    }
+                } else {
+                    return {
+                        weekDay: item.weekDay,
+                        initialTime: '1970-01-01T' + item.initialTime,
+                        finalTime: '1970-01-01T' + item.finalTime,
+                        interval: item.interval
+                    }
                 }
-            } else {
-                return {
-                    weekDay: item.weekDay,
-                    initialTime: '1970-01-01T' + item.initialTime,
-                    finalTime: '1970-01-01T' + item.finalTime,
-                    interval: item.interval
-                }
-            }
-        })
+            })
+            .sort((a, b) => {
+                if (a.weekDay + a.initialTime > b.weekDay + b.initialTime)
+                    return 1
+                else
+                    return -1
+            })
+
         console.log('recSubList', recSubList)
         let recObj = {
             name,
@@ -202,10 +210,6 @@ const Professional = props => {
 
     const emptyRecClose = () => {
         setEmptyRecDialog(false)
-    }
-
-    const addAvailability = () => {
-        return null
     }
 
     return (

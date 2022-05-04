@@ -10,13 +10,18 @@ import AddIcon from '@mui/icons-material/Add';
 import { useStyles } from '../../services/stylemui'
 import { DaysOfWeek, dayOfWeekLabel } from '../commons/DayOfWeek'
 
+var currentItem = 0
+const currentItemSet = (newValue) => {
+    currentItem = newValue
+}
+
 const ProfessionalAvailability = props => {
 
     const [weekDay, weekDaySet] = useState(0)
     const [initialTime, initialTimeSet] = useState('')
     const [finalTime, finalTimeSet] = useState('')
     const [interval, intervalSet] = useState(0)
-    const [currentItem, currentItemSet] = useState(0)
+    // const [currentItem, currentItemSet] = useState(0)
 
     const [itemList, itemListSet] = useState(props.itemList)
     
@@ -30,7 +35,7 @@ const ProfessionalAvailability = props => {
         {
             name: 'Dia da Semana',
             selector: row => row.weekDay,
-            sortable: true,
+            // sortable: true,
             width: '30vw',
             cell: row =>  dayOfWeekLabel(row.weekDay)
         },
@@ -86,7 +91,7 @@ const ProfessionalAvailability = props => {
         finalTimeSet('00:00')
         intervalSet(0)
 
-        let currentItemTemp = currentItem + 1
+        let currentItemTemp = itemList.length 
         currentItemSet(currentItemTemp)
 
     }
