@@ -64,24 +64,25 @@ const Agenda = props => {
     const classes = useStyles()
 
     useEffect(() => {
-        if (props.agendaID !== 0) {
-            console.log(props.agendaID)
-            getList(objectId + props.agendaID)
-                .then(items => {
-                    _idSet(items.record[0]._id)
-
-                    dateSet((items.record[0].date || '').substr(0, 10))
-                    initialTimeSet(timeBr(items.record[0].initialTime) || '')
-                    finalTimeSet(timeBr(items.record[0].finalTime) || '')
-                    professionalIdSet(items.record[0].professional_id || '')
-                    professionalNameSet(items.record[0].professionalName || '')
-                    patientIdSet(items.record[0].patient_id || '')
-                    patientNameSet(items.record[0].patientName || '')
-                    procedureIdSet(items.record[0].procedure_id || '')
-                    procedureNameSet(items.record[0].procedureName || '')
-                    planNameSet(items.record[0].planName || '')
-                    statusSet(items.record[0].status || '')
-                })
+        if (props.agendaID !== "1") {
+            console.log(props.agendaInfo)
+            let record = props.agendaInfo;
+            let setters = () => {
+                console.log(record._id)
+                _idSet(record._id)
+                dateSet((record.date || '').substr(0, 10))
+                initialTimeSet(timeBr(record.initialTime) || '')
+                finalTimeSet(timeBr(record.finalTime) || '')
+                professionalIdSet(record.professional_id || '')
+                professionalNameSet(record.professionalName || '')
+                patientIdSet(record.patient_id || '')
+                patientNameSet(record.patientName || '')
+                procedureIdSet(record.procedure_id || '')
+                procedureNameSet(record.procedureName || '')
+                planNameSet(record.planName || '')
+                statusSet(record.status || '')
+            }
+            setters();
         }
         getList('professional/')
             .then(items => {
@@ -113,7 +114,7 @@ const Agenda = props => {
             status
         }
         console.log("recObj", recObj)
-        if (id !== 0) {
+        if (id !== "1") {
             recObj = JSON.stringify(recObj)
             putRec(objectId + id, recObj)
                 .then(result => {
@@ -199,7 +200,7 @@ const Agenda = props => {
                     <Typography variant='h5' className='tool-title' noWrap={true}>Registro de Agenda</Typography>
                 </DialogTitle>
             </div>
-                <div className='data-form'> 
+            <div className='data-form'>
                 <Grid container spacing={2} >
                     <Grid item xs={4}>
                         <TextField

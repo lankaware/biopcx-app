@@ -69,7 +69,7 @@ const Agendas = props => {
         },
     ];
 
-    const [agendaID, agendaIDSet] = useState('0');
+    const [agendaINFO, agendaINFOSet] = useState({});
 
     const classes = useStyles();
     const [list, setList] = useState([])
@@ -108,14 +108,35 @@ const Agendas = props => {
     }, [])
 
     const refreshRec = () => {
+        let tempList = []
         let recObj = {}
-        if (dateFilter) recObj = { 'name': { "$regex": dateFilter } }
-        if (patientFilter) recObj = { ...recObj, 'specialty.name  ': { "$regex": patientFilter } }
+        if (dateFilter) recObj = { dateFilter }
+        // if (patientFilter) recObj = { ...recObj, 'specialty.name  ': { "$regex": patientFilter } }
 
         recObj = JSON.stringify(recObj)
+        console.log("recObj", recObj)
         putRec(objectRef, recObj)
             .then(items => {
-                setList(items.record)
+                items.record.forEach(element => {
+                    tempList.push({
+                        _id: element._id || "",
+                        date: element.date.substr(0, 10) || "",
+                        initialTime: timeBr(element.initialTime) || "",
+                        finalTime: timeBr(element.finalTime) || "",
+                        professional_id: element.professional_id || "",
+                        professional_name: element.professional_name[0] || "",
+                        patient_id: element.patient_id || "",
+                        patient_name: element.patient_name[0] || "",
+                        patient_phone: element.patient_phone[0] || "",
+                        procedure_id: element.procedure_id || "",
+                        procedure_name: element.procedure_name[0] || "",
+                        planName: element.planName || "",
+                        status: element.status || "" 
+                    })
+                });
+            })
+            .then(_ => {
+                setList(tempList)
             })
     }
 
@@ -124,9 +145,9 @@ const Agendas = props => {
         console.log('Selected Rows: ', state.selectedRows);
     };
 
-    const agendaDialog = (agendaId) => {
-        agendaIDSet(agendaId);
-        console.log("Agendas id", {agendaID, agendaId})
+    const agendaDialog = (agendaInfo) => {
+        agendaINFOSet(agendaInfo);
+        
         openAgendaSet(true);
     }
 
@@ -160,13 +181,14 @@ const Agendas = props => {
                 <Grid item xs={3}>
                     <TextField
                         value={dateFilter}
-                        onChange={(event) => { dateFilterSet(event.target.value.toUpperCase()) }}
+                        onChange={(event) => { dateFilterSet(event.target.value) }}
                         id='dateFilter'
                         label='Data'
                         fullWidth={false}
                         InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                         onKeyPress={(e) => { launchSearch(e) }}
                         variant='outlined'
+                        type='date'
                         size='small'
                     />
                 </Grid>
@@ -198,7 +220,7 @@ const Agendas = props => {
                     highlightOnHover={true}
                     pagination={true}
                     fixedHeader={true}
-                    onRowClicked={(row, event) => { agendaDialog(row._id) }}
+                    onRowClicked={(row, event) => { agendaDialog(row) }}
                     // noContextMenu={true}
                     paginationComponentOptions={paginationBr}
                     paginationPerPage={10}
@@ -212,8 +234,8 @@ const Agendas = props => {
             </div>
             <div>
                 <Dialog open={openAgenda} maxWidth={false}>
-                    <Agenda agendaID={agendaID}
-                    openAgendaSet={openAgendaSet}>
+                    <Agenda agendaInfo={agendaINFO}
+                        openAgendaSet={openAgendaSet}>
                     </Agenda>
                 </Dialog>
             </div>
