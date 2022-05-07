@@ -20,10 +20,10 @@ const objectId = 'agendaid/'
 
 const Agenda = props => {
 
-    let id = props.agendaID
+    let _id = props.agendaInfo._id
     // let { id } = useParams()
 
-    const [_id, _idSet] = useState('')
+    // const [_id, _idSet] = useState('')
     const [date, dateSet] = useState('')
     const [initialTime, initialTimeSet] = useState('')
     const [finalTime, finalTimeSet] = useState('')
@@ -36,27 +36,10 @@ const Agenda = props => {
     const [planName, planNameSet] = useState('')
     const [status, statusSet] = useState('')
 
-    const [dateTemp, dateSetTemp] = useState('')
-    const [initialTimeTemp, initialTimeSetTemp] = useState('')
-    const [finalTimeTemp, finalTimeSetTemp] = useState('')
-    const [professionalIdTemp, professionalIdSetTemp] = useState('')
-    const [professionalNameTemp, professionalNameSetTemp] = useState('')
-    const [patientIdTemp, patientIdSetTemp] = useState('')
-    const [patientNameTemp, patientNameSetTemp] = useState('')
-    const [procedureIdTemp, procedureIdSetTemp] = useState('')
-    const [procedureNameTemp, procedureNameSetTemp] = useState('')
-    const [planNameTemp, planNameSetTemp] = useState('')
-    const [statusTemp, statusSetTemp] = useState('')
-
     const [professionalList, professionalListSet] = useState([])
     const [patientList, patientListSet] = useState([])
     const [procedureList, procedureListSet] = useState([])
 
-    const [insertMode, setInsertMode] = useState(id === 0)
-    const [editMode, setEditMode] = useState(id === 0)
-
-    const [deleteDialog, setDeleteDialog] = useState(false)
-    const [deleteInfoDialog, setDeleteInfoDialog] = useState(false)
     const [emptyRecDialog, setEmptyRecDialog] = useState(false)
 
     // const [tabValue, setTabValue] = useState(0);
@@ -64,15 +47,15 @@ const Agenda = props => {
     const classes = useStyles()
 
     useEffect(() => {
-        if (props.agendaID !== "1") {
+        // if (props.agendaID !== "1") {
             console.log(props.agendaInfo)
             let record = props.agendaInfo;
             let setters = () => {
                 console.log(record._id)
-                _idSet(record._id)
+                // _idSet(record._id)
                 dateSet((record.date || '').substr(0, 10))
-                initialTimeSet(timeBr(record.initialTime) || '')
-                finalTimeSet(timeBr(record.finalTime) || '')
+                initialTimeSet(record.initialTime || '')
+                finalTimeSet(record.finalTime || '')
                 professionalIdSet(record.professional_id || '')
                 professionalNameSet(record.professionalName || '')
                 patientIdSet(record.patient_id || '')
@@ -83,7 +66,7 @@ const Agenda = props => {
                 statusSet(record.status || '')
             }
             setters();
-        }
+        // }
         getList('professional/')
             .then(items => {
                 professionalListSet(items.record)
@@ -96,7 +79,7 @@ const Agenda = props => {
             .then(items => {
                 procedureListSet(items.record)
             })
-    }, [id])
+    }, [_id])
 
     const saveRec = () => {
         if (!date) {
@@ -114,9 +97,9 @@ const Agenda = props => {
             status
         }
         console.log("recObj", recObj)
-        if (id !== "1") {
+        if (_id.length === 24) {
             recObj = JSON.stringify(recObj)
-            putRec(objectId + id, recObj)
+            putRec(objectId + _id, recObj)
                 .then(result => {
                     console.log('put', result)
                 })
@@ -124,65 +107,13 @@ const Agenda = props => {
             recObj = JSON.stringify(recObj)
             postRec(objectRef, recObj)
                 .then(result => {
-                    console.log('put', result)
-                    _idSet(result.record._id)
+                    console.log('post', result)
+                    // _idSet(result.record._id)
                 })
         }
-        dateSetTemp(date)
-        initialTimeSetTemp(initialTime)
-        finalTimeSetTemp(finalTime)
-        professionalIdSetTemp(professionalId)
-        professionalNameSetTemp(professionalName)
-        patientIdSetTemp(patientId)
-        patientNameSetTemp(patientName)
-        procedureIdSetTemp(procedureId)
-        procedureNameSetTemp(procedureName)
-        planNameSetTemp(planName)
-        statusSetTemp(status)
 
-        setEditMode(false)
-        setInsertMode(false)
-    }
-
-    const refreshRec = () => {
-        if (insertMode) {
-            document.getElementById("backButton").click();
-        }
-        dateSet(dateTemp)
-        initialTimeSet(initialTimeTemp)
-        finalTimeSet(finalTimeTemp)
-        professionalIdSet(professionalIdTemp)
-        professionalNameSet(professionalNameTemp)
-        patientIdSet(patientIdTemp)
-        patientNameSet(patientNameTemp)
-        procedureIdSet(procedureIdTemp)
-        procedureNameSet(procedureNameTemp)
-        planNameSet(planNameTemp)
-        statusSet(statusTemp)
-
-        setEditMode(false)
-    }
-
-    const delRec = () => {
-        setDeleteDialog(true)
-    }
-
-    const delConfirm = () => {
-        console.log('_id', _id)
-        deleteRec(objectId + _id)
-            .then(result => {
-                console.log(result)
-            })
-        setDeleteDialog(false)
-        setDeleteInfoDialog(true)
-    }
-
-    const delCancel = () => {
-        setDeleteDialog(false)
-    }
-
-    const delInformClose = () => {
-        document.getElementById("backButton").click();
+        props.updatedRecSet(false)
+        props.openAgendaSet(false)
     }
 
     const emptyRecClose = () => {
@@ -200,7 +131,7 @@ const Agenda = props => {
                     <Typography variant='h5' className='tool-title' noWrap={true}>Registro de Agenda</Typography>
                 </DialogTitle>
             </div>
-            <div className='data-form'>
+            <div className='data-form-dialog'>
                 <Grid container spacing={2} >
                     <Grid item xs={4}>
                         <TextField
@@ -209,7 +140,7 @@ const Agenda = props => {
                             value={date}
                             onChange={(event) => { dateSet(event.target.value.toUpperCase()) }}
                             fullWidth={true}
-                            disabled={!insertMode}
+                            disabled={true}
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                             variant='outlined'
                             size='small'
@@ -225,7 +156,7 @@ const Agenda = props => {
                             onChange={(event) => { initialTimeSet(event.target.value); console.log(event.target.value) }}
                             size='small'
                             fullWidth={true}
-                            disabled={!editMode}
+                            disabled={false}
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                             variant='outlined'
                             type="time"
@@ -240,7 +171,7 @@ const Agenda = props => {
                             onChange={(event) => { finalTimeSet(event.target.value) }}
                             size='small'
                             fullWidth={true}
-                            disabled={!editMode}
+                            disabled={false}
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                             variant='outlined'
                             type="time"
@@ -256,7 +187,7 @@ const Agenda = props => {
                             onChange={(event) => { patientIdSet(event.target.value) }}
                             size='small'
                             fullWidth={true}
-                            disabled={!editMode}
+                            disabled={false}
                             type='text'
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                             // sx={{ width: 150 }}
@@ -274,7 +205,7 @@ const Agenda = props => {
                             onChange={(event) => { professionalIdSet(event.target.value) }}
                             size='small'
                             fullWidth={true}
-                            disabled={!editMode}
+                            disabled={false}
                             type='text'
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                             // sx={{ width: 150 }}
@@ -293,7 +224,7 @@ const Agenda = props => {
                             onChange={(event) => { procedureIdSet(event.target.value) }}
                             size='small'
                             fullWidth={true}
-                            disabled={!editMode}
+                            disabled={false}
                             type='text'
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                             // sx={{ width: 150 }}
@@ -333,70 +264,34 @@ const Agenda = props => {
             </Form> */}
             <DialogActions>
                 <div className='tool-buttons'>
-                    <Box m={1}>
+                    {/* <Box m={1}>
                         <Button color='primary' variant='contained' size='small' startIcon={<EditIcon />}
                             onClick={_ => setEditMode(true)} disabled={editMode}>EDITAR
                         </Button>
-                    </Box>
+                    </Box> */}
                     <Box m={1}>
                         <Button color='primary' variant='contained' size='small' startIcon={<SaveAltIcon />}
-                            onClick={_ => saveRec()} disabled={!editMode}>SALVAR
+                            onClick={_ => saveRec()} disabled={false}>SALVAR
                         </Button>
                     </Box>
                     <Box m={1}>
                         <Button color='primary' variant='contained' size='small' startIcon={<CancelIcon />}
-                            onClick={_ => refreshRec()} disabled={!editMode}>CANCELAR
+                            onClick={_ => cancelRec()} disabled={false}>CANCELAR
                         </Button>
                     </Box>
-                    <Box m={1}>
+                    {/* <Box m={1}>
                         <Button color='primary' variant='contained' size='small' startIcon={<DeleteForeverIcon />}
                             onClick={_ => delRec()} disabled={editMode}>APAGAR
                         </Button>
-                    </Box>
-                    <Box m={1}>
+                    </Box> */}
+                    {/* <Box m={1}>
                         <Button color='primary' variant='contained' size='small' startIcon={<KeyboardReturnIcon />}
                             onClick={_ => cancelRec()} id='backButton' disabled={editMode}>VOLTAR
                         </Button>
-                    </Box>
+                    </Box> */}
                 </div>
             </DialogActions>
 
-            <Dialog
-                open={deleteDialog}
-            // onClose={delCancel}
-            >
-                <DialogTitle id="alert-dialog-title">{"Apagar o registro selecionado?"}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Após confirmada essa operação não poderá ser desfeita.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={delCancel} color="primary" variant='contained' autoFocus>
-                        Cancelar
-                    </Button>
-                    <Button onClick={delConfirm} color="secondary" variant='contained'>
-                        Confirmar
-                    </Button>
-                </DialogActions>
-            </Dialog>
-
-            <Dialog
-                open={deleteInfoDialog}
-            // onClose={delInformClose}
-            >
-                <DialogTitle id="alert-dialog-title">{"Registro removido do cadastro."}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Clique para voltar a lista.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={delInformClose} color="primary" variant='contained'>
-                        Ok
-                    </Button>
-                </DialogActions>
-            </Dialog>
 
             <Dialog
                 open={emptyRecDialog}

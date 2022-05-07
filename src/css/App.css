@@ -63,6 +63,16 @@
     margin-left: 3vw;
 }
 
+.data-form-dialog {
+    background-color: white;
+    padding: 10px;
+    border: rgb(172, 164, 164);
+    border-style: none; /*solid;*/
+    border-width: 1px;
+    width: 50vw;
+    margin-left: 1vw;
+}
+
 .data-table {
     border: rgb(172, 164, 164);
     border-style: none; /*solid;*/

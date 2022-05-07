@@ -77,8 +77,7 @@ const Agendas = props => {
     const [patientFilter, patientFilterSet] = useState('')
 
     const [openAgenda, openAgendaSet] = useState('')
-
-
+    const [updatedRec, updatedRecSet] = useState(false)
 
     useEffect(() => {
         let tempList = []
@@ -105,7 +104,8 @@ const Agendas = props => {
             .then(_ => {
                 setList(tempList)
             })
-    }, [])
+            updatedRecSet(true)
+    }, [updatedRec])
 
     const refreshRec = () => {
         let tempList = []
@@ -116,7 +116,9 @@ const Agendas = props => {
         recObj = JSON.stringify(recObj)
         console.log("recObj", recObj)
         putRec(objectRef, recObj)
-            .then(items => {
+        .then(items => {
+                console.log("items", items)
+
                 items.record.forEach(element => {
                     tempList.push({
                         _id: element._id || "",
@@ -147,7 +149,6 @@ const Agendas = props => {
 
     const agendaDialog = (agendaInfo) => {
         agendaINFOSet(agendaInfo);
-        
         openAgendaSet(true);
     }
 
@@ -235,7 +236,8 @@ const Agendas = props => {
             <div>
                 <Dialog open={openAgenda} maxWidth={false}>
                     <Agenda agendaInfo={agendaINFO}
-                        openAgendaSet={openAgendaSet}>
+                        openAgendaSet={openAgendaSet}
+                        updatedRecSet={updatedRecSet}>
                     </Agenda>
                 </Dialog>
             </div>
