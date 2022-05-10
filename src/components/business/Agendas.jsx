@@ -6,6 +6,8 @@ import { Button, Box, Typography, Grid, TextField, Dialog, } from '@mui/material
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
 import SearchIcon from '@mui/icons-material/Search'
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec } from '../../services/apiconnect'
@@ -152,6 +154,14 @@ const Agendas = props => {
         openAgendaSet(true);
     }
 
+    const nextDate = () => {
+        let next = new Date(dateFilter).dateBr()
+        console.log(next.dateBr())
+        next.setDate(next.getDate + 1);
+        console.log(next)
+        dateFilterSet(next)
+    }
+
     const launchSearch = (e) => {
         if (e.key === 'Enter') {
             document.getElementById("searchButton").click();
@@ -179,7 +189,7 @@ const Agendas = props => {
                 <Button color='primary' size='large' id='searchButton' startIcon={<SearchIcon />}
                     onClick={_ => refreshRec()} >
                 </Button>
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                     <TextField
                         value={dateFilter}
                         onChange={(event) => { dateFilterSet(event.target.value) }}
@@ -193,6 +203,12 @@ const Agendas = props => {
                         size='small'
                     />
                 </Grid>
+                <Grid item xs={1}>
+                        <Button startIcon={<ArrowLeftIcon />} variant='contained' onClick={_ => nextDate()}></Button>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <Button startIcon={<ArrowRightIcon />} variant='contained' ></Button>
+                    </Grid>
                 <Grid item xs={3}>
                     <TextField
                         value={patientFilter}
