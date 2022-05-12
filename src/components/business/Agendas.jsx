@@ -106,8 +106,12 @@ const Agendas = props => {
             .then(_ => {
                 setList(tempList)
             })
-            updatedRecSet(true)
+        updatedRecSet(true)
     }, [updatedRec])
+
+    useEffect(() => {
+        refreshRec();
+    }, [dateFilter]);
 
     const refreshRec = () => {
         let tempList = []
@@ -118,7 +122,7 @@ const Agendas = props => {
         recObj = JSON.stringify(recObj)
         console.log("recObj", recObj)
         putRec(objectRef, recObj)
-        .then(items => {
+            .then(items => {
                 console.log("items", items)
 
                 items.record.forEach(element => {
@@ -135,7 +139,7 @@ const Agendas = props => {
                         procedure_id: element.procedure_id || "",
                         procedure_name: element.procedure_name[0] || "",
                         planName: element.planName || "",
-                        status: element.status || "" 
+                        status: element.status || ""
                     })
                 });
             })
@@ -155,11 +159,23 @@ const Agendas = props => {
     }
 
     const nextDate = () => {
-        let next = new Date(dateFilter).dateBr()
-        console.log(next.dateBr())
-        next.setDate(next.getDate + 1);
-        console.log(next)
-        dateFilterSet(next)
+        var nextDate = new Date();
+        var nextDateParts = dateFilter.split('-');
+        nextDate.setFullYear(nextDateParts[0], nextDateParts[1] - 1, nextDateParts[2]); // year, month (0-based), day
+        nextDate.setTime(nextDate.getTime() + 86400000);
+        let dateString = nextDate.toISOString().split('T')[0]
+        dateFilterSet(dateString)
+        refreshRec()
+    }
+
+    const prevDate = () => {
+        var prevDate = new Date();
+        var prevDateParts = dateFilter.split('-');
+        prevDate.setFullYear(prevDateParts[0], prevDateParts[1] - 1, prevDateParts[2]); // year, month (0-based), day
+        prevDate.setTime(prevDate.getTime() - 86400000);
+        let dateString = prevDate.toISOString().split('T')[0]
+        dateFilterSet(dateString)
+        refreshRec()
     }
 
     const launchSearch = (e) => {
@@ -204,11 +220,11 @@ const Agendas = props => {
                     />
                 </Grid>
                 <Grid item xs={1}>
-                        <Button startIcon={<ArrowLeftIcon />} variant='contained' onClick={_ => nextDate()}></Button>
-                    </Grid>
-                    <Grid item xs={1}>
-                        <Button startIcon={<ArrowRightIcon />} variant='contained' ></Button>
-                    </Grid>
+                    <Button startIcon={<ArrowLeftIcon />} variant='contained' onClick={_ => prevDate()}></Button>
+                </Grid>
+                <Grid item xs={1}>
+                    <Button startIcon={<ArrowRightIcon />} variant='contained' onClick={_ => nextDate()} ></Button>
+                </Grid>
                 <Grid item xs={3}>
                     <TextField
                         value={patientFilter}
