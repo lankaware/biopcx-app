@@ -59,11 +59,11 @@ const AppMenu = props => {
                     </UncontrolledDropdown>
                     <UncontrolledDropdown nav inNavbar>
                         <DropdownToggle nav caret className='nav-item text-white'>
-                            Relatórios
+                            Faturamento
                         </DropdownToggle>
                         <DropdownMenu className='menu-item'>
-                            <DropdownItem className='menu-item' href="/agenda">Agenda</DropdownItem>
-                            <DropdownItem className='menu-item' href="/">Atendimentos</DropdownItem>
+                            <DropdownItem className='menu-item' href="/billing">Lançamentos</DropdownItem>
+                            <DropdownItem className='menu-item' href="/">Relatório</DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
                     <UncontrolledDropdown nav inNavbar>
