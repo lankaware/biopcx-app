@@ -11,6 +11,7 @@ import CancelIcon from '@mui/icons-material/Cancel'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
 
+import TempPac from './PreCadPac'
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec, postRec, deleteRec } from '../../services/apiconnect'
 import { timeBr } from '../../services/dateutils'
@@ -41,6 +42,7 @@ const Agenda = props => {
     const [procedureList, procedureListSet] = useState([])
 
     const [emptyRecDialog, setEmptyRecDialog] = useState(false)
+    const [tempPacDialog, tempPacDialogSet] = useState(false)
 
     // const [tabValue, setTabValue] = useState(0);
 
@@ -48,24 +50,24 @@ const Agenda = props => {
 
     useEffect(() => {
         // if (props.agendaID !== "1") {
-            console.log(props.agendaInfo)
-            let record = props.agendaInfo;
-            let setters = () => {
-                console.log(record._id)
-                // _idSet(record._id)
-                dateSet((record.date || '').substr(0, 10))
-                initialTimeSet(record.initialTime || '')
-                finalTimeSet(record.finalTime || '')
-                professionalIdSet(record.professional_id || '')
-                professionalNameSet(record.professionalName || '')
-                patientIdSet(record.patient_id || '')
-                patientNameSet(record.patientName || '')
-                procedureIdSet(record.procedure_id || '')
-                procedureNameSet(record.procedureName || '')
-                planNameSet(record.planName || '')
-                statusSet(record.status || '')
-            }
-            setters();
+        console.log(props.agendaInfo)
+        let record = props.agendaInfo;
+        let setters = () => {
+            console.log(record._id)
+            // _idSet(record._id)
+            dateSet((record.date || '').substr(0, 10))
+            initialTimeSet(record.initialTime || '')
+            finalTimeSet(record.finalTime || '')
+            professionalIdSet(record.professional_id || '')
+            professionalNameSet(record.professionalName || '')
+            patientIdSet(record.patient_id || '')
+            patientNameSet(record.patientName || '')
+            procedureIdSet(record.procedure_id || '')
+            procedureNameSet(record.procedureName || '')
+            planNameSet(record.planName || '')
+            statusSet(record.status || '')
+        }
+        setters();
         // }
         getList('professional/')
             .then(items => {
@@ -80,6 +82,13 @@ const Agenda = props => {
                 procedureListSet(items.record)
             })
     }, [_id])
+
+    useEffect(() => {
+        getList('patient/')
+        .then(items => {
+            patientListSet(items.record)
+        })
+    }, [tempPacDialog]);
 
     const saveRec = () => {
         if (!date) {
@@ -114,6 +123,10 @@ const Agenda = props => {
 
         props.updatedRecSet(false)
         props.openAgendaSet(false)
+    }
+
+    const tempPac = () => {
+        tempPacDialogSet(true);
     }
 
     const emptyRecClose = () => {
@@ -179,12 +192,12 @@ const Agenda = props => {
                         />
                     </Grid>
 
-                    <Grid item xs={12}>
+                    <Grid item xs={10}>
                         <TextField
                             id='patient'
                             label='Paciente'
                             value={patientId}
-                            onChange={(event) => { patientIdSet(event.target.value) }}
+                            onChange={(event) => { patientIdSet(event.target.value)}}
                             size='small'
                             fullWidth={true}
                             disabled={false}
@@ -197,12 +210,18 @@ const Agenda = props => {
                             ))}
                         </TextField>
                     </Grid>
+                    <Grid item xs={2}>
+                        <Button color="primary" size='small' variant='contained' target="_blank"
+                            onClick={() => tempPacDialogSet(true)}
+                            > Pac. Temp.
+                        </Button>
+                    </Grid>
                     <Grid item xs={12}>
                         <TextField
                             id='professional'
                             label='Profissional'
                             value={professionalId}
-                            onChange={(event) => { professionalIdSet(event.target.value) }}
+                            onChange={(event) => { professionalIdSet(event.target.value)}}
                             size='small'
                             fullWidth={true}
                             disabled={false}
@@ -310,6 +329,11 @@ const Agenda = props => {
                 </DialogActions>
             </Dialog>
 
+            <TempPac 
+            tempPacDialog={tempPacDialog}
+            tempPacDialogSet={tempPacDialogSet}
+            patientIdSet={patientIdSet}
+            />
         </div>
     )
 }

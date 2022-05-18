@@ -75,7 +75,7 @@ const Agendas = props => {
 
     const classes = useStyles();
     const [list, setList] = useState([])
-    const [dateFilter, dateFilterSet] = useState('')
+    const [dateFilter, dateFilterSet] = useState(new Date())
     const [patientFilter, patientFilterSet] = useState('')
 
     const [openAgenda, openAgendaSet] = useState('')

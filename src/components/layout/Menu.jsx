@@ -33,7 +33,7 @@ const AppMenu = props => {
                             Atendimento
                         </DropdownToggle>
                         <DropdownMenu className='menu-item'>
-                            <DropdownItem className='menu-item' href="/agendas">Agendas</DropdownItem>
+                            <DropdownItem className='menu-item' href="/agendaList">Agendas</DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
                     <UncontrolledDropdown nav inNavbar>
