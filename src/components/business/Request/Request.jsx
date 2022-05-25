@@ -60,7 +60,7 @@ const ReqDialog = props => {
     }, []);
 
     useEffect(() => {
-        if (patientId) {
+        if (patientId && patientId !== "0") {
             getList('patientid/' + patientId)
                 .then((items) => {
                     reqListSet(items.record[0].request || "");

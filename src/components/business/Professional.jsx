@@ -241,7 +241,7 @@ const Professional = props => {
                     </Box>
                     <Box m={1}>
                         <Button color='primary' variant='contained' size='small' startIcon={<KeyboardReturnIcon />}
-                            href="/professionals" id='backButton' disabled={editMode}>VOLTAR
+                            href="/professionalList" id='backButton' disabled={editMode}>VOLTAR
                         </Button>
                     </Box>
                 </div>

@@ -5,7 +5,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import {postRec} from "../../services/apiconnect";
 
 let editMode = true;
-const objectRef = "prepatient/";
+const objectRef = "patient/";
 
 const TempPac = props => {
     const [_id, _idSet] = useState("");
