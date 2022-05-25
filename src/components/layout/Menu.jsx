@@ -41,10 +41,10 @@ const AppMenu = props => {
                             Cadastros
                         </DropdownToggle>
                         <DropdownMenu className='menu-item'>
-                            <DropdownItem className='menu-item' href="/patients">Pacientes</DropdownItem>
-                            <DropdownItem className='menu-item' href="/professionals">Profissionais</DropdownItem>
+                            <DropdownItem className='menu-item' href="/patientList">Pacientes</DropdownItem>
+                            <DropdownItem className='menu-item' href="/professionalList">Profissionais</DropdownItem>
                             <DropdownItem className='menu-item' href="/covenantList">Convênios</DropdownItem>
-                            <DropdownItem className='menu-item' href="/procedures">Procedimentos</DropdownItem>
+                            <DropdownItem className='menu-item' href="/procedureList">Procedimentos</DropdownItem>
                             <DropdownItem className='menu-item' href="/medicineList">Medicamentos</DropdownItem>
                             <DropdownItem className='menu-item' href="/examList">Itens de Solicitação</DropdownItem>
                         </DropdownMenu>

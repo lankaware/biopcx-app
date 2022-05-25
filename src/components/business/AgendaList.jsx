@@ -47,6 +47,7 @@ const Agendas = props => {
             sortable: true,
             width: '20vw',
             right: false,
+            cell: row => (<Link to={'patient/' + row._id}>{row.patient_name}</Link>)
         },
         {
             name: 'Telefone',
@@ -123,8 +124,6 @@ const Agendas = props => {
         console.log("recObj", recObj)
         putRec(objectRef, recObj)
             .then(items => {
-                console.log("items", items)
-
                 items.record.forEach(element => {
                     tempList.push({
                         _id: element._id || "",

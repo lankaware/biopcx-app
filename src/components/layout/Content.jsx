@@ -6,11 +6,11 @@ import Home from './Home'
 import User from './User'
 import TextEditor from './TextEditor'
 import Procedure from '../business/Procedure'
-import Procedures from '../business/Procedures'
+import ProcedureList from '../business/ProcedureList'
 import Professional from '../business/Professional'
-import Professionals from '../business/Professionals'
+import ProfessionalList from '../business/ProfessionalList'
 import Patient from '../business/Patient'
-import Patients from '../business/Patients'
+import PatientList from '../business/PatientList'
 import Covenant from '../business/Covenant'
 import CovenantList from '../business/CovenantList'
 import Agenda from '../business/Agenda'
@@ -35,11 +35,11 @@ const Content = props => {
                     <Route exact path="/agenda/:id" component={Agenda} />
                     <Route exact path="/covenantList" component={CovenantList} />
                     <Route exact path="/covenant/:id" component={Covenant} />
-                    <Route exact path="/patients" component={Patients} />
+                    <Route exact path="/patientList" component={PatientList} />
                     <Route exact path="/patient/:id" component={Patient} />
-                    <Route exact path="/procedures" component={Procedures} />
+                    <Route exact path="/procedureList" component={ProcedureList} />
                     <Route exact path="/procedure/:id" component={Procedure} />
-                    <Route exact path="/professionals" component={Professionals} />
+                    <Route exact path="/professionalList" component={ProfessionalList} />
                     <Route exact path="/professional/:id" component={Professional} />
                     <Route exact path="/medicineList" component={MedicineList} />
                     <Route exact path="/medicine/:id" component={Medicine} />
