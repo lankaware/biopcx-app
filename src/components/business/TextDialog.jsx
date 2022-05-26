@@ -28,7 +28,7 @@ const TextDialog = props => {
   const patientId = props.patientId
 
   useEffect(() => {
-    if (patientId) {
+    if (patientId && patientId !== "0") {
       getList('patientid/' + patientId)
         .then((items) => {
           clinicHistSet(items.record[0].clinicHist || "");

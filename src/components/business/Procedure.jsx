@@ -160,7 +160,7 @@ const Procedure = props => {
                     </Box>
                     <Box m={1}>
                         <Button color='primary' variant='contained' size='small' startIcon={<KeyboardReturnIcon />}
-                            href="/procedures" id='backButton' disabled={editMode}>VOLTAR
+                            href="/procedureList" id='backButton' disabled={editMode}>VOLTAR
                         </Button>
                     </Box>
                 </div>

@@ -85,9 +85,9 @@ const Agenda = props => {
 
     useEffect(() => {
         getList('patient/')
-        .then(items => {
-            patientListSet(items.record)
-        })
+            .then(items => {
+                patientListSet(items.record)
+            })
     }, [tempPacDialog]);
 
     const saveRec = () => {
@@ -145,8 +145,29 @@ const Agenda = props => {
                 </DialogTitle>
             </div>
             <div className='data-form-dialog'>
+
                 <Grid container spacing={2} >
-                    <Grid item xs={4}>
+                    <Grid item xs={3}>
+                        <TextField
+                            id='status'
+                            label='Status'
+                            value={status}
+                            onChange={(event) => { statusSet(event.target.value) }}
+                            fullWidth={true}
+                            // disabled={true}
+                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                            variant='outlined'
+                            size='small'
+                            type="date"
+                            // inputProps={{ type: 'date' }}  
+                            select>
+                                <MenuItem value="Agendado">Agendado</MenuItem>
+                                <MenuItem value="Confirmado">Confirmado</MenuItem>
+                                <MenuItem value="Chegou">Chegou</MenuItem>
+                                <MenuItem value="Atendido">Atendido</MenuItem>
+                        </TextField>
+                    </Grid>
+                    <Grid item xs={3}>
                         <TextField
                             id='date'
                             label='Data'
@@ -161,7 +182,7 @@ const Agenda = props => {
                         // inputProps={{ type: 'date' }}
                         />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={3}>
                         <TextField
                             id='initialTime'
                             label='Início'
@@ -176,7 +197,7 @@ const Agenda = props => {
                             inputProps={{ step: 300 }}
                         />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={3}>
                         <TextField
                             id='finalTime'
                             label='Término'
@@ -197,7 +218,7 @@ const Agenda = props => {
                             id='patient'
                             label='Paciente'
                             value={patientId}
-                            onChange={(event) => { patientIdSet(event.target.value)}}
+                            onChange={(event) => { patientIdSet(event.target.value) }}
                             size='small'
                             fullWidth={true}
                             disabled={false}
@@ -213,7 +234,7 @@ const Agenda = props => {
                     <Grid item xs={2}>
                         <Button color="primary" size='small' variant='contained' target="_blank"
                             onClick={() => tempPacDialogSet(true)}
-                            > Pac. Temp.
+                        > Pac. Temp.
                         </Button>
                     </Grid>
                     <Grid item xs={12}>
@@ -221,7 +242,7 @@ const Agenda = props => {
                             id='professional'
                             label='Profissional'
                             value={professionalId}
-                            onChange={(event) => { professionalIdSet(event.target.value)}}
+                            onChange={(event) => { professionalIdSet(event.target.value) }}
                             size='small'
                             fullWidth={true}
                             disabled={false}
@@ -329,10 +350,10 @@ const Agenda = props => {
                 </DialogActions>
             </Dialog>
 
-            <TempPac 
-            tempPacDialog={tempPacDialog}
-            tempPacDialogSet={tempPacDialogSet}
-            patientIdSet={patientIdSet}
+            <TempPac
+                tempPacDialog={tempPacDialog}
+                tempPacDialogSet={tempPacDialogSet}
+                patientIdSet={patientIdSet}
             />
         </div>
     )

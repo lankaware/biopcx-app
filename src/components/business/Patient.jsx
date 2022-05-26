@@ -161,7 +161,6 @@ const Patient = (props) => {
 
         });
     }
-    console.log('XXX')
     setRecUpdated(true)
   }, [_id, recUpdated]);
 
@@ -342,7 +341,7 @@ const Patient = (props) => {
           </Box>
           <Box m={1}>
             <Button color="primary" variant="contained" size="small" startIcon={<KeyboardReturnIcon />}
-              href="/patients" id="backButton" disabled={editMode}>VOLTAR
+              href="/patientList" id="backButton" disabled={editMode}>VOLTAR
             </Button>
           </Box>
         </div>
