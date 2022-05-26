@@ -67,7 +67,7 @@ const PrescDialog = props => {
     }, []);
 
     useEffect(() => {
-        if (patientId && patientId !== "0") {
+        if (patientId !== "0") {
             getList('patientid/' + patientId)
                 .then((items) => {
                     prescListSet(items.record[0].prescription || []);
