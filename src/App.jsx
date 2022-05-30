@@ -7,12 +7,12 @@ import AppMenu from './components/layout/Menu.jsx'
 import Content from './components/layout/Content.jsx'
 import Authentication from './components/layout/Authentication.jsx'
 
-import { Context } from './context/AuthContext.jsx'
+import { AuthContext } from './context/AuthContext.jsx'
 import './services/customtheme'
 
 const App = (props) => {
 
-  const { authenticated, username } = useContext(Context);
+  const { authenticated, username } = useContext(AuthContext);
 
   if (authenticated === false) {
     return (
