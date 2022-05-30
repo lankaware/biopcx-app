@@ -26,7 +26,9 @@ import TextDialog from "./TextDialog.jsx";
 import PrescDialog from "./Prescription/Prescription";
 import ReqDialog from "./Request/Request"
 
-import { Context } from '../../context/PatientContext'
+import { PatientContext } from '../../context/PatientContext'
+import { AuthContext } from '../../context/AuthContext'
+
 
 // import { timeBr } from '../../services/dateutils';
 
@@ -37,7 +39,9 @@ const Patient = (props) => {
 
   const { id } = useParams()
 
-  const { cityList, covenantList, stateList, relativeList, unitList } = useContext(Context);
+  const { cityList, covenantList, stateList, relativeList, unitList } = useContext(PatientContext);
+
+  const { role } = useContext(AuthContext);
 
   const webcamRef = useRef("")
 
@@ -107,6 +111,8 @@ const Patient = (props) => {
     height: 200,
     facingMode: "user",
   };
+
+  console.log(role, "role")
 
   useEffect(() => {
     if (_id !== '0') {
@@ -357,17 +363,17 @@ const Patient = (props) => {
             <div className='tool-buttons2'>
               <Box mr={1} mb={1}>
                 <Button color="warning" variant="contained" size="small" startIcon={<HistoryEduIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
-                  onClick={(_) => openTextDialog()} disabled={insertMode}>HISTÓRICO
+                  onClick={(_) => openTextDialog()} disabled={insertMode && role == 'ADMIN' ? false : true}>HISTÓRICO
                 </Button>
               </Box>
               <Box mr={1}>
                 <Button color="warning" variant="contained" size="small" startIcon={<NotesIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
-                  onClick={(_) => openPresc()} disabled={insertMode} id="prescButton" >RECEITAS
+                  onClick={(_) => openPresc()} disabled={insertMode && role == 'ADMIN' ? false : true} id="prescButton" >RECEITAS
                 </Button>
               </Box>
               <Box mr={1}>
                 <Button color="warning" variant="contained" size="small" startIcon={<AssignmentIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
-                  onClick={(_) => openReq()} disabled={insertMode} id="prescButton" >SOLICITAÇÕES
+                  onClick={(_) => openReq()} disabled={insertMode && role == 'ADMIN' ? false : true} id="prescButton" >SOLICITAÇÕES
                 </Button>
               </Box>
             </div>
