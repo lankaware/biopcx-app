@@ -41,6 +41,7 @@ const Patient = (props) => {
 
   const webcamRef = useRef("")
 
+  const [preCad, preCadSet] = useState(false)
   const [_id, _idSet] = useState(id)
   const [photo, photoSet] = useState("")
   const [name, nameSet] = useState("")
@@ -89,7 +90,7 @@ const Patient = (props) => {
   const [prescDialog, prescDialogSet] = useState(false);
   const [reqDialog, reqDialogSet] = useState(false);
 
-  const [insertMode, setInsertMode] = useState(id === "0");
+  const [insertMode, setInsertMode] = useState(id === "0" || preCad);
   const [editMode, setEditMode] = useState(id === "0");
 
   const [photoDialog, photoSetDialog] = useState(false);
@@ -113,6 +114,7 @@ const Patient = (props) => {
       getList(objectId + _id)
         .then((items) => {
           _idSet(items.record[0]._id);
+          preCadSet(items.record[0].preCad || false);
           photoSet(items.record[0].photo || "");
           nameSet(items.record[0].name || "");
           lastnameSet(items.record[0].lastname || "");
@@ -202,6 +204,7 @@ const Patient = (props) => {
     }
 
     let recObj = {
+      preCad: false,
       photo,
       name,
       lastname,

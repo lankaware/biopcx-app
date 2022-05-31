@@ -24,6 +24,7 @@ const TempPac = props => {
         }
     
         let recObj = {
+        "preCad": true,
           name,
           lastname,
           phone,

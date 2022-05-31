@@ -8,6 +8,7 @@ import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
 import SearchIcon from '@mui/icons-material/Search'
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import { BsFillCircleFill } from "react-icons/bs";
 
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec } from '../../services/apiconnect'
@@ -24,7 +25,8 @@ const Agendas = props => {
             name: 'Status',
             selector: row => row.status,
             sortable: false,
-            width: '6vw'
+            width: '6vw',
+            cell: row => (<BsFillCircleFill color={agendaStatus(row.status)}/>)
         },
         {
             name: 'Data',
@@ -187,6 +189,13 @@ const Agendas = props => {
         if (e.key === 'Enter') {
             document.getElementById("searchButton").click();
         }
+    }
+
+    const agendaStatus = (status) => {
+        status == 1 ? "yellow" :
+        status == 2 ? null:
+        status == 3 ? "green" :
+        "blue"
     }
 
     return (
