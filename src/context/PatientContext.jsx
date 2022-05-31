@@ -1,7 +1,7 @@
 import { React, createContext, useState, useEffect } from 'react'
 import { getList } from '../services/apiconnect'
 
-const Context = createContext()
+const PatientContext = createContext()
 
 function ListsProvider({ children }) {
 
@@ -20,10 +20,10 @@ function ListsProvider({ children }) {
     }, [])
 
     return (
-        <Context.Provider value={{ cityList, covenantList, stateList, relativeList, unitList }}>
+        <PatientContext.Provider value={{ cityList, covenantList, stateList, relativeList, unitList }}>
             {children}
-        </Context.Provider>
+        </PatientContext.Provider>
     )
 }
 
-export { Context, ListsProvider }
+export { PatientContext, ListsProvider }

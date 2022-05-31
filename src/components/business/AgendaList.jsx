@@ -21,6 +21,12 @@ const Agendas = props => {
 
     const columns = [
         {
+            name: 'Status',
+            selector: row => row.status,
+            sortable: false,
+            width: '6vw'
+        },
+        {
             name: 'Data',
             selector: row => row.date,
             sortable: true,
@@ -47,7 +53,7 @@ const Agendas = props => {
             sortable: true,
             width: '20vw',
             right: false,
-            cell: row => (<Link to={'patient/' + row._id}>{row.patient_name}</Link>)
+            cell: row => (<Link to={'patient/' + row.patient_id}>{row.patient_name}</Link>)
         },
         {
             name: 'Telefone',
