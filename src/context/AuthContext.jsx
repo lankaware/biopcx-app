@@ -1,11 +1,12 @@
 import { React, createContext, useState, useEffect } from 'react'
 import jsonwebtoken from 'jsonwebtoken'
 
-const Context = createContext()
+const AuthContext = createContext()
 
 function AuthProvider({ children }) {
     const [authenticated, setAuthenticated] = useState(false)
     const [username, setUsername] = useState('')
+    const [role, setRole] = useState('')
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -15,6 +16,7 @@ function AuthProvider({ children }) {
                 jsonwebtoken.verify(token, secret)
                 setAuthenticated(true)
                 setUsername(localStorage.getItem('name'))
+                setRole(localStorage.getItem('role'))
             } catch {
                 setAuthenticated(false)
                 setUsername('Anônimo')
@@ -22,12 +24,13 @@ function AuthProvider({ children }) {
         }
     }, [])
 
-    const userSign = (token, userName) => {
+    const userSign = (token, userName, role) => {
         if (token) {
             setAuthenticated(true)
             setUsername(userName)
             localStorage.setItem('token', token)
             localStorage.setItem('name', userName)
+            localStorage.setItem('role', role)
 
         } else {
             setAuthenticated(false)
@@ -37,10 +40,10 @@ function AuthProvider({ children }) {
         }
     }
     return (
-        <Context.Provider value={{ authenticated, username, userSign }}>
+        <AuthContext.Provider value={{ authenticated, username, userSign, role}}>
             {children}
-        </Context.Provider>
+        </AuthContext.Provider>
     )
 }
 
-export { Context, AuthProvider }
+export { AuthContext, AuthProvider }

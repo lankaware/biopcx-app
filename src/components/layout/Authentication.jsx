@@ -7,11 +7,11 @@ import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 
 import { useStyles } from '../../services/stylemui'
 import { postRec } from '../../services/apiconnect'
-import { Context } from '../../context/AuthContext'
+import { AuthContext } from '../../context/AuthContext'
 
 const Authentication = props => {
 
-    const {authenticated, userSign} = useContext(Context);
+    const {authenticated, userSign} = useContext(AuthContext);
 
     const [login, loginSet] = useState('')
     const [passw, passwSet] = useState('')
@@ -28,12 +28,12 @@ const Authentication = props => {
         recObj = JSON.stringify(recObj)
         postRec('userlogin/' + login, recObj)
         .then(result => {
-            console.log('result.token', result.token)
+            console.log('result', result)
             if (!result.token) {
                 alert('Usuário ou login inválidos!')
                 return null
             }
-            userSign(result.token, result.name)
+            userSign(result.token, result.name, result.role)
         })
 }
 
