@@ -26,7 +26,9 @@ import TextDialog from "./TextDialog.jsx";
 import PrescDialog from "./Prescription/Prescription";
 import ReqDialog from "./Request/Request"
 
-import { Context } from '../../context/PatientContext'
+import { PatientContext } from '../../context/PatientContext'
+import { AuthContext } from '../../context/AuthContext'
+
 
 // import { timeBr } from '../../services/dateutils';
 
@@ -37,10 +39,13 @@ const Patient = (props) => {
 
   const { id } = useParams()
 
-  const { cityList, covenantList, stateList, relativeList, unitList } = useContext(Context);
+  const { cityList, covenantList, stateList, relativeList, unitList } = useContext(PatientContext);
+
+  const { role } = useContext(AuthContext);
 
   const webcamRef = useRef("")
 
+  const [preCad, preCadSet] = useState(false)
   const [_id, _idSet] = useState(id)
   const [photo, photoSet] = useState("")
   const [name, nameSet] = useState("")
@@ -89,7 +94,7 @@ const Patient = (props) => {
   const [prescDialog, prescDialogSet] = useState(false);
   const [reqDialog, reqDialogSet] = useState(false);
 
-  const [insertMode, setInsertMode] = useState(id === "0");
+  const [insertMode, setInsertMode] = useState(id === "0" || preCad);
   const [editMode, setEditMode] = useState(id === "0");
 
   const [photoDialog, photoSetDialog] = useState(false);
@@ -108,11 +113,14 @@ const Patient = (props) => {
     facingMode: "user",
   };
 
+  console.log(role, "role")
+
   useEffect(() => {
     if (_id !== '0') {
       getList(objectId + _id)
         .then((items) => {
           _idSet(items.record[0]._id);
+          preCadSet(items.record[0].preCad || false);
           photoSet(items.record[0].photo || "");
           nameSet(items.record[0].name || "");
           lastnameSet(items.record[0].lastname || "");
@@ -202,6 +210,7 @@ const Patient = (props) => {
     }
 
     let recObj = {
+      preCad: false,
       photo,
       name,
       lastname,
@@ -357,17 +366,17 @@ const Patient = (props) => {
             <div className='tool-buttons2'>
               <Box mr={1} mb={1}>
                 <Button color="warning" variant="contained" size="small" startIcon={<HistoryEduIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
-                  onClick={(_) => openTextDialog()} disabled={insertMode}>HISTÓRICO
+                  onClick={(_) => openTextDialog()} disabled={insertMode && role == 'ADMIN' ? false : true}>HISTÓRICO
                 </Button>
               </Box>
               <Box mr={1}>
                 <Button color="warning" variant="contained" size="small" startIcon={<NotesIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
-                  onClick={(_) => openPresc()} disabled={insertMode} id="prescButton" >RECEITAS
+                  onClick={(_) => openPresc()} disabled={insertMode && role == 'ADMIN' ? false : true} id="prescButton" >RECEITAS
                 </Button>
               </Box>
               <Box mr={1}>
                 <Button color="warning" variant="contained" size="small" startIcon={<AssignmentIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
-                  onClick={(_) => openReq()} disabled={insertMode} id="prescButton" >SOLICITAÇÕES
+                  onClick={(_) => openReq()} disabled={insertMode && role == 'ADMIN' ? false : true} id="prescButton" >SOLICITAÇÕES
                 </Button>
               </Box>
             </div>

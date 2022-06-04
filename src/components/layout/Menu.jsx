@@ -5,10 +5,10 @@ import {
 } from 'reactstrap'
 import { Button, Dialog, DialogTitle, DialogActions } from '@mui/material'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
-import { Context } from '../../context/AuthContext'
+import { AuthContext } from '../../context/AuthContext'
 
 const AppMenu = props => {
-    const { userSign } = useContext(Context)
+    const { userSign } = useContext(AuthContext)
     const [confirmDialog, setConfirmDialog] = useState(false)
 
     const logout = () => {

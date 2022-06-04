@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {
     Grid, TextField, Typography, Button, Box, Dialog, DialogTitle, DialogContent, DialogContentText,
-    DialogActions
+    DialogActions, MenuItem
 } from '@mui/material'
 import CryptoJS from 'crypto-js'
 
@@ -20,6 +20,7 @@ const Login = props => {
     const [name, nameSet] = useState('')
     const [login, loginSet] = useState('')
     const [passw, passwSet] = useState('')
+    const [role, roleSet] = useState('')
     const classes = useStyles()
 
     const [infoOkDialog, infoOkDialogSet] = useState(false)
@@ -32,7 +33,7 @@ const Login = props => {
     }, [])
 
     const loginConfirm = () => {
-        if (!name || !login || !passw) {
+        if (!name || !login || !passw || !role) {
             invalidDialogSet(true)
             return null
         }
@@ -47,6 +48,7 @@ const Login = props => {
                     name,
                     login,
                     passw: passwcr,
+                    role,
                 }
                 if (_id) {
                     recObj = JSON.stringify(recObj)
@@ -69,6 +71,7 @@ const Login = props => {
         loginSet('')
         nameSet('')
         passwSet('')
+        roleSet('')
     }
 
     const infoOkDialogClose = () => {
@@ -132,6 +135,24 @@ const Login = props => {
                                 type='password'
                                 sx={{ width: 300 }}
                             />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                value={role}
+                                onChange={(event) => { roleSet(event.target.value) }}
+                                id='role'
+                                label='Função'
+                                fullWidth={false}
+                                disabled={false}
+                                InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                                variant='outlined'
+                                size='small'
+                                sx={{ width: 300 }}
+                                select>
+                                                <MenuItem key={0} value={"ADMIN"}>{"Medico"}</MenuItem>
+                                                <MenuItem key={1} value={"FUNC"}>{"Funcionario"}</MenuItem>    
+                            </TextField>
+                            
                         </Grid>
                         <Box sx={{ '& > button': { m: 1 } }} style={{ 'marginLeft': 15 }}>
                             {/* <div className={classes.bottomButtons}> */}

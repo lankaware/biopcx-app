@@ -154,17 +154,15 @@ const Agenda = props => {
                             value={status}
                             onChange={(event) => { statusSet(event.target.value) }}
                             fullWidth={true}
-                            // disabled={true}
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                             variant='outlined'
                             size='small'
                             type="date"
-                            // inputProps={{ type: 'date' }}  
                             select>
-                                <MenuItem value="Agendado">Agendado</MenuItem>
-                                <MenuItem value="Confirmado">Confirmado</MenuItem>
-                                <MenuItem value="Chegou">Chegou</MenuItem>
-                                <MenuItem value="Atendido">Atendido</MenuItem>
+                                <MenuItem value={1}>Agendado</MenuItem>
+                                <MenuItem value={2}>Confirmado</MenuItem>
+                                <MenuItem value={3}>Chegou</MenuItem>
+                                <MenuItem value={4}>Atendido</MenuItem>
                         </TextField>
                     </Grid>
                     <Grid item xs={3}>
