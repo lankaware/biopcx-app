@@ -15,6 +15,7 @@ import Covenant from '../business/Covenant'
 import CovenantList from '../business/CovenantList'
 import Agenda from '../business/Agenda'
 import AgendaList from '../business/AgendaList'
+import BillingList from '../business/BillingList'
 import Medicine from '../business/Medicine'
 import MedicineList from '../business/MedicineList'
 import TextTemplate from '../business/TextTemplate'
@@ -32,6 +33,7 @@ const Content = props => {
                     </Route>
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/agendaList" component={AgendaList} />
+                    <Route exact path="/billingList" component={BillingList} />
                     <Route exact path="/agenda/:id" component={Agenda} />
                     <Route exact path="/covenantList" component={CovenantList} />
                     <Route exact path="/covenant/:id" component={Covenant} />
