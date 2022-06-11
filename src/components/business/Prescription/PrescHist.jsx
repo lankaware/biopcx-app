@@ -54,9 +54,6 @@ const PrescHist = props => {
                                     <IconButton edge="end" aria-label="delete" onClick={() => deletePresc(item)}>
                                         <DeleteIcon />
                                     </IconButton>
-                                    <IconButton edge="end" aria-label="Open">
-                                        <SendIcon />
-                                    </IconButton>
                                     <IconButton edge="end" aria-label="Open" onClick={() => openText(item.prescContent)}>
                                         <OpenInNewIcon />
                                     </IconButton>

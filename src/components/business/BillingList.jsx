@@ -2,16 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import DataTable from 'react-data-table-component'
 
-import { Button, Box, Typography, Grid, TextField, Dialog, } from '@mui/material'
+import { Button, Box, Typography, Grid, TextField, Dialog, MenuItem } from '@mui/material'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
-import SearchIcon from '@mui/icons-material/Search'
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
+
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 
 import { getList, putRec } from '../../services/apiconnect'
 import { customStyles1, paginationBr } from '../../services/datatablestyle'
-import { prettyDate, timeBr } from '../../services/dateutils'
+import { prettyDate, defaultDateBr } from '../../services/dateutils'
 
 import Billing from './Billing'
 const objectRef = 'billing/'
@@ -19,18 +21,18 @@ const objectRef = 'billing/'
 const BillingList = props => {
 
     const columns = [
-        {
-            name: 'Status',
-            selector: row => row.status,
-            sortable: false,
-            width: '6vw'
-        },
+        // {
+        //     name: 'Status',
+        //     selector: row => row.status,
+        //     sortable: false,
+        //     width: '3vw'
+        // },
         {
             name: 'Data',
             selector: row => row.attendanceDate,
             sortable: true,
             width: '6vw',
-            cell: row => prettyDate(row.date)
+            cell: row => prettyDate(row.attendanceDate)
         },
         {
             name: 'Paciente',
@@ -44,28 +46,28 @@ const BillingList = props => {
             name: 'Procedimento',
             selector: row => row.procedure_name,
             sortable: true,
+            width: '10vw',
+            right: false,
+        },
+        {
+            name: 'Convênio',
+            selector: row => row.covenant_name,
+            sortable: true,
             width: '15vw',
+            right: false,
+        },
+        {
+            name: 'Plano',
+            selector: row => row.covenantplan_name,
+            sortable: true,
+            width: '20vw',
             right: false,
         },
         {
             name: 'Profissional',
             selector: row => row.professional_name,
             sortable: true,
-            width: '20vw',
-            right: false,
-        },
-        {
-            name: 'Convênio',
-            selector: row => row.covenant_name, 
-            sortable: true,
-            width: '20vw',
-            right: false,
-        },
-        {
-            name: 'Plano',
-            selector: row => row.covenantplan_name, 
-            sortable: true,
-            width: '20vw',
+            width: '15vw',
             right: false,
         },
     ];
@@ -73,69 +75,73 @@ const BillingList = props => {
     const [billingInfo, billingInfoSet] = useState({});
 
     const [list, setList] = useState([])
-    const [dateFilter, dateFilterSet] = useState(new Date())
+    const [dateFilter, dateFilterSet] = useState(defaultDateBr())
     const [patientFilter, patientFilterSet] = useState('')
+    const [covenantFilter, covenantFilterSet] = useState('')
 
-    const [openBilling, openBillingSet] = useState('')
+    const [openBilling, openBillingSet] = useState(false)
     const [updatedRec, updatedRecSet] = useState(false)
 
+    const [professionalList, professionalListSet] = useState([])
+    const [patientList, patientListSet] = useState([])
+    const [procedureList, procedureListSet] = useState([])
+    const [covenantList, covenantListSet] = useState([])
+    const [covenantplanList, covenantplanListSet] = useState([])
+
     useEffect(() => {
-        let tempList = []
-        getList(objectRef)
+        getList('professional/')
             .then(items => {
-                items.record.forEach(element => {
-                    tempList.push({
-                        _id: element._id,
-                        attendanceDate: element.attendanceDate.substr(0, 10),
-                        patient_id: element.patient_id,
-                        patient_name: element.patient_name[0],
-                        professional_id: element.professional_id,
-                        professional_name: element.professional_name[0],
-                        procedure_id: element.procedure_id,
-                        procedure_name: element.procedure_name[0],
-                        covenant_id: element.covenant_id,
-                        covenant_name: element.covenant_name[0],
-                        covenantplan_id: element.covenantplan_id,
-                        covenantplan_name: element.covenantplan_name[0],
-                        amount: element.amount,
-                        status: element.status
-                    })
-                });
+                professionalListSet(items.record)
             })
-            .then(_ => {
-                setList(tempList)
+        getList('patient/')
+            .then(items => {
+                patientListSet(items.record)
             })
-        updatedRecSet(true)
-    }, [updatedRec])
+        getList('procedure/')
+            .then(items => {
+                procedureListSet(items.record)
+            })
+        getList('covenant/')
+            .then(items => {
+                covenantListSet(items.record)
+            })
+        getList('covenantplan/')
+            .then(items => {
+                covenantplanListSet(items.record)
+            })
+    }, [])
 
     useEffect(() => {
         refreshRec();
-    }, [dateFilter]);
+        updatedRecSet(true);
+    }, [dateFilter, patientFilter, covenantFilter, updatedRec]);
 
     const refreshRec = () => {
         let tempList = []
         let recObj = {}
         if (dateFilter) recObj = { dateFilter }
-        // if (patientFilter) recObj = { ...recObj, 'specialty.name  ': { "$regex": patientFilter } }
+        if (patientFilter) recObj = { ...recObj, 'patientFilter': patientFilter }
+        if (covenantFilter) recObj = { ...recObj, 'covenantFilter': covenantFilter }
 
         recObj = JSON.stringify(recObj)
         console.log("recObj", recObj)
         putRec(objectRef, recObj)
             .then(items => {
+                if (!items.record) return
                 items.record.forEach(element => {
                     tempList.push({
                         _id: element._id || "",
                         attendanceDate: element.attendanceDate.substr(0, 10) || "",
                         patient_id: element.patient_id || "",
-                        patient_name: element.patient_name[0] || "",
+                        patient_name: element.patient_name || "",
                         professional_id: element.professional_id || "",
-                        professional_name: element.professional_name[0] || "",
+                        professional_name: element.professional_name || "",
                         procedure_id: element.procedure_id || "",
-                        procedure_name: element.procedure_name[0] || "",
+                        procedure_name: element.procedure_name || "",
                         covenant_id: element.covenant_id || "",
-                        covenant_name: element.covenant_name[0] || "",
+                        covenant_name: element.covenant_name || "",
                         covenantplan_id: element.covenantplan_id || "",
-                        covenantplan_name: element.covenantplan_name[0] || "",
+                        covenantplan_name: element.covenantplan_name || "",
                         amount: element.amount || "",
                         status: element.status || ""
                     })
@@ -146,10 +152,10 @@ const BillingList = props => {
             })
     }
 
-    const handleChange = (state) => {
-        // You can use setState or dispatch with something like Redux so we can use the retrieved data
-        console.log('Selected Rows: ', state.selectedRows);
-    };
+    const clearFilters = () => {
+        patientFilterSet('')
+        covenantFilterSet('')
+    }
 
     const billingDialog = (billingInfo) => {
         billingInfoSet(billingInfo);
@@ -200,10 +206,8 @@ const BillingList = props => {
                 </div>
             </div>
             <div className='tool-bar-filters'>
-                <Button color='primary' size='large' id='searchButton' startIcon={<SearchIcon />}
-                    onClick={_ => refreshRec()} >
-                </Button>
-                <Grid item xs={2}>
+                <Grid item xs={3}>
+                    <Button endIcon={<ArrowLeftIcon />} size='large' onClick={_ => prevDate()}></Button>
                     <TextField
                         value={dateFilter}
                         onChange={(event) => { dateFilterSet(event.target.value) }}
@@ -211,31 +215,57 @@ const BillingList = props => {
                         label='Data'
                         fullWidth={false}
                         InputLabelProps={{ shrink: true, disabled: false }}
-                        onKeyPress={(e) => { launchSearch(e) }}
+                        // onKeyPress={(e) => { launchSearch(e) }}
+                        onBlur={(e) => { refreshRec() }}
                         variant='outlined'
                         type='date'
                         size='small'
                     />
-                </Grid>
-                <Grid item xs={1}>
-                    <Button startIcon={<ArrowLeftIcon />} variant='contained' onClick={_ => prevDate()}></Button>
-                </Grid>
-                <Grid item xs={1}>
-                    <Button startIcon={<ArrowRightIcon />} variant='contained' onClick={_ => nextDate()} ></Button>
+                    <Button startIcon={<ArrowRightIcon />} size='large' onClick={_ => nextDate()}></Button>
                 </Grid>
                 <Grid item xs={3}>
                     <TextField
-                        value={patientFilter}
-                        onChange={(event) => { patientFilterSet(event.target.value.toUpperCase()) }}
-                        id='discrFilter'
-                        label='Nome do Paciente'
-                        fullWidth={false}
+                        value={covenantFilter}
+                        onChange={(event) => { covenantFilterSet(event.target.value) }}
+                        id='covenantFilter'
+                        label='Convênio'
+                        fullWidth={true}
+                        size='small'
                         InputLabelProps={{ shrink: true, disabled: false }}
                         onKeyPress={(e) => { launchSearch(e) }}
                         variant='outlined'
-                        size='small'
-                    />
+                        sx={{ width: '20vw' }}
+                        select>
+                        {covenantList.map((option) => (
+                            <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                        ))}
+                    </TextField>
                 </Grid>
+                {/* <Grid item xs={1}></Grid> */}
+                <Grid item xs={3}>
+                    <TextField
+                        value={patientFilter}
+                        onChange={(event) => { patientFilterSet(event.target.value) }}
+                        id='discrFilter'
+                        label='Paciente'
+                        fullWidth={true}
+                        size='small'
+                        InputLabelProps={{ shrink: true, disabled: false }}
+                        onKeyPress={(e) => { launchSearch(e) }}
+                        variant='outlined'
+                        sx={{ width: '20vw' }}
+                        select>
+                        {patientList.map((option) => (
+                            <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                        ))}
+                    </TextField>
+                </Grid>
+                <Button color='primary' size='large' id='searchButton' startIcon={<FilterAltIcon />}
+                    onClick={_ => refreshRec()} >
+                </Button>
+                <Button color='primary' size='large' id='searchButton' startIcon={<FilterAltOffIcon />}
+                    onClick={_ => clearFilters()} >
+                </Button>
             </div>
             <div className='data-table'>
                 <DataTable
@@ -246,7 +276,7 @@ const BillingList = props => {
                     data={list}
                     // selectableRows 
                     Clicked
-                    onSelectedRowsChange={handleChange}
+                    // onSelectedRowsChange={handleChange}
                     keyField={'_id'}
                     highlightOnHover={true}
                     pagination={true}
@@ -258,7 +288,7 @@ const BillingList = props => {
                 />
                 <Box m={1}>
                     <Button color="primary" size='small' variant='contained' startIcon={<OpenInNewIcon />} target="_blank"
-                        onClick={() => billingDialog(0)}
+                        onClick={() => billingDialog({ _id: '0' })}
                     >INCLUIR
                     </Button>
                 </Box>
@@ -267,12 +297,17 @@ const BillingList = props => {
                 <Dialog open={openBilling} maxWidth={false}>
                     <Billing billingInfo={billingInfo}
                         openBillingSet={openBillingSet}
-                        updatedRecSet={updatedRecSet}>
+                        updatedRecSet={updatedRecSet}
+                        professionalList={professionalList}
+                        patientList={patientList}
+                        procedureList={procedureList}
+                        covenantList={covenantList}
+                        covenantplanList={covenantplanList}
+                    >
                     </Billing>
                 </Dialog>
             </div>
         </div>
-
     )
 }
 

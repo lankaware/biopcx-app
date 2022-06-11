@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import {
     Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
-    DialogContentText, DialogTitle, MenuItem, Box
+    DialogContentText, DialogTitle, MenuItem, Box, InputAdornment
 } from '@mui/material'
 
 import EditIcon from '@mui/icons-material/Edit'
@@ -11,7 +11,6 @@ import CancelIcon from '@mui/icons-material/Cancel'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
 
-import TempPac from './PreCadPac'
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec, postRec, deleteRec } from '../../services/apiconnect'
 import { timeBr } from '../../services/dateutils'
@@ -25,84 +24,74 @@ const Billing = props => {
     // let { id } = useParams()
 
     // const [_id, _idSet] = useState('')
-    const [date, dateSet] = useState('')
-    const [initialTime, initialTimeSet] = useState('')
-    const [finalTime, finalTimeSet] = useState('')
-    const [professionalId, professionalIdSet] = useState('')
-    const [professionalName, professionalNameSet] = useState('')
+    const [attendanceDate, attendanceDateSet] = useState('')
     const [patientId, patientIdSet] = useState('')
     const [patientName, patientNameSet] = useState('')
+    const [professionalId, professionalIdSet] = useState('')
+    const [professionalName, professionalNameSet] = useState('')
     const [procedureId, procedureIdSet] = useState('')
     const [procedureName, procedureNameSet] = useState('')
-    const [planName, planNameSet] = useState('')
+    const [covenantId, covenantIdSet] = useState('')
+    const [covenantName, covenantNameSet] = useState('')
+    const [covenantplanId, covenantplanIdSet] = useState('')
+    const [covenantplanName, covenantplanNameSet] = useState('')
+
+    const [amount, amountSet] = useState(0.0)
     const [status, statusSet] = useState('')
 
     const [professionalList, professionalListSet] = useState([])
     const [patientList, patientListSet] = useState([])
     const [procedureList, procedureListSet] = useState([])
+    const [covenantList, covenantListSet] = useState([])
+    const [covenantplanList, covenantplanListSet] = useState([])
 
     const [emptyRecDialog, setEmptyRecDialog] = useState(false)
-    const [tempPacDialog, tempPacDialogSet] = useState(false)
 
     // const [tabValue, setTabValue] = useState(0);
 
     const classes = useStyles()
 
     useEffect(() => {
-        // if (props.billingID !== "1") {
         console.log(props.billingInfo)
         let record = props.billingInfo;
         let setters = () => {
             console.log(record._id)
             // _idSet(record._id)
-            dateSet((record.date || '').substr(0, 10))
-            initialTimeSet(record.initialTime || '')
-            finalTimeSet(record.finalTime || '')
+            attendanceDateSet((record.attendanceDate || '').substr(0, 10))
             professionalIdSet(record.professional_id || '')
             professionalNameSet(record.professionalName || '')
             patientIdSet(record.patient_id || '')
             patientNameSet(record.patientName || '')
             procedureIdSet(record.procedure_id || '')
             procedureNameSet(record.procedureName || '')
-            planNameSet(record.planName || '')
+            covenantIdSet(record.covenant_id || '')
+            covenantNameSet(record.covenantName || '')
+            covenantplanIdSet(record.covenantplan_id || '')
+            covenantplanNameSet(record.covenantplanName || '')
+            amountSet( (record.amount || 0).toFixed(2).toString() )
             statusSet(record.status || '')
         }
         setters();
-        // }
-        getList('professional/')
-            .then(items => {
-                professionalListSet(items.record)
-            })
-        getList('patient/')
-            .then(items => {
-                patientListSet(items.record)
-            })
-        getList('procedure/')
-            .then(items => {
-                procedureListSet(items.record)
-            })
+        professionalListSet(props.professionalList)
+        patientListSet(props.patientList)
+        procedureListSet(props.procedureList)
+        covenantListSet(props.covenantList)
+        covenantplanListSet(props.covenantplanList)
     }, [_id])
 
-    useEffect(() => {
-        getList('patient/')
-            .then(items => {
-                patientListSet(items.record)
-            })
-    }, [tempPacDialog]);
-
     const saveRec = () => {
-        if (!date) {
+        if (!attendanceDate) {
             setEmptyRecDialog(true)
             return null
         }
         let recObj = {
-            date,
-            initialTime: '1970-01-01T' + initialTime,
-            finalTime: '1970-01-01T' + finalTime,
+            attendanceDate,
             professional_id: professionalId || null,
             patient_id: patientId || null,
             procedure_id: procedureId || null,
-            planName,
+            covenant_id: covenantId || null,
+            covenantplan_id: covenantplanId || null,
+            amount,
             status
         }
         console.log("recObj", recObj)
@@ -120,13 +109,8 @@ const Billing = props => {
                     // _idSet(result.record._id)
                 })
         }
-
         props.updatedRecSet(false)
         props.openBillingSet(false)
-    }
-
-    const tempPac = () => {
-        tempPacDialogSet(true);
     }
 
     const emptyRecClose = () => {
@@ -141,79 +125,27 @@ const Billing = props => {
         <div>
             <div className='tool-bar'>
                 <DialogTitle >
-                    <Typography variant='h5' className='tool-title' noWrap={true}>Registro de Billing</Typography>
+                    <Typography className='tool-title' noWrap={true}>Registro de Faturamento</Typography>
                 </DialogTitle>
             </div>
             <div className='data-form-dialog'>
 
                 <Grid container spacing={2} >
-                    <Grid item xs={3}>
+                    <Grid item xs={4}>
                         <TextField
-                            id='status'
-                            label='Status'
-                            value={status}
-                            onChange={(event) => { statusSet(event.target.value) }}
-                            fullWidth={true}
-                            // disabled={true}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            variant='outlined'
-                            size='small'
-                            type="date"
-                            // inputProps={{ type: 'date' }}  
-                            select>
-                                <MenuItem value="Billingdo">Billingdo</MenuItem>
-                                <MenuItem value="Confirmado">Confirmado</MenuItem>
-                                <MenuItem value="Chegou">Chegou</MenuItem>
-                                <MenuItem value="Atendido">Atendido</MenuItem>
-                        </TextField>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TextField
-                            id='date'
+                            id='attendanceDate'
                             label='Data'
-                            value={date}
-                            onChange={(event) => { dateSet(event.target.value.toUpperCase()) }}
+                            value={attendanceDate}
+                            onChange={(event) => { attendanceDateSet(event.target.value.toUpperCase()) }}
                             fullWidth={true}
-                            disabled={true}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                            disabled={false}
+                            InputLabelProps={{ shrink: true, disabled: false }}
                             variant='outlined'
                             size='small'
                             type="date"
-                        // inputProps={{ type: 'date' }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
-                        <TextField
-                            id='initialTime'
-                            label='Início'
-                            value={initialTime}
-                            onChange={(event) => { initialTimeSet(event.target.value); console.log(event.target.value) }}
-                            size='small'
-                            fullWidth={true}
-                            disabled={false}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            variant='outlined'
-                            type="time"
-                            inputProps={{ step: 300 }}
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TextField
-                            id='finalTime'
-                            label='Término'
-                            value={finalTime}
-                            onChange={(event) => { finalTimeSet(event.target.value) }}
-                            size='small'
-                            fullWidth={true}
-                            disabled={false}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            variant='outlined'
-                            type="time"
-                            inputProps={{ step: 300 }}
-                        />
-                    </Grid>
-
-                    <Grid item xs={10}>
+                    <Grid item xs={8}>
                         <TextField
                             id='patient'
                             label='Paciente'
@@ -231,13 +163,7 @@ const Billing = props => {
                             ))}
                         </TextField>
                     </Grid>
-                    <Grid item xs={2}>
-                        <Button color="primary" size='small' variant='contained' target="_blank"
-                            onClick={() => tempPacDialogSet(true)}
-                        > Pac. Temp.
-                        </Button>
-                    </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={6}>
                         <TextField
                             id='professional'
                             label='Profissional'
@@ -256,7 +182,7 @@ const Billing = props => {
                             ))}
                         </TextField>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={6}>
                         <TextField
                             id='procedure'
                             label='Procedimento'
@@ -275,40 +201,68 @@ const Billing = props => {
                             ))}
                         </TextField>
                     </Grid>
+
+                    <Grid item xs={6}>
+                        <TextField
+                            id='covenant'
+                            label='Convênio'
+                            value={covenantId}
+                            onChange={(event) => { covenantIdSet(event.target.value) }}
+                            size='small'
+                            fullWidth={true}
+                            disabled={false}
+                            type='text'
+                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                            // sx={{ width: 150 }}
+                            select
+                        >
+                            {covenantList.map((option) => (
+                                <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                            ))}
+                        </TextField>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <TextField
+                            id='covenantplan'
+                            label='Plano'
+                            value={covenantplanId}
+                            onChange={(event) => { covenantplanIdSet(event.target.value) }}
+                            size='small'
+                            fullWidth={true}
+                            disabled={false}
+                            type='text'
+                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                            // sx={{ width: 150 }}
+                            select
+                        >
+                            {covenantplanList
+                            .filter(item => {return item.covenant_id === covenantId})
+                            .map((option) => (
+                                <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                            ))}
+                        </TextField>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            value={amount} // (parseFloat(amount).toFixed(2))
+                            onChange={(event) => { amountSet(event.target.value) }}
+                            id='amount'
+                            label='Valor'
+                            fullWidth={true}
+                            InputLabelProps={{ shrink: true, disabled: false }}
+                            variant='outlined'
+                            size='small'
+                            inputProps={{ type: 'number' }}
+                            onBlur={(event) => { amountSet(parseFloat(event.target.value).toFixed(2).toString()) }}
+                            InputProps={{ startAdornment: <InputAdornment position="start">R$</InputAdornment> }}
+                        />
+                    </Grid>
+
                 </Grid>
             </div>
-            {/* <Form className='data-form-level1'>
-
-                <div >
-                    <AppBar position="static" color="default">
-                        <Tabs
-                            value={tabValue}
-                            onChange={(event, newValue) => { setTabValue(newValue) }}
-                            indicatorColor="primary"
-                            textColor="primary"
-                            variant="fullWidth"
-                            aria-label="full width tabs example"
-                        >
-                            <Tab label="Paciente" {...posTab(0)} />
-                        </Tabs>
-                    </AppBar>
-                    <TabPanel value={tabValue} index={0} dir={theme.direction}>
-                        <BillingAvailability
-                            itemList={availabilityList}
-                            editMode={editMode}
-                            onChangeSublist={availabilityListSet}
-                        />
-                    </TabPanel>
-                </div>
-
-            </Form> */}
             <DialogActions>
                 <div className='tool-buttons'>
-                    {/* <Box m={1}>
-                        <Button color='primary' variant='contained' size='small' startIcon={<EditIcon />}
-                            onClick={_ => setEditMode(true)} disabled={editMode}>EDITAR
-                        </Button>
-                    </Box> */}
                     <Box m={1}>
                         <Button color='primary' variant='contained' size='small' startIcon={<SaveAltIcon />}
                             onClick={_ => saveRec()} disabled={false}>SALVAR
@@ -319,16 +273,6 @@ const Billing = props => {
                             onClick={_ => cancelRec()} disabled={false}>CANCELAR
                         </Button>
                     </Box>
-                    {/* <Box m={1}>
-                        <Button color='primary' variant='contained' size='small' startIcon={<DeleteForeverIcon />}
-                            onClick={_ => delRec()} disabled={editMode}>APAGAR
-                        </Button>
-                    </Box> */}
-                    {/* <Box m={1}>
-                        <Button color='primary' variant='contained' size='small' startIcon={<KeyboardReturnIcon />}
-                            onClick={_ => cancelRec()} id='backButton' disabled={editMode}>VOLTAR
-                        </Button>
-                    </Box> */}
                 </div>
             </DialogActions>
 
@@ -350,11 +294,6 @@ const Billing = props => {
                 </DialogActions>
             </Dialog>
 
-            <TempPac
-                tempPacDialog={tempPacDialog}
-                tempPacDialogSet={tempPacDialogSet}
-                patientIdSet={patientIdSet}
-            />
         </div>
     )
 }

@@ -13,7 +13,7 @@ import { BsFillCircleFill } from "react-icons/bs";
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec } from '../../services/apiconnect'
 import { customStyles1, paginationBr } from '../../services/datatablestyle'
-import { prettyDate, timeBr } from '../../services/dateutils'
+import { prettyDate, timeBr, defaultDateBr} from '../../services/dateutils'
 
 import Agenda from './Agenda'
 const objectRef = 'agenda/'
@@ -84,7 +84,7 @@ const Agendas = props => {
 
     const classes = useStyles();
     const [list, setList] = useState([])
-    const [dateFilter, dateFilterSet] = useState(new Date())
+    const [dateFilter, dateFilterSet] = useState(defaultDateBr())
     const [patientFilter, patientFilterSet] = useState('')
 
     const [openAgenda, openAgendaSet] = useState('')
@@ -192,10 +192,11 @@ const Agendas = props => {
     }
 
     const agendaStatus = (status) => {
-        status == 1 ? "yellow" :
-        status == 2 ? null:
-        status == 3 ? "green" :
-        "blue"
+        return (
+        status === 1 ? "yellow" :
+        status === 2 ? null:
+        status === 3 ? "green" :
+        "blue")
     }
 
     return (
@@ -219,7 +220,8 @@ const Agendas = props => {
                 <Button color='primary' size='large' id='searchButton' startIcon={<SearchIcon />}
                     onClick={_ => refreshRec()} >
                 </Button>
-                <Grid item xs={2}>
+                <Grid item xs={3}>
+                    <Button endIcon={<ArrowLeftIcon />} size='large' onClick={_ => prevDate()}></Button>
                     <TextField
                         value={dateFilter}
                         onChange={(event) => { dateFilterSet(event.target.value) }}
@@ -232,12 +234,7 @@ const Agendas = props => {
                         type='date'
                         size='small'
                     />
-                </Grid>
-                <Grid item xs={1}>
-                    <Button startIcon={<ArrowLeftIcon />} variant='contained' onClick={_ => prevDate()}></Button>
-                </Grid>
-                <Grid item xs={1}>
-                    <Button startIcon={<ArrowRightIcon />} variant='contained' onClick={_ => nextDate()} ></Button>
+                    <Button startIcon={<ArrowRightIcon />} size='large' onClick={_ => nextDate()} ></Button>
                 </Grid>
                 <Grid item xs={3}>
                     <TextField

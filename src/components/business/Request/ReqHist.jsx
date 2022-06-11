@@ -48,9 +48,6 @@ const ReqHist = props => {
                                     <IconButton edge="end" aria-label="delete" onClick={() => deleteReq(item)}>
                                         <DeleteIcon />
                                     </IconButton>
-                                    <IconButton edge="end" aria-label="Open">
-                                        <SendIcon />
-                                    </IconButton>
                                     <IconButton edge="end" aria-label="Open" onClick={() => openText(item.reqContent)}>
                                         <OpenInNewIcon />
                                     </IconButton>
