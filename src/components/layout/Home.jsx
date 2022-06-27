@@ -8,34 +8,54 @@ import MedicationIcon from '@mui/icons-material/Medication';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 // import Login from './Login'
 // import tokenValidate from "../../services/tokenValidate"
+import agendaImage from "../../pictures/eric-rothermel-FoKO4DpXamQ-unsplash.jpg"
+import patientImage from "../../pictures/eric-rothermel-FoKO4DpXamQ-unsplash.jpg"
+import professionalImage from "../../pictures/national-cancer-institute-701-FJcjLAQ-unsplash.jpg"
+import convenantImage from "../../pictures/omid-kashmari-s34f0Wxbens-unsplash.jpg"
+import medicineImage from "../../pictures/madison-agardi-QNrjcp90tVc-unsplash.jpg"
+import configImage from "../../pictures/cesar-carlevarino-aragon-NL_DF0Klepc-unsplash.jpg"
 
 const Home = props => {
     return (
-        <div className='container-div'>
+        <div className='home-container'>
             {/* <img src={process.env.PUBLIC_URL + 'logo-cor.webp'} alt='Lankaware' weight='410' height='100' /> */}
-            <Box>
-            <DateRangeIcon/>
-                Agendas
+            <Box className='home-logo'>
+                <p>LOGO</p>
             </Box>
-            <Box>
-            <PeopleIcon/>
-                Pacientes
+            <Box className='home-buttons' style={{
+                backgroundImage: `url(${agendaImage})`,
+                backgroundSize: '400px',
+            }} m={5}>
+                <p><DateRangeIcon />
+                    Agendas</p>
             </Box>
-            <Box>
-                <AssignmentIndIcon/>
-                Profissionais
+            <Box className='home-buttons' style={{
+                backgroundImage: `url(${agendaImage})`,
+                backgroundSize: '400px',
+            }} m={5}>
+                <p> <PeopleIcon />
+                    Pacientes</p>
             </Box>
-            <Box>
-                <FolderIcon/>
-                Convênios
+            <Box className='home-buttons' style={{
+                backgroundImage: `url(${professionalImage})`,
+                backgroundSize: '400px',
+            }} m={5}>
+                <p> <AssignmentIndIcon />
+                    Profissionais</p>
             </Box>
-            <Box>
-                <MedicationIcon/>
-                Medicamentos
+            <Box className='home-buttons' style={{
+                backgroundImage: `url(${convenantImage})`,
+                backgroundSize: '400px',
+            }} m={5}>
+                <p><FolderIcon />
+                    Convênios</p>
             </Box>
-            <Box>
-                <SettingsSuggestIcon/>
-                Configurações
+            <Box className='home-buttons' style={{
+                backgroundImage: `url(${medicineImage})`,
+                backgroundSize: '400px',
+            }} m={5}>
+                <p><MedicationIcon />
+                    Medicamentos</p>
             </Box>
         </div>
     )
