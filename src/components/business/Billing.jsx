@@ -159,7 +159,7 @@ const Billing = props => {
                             // sx={{ width: 150 }}
                             select>
                             {patientList.map((option) => (
-                                <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                                <MenuItem key={option._id} value={option._id}>{option.fullname}</MenuItem>
                             ))}
                         </TextField>
                     </Grid>

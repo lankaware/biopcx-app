@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import DataTable from 'react-data-table-component'
 
-import { Button, Box, Typography, Grid, TextField, Dialog, } from '@mui/material'
+import { Button, Box, Typography, Grid, TextField, Dialog, MenuItem } from '@mui/material'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
-import SearchIcon from '@mui/icons-material/Search'
+// import SearchIcon from '@mui/icons-material/Search'
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { BsFillCircleFill } from "react-icons/bs";
@@ -13,7 +15,7 @@ import { BsFillCircleFill } from "react-icons/bs";
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec } from '../../services/apiconnect'
 import { customStyles1, paginationBr } from '../../services/datatablestyle'
-import { prettyDate, timeBr, defaultDateBr} from '../../services/dateutils'
+import { prettyDate, timeBr, defaultDateBr } from '../../services/dateutils'
 
 import Agenda from './Agenda'
 const objectRef = 'agenda/'
@@ -26,7 +28,7 @@ const Agendas = props => {
             selector: row => row.status,
             sortable: false,
             width: '6vw',
-            cell: row => (<BsFillCircleFill color={agendaStatus(row.status)}/>)
+            cell: row => (<BsFillCircleFill color={agendaStatus(row.status)} />)
         },
         {
             name: 'Data',
@@ -55,11 +57,11 @@ const Agendas = props => {
             sortable: true,
             width: '20vw',
             right: false,
-            cell: row => (<Link to={'patient/' + row.patient_id}>{row.patient_name}</Link>)
+            cell: row => (<Link to={'patient/' + row.patient_id}target="_blank">{row.patient_name} </Link>)
         },
         {
             name: 'Telefone',
-            selector: row => row.patient_phone,
+            selector: row => row.phone,
             sortable: true,
             width: '10vw',
             right: false,
@@ -75,14 +77,13 @@ const Agendas = props => {
             name: 'Profissional',
             selector: row => row.professional_name,
             sortable: true,
-            width: '20vw',
+            width: '15vw',
             right: false,
         },
     ];
 
     const [agendaINFO, agendaINFOSet] = useState({});
 
-    const classes = useStyles();
     const [list, setList] = useState([])
     const [dateFilter, dateFilterSet] = useState(defaultDateBr())
     const [patientFilter, patientFilterSet] = useState('')
@@ -90,48 +91,51 @@ const Agendas = props => {
     const [openAgenda, openAgendaSet] = useState('')
     const [updatedRec, updatedRecSet] = useState(false)
 
+    const [professionalList, professionalListSet] = useState([])
+    const [patientList, patientListSet] = useState([])
+    const [procedureList, procedureListSet] = useState([])
+    const [covenantList, covenantListSet] = useState([])
+    const [covenantplanList, covenantplanListSet] = useState([])
+
     useEffect(() => {
-        let tempList = []
-        getList(objectRef)
+        getList('professional/')
             .then(items => {
-                items.record.forEach(element => {
-                    tempList.push({
-                        _id: element._id,
-                        date: element.date.substr(0, 10),
-                        initialTime: timeBr(element.initialTime),
-                        finalTime: timeBr(element.finalTime),
-                        professional_id: element.professional_id,
-                        professional_name: element.professional_name[0],
-                        patient_id: element.patient_id,
-                        patient_name: element.patient_name[0],
-                        patient_phone: element.patient_phone[0],
-                        procedure_id: element.procedure_id,
-                        procedure_name: element.procedure_name[0],
-                        planName: element.planName,
-                        status: element.status
-                    })
-                });
+                professionalListSet(items.record)
             })
-            .then(_ => {
-                setList(tempList)
+        getList('patient/')
+            .then(items => {
+                patientListSet(items.record)
             })
-        updatedRecSet(true)
-    }, [updatedRec])
+        getList('procedure/')
+            .then(items => {
+                procedureListSet(items.record)
+            })
+        getList('covenant/')
+            .then(items => {
+                covenantListSet(items.record)
+            })
+        getList('covenantplan/')
+            .then(items => {
+                covenantplanListSet(items.record)
+            })
+    }, [])
 
     useEffect(() => {
         refreshRec();
-    }, [dateFilter]);
+        updatedRecSet(true);
+    }, [dateFilter, patientFilter, updatedRec]);
 
     const refreshRec = () => {
         let tempList = []
         let recObj = {}
         if (dateFilter) recObj = { dateFilter }
-        // if (patientFilter) recObj = { ...recObj, 'specialty.name  ': { "$regex": patientFilter } }
+        if (patientFilter) recObj = { ...recObj, 'patientFilter': patientFilter }
 
         recObj = JSON.stringify(recObj)
         console.log("recObj", recObj)
         putRec(objectRef, recObj)
             .then(items => {
+                if (!items.record) return
                 items.record.forEach(element => {
                     tempList.push({
                         _id: element._id || "",
@@ -139,14 +143,17 @@ const Agendas = props => {
                         initialTime: timeBr(element.initialTime) || "",
                         finalTime: timeBr(element.finalTime) || "",
                         professional_id: element.professional_id || "",
-                        professional_name: element.professional_name[0] || "",
+                        professional_name: element.professional_name || "",
                         patient_id: element.patient_id || "",
-                        patient_name: element.patient_name[0] || "",
-                        patient_phone: element.patient_phone[0] || "",
+                        patient_name: element.patient_name || "",
                         procedure_id: element.procedure_id || "",
                         procedure_name: element.procedure_name[0] || "",
-                        planName: element.planName || "",
-                        status: element.status || ""
+                        covenant_id: element.covenant_id || "",
+                        // covenant_name: element.covenant_name[0] || "",
+                        covenantplan_id: element.covenantplan_id || "",
+                        phone: element.phone || "",
+                        email: element.email || "",
+                        status: element.status || "",
                     })
                 });
             })
@@ -155,10 +162,9 @@ const Agendas = props => {
             })
     }
 
-    const handleChange = (state) => {
-        // You can use setState or dispatch with something like Redux so we can use the retrieved data
-        console.log('Selected Rows: ', state.selectedRows);
-    };
+    const clearFilters = () => {
+        patientFilterSet('')
+    }
 
     const agendaDialog = (agendaInfo) => {
         agendaINFOSet(agendaInfo);
@@ -193,10 +199,11 @@ const Agendas = props => {
 
     const agendaStatus = (status) => {
         return (
-        status === 1 ? "yellow" :
-        status === 2 ? null:
-        status === 3 ? "green" :
-        "blue")
+            status === '1' ? "yellow" : // Agendado
+                status === '2' ? 'green' : // Confirmado
+                    status === '3' ? "red" :  // Chegou
+                        status === '4' ? "blue" : // Atendido
+                            "gray") // Agenda livre
     }
 
     return (
@@ -217,10 +224,7 @@ const Agendas = props => {
                 </div>
             </div>
             <div className='tool-bar-filters'>
-                <Button color='primary' size='large' id='searchButton' startIcon={<SearchIcon />}
-                    onClick={_ => refreshRec()} >
-                </Button>
-                <Grid item xs={3}>
+                <Grid item xs={4}>
                     <Button endIcon={<ArrowLeftIcon />} size='large' onClick={_ => prevDate()}></Button>
                     <TextField
                         value={dateFilter}
@@ -228,28 +232,41 @@ const Agendas = props => {
                         id='dateFilter'
                         label='Data'
                         fullWidth={false}
-                        InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                        InputLabelProps={{ shrink: true, disabled: false }}
                         onKeyPress={(e) => { launchSearch(e) }}
                         variant='outlined'
                         type='date'
                         size='small'
+                        sx={{ width: '12vw' }}
                     />
                     <Button startIcon={<ArrowRightIcon />} size='large' onClick={_ => nextDate()} ></Button>
                 </Grid>
                 <Grid item xs={3}>
                     <TextField
                         value={patientFilter}
-                        onChange={(event) => { patientFilterSet(event.target.value.toUpperCase()) }}
+                        onChange={(event) => { patientFilterSet(event.target.value) }}
                         id='discrFilter'
-                        label='Nome do Paciente'
-                        fullWidth={false}
-                        InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                        label='Paciente'
+                        fullWidth={true}
+                        size='small'
+                        InputLabelProps={{ shrink: true, disabled: false }}
                         onKeyPress={(e) => { launchSearch(e) }}
                         variant='outlined'
-                        size='small'
-                    />
+                        sx={{ width: '20vw' }}
+                        select>
+                        {patientList.map((option) => (
+                            <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                        ))}
+                    </TextField>
                 </Grid>
+                <Button color='primary' size='large' id='searchButton' startIcon={<FilterAltIcon />}
+                    onClick={_ => refreshRec()} >
+                </Button>
+                <Button color='primary' size='large' id='searchButton' startIcon={<FilterAltOffIcon />}
+                    onClick={_ => clearFilters()} >
+                </Button>
             </div>
+
             <div className='data-table'>
                 <DataTable
                     // title=""
@@ -259,15 +276,14 @@ const Agendas = props => {
                     data={list}
                     // selectableRows 
                     Clicked
-                    onSelectedRowsChange={handleChange}
                     keyField={'_id'}
                     highlightOnHover={true}
-                    pagination={true}
+                    // pagination={true}
                     fixedHeader={true}
                     onRowClicked={(row, event) => { agendaDialog(row) }}
                     // noContextMenu={true}
                     paginationComponentOptions={paginationBr}
-                    paginationPerPage={10}
+                // paginationPerPage={10}
                 />
                 <Box m={1}>
                     <Button color="primary" size='small' variant='contained' startIcon={<OpenInNewIcon />} target="_blank"
@@ -280,12 +296,17 @@ const Agendas = props => {
                 <Dialog open={openAgenda} maxWidth={false}>
                     <Agenda agendaInfo={agendaINFO}
                         openAgendaSet={openAgendaSet}
-                        updatedRecSet={updatedRecSet}>
+                        updatedRecSet={updatedRecSet}
+                        professionalList={professionalList}
+                        patientList={patientList}
+                        procedureList={procedureList}
+                        covenantList={covenantList}
+                        covenantplanList={covenantplanList}
+                    >
                     </Agenda>
                 </Dialog>
             </div>
         </div>
-
     )
 }
 

@@ -2,7 +2,7 @@ import { Dialog, DialogContent, DialogTitle, Grid, TextField, MenuItem, Box, Dia
 import React, { useState, useEffect } from 'react';
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import CancelIcon from "@mui/icons-material/Cancel";
-import {postRec} from "../../services/apiconnect";
+import { postRec } from "../../services/apiconnect";
 
 let editMode = true;
 const objectRef = "patient/";
@@ -14,36 +14,43 @@ const TempPac = props => {
     const [phone, phoneSet] = useState("")
     const [email, emailSet] = useState("")
     const [covenantId, covenantIdSet] = useState("");
-    const [covenantList] = useState([]);
+    const [covenantplanId, covenantplanIdSet] = useState("");
+    // const [covenantList] = useState([]);
 
     const saveRec = () => {
         if (!name) {
-        //   setEmptyFieldDialog('Nome')
-        //   setEmptyRecDialog(true);
-          return null;
+            //   setEmptyFieldDialog('Nome')
+            //   setEmptyRecDialog(true);
+            return null;
         }
-    
+
         let recObj = {
-        "preCad": true,
-          name,
-          lastname,
-          phone,
-          email,
-          covenant_id: covenantId || null,    
+            "preCad": true,
+            name,
+            lastname,
+            phone,
+            email,
+            covenant_id: covenantId || null,
+            covenantplan_id: covenantplanId || null,
         };
-          recObj = JSON.stringify(recObj);
-          postRec(objectRef, recObj)
+        recObj = JSON.stringify(recObj);
+        postRec(objectRef, recObj)
             .then((result) => {
                 props.patientIdSet(result.record._id);
+                props.covenantIdSet(covenantId);
+                props.covenantplanIdSet(covenantplanId);
+                props.phoneSet(phone);
+                props.emailSet(email);
+                props.statusSet('1');
             });
         // setRecUpdated(false)
         props.tempPacDialogSet(false);
-      };
+    };
 
     return (
         <Dialog open={props.tempPacDialog}>
             <DialogTitle>
-                Paciente Temporário
+                Pré-cadastro
             </DialogTitle>
             <DialogContent>
                 <Box m={1}>
@@ -64,7 +71,7 @@ const TempPac = props => {
                         <Grid item xs={6}>
                             <TextField
                                 value={lastname}
-                                onChange={(event) => { lastnameSet(event.target.value)}}
+                                onChange={(event) => { lastnameSet(event.target.value) }}
                                 id="lastname"
                                 label="Sobrenome *"
                                 fullWidth={true}
@@ -74,7 +81,7 @@ const TempPac = props => {
                                 size="small"
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={6}>
                             <TextField
                                 value={phone}
                                 onChange={(event) => { phoneSet(event.target.value) }}
@@ -87,7 +94,7 @@ const TempPac = props => {
                                 size="small"
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={6}>
                             <TextField
                                 value={email}
                                 onChange={(event) => { emailSet(event.target.value) }}
@@ -101,7 +108,7 @@ const TempPac = props => {
                                 inputProps={{ type: "text" }}
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={6}>
                             <TextField
                                 id='covenant'
                                 label='Convênio'
@@ -113,9 +120,30 @@ const TempPac = props => {
                                 type='text'
                                 InputLabelProps={{ shrink: true, disabled: false, }}
                                 select>
-                                {covenantList.map((option) => (
+                                {props.covenantList.map((option) => (
                                     <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
                                 ))}
+                            </TextField>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <TextField
+                                id='covenantplan'
+                                label='Plano'
+                                value={covenantplanId}
+                                onChange={(event) => { covenantplanIdSet(event.target.value) }}
+                                size='small'
+                                fullWidth={true}
+                                disabled={!covenantId}
+                                type='text'
+                                InputLabelProps={{ shrink: true, disabled: false }}
+                                // sx={{ width: 150 }}
+                                select
+                            >
+                                {props.covenantplanList
+                                    .filter(item => { return item.covenant_id === covenantId })
+                                    .map((option) => (
+                                        <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                                    ))}
                             </TextField>
                         </Grid>
                     </Grid>
@@ -126,7 +154,7 @@ const TempPac = props => {
                     <Button color="primary" variant="contained" size="small" startIcon={<CancelIcon />}
                         // onClick={(_) => refreshRec()} disabled={!editMode}
                         onClick={(_) => props.tempPacDialogSet(false)}
-                        >CANCELAR
+                    >CANCELAR
                     </Button>
                 </Box>
                 <Box m={1}>

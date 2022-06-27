@@ -70,6 +70,13 @@ const BillingList = props => {
             width: '15vw',
             right: false,
         },
+        {
+            name: 'Agenda',
+            selector: row => row.agenda_id,
+            sortable: true,
+            width: '15vw',
+            right: false,
+        },
     ];
 
     const [billingInfo, billingInfoSet] = useState({});
@@ -143,7 +150,8 @@ const BillingList = props => {
                         covenantplan_id: element.covenantplan_id || "",
                         covenantplan_name: element.covenantplan_name || "",
                         amount: element.amount || "",
-                        status: element.status || ""
+                        status: element.status || "",
+                        agenda_id: element.agenda_id || "",
                     })
                 });
             })
@@ -196,7 +204,6 @@ const BillingList = props => {
                 </div>
 
                 <div className='tool-buttons'>
-
                     <Box m={1}>
                         <Button color='primary' size='small' variant='contained' startIcon={<KeyboardReturnIcon />}
                             href="/" id='backButton'
@@ -206,7 +213,7 @@ const BillingList = props => {
                 </div>
             </div>
             <div className='tool-bar-filters'>
-                <Grid item xs={3}>
+                <Grid item xs={4}>
                     <Button endIcon={<ArrowLeftIcon />} size='large' onClick={_ => prevDate()}></Button>
                     <TextField
                         value={dateFilter}
@@ -220,6 +227,7 @@ const BillingList = props => {
                         variant='outlined'
                         type='date'
                         size='small'
+                        sx={{ width: '12vw' }}
                     />
                     <Button startIcon={<ArrowRightIcon />} size='large' onClick={_ => nextDate()}></Button>
                 </Grid>
