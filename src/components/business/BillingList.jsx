@@ -5,51 +5,34 @@ import DataTable from 'react-data-table-component'
 import { Button, Box, Typography, Grid, TextField, Dialog, MenuItem } from '@mui/material'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
-// import SearchIcon from '@mui/icons-material/Search'
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
+
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import { BsFillCircleFill } from "react-icons/bs";
 
-import { useStyles } from '../../services/stylemui'
 import { getList, putRec } from '../../services/apiconnect'
 import { customStyles1, paginationBr } from '../../services/datatablestyle'
-import { prettyDate, timeBr, defaultDateBr } from '../../services/dateutils'
+import { prettyDate, defaultDateBr } from '../../services/dateutils'
 
-import Agenda from './Agenda'
-const objectRef = 'agenda/'
+import Billing from './Billing'
+const objectRef = 'billing/'
 
-const Agendas = props => {
+const BillingList = props => {
 
     const columns = [
-        {
-            name: 'Status',
-            selector: row => row.status,
-            sortable: false,
-            width: '6vw',
-            cell: row => (<BsFillCircleFill color={agendaStatus(row.status)} />)
-        },
+        // {
+        //     name: 'Status',
+        //     selector: row => row.status,
+        //     sortable: false,
+        //     width: '3vw'
+        // },
         {
             name: 'Data',
-            selector: row => row.date,
+            selector: row => row.attendanceDate,
             sortable: true,
             width: '6vw',
-            cell: row => prettyDate(row.date)
-        },
-        {
-            name: 'Início',
-            selector: row => row.initialTime,
-            sortable: true,
-            width: '5vw',
-            cell: row => (row.initialTime.substr(0, 5))
-        },
-        {
-            name: 'Término',
-            selector: row => row.finalTime,
-            sortable: true,
-            width: '7vw',
-            cell: row => (row.finalTime.substr(0, 5))
+            cell: row => prettyDate(row.attendanceDate)
         },
         {
             name: 'Paciente',
@@ -57,20 +40,27 @@ const Agendas = props => {
             sortable: true,
             width: '20vw',
             right: false,
-            cell: row => (<Link to={'patient/' + row.patient_id}target="_blank">{row.patient_name} </Link>)
-        },
-        {
-            name: 'Telefone',
-            selector: row => row.phone,
-            sortable: true,
-            width: '10vw',
-            right: false,
+            cell: row => (<Link to={'patient/' + row.patient_id}>{row.patient_name}</Link>)
         },
         {
             name: 'Procedimento',
             selector: row => row.procedure_name,
             sortable: true,
+            width: '10vw',
+            right: false,
+        },
+        {
+            name: 'Convênio',
+            selector: row => row.covenant_name,
+            sortable: true,
             width: '15vw',
+            right: false,
+        },
+        {
+            name: 'Plano',
+            selector: row => row.covenantplan_name,
+            sortable: true,
+            width: '20vw',
             right: false,
         },
         {
@@ -80,15 +70,23 @@ const Agendas = props => {
             width: '15vw',
             right: false,
         },
+        {
+            name: 'Agenda',
+            selector: row => row.agenda_id,
+            sortable: true,
+            width: '15vw',
+            right: false,
+        },
     ];
 
-    const [agendaINFO, agendaINFOSet] = useState({});
+    const [billingInfo, billingInfoSet] = useState({});
 
     const [list, setList] = useState([])
     const [dateFilter, dateFilterSet] = useState(defaultDateBr())
     const [patientFilter, patientFilterSet] = useState('')
+    const [covenantFilter, covenantFilterSet] = useState('')
 
-    const [openAgenda, openAgendaSet] = useState('')
+    const [openBilling, openBillingSet] = useState(false)
     const [updatedRec, updatedRecSet] = useState(false)
 
     const [professionalList, professionalListSet] = useState([])
@@ -123,13 +121,14 @@ const Agendas = props => {
     useEffect(() => {
         refreshRec();
         updatedRecSet(true);
-    }, [dateFilter, patientFilter, updatedRec]);
+    }, [dateFilter, patientFilter, covenantFilter, updatedRec]);
 
     const refreshRec = () => {
         let tempList = []
         let recObj = {}
         if (dateFilter) recObj = { dateFilter }
         if (patientFilter) recObj = { ...recObj, 'patientFilter': patientFilter }
+        if (covenantFilter) recObj = { ...recObj, 'covenantFilter': covenantFilter }
 
         recObj = JSON.stringify(recObj)
         console.log("recObj", recObj)
@@ -139,21 +138,20 @@ const Agendas = props => {
                 items.record.forEach(element => {
                     tempList.push({
                         _id: element._id || "",
-                        date: element.date.substr(0, 10) || "",
-                        initialTime: timeBr(element.initialTime) || "",
-                        finalTime: timeBr(element.finalTime) || "",
-                        professional_id: element.professional_id || "",
-                        professional_name: element.professional_name || "",
+                        attendanceDate: element.attendanceDate.substr(0, 10) || "",
                         patient_id: element.patient_id || "",
                         patient_name: element.patient_name || "",
+                        professional_id: element.professional_id || "",
+                        professional_name: element.professional_name || "",
                         procedure_id: element.procedure_id || "",
-                        procedure_name: element.procedure_name[0] || "",
+                        procedure_name: element.procedure_name || "",
                         covenant_id: element.covenant_id || "",
-                        // covenant_name: element.covenant_name[0] || "",
+                        covenant_name: element.covenant_name || "",
                         covenantplan_id: element.covenantplan_id || "",
-                        phone: element.phone || "",
-                        email: element.email || "",
+                        covenantplan_name: element.covenantplan_name || "",
+                        amount: element.amount || "",
                         status: element.status || "",
+                        agenda_id: element.agenda_id || "",
                     })
                 });
             })
@@ -164,11 +162,12 @@ const Agendas = props => {
 
     const clearFilters = () => {
         patientFilterSet('')
+        covenantFilterSet('')
     }
 
-    const agendaDialog = (agendaInfo) => {
-        agendaINFOSet(agendaInfo);
-        openAgendaSet(true);
+    const billingDialog = (billingInfo) => {
+        billingInfoSet(billingInfo);
+        openBillingSet(true);
     }
 
     const nextDate = () => {
@@ -197,24 +196,14 @@ const Agendas = props => {
         }
     }
 
-    const agendaStatus = (status) => {
-        return (
-            status === '1' ? "yellow" : // Agendado
-                status === '2' ? 'green' : // Confirmado
-                    status === '3' ? "red" :  // Chegou
-                        status === '4' ? "blue" : // Atendido
-                            "gray") // Agenda livre
-    }
-
     return (
         <div>
             <div className='tool-bar'>
                 <div >
-                    <Typography variant='h6' className='tool-title' noWrap={true}>Lista de Agendas</Typography>
+                    <Typography variant='h6' className='tool-title' noWrap={true}>Lista de Lançamentos Financeiros</Typography>
                 </div>
 
                 <div className='tool-buttons'>
-
                     <Box m={1}>
                         <Button color='primary' size='small' variant='contained' startIcon={<KeyboardReturnIcon />}
                             href="/" id='backButton'
@@ -233,14 +222,34 @@ const Agendas = props => {
                         label='Data'
                         fullWidth={false}
                         InputLabelProps={{ shrink: true, disabled: false }}
-                        onKeyPress={(e) => { launchSearch(e) }}
+                        // onKeyPress={(e) => { launchSearch(e) }}
+                        onBlur={(e) => { refreshRec() }}
                         variant='outlined'
                         type='date'
                         size='small'
                         sx={{ width: '12vw' }}
                     />
-                    <Button startIcon={<ArrowRightIcon />} size='large' onClick={_ => nextDate()} ></Button>
+                    <Button startIcon={<ArrowRightIcon />} size='large' onClick={_ => nextDate()}></Button>
                 </Grid>
+                <Grid item xs={3}>
+                    <TextField
+                        value={covenantFilter}
+                        onChange={(event) => { covenantFilterSet(event.target.value) }}
+                        id='covenantFilter'
+                        label='Convênio'
+                        fullWidth={true}
+                        size='small'
+                        InputLabelProps={{ shrink: true, disabled: false }}
+                        onKeyPress={(e) => { launchSearch(e) }}
+                        variant='outlined'
+                        sx={{ width: '20vw' }}
+                        select>
+                        {covenantList.map((option) => (
+                            <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                        ))}
+                    </TextField>
+                </Grid>
+                {/* <Grid item xs={1}></Grid> */}
                 <Grid item xs={3}>
                     <TextField
                         value={patientFilter}
@@ -266,7 +275,6 @@ const Agendas = props => {
                     onClick={_ => clearFilters()} >
                 </Button>
             </div>
-
             <div className='data-table'>
                 <DataTable
                     // title=""
@@ -276,26 +284,27 @@ const Agendas = props => {
                     data={list}
                     // selectableRows 
                     Clicked
+                    // onSelectedRowsChange={handleChange}
                     keyField={'_id'}
                     highlightOnHover={true}
-                    // pagination={true}
+                    pagination={true}
                     fixedHeader={true}
-                    onRowClicked={(row, event) => { agendaDialog(row) }}
+                    onRowClicked={(row, event) => { billingDialog(row) }}
                     // noContextMenu={true}
                     paginationComponentOptions={paginationBr}
-                // paginationPerPage={10}
+                    paginationPerPage={10}
                 />
                 <Box m={1}>
                     <Button color="primary" size='small' variant='contained' startIcon={<OpenInNewIcon />} target="_blank"
-                        onClick={() => agendaDialog(0)}
+                        onClick={() => billingDialog({ _id: '0' })}
                     >INCLUIR
                     </Button>
                 </Box>
             </div>
             <div>
-                <Dialog open={openAgenda} maxWidth={false}>
-                    <Agenda agendaInfo={agendaINFO}
-                        openAgendaSet={openAgendaSet}
+                <Dialog open={openBilling} maxWidth={false}>
+                    <Billing billingInfo={billingInfo}
+                        openBillingSet={openBillingSet}
                         updatedRecSet={updatedRecSet}
                         professionalList={professionalList}
                         patientList={patientList}
@@ -303,11 +312,11 @@ const Agendas = props => {
                         covenantList={covenantList}
                         covenantplanList={covenantplanList}
                     >
-                    </Agenda>
+                    </Billing>
                 </Dialog>
             </div>
         </div>
     )
 }
 
-export default Agendas
+export default BillingList

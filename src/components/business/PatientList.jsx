@@ -5,8 +5,8 @@ import DataTable from 'react-data-table-component'
 import { Button, Box, Typography, Grid, TextField, } from '@mui/material'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
-import SearchIcon from '@mui/icons-material/Search'
-
+// import SearchIcon from '@mui/icons-material/Search'
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec } from '../../services/apiconnect'
 import { customStyles1, paginationBr } from '../../services/datatablestyle'
@@ -105,9 +105,6 @@ const Patients = props => {
                 </div>
             </div>
             <div className='tool-bar-filters'>
-                <Button color='primary' size='large' id='searchButton' startIcon={<SearchIcon />}
-                    onClick={_ => refreshRec()} >
-                </Button>
                 <Grid item xs={3}>
                     <TextField
                         value={nameFilter}
@@ -147,6 +144,9 @@ const Patients = props => {
                         size='small'
                     />
                 </Grid>
+                <Button color='primary' size='large' id='searchButton' startIcon={<FilterAltIcon />}
+                    onClick={_ => refreshRec()} >
+                </Button>
             </div>
             <div className='data-table'>
                 <DataTable

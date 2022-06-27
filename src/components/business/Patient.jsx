@@ -4,7 +4,6 @@ import {
   Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
   DialogContentText, DialogTitle, MenuItem, Box
 } from "@mui/material";
-// import { Box } from "@mui/system";
 import Webcam from "react-webcam";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -18,7 +17,6 @@ import NotesIcon from '@mui/icons-material/Notes';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
-// import { useStyles } from "../../services/stylemui";
 import { getList, putRec, postRec, deleteRec } from "../../services/apiconnect";
 import { ageCalc } from "../../services/dateutils";
 import { imcCalc } from "../../services/genfunctions";
@@ -29,9 +27,6 @@ import ReqDialog from "./Request/Request"
 import { PatientContext } from '../../context/PatientContext'
 import { AuthContext } from '../../context/AuthContext'
 
-
-// import { timeBr } from '../../services/dateutils';
-
 const objectRef = "patient/";
 const objectId = "patientid/";
 
@@ -39,12 +34,13 @@ const Patient = (props) => {
 
   const { id } = useParams()
 
-  const { cityList, covenantList, stateList, relativeList, unitList } = useContext(PatientContext);
+  const { cityList, covenantList, covenantplanList, stateList, relativeList, unitList } = useContext(PatientContext);
 
   const { role } = useContext(AuthContext);
 
   const webcamRef = useRef("")
 
+  const [preCad, preCadSet] = useState(false)
   const [_id, _idSet] = useState(id)
   const [photo, photoSet] = useState("")
   const [name, nameSet] = useState("")
@@ -60,7 +56,7 @@ const Patient = (props) => {
   const [neighborhood, neighborhoodSet] = useState("")
   const [cityId, cityIdSet] = useState("")
   const [covenantId, covenantIdSet] = useState("")
-  const [covPlan, covPlanSet] = useState("")
+  const [covenantplanId, covenantplanIdSet] = useState("")
   const [covRegistration, covRegistrationSet] = useState("")
   const [covValid, covValidSet] = useState("")
   const [birthDate, birthDateSet] = useState("")
@@ -93,7 +89,7 @@ const Patient = (props) => {
   const [prescDialog, prescDialogSet] = useState(false);
   const [reqDialog, reqDialogSet] = useState(false);
 
-  const [insertMode, setInsertMode] = useState(id === "0");
+  const [insertMode, setInsertMode] = useState(id === "0" || preCad);
   const [editMode, setEditMode] = useState(id === "0");
 
   const [photoDialog, photoSetDialog] = useState(false);
@@ -119,6 +115,7 @@ const Patient = (props) => {
       getList(objectId + _id)
         .then((items) => {
           _idSet(items.record[0]._id);
+          preCadSet(items.record[0].preCad || false);
           photoSet(items.record[0].photo || "");
           nameSet(items.record[0].name || "");
           lastnameSet(items.record[0].lastname || "");
@@ -133,7 +130,7 @@ const Patient = (props) => {
           neighborhoodSet(items.record[0].neighborhood || "");
           cityIdSet(items.record[0].city_id || "");
           covenantIdSet(items.record[0].covenant_id || "");
-          covPlanSet(items.record[0].covPlan || "");
+          covenantplanIdSet(items.record[0].covenantplan_id || "");
           covRegistrationSet(items.record[0].covRegistration || "");
           covValidSet((items.record[0].covValid || "").substr(0, 10));
           birthDateSet((items.record[0].birthDate || "").substr(0, 10));
@@ -208,6 +205,7 @@ const Patient = (props) => {
     }
 
     let recObj = {
+      preCad: false,
       photo,
       name,
       lastname,
@@ -222,7 +220,7 @@ const Patient = (props) => {
       neighborhood,
       city_id: cityId || null,
       covenant_id: covenantId || null,
-      covPlan,
+      covenantplan_id: covenantplanId || null,
       covRegistration,
       covValid,
       birthDate,
@@ -317,7 +315,6 @@ const Patient = (props) => {
     textDialogSet(true)
   }
 
-
   return (
     <div>
       <div className="tool-bar">
@@ -363,17 +360,17 @@ const Patient = (props) => {
             <div className='tool-buttons2'>
               <Box mr={1} mb={1}>
                 <Button color="warning" variant="contained" size="small" startIcon={<HistoryEduIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
-                  onClick={(_) => openTextDialog()} disabled={insertMode && role == 'ADMIN' ? false : true}>HISTÓRICO
+                  onClick={(_) => openTextDialog()} disabled={insertMode || role === 'ADMIN' ? false : true}>HISTÓRICO
                 </Button>
               </Box>
               <Box mr={1}>
                 <Button color="warning" variant="contained" size="small" startIcon={<NotesIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
-                  onClick={(_) => openPresc()} disabled={insertMode && role == 'ADMIN' ? false : true} id="prescButton" >RECEITAS
+                  onClick={(_) => openPresc()} disabled={insertMode || role === 'ADMIN' ? false : true} id="prescButton" >RECEITAS
                 </Button>
               </Box>
               <Box mr={1}>
                 <Button color="warning" variant="contained" size="small" startIcon={<AssignmentIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
-                  onClick={(_) => openReq()} disabled={insertMode && role == 'ADMIN' ? false : true} id="prescButton" >SOLICITAÇÕES
+                  onClick={(_) => openReq()} disabled={insertMode || role === 'ADMIN' ? false : true} id="prescButton" >SOLICITAÇÕES
                 </Button>
               </Box>
             </div>
@@ -511,21 +508,28 @@ const Patient = (props) => {
                   select>
                   {covenantList.map((option) => (
                     <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
-                  ))}
+                    ))}
                 </TextField>
               </Grid>
               <Grid item xs={5}>
                 <TextField
-                  value={covPlan}
-                  onChange={(event) => { covPlanSet(event.target.value.toUpperCase()) }}
-                  id="covPlan"
+                  id="covenantplan"
                   label="Plano"
+                  value={covenantplanId}
+                  onChange={(event) => { covenantplanIdSet(event.target.value) }}
+                  size="small"
                   fullWidth={true}
                   disabled={!editMode}
+                  type='text'
                   InputLabelProps={{ shrink: true, disabled: false, }}
                   variant="outlined"
-                  size="small"
-                />
+                  select>
+                  {covenantplanList
+                    .filter(item => { return item.covenant_id === covenantId })
+                    .map((option) => (
+                      <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                    ))}
+                </TextField>
               </Grid>
               <Grid item xs={4}>
                 <TextField

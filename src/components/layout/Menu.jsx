@@ -62,7 +62,7 @@ const AppMenu = props => {
                             Faturamento
                         </DropdownToggle>
                         <DropdownMenu className='menu-item'>
-                            <DropdownItem className='menu-item' href="/billing">Lançamentos</DropdownItem>
+                            <DropdownItem className='menu-item' href="/billingList">Lançamentos</DropdownItem>
                             <DropdownItem className='menu-item' href="/">Relatório</DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
