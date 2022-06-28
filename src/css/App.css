@@ -131,16 +131,13 @@
 }
 
 .tool-bar-filters {
-    /* verified */
     display: flex;
     border: #a0a0a0;
     border-style: none;
-    /*solid;*/
     border-width: 1px;
     width: 90vw;
     min-height: 60px;
     background-color: #e0f0f5;
-    /* background-color: #b1e2f1; */
     padding-left: 10px;
     padding-top: 10px;
     margin-left: 3vw;
@@ -259,3 +256,17 @@ div .medicineAdd {
     padding: 70px 0;
     text-shadow: 1px 1px #ffffff;
 }
+
+.bottom-buttons {
+    margin-left: 3vw;
+    display: flex;
+    margin-top: 10px;
+    margin-right: 5px;
+    border-style: none;
+    padding: 5px 15px 5px 15px;
+    border-width: 1px;
+    width: 90vw;
+    background-color: #ffffff;
+    border-color: #a0a0a0;
+  }
+

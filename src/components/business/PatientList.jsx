@@ -88,7 +88,6 @@ const Patients = props => {
                 <div >
                     <Typography variant='h6' className='tool-title' noWrap={true}>Lista de Pacientes</Typography>
                 </div>
-
                 <div className='tool-buttons'>
                     <Box m={1}>
                         <Button color="primary" size='small' variant='contained' startIcon={<OpenInNewIcon />}

@@ -22,6 +22,7 @@ import TextTemplate from '../business/TextTemplate'
 import TextTemplateList from '../business/TextTemplateList'
 import Exam from '../business/Exam'
 import ExamList from '../business/ExamList'
+import BillingReport from '../business/BillingReport'
 
 const Content = props => {
     return (
@@ -34,6 +35,7 @@ const Content = props => {
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/agendaList" component={AgendaList} />
                     <Route exact path="/billingList" component={BillingList} />
+                    <Route exact path="/billingReport" component={BillingReport} />
                     <Route exact path="/agenda/:id" component={Agenda} />
                     <Route exact path="/covenantList" component={CovenantList} />
                     <Route exact path="/covenant/:id" component={Covenant} />

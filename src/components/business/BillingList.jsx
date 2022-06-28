@@ -202,7 +202,6 @@ const BillingList = props => {
                 <div >
                     <Typography variant='h6' className='tool-title' noWrap={true}>Lista de Lançamentos Financeiros</Typography>
                 </div>
-
                 <div className='tool-buttons'>
                     <Box m={1}>
                         <Button color='primary' size='small' variant='contained' startIcon={<KeyboardReturnIcon />}
