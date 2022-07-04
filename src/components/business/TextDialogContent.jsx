@@ -34,11 +34,11 @@ const TextDialogContent = props => {
         // if (props.textContent && !props.textContent.includes(uptoDated)) {
         if (!props.textContent) {
             console.log('passou')
-            textContentSet(`${props.textTitle}</br> <strong>${uptoDated}:</strong> </br>`)
+            textContentSet(`${props.textTitle}<br></br> <strong>${uptoDated}:</strong> &nbsp; <br></br>`)
         } else {
             if (!props.textContent.includes(uptoDated)) {
                 console.log('passou 1')
-                textContentSet(`${props.textContent} <strong>${uptoDated}:</strong> &nbsp; </br> &nbsp;`)
+                textContentSet(`${props.textContent} <strong>${uptoDated}:</strong> &nbsp; <br></br>`)
             } else {
                 console.log('passou 2')
                 textContentSet(`${props.textContent}`)
@@ -106,10 +106,11 @@ const TextDialogContent = props => {
             'dots',
             'source',
         ],
-        height: 380,
+        height: 350,
         width: 980,
         useSplitMode: true,
         autofocus: editorFocus,
+        enter: "BR",
     }
 
     const handleEditor = (newContent) => {
