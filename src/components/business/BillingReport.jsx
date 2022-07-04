@@ -12,6 +12,13 @@ import RepBillCovenantLayout from './BillingReportLayout'
 
 import { getList } from '../../services/apiconnect'
 
+var billcovenantName
+
+const setBillCovenantName = (convId, convList) => {
+  const selectedConv = convList.findIndex((item) => { return item._id === convId })
+  billcovenantName =  convList[selectedConv].name
+}
+
 const RepBillCovenant = props => {
 
   const [billcovenant, setBillCovenant] = useState('')
@@ -33,8 +40,8 @@ const RepBillCovenant = props => {
   const printDialog = () => {
     getList('billing/' + billcovenant + '/' + dateInit + '/' + dateEnd)
       .then(items => {
-        console.log(items.nota)
-        setList(items.nota)
+        console.log(items.billingList)
+        setList(items.billingList)
         setReportPreview(true)
       })
   }
@@ -58,7 +65,7 @@ const RepBillCovenant = props => {
         <Grid item xs={3}>
           <TextField
             value={billcovenant}
-            onChange={(event) => { setBillCovenant(event.target.value) }}
+            onChange={(event) => { setBillCovenant(event.target.value); setBillCovenantName(event.target.value, covenantList) }}
             id='billcovenant'
             label='Convênio'
             fullWidth={true}
@@ -125,11 +132,11 @@ const RepBillCovenant = props => {
         fullWidth={true}
         maxWidth={'md'}
       >
-        <DialogTitle id="alert-dialog-title">{"Vendas por Vendedor: "}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Faturamento por Convênio: "}</DialogTitle>
         <DialogContent>
           <RepBillCovenantLayout
             ref={refBillCovenant}
-            billcovenant={billcovenant}
+            billcovenant={billcovenantName}
             dateInit={dateInit}
             dateEnd={dateEnd}
             list={list}

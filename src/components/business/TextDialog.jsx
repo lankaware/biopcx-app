@@ -47,6 +47,7 @@ const TextDialog = props => {
   }, [patientId, props.textDialog]);
 
   useEffect(() => {
+    console.log('textTitle', textTitle)
     console.log('textContent', textContent)
     if (textContent) {
       textContentSet(textContent);
@@ -97,7 +98,6 @@ const TextDialog = props => {
   }
 
   const changeContentToCatheter = () => {
-
     updatedSet(false)
     textTitle = 'Cateterismo'
     textContent = catheter

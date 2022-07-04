@@ -1,5 +1,5 @@
 import React from "react";
-import { dateBr } from '../../services/dateutils'
+import { prettyDate } from '../../services/dateutils'
 
 const RepSalespersonLayout = React.forwardRef((props, refs) => {
   let currentMonth = ''
@@ -90,21 +90,24 @@ const RepSalespersonLayout = React.forwardRef((props, refs) => {
   }
 
   const personTitle = () => {
-    return (props.salesperson === '*' ? '(todos)' : props.salesperson)
+    return (props.billcovenant === '*' ? '(todos)' : props.billcovenant)
   }
+  
   return (
     <div ref={refs} style={{ 'marginLeft': '20px' }}>
-      <h2>Implemed</h2>
-      <h4>Vendas por Vendedor: {personTitle()}  - Período: {dateBr(props.dateInit)} a {dateBr(props.dateEnd)}</h4>
+      <h4>Biopace</h4>
+      <h4>Convênio: {personTitle()} </h4>
+      <h4>Período: {prettyDate(props.dateInit)} a {prettyDate(props.dateEnd)}</h4>
       {/* <h3>&nbsp;</h3> */}
       <table>
         <thead>
           <tr key={10007}><td>&nbsp;</td></tr>
           <tr >
-            <td style={{ 'width': '80px', 'fontWeight': 'bold' }}>Data</td>
-            <td style={{ 'textAlign': 'right', 'width': '80px', 'fontWeight': 'bold' }}>N.F.</td>
+            <td style={{ 'width': '100px', 'fontWeight': 'bold' }}>Data</td>
+            <td style={{ 'textAlign': 'left', 'width': '300px', 'fontWeight': 'bold' }}>Paciente</td>
             <td style={{ 'width': '30px' }}></td>
-            <td style={{ 'textAlign': 'left', 'width': '280px', 'fontWeight': 'bold' }}>Cliente</td>
+            <td style={{ 'textAlign': 'left', 'width': '200px', 'fontWeight': 'bold' }}>Procedimento</td>
+            <td style={{ 'textAlign': 'left', 'width': '200px', 'fontWeight': 'bold' }}>Plano</td>
             <td style={{ 'textAlign': 'right', 'width': '180px', 'fontWeight': 'bold' }}>Valor</td>
             <td style={{ 'width': '30px' }}></td>
           </tr>
@@ -114,14 +117,15 @@ const RepSalespersonLayout = React.forwardRef((props, refs) => {
           {props.list.map((item) => {
             return (
               <>
-                {totalMonth(item.DATA.substr(5, 2), item.VENDEDOR, item.TOTAL)}
-                {totalPerson(item.VENDEDOR, item.TOTAL)}
-                <tr key={item._count}>
-                  <td style={{ 'textAlign': 'rileft' }}>{dateBr(item.DATA)}</td>
-                  <td style={{ 'textAlign': 'right' }}>{item.NF}</td>
+                {/* {totalMonth(item.DATA.substr(5, 2), item.VENDEDOR, item.TOTAL)}
+                {totalPerson(item.VENDEDOR, item.TOTAL)} */}
+                <tr key={item._id}>
+                  <td style={{ 'textAlign': 'rileft' }}>{prettyDate(item.attendanceDate)}</td>
+                  <td style={{ 'textAlign': 'left' }}>{item.patient_name}</td>
                   <td style={{ 'width': '30px' }}></td>
-                  <td style={{ 'textAlign': 'left' }}>{item.CLIENTE}</td>
-                  <td style={{ 'textAlign': 'right' }}>{item.TOTAL.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                  <td style={{ 'textAlign': 'left' }}>{item.procedure_name}</td>
+                  <td style={{ 'textAlign': 'left' }}>{item.covenantplan_name}</td>
+                  <td style={{ 'textAlign': 'right' }}>{item.amount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                 </tr>
               </>
             )

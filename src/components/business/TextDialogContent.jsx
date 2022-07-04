@@ -29,13 +29,22 @@ const TextDialogContent = props => {
     }, [])
 
     useEffect(() => {
+
         let uptoDated = prettyDate(defaultDateBr())
-        if (props.textContent && !props.textContent.includes(uptoDated)) {
-            textContentSet(`${props.textContent} <strong>${uptoDated}:</strong><p> </p>`)
+        // if (props.textContent && !props.textContent.includes(uptoDated)) {
+        if (!props.textContent) {
+            console.log('passou')
+            textContentSet(`${props.textTitle}</br> <strong>${uptoDated}:</strong> </br>`)
         } else {
-            textContentSet(`${props.textContent}`)
+            if (!props.textContent.includes(uptoDated)) {
+                console.log('passou 1')
+                textContentSet(`${props.textContent} <strong>${uptoDated}:</strong> &nbsp; </br> &nbsp;`)
+            } else {
+                console.log('passou 2')
+                textContentSet(`${props.textContent}`)
+            }
         }
-    }, [props.textContent])
+    }, [props.textTitle])
 
     const columns = [
         {
@@ -116,13 +125,13 @@ const TextDialogContent = props => {
                             variant="h5"
                             className="tool-title2"
                             noWrap={true}
-                            sx={{color: '#fff', 'padding': '10px'}}
+                            sx={{ color: '#fff', 'padding': '10px' }}
                         >
                             {props.textTitle}
                         </Typography>
                     </Box>
                     <Box m={1}>
-                        <Button onClick={loadDialogOpen} variant="outlined" sx={{backgroundColor: '#fff',  '&:hover': {backgroundColor: '#d1d1e0' } }}>
+                        <Button onClick={loadDialogOpen} variant="outlined" sx={{ backgroundColor: '#fff', '&:hover': { backgroundColor: '#d1d1e0' } }}>
                             Carregar Texto Padrão
                         </Button>
                     </Box>
@@ -137,10 +146,9 @@ const TextDialogContent = props => {
                             config={config}
                             tabIndex={1} // tabIndex of textarea
                             onBlur={newContent => handleEditor(newContent)} // preferred to use only this option to update the content for performance reasons
-                            onChange={newContent => { }}
+                        // onChange={newContent => { }}
                         />
                     </div>
-
                 </Box>
             </DialogContent>
 
