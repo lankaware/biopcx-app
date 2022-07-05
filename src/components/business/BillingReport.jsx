@@ -132,7 +132,7 @@ const RepBillCovenant = props => {
         fullWidth={true}
         maxWidth={'md'}
       >
-        <DialogTitle id="alert-dialog-title">{"Faturamento por Convênio: "}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Faturamento por Convênio "}</DialogTitle>
         <DialogContent>
           <RepBillCovenantLayout
             ref={refBillCovenant}
