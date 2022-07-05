@@ -15,12 +15,20 @@ import convenantImage from "../../pictures/omid-kashmari-s34f0Wxbens-unsplash.jp
 import medicineImage from "../../pictures/madison-agardi-QNrjcp90tVc-unsplash.jpg"
 import configImage from "../../pictures/cesar-carlevarino-aragon-NL_DF0Klepc-unsplash.jpg"
 
+import styled, { css } from 'styled-components'
+
+const Logo = styled.h1`
+    font-family: "Times New Roman", Times, serif;
+    font-size: 80px;
+`
+
+
 const Home = props => {
     return (
         <div className='home-container'>
             {/* <img src={process.env.PUBLIC_URL + 'logo-cor.webp'} alt='Lankaware' weight='410' height='100' /> */}
             <Box className='home-logo'>
-                <p>LOGO</p>
+                <Logo>BIOPACE</Logo>
             </Box>
             <Box className='home-buttons' style={{
                 backgroundImage: `url(${agendaImage})`,

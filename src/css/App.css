@@ -236,6 +236,7 @@ div .medicineAdd {
 }
 
 .home-logo {
+    margin: 20px;
     flex: 1 1 90%;
     padding: 2vw;
     text-align: center;
