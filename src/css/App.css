@@ -111,13 +111,13 @@
 .menu-item {
     /* background-color: #6c757d; */
     background-color: #007bff;
-    ;
     color: #fff !important;
     border: 0ch;
 }
 
 .menu-item:hover {
     color: #000 !important;
+    /* background-color: #6c757d;; */
 }
 
 .tool-bar {
@@ -270,3 +270,18 @@ div .medicineAdd {
     border-color: #a0a0a0;
   }
 
+  .data-bottom-margin {
+    margin: 20px
+  }
+  
+.only-buttons {
+    display: flex;
+    margin-top: 0px;
+    padding: 5px 15px 5px 15px;
+    background-color: #ffffff;
+  }
+  
+  .only-buttons a:hover {
+    color: #ffffff;
+  }
+  
