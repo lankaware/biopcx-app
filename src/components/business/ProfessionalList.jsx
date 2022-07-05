@@ -102,7 +102,7 @@ const Professionals = props => {
                 <Grid item xs={3}>
                     <TextField
                         value={nameFilter}
-                        onChange={(event) => { nameFilterSet(event.target.value.toUpperCase()) }}
+                        onChange={(event) => { nameFilterSet(event.target.value) }}
                         id='nameFilter'
                         label='Nome do Profissional'
                         fullWidth={false}
@@ -115,7 +115,7 @@ const Professionals = props => {
                 <Grid item xs={3}>
                     <TextField
                         value={specialtyFilter}
-                        onChange={(event) => { specialtyFilterSet(event.target.value.toUpperCase()) }}
+                        onChange={(event) => { specialtyFilterSet(event.target.value) }}
                         id='discrFilter'
                         label='Especialidade'
                         fullWidth={false}

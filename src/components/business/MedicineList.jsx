@@ -115,7 +115,7 @@ const MedicineList = props => {
                         <Grid item xs={3}>
                             <TextField
                                 value={nameFilter}
-                                onChange={(event) => { nameFilterSet(event.target.value.toUpperCase()) }}
+                                onChange={(event) => { nameFilterSet(event.target.value) }}
                                 id='nameFilter'
                                 label='Nome do medicamento'
                                 fullWidth={false}
@@ -128,7 +128,7 @@ const MedicineList = props => {
                         <Grid item xs={3}>
                             <TextField
                                 value={chemNameFilter}
-                                onChange={(event) => { chemNameFilterSet(event.target.value.toUpperCase()) }}
+                                onChange={(event) => { chemNameFilterSet(event.target.value) }}
                                 id='chemNameFilter'
                                 label='Composto Quimico'
                                 fullWidth={false}

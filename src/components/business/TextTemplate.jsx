@@ -162,7 +162,7 @@ const TextTemplate = props => {
                     <Grid item xs={3}>
                         <TextField
                             value={name}
-                            onChange={(event) => { nameSet(event.target.value.toUpperCase()) }}
+                            onChange={(event) => { nameSet(event.target.value) }}
                             id='name'
                             label='Nome do Texto Padrão'
                             fullWidth={false}
@@ -175,7 +175,7 @@ const TextTemplate = props => {
                     <Grid item xs={3}>
                         <TextField
                             value={type}
-                            onChange={(event) => { typeSet(event.target.value.toUpperCase()) }}
+                            onChange={(event) => { typeSet(event.target.value) }}
                             id='type'
                             label='Tipo'
                             fullWidth={false}

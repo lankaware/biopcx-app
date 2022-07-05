@@ -131,7 +131,7 @@ const Procedures = props => {
                 <Grid item xs={3}>
                     <TextField
                         value={nameFilter}
-                        onChange={(event) => { nameFilterSet(event.target.value.toUpperCase()) }}
+                        onChange={(event) => { nameFilterSet(event.target.value) }}
                         id='nameFilter'
                         label='Nome do Procedimento'
                         fullWidth={false}
@@ -144,7 +144,7 @@ const Procedures = props => {
                 <Grid item xs={3}>
                     <TextField
                         value={cbhpmFilter}
-                        onChange={(event) => { cbhpmFilterSet(event.target.value.toUpperCase()) }}
+                        onChange={(event) => { cbhpmFilterSet(event.target.value) }}
                         id='discrFilter'
                         label='Código CBHPM'
                         fullWidth={false}
