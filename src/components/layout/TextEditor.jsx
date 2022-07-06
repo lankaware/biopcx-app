@@ -23,8 +23,8 @@ const TextEditor = props => {
             // 'brush',
             // 'paragraph',
             // 'image',
-            // 'table',
-            // 'link',
+             'table',
+             'link',
             // 'align',
             // 'undo',
             // 'redo',
@@ -32,9 +32,10 @@ const TextEditor = props => {
             // 'copyformat',
         ],
         height: 380,
-        width: 900, 
+        width: 1000, 
         useSplitMode: true,
         autofocus: props.autofocus,
+        enter: "BR",
     }
 
     const handleEditor = (newContent) => {

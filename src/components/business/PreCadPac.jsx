@@ -42,9 +42,9 @@ const TempPac = props => {
                 props.phoneSet(phone);
                 props.emailSet(email);
                 props.statusSet('1');
+                props.tempPacDialogSet(false);
             });
         // setRecUpdated(false)
-        props.tempPacDialogSet(false);
     };
 
     return (

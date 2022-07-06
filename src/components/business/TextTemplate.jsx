@@ -263,7 +263,7 @@ const TextTemplate = props => {
                                         Nome do paciente
                                     </TableCell>
                                 </TableRow>
-                                <TableRow key={1} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                {/* <TableRow key={1} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <TableCell component="th" scope="row">
                                         @idade
                                     </TableCell>
@@ -286,13 +286,13 @@ const TextTemplate = props => {
                                     <TableCell >
                                         Data de nasacimento do paciente
                                     </TableCell>
-                                </TableRow>
+                                </TableRow> */}
                                 <TableRow key={4} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <TableCell component="th" scope="row">
-                                        @matr
+                                        @reg
                                     </TableCell>
                                     <TableCell >
-                                        Número da matrícula interna do paciente
+                                        Número de registro interno do paciente
                                     </TableCell>
                                 </TableRow>
                                 <TableRow key={5} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
