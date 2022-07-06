@@ -402,7 +402,7 @@ const Patient = (props) => {
               <Grid item xs={5}>
                 <TextField
                   value={internalRegister}
-                  onChange={(event) => { internalRegisterSet(event.target.value.toUpperCase()) }}
+                  onChange={(event) => { internalRegisterSet(event.target.value) }}
                   id="internalRegister"
                   label="Registro Clínica *"
                   fullWidth={true}
@@ -415,7 +415,7 @@ const Patient = (props) => {
               <Grid item xs={7}>
                 <TextField
                   value={name}
-                  onChange={(event) => { nameSet(event.target.value.toUpperCase()) }}
+                  onChange={(event) => { nameSet(event.target.value) }}
                   id="name"
                   label="Nome *"
                   fullWidth={true}
@@ -428,7 +428,7 @@ const Patient = (props) => {
               <Grid item xs={5}>
                 <TextField
                   value={lastname}
-                  onChange={(event) => { lastnameSet(event.target.value.toUpperCase()) }}
+                  onChange={(event) => { lastnameSet(event.target.value) }}
                   id="lastname"
                   label="Sobrenome *"
                   fullWidth={true}
@@ -441,7 +441,7 @@ const Patient = (props) => {
               <Grid item xs={2}>
                 <TextField
                   value={gender}
-                  onChange={(event) => { genderSet(event.target.value.toUpperCase()) }}
+                  onChange={(event) => { genderSet(event.target.value) }}
                   id="gender"
                   label="Sexo *"
                   fullWidth={true}
@@ -681,7 +681,7 @@ const Patient = (props) => {
           <Grid item xs={4}>
             <TextField
               value={address}
-              onChange={(event) => { addressSet(event.target.value.toUpperCase()) }}
+              onChange={(event) => { addressSet(event.target.value) }}
               id="address"
               label="Endereço"
               fullWidth={true}
@@ -694,7 +694,7 @@ const Patient = (props) => {
           <Grid item xs={2}>
             <TextField
               value={addressNumber}
-              onChange={(event) => { addressNumberSet(event.target.value.toUpperCase()) }}
+              onChange={(event) => { addressNumberSet(event.target.value) }}
               id="addressNumber"
               label="Número"
               fullWidth={true}
@@ -707,7 +707,7 @@ const Patient = (props) => {
           <Grid item xs={4}>
             <TextField
               value={addressComplement}
-              onChange={(event) => { addressComplementSet(event.target.value.toUpperCase()) }}
+              onChange={(event) => { addressComplementSet(event.target.value) }}
               id="addressComplement"
               label="Complemento"
               fullWidth={true}
@@ -720,7 +720,7 @@ const Patient = (props) => {
           <Grid item xs={3}>
             <TextField
               value={neighborhood}
-              onChange={(event) => { neighborhoodSet(event.target.value.toUpperCase()) }}
+              onChange={(event) => { neighborhoodSet(event.target.value) }}
               id="neighborhood"
               label="Bairro"
               fullWidth={true}
@@ -765,7 +765,7 @@ const Patient = (props) => {
           <Grid item xs={4}>
             <TextField
               value={responsible}
-              onChange={(event) => { responsibleSet(event.target.value.toUpperCase()) }}
+              onChange={(event) => { responsibleSet(event.target.value) }}
               id="responsibleTemp"
               label="Responsável"
               fullWidth={true}
@@ -779,7 +779,7 @@ const Patient = (props) => {
           <Grid item xs={3}>
             <TextField
               value={responsiblePhone}
-              onChange={(event) => { responsiblePhoneSet(event.target.value.toUpperCase()) }}
+              onChange={(event) => { responsiblePhoneSet(event.target.value) }}
               id="responsiblePhone"
               label="Telefone do Responsável"
               fullWidth={true}
@@ -811,7 +811,7 @@ const Patient = (props) => {
           <Grid item xs={2}>
             <TextField
               value={relativeType}
-              onChange={(event) => { relativeTypeSet(event.target.value.toUpperCase()) }}
+              onChange={(event) => { relativeTypeSet(event.target.value) }}
               id="relativeType"
               label="Grau Parentesco"
               fullWidth={true}
@@ -849,7 +849,7 @@ const Patient = (props) => {
           <Grid item xs={3}>
             <TextField
               value={maritalStatus}
-              onChange={(event) => { maritalStatusSet(event.target.value.toUpperCase()) }}
+              onChange={(event) => { maritalStatusSet(event.target.value) }}
               id="maritalStatus"
               label="Estado Civil"
               fullWidth={true}
@@ -891,7 +891,7 @@ const Patient = (props) => {
           <Grid item xs={2}>
             <TextField
               value={rgAgency}
-              onChange={(event) => { rgAgencySet(event.target.value.toUpperCase()) }}
+              onChange={(event) => { rgAgencySet(event.target.value) }}
               id="rgAgency"
               label="Órgão Emissor"
               fullWidth={true}
@@ -922,7 +922,7 @@ const Patient = (props) => {
           <Grid item xs={3}>
             <TextField
               value={mothersName}
-              onChange={(event) => { mothersNameSet(event.target.value.toUpperCase()) }}
+              onChange={(event) => { mothersNameSet(event.target.value) }}
               id="mothersName"
               label="Nome da Mãe"
               fullWidth={true}
@@ -936,7 +936,7 @@ const Patient = (props) => {
           <Grid item xs={3}>
             <TextField
               value={fathersName}
-              onChange={(event) => { fathersNameSet(event.target.value.toUpperCase()) }}
+              onChange={(event) => { fathersNameSet(event.target.value) }}
               id="fathersName"
               label="Nome do Pai"
               fullWidth={true}
@@ -964,7 +964,7 @@ const Patient = (props) => {
           <Grid item xs={2}>
             <TextField
               value={blodyType}
-              onChange={(event) => { blodyTypeSet(event.target.value.toUpperCase()) }}
+              onChange={(event) => { blodyTypeSet(event.target.value) }}
               id="blodyType"
               label="Tipo Sanguineo"
               fullWidth={true}
@@ -978,7 +978,7 @@ const Patient = (props) => {
           <Grid item xs={3}>
             <TextField
               value={indicatedBy}
-              onChange={(event) => { indicatedBySet(event.target.value.toUpperCase()) }}
+              onChange={(event) => { indicatedBySet(event.target.value) }}
               id="indicatedBy"
               label="Indicado Por"
               fullWidth={true}

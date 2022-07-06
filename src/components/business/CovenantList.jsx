@@ -97,7 +97,7 @@ const CovenantList = props => {
                 <Grid item xs={3}>
                     <TextField
                         value={nameFilter}
-                        onChange={(event) => { nameFilterSet(event.target.value.toUpperCase()) }}
+                        onChange={(event) => { nameFilterSet(event.target.value) }}
                         id='nameFilter'
                         label='Nome do Convênio'
                         fullWidth={false}

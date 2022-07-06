@@ -124,7 +124,7 @@ const TextTemplateList = props => {
                 <Grid item xs={3}>
                     <TextField
                         value={nameFilter}
-                        onChange={(event) => { nameFilterSet(event.target.value.toUpperCase()) }}
+                        onChange={(event) => { nameFilterSet(event.target.value) }}
                         id='nameFilter'
                         label='Nome do Texto Padrão'
                         fullWidth={false}
@@ -137,7 +137,7 @@ const TextTemplateList = props => {
                 <Grid item xs={3}>
                     <TextField
                         value={typeFilter}
-                        onChange={(event) => { typeFilterSet(event.target.value.toUpperCase()) }}
+                        onChange={(event) => { typeFilterSet(event.target.value) }}
                         id='discrFilter'
                         label='Tipo do Texto'
                         fullWidth={false}

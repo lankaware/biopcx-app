@@ -226,7 +226,7 @@ const Agenda = props => {
                             id='date'
                             label='Data'
                             value={date}
-                            onChange={(event) => { dateSet(event.target.value.toUpperCase()) }}
+                            onChange={(event) => { dateSet(event.target.value) }}
                             fullWidth={true}
                             disabled={true}
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}

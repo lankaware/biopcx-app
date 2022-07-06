@@ -82,7 +82,7 @@ const RepBillCovenant = props => {
         <Grid item xs={2}>
           <TextField
             value={dateInit}
-            onChange={(event) => { setDateInit(event.target.value.toUpperCase()) }}
+            onChange={(event) => { setDateInit(event.target.value) }}
             id='dateInit'
             label='Data Inicial'
             fullWidth={false}
@@ -95,7 +95,7 @@ const RepBillCovenant = props => {
         <Grid item xs={2}>
           <TextField
             value={dateEnd}
-            onChange={(event) => { setDateEnd(event.target.value.toUpperCase()) }}
+            onChange={(event) => { setDateEnd(event.target.value) }}
             id='dateEnd'
             label='Data Final'
             fullWidth={false}

@@ -69,7 +69,7 @@ const User = props => {
                         <Grid item xs={12}>
                             <TextField
                                 value={name}
-                                onChange={(event) => { nameSet(event.target.value.toUpperCase()) }}
+                                onChange={(event) => { nameSet(event.target.value) }}
                                 id='name'
                                 label='Nome do Usuário'
                                 fullWidth={false}

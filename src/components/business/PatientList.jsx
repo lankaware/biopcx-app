@@ -107,7 +107,7 @@ const Patients = props => {
                 <Grid item xs={3}>
                     <TextField
                         value={nameFilter}
-                        onChange={(event) => { nameFilterSet(event.target.value.toUpperCase()) }}
+                        onChange={(event) => { nameFilterSet(event.target.value) }}
                         id='nameFilter'
                         label='Nome do Paciente'
                         fullWidth={false}
@@ -120,7 +120,7 @@ const Patients = props => {
                 <Grid item xs={3}>
                     <TextField
                         value={lastnameFilter}
-                        onChange={(event) => { lastnameFilterSet(event.target.value.toUpperCase()) }}
+                        onChange={(event) => { lastnameFilterSet(event.target.value) }}
                         id='lastnameFilter'
                         label='Sobrenome do Paciente'
                         fullWidth={false}
@@ -133,7 +133,7 @@ const Patients = props => {
                 <Grid item xs={3}>
                     <TextField
                         value={covenantFilter}
-                        onChange={(event) => { covenantFilterSet(event.target.value.toUpperCase()) }}
+                        onChange={(event) => { covenantFilterSet(event.target.value) }}
                         id='discrFilter'
                         label='Convênio'
                         fullWidth={false}

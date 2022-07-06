@@ -136,7 +136,7 @@ const Billing = props => {
                             id='attendanceDate'
                             label='Data'
                             value={attendanceDate}
-                            onChange={(event) => { attendanceDateSet(event.target.value.toUpperCase()) }}
+                            onChange={(event) => { attendanceDateSet(event.target.value) }}
                             fullWidth={true}
                             disabled={false}
                             InputLabelProps={{ shrink: true, disabled: false }}

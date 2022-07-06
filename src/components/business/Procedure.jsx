@@ -170,7 +170,7 @@ const Procedure = props => {
                     <Grid item xs={3}>
                         <TextField
                             value={name}
-                            onChange={(event) => { nameSet(event.target.value.toUpperCase()) }}
+                            onChange={(event) => { nameSet(event.target.value) }}
                             id='name'
                             label='Nome do Procedimento'
                             fullWidth={false}
@@ -183,7 +183,7 @@ const Procedure = props => {
                     <Grid item xs={3}>
                         <TextField
                             value={cbhpm}
-                            onChange={(event) => { cbhpmSet(event.target.value.toUpperCase()) }}
+                            onChange={(event) => { cbhpmSet(event.target.value) }}
                             id='cbhpm'
                             label='Código DBHPM'
                             fullWidth={false}
