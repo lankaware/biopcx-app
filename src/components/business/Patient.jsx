@@ -193,11 +193,11 @@ const Patient = (props) => {
       setEmptyRecDialog(true);
       return null;
     }
-    if (!internalRegister) {
-      setEmptyFieldDialog('Registro Clínica')
-      setEmptyRecDialog(true);
-      return null;
-    }
+    // if (!internalRegister) {
+    //   setEmptyFieldDialog('Registro Clínica')
+    //   setEmptyRecDialog(true);
+    //   return null;
+    // }
     if (!unitId) {
       setEmptyFieldDialog('Unidade')
       setEmptyRecDialog(true);
