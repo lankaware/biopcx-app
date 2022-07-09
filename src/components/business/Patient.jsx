@@ -20,7 +20,8 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import { getList, putRec, postRec, deleteRec } from "../../services/apiconnect";
 import { ageCalc } from "../../services/dateutils";
 import { imcCalc } from "../../services/genfunctions";
-import TextDialog from "./TextDialog.jsx";
+// import TextDialog from "./TextDialog.jsx";
+import TextDialogNew from "./TextDialogNew.jsx";
 import PrescDialog from "./Prescription/Prescription";
 import ReqDialog from "./Request/Request"
 
@@ -1040,7 +1041,7 @@ const Patient = (props) => {
         callUpdate={setRecUpdated}
       />
 
-      <TextDialog
+      {/* <TextDialog
         textDialog={textDialog}
         textDialogSet={textDialogSet}
         patientId={_id}
@@ -1049,6 +1050,13 @@ const Patient = (props) => {
         reqListSet={reqListSet}
         prescList={prescList}
         prescListSet={prescListSet}
+        callUpdate={setRecUpdated}
+      /> */}
+
+      <TextDialogNew
+        textDialog={textDialog}
+        textDialogSet={textDialogSet}
+        patientId={_id}
         callUpdate={setRecUpdated}
       />
 
