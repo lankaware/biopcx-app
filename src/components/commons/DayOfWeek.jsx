@@ -1,36 +1,36 @@
 export const DaysOfWeek = [
   {
-    value: 1,
+    value: 0,
     label: 'domingo'
   },
   {
-    value: 2,
+    value: 1,
     label: 'segunda-feira'
   },
   {
-    value: 3,
+    value: 2,
     label: 'terça-feira'
   },
   {
-    value: 4,
+    value: 3,
     label: 'quarta-feira'
   },
   {
-    value: 5,
+    value: 4,
     label: 'quinta-feira'
   },
   {
-    value: 6,
+    value: 5,
     label: 'sexta-feira'
   },
   {
-    value: 7,
+    value: 6,
     label: 'sábado'
   },
 ]
 
 export function dayOfWeekLabel (dayNumber) {
-  return DaysOfWeek[(dayNumber - 1)].label
+  return DaysOfWeek[(dayNumber)].label
 }
 
 export function dayOfWeekIndex (weekName) {

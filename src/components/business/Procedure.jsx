@@ -22,7 +22,7 @@ const Procedure = props => {
 
     let { id } = useParams()
 
-    const [_id, _idSet] = useState('')
+    const [_id, _idSet] = useState(id)
     const [name, nameSet] = useState('')
     const [cbhpm, cbhpmSet] = useState('')
     const [carry, carrySet] = useState('')

@@ -6,6 +6,13 @@ export function dateBr(argDate) {
   return tempDate.toLocaleDateString()
 }
 
+export function stdTime(argTime) {
+  if (!argTime) return ''
+  const tempDate = new Date(argTime)
+  return tempDate.toLocaleTimeString('pt-BR', { timeZone: 'UTC' })
+  //return tempDate.toLocaleTimeString()
+}
+
 export function timeBr(argTime) {
   if (!argTime) return ''
   const tempDate = new Date(argTime)
