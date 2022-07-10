@@ -920,7 +920,7 @@ const Patient = (props) => {
               ))}
             </TextField>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <TextField
               value={mothersName}
               onChange={(event) => { mothersNameSet(event.target.value) }}
@@ -934,7 +934,7 @@ const Patient = (props) => {
               inputProps={{ type: "text" }}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <TextField
               value={fathersName}
               onChange={(event) => { fathersNameSet(event.target.value) }}
