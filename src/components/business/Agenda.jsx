@@ -14,7 +14,7 @@ import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
 import TempPac from './PreCadPac'
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec, postRec, deleteRec } from '../../services/apiconnect'
-import { timeBr } from '../../services/dateutils'
+import { timeBr, stdTime } from '../../services/dateutils';
 
 const objectRef = 'agenda/'
 const objectId = 'agendaid/'
@@ -121,8 +121,10 @@ const Agenda = props => {
         }
         let recObj = {
             date,
-            initialTime: '1970-01-01T' + initialTime,
-            finalTime: '1970-01-01T' + finalTime,
+            // initialTime: '1970-01-01T' + initialTime,
+            // finalTime: '1970-01-01T' + finalTime,
+            initialTime: '1970-01-01T' + stdTime('1970-01-01T' + initialTime),
+            finalTime: '1970-01-01T' + stdTime('1970-01-01T' + finalTime),
             professional_id: professionalId || null,
             patient_id: patientId || null,
             procedure_id: procedureId || null,

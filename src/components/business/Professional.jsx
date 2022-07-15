@@ -132,8 +132,8 @@ const Professional = props => {
                 } else {
                     return {
                         weekDay: item.weekDay,
-                        initialTime: '1970-01-01T' + item.initialTime,
-                        finalTime: '1970-01-01T' + item.finalTime,
+                        initialTime: '1970-01-01T' + stdTime('1970-01-01T' + item.initialTime),
+                        finalTime: '1970-01-01T' + stdTime('1970-01-01T' + item.finalTime),
                         interval: item.interval
                     }
                 }
