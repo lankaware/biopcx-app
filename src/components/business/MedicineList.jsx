@@ -93,7 +93,6 @@ const MedicineList = props => {
                         <div >
                             <Typography variant='h6' className='tool-title medicine' noWrap={true}>Lista de Medicamentos</Typography>
                         </div>
-
                         <div className='tool-buttons medicine'>
                             {/* <Box m={1}>
                                 <Button color="primary" size='small' variant='contained' startIcon={<OpenInNewIcon />}
@@ -112,31 +111,33 @@ const MedicineList = props => {
                         <Button color='primary' size='large' id='searchButton' startIcon={<SearchIcon />}
                             onClick={_ => refreshRec()} >
                         </Button>
-                        <Grid item xs={3}>
-                            <TextField
-                                value={nameFilter}
-                                onChange={(event) => { nameFilterSet(event.target.value) }}
-                                id='nameFilter'
-                                label='Nome do medicamento'
-                                fullWidth={false}
-                                InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                                onKeyPress={(e) => { launchSearch(e) }}
-                                variant='outlined'
-                                size='small'
-                            />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <TextField
-                                value={chemNameFilter}
-                                onChange={(event) => { chemNameFilterSet(event.target.value) }}
-                                id='chemNameFilter'
-                                label='Composto Quimico'
-                                fullWidth={false}
-                                InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                                onKeyPress={(e) => { launchSearch(e) }}
-                                variant='outlined'
-                                size='small'
-                            />
+                        <Grid container spacing={2} >
+                            <Grid item xs={3}>
+                                <TextField
+                                    value={nameFilter}
+                                    onChange={(event) => { nameFilterSet(event.target.value) }}
+                                    id='nameFilter'
+                                    label='Nome do medicamento'
+                                    fullWidth={false}
+                                    InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                                    onKeyPress={(e) => { launchSearch(e) }}
+                                    variant='outlined'
+                                    size='small'
+                                />
+                            </Grid>
+                            <Grid item xs={3}>
+                                <TextField
+                                    value={chemNameFilter}
+                                    onChange={(event) => { chemNameFilterSet(event.target.value) }}
+                                    id='chemNameFilter'
+                                    label='Composto Quimico'
+                                    fullWidth={false}
+                                    InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                                    onKeyPress={(e) => { launchSearch(e) }}
+                                    variant='outlined'
+                                    size='small'
+                                />
+                            </Grid>
                         </Grid>
                     </div>
                     <div className='data-table medicine'>
@@ -161,11 +162,13 @@ const MedicineList = props => {
                 </div>
             </Box>
 
-            <Medicine id={id}
+            <Medicine
+                id={id}
                 insertMode={insertMode}
                 setInsertMode={setInsertMode}
                 editMode={editMode}
-                setEditMode={setEditMode} />
+                setEditMode={setEditMode}
+            />
         </>
     )
 

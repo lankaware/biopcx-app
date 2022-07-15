@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 // import { useParams } from "react-router-dom";
 import {
-  Grid, TextField, Typography, Button, Dialog, DialogActions, MenuItem, DialogContent, DialogContentText, DialogTitle, 
+  Grid, TextField, Typography, Button, Dialog, DialogActions, MenuItem, DialogContent, DialogContentText, DialogTitle,
 } from "@mui/material";
 
 // import EditIcon from "@mui/icons-material/Edit";
@@ -20,12 +20,14 @@ const objectId = "medicineid/";
 const Medicine = (props) => {
   let id = props.id;
 
-  const [_id, _idSet] = useState(id);
-  const [name, nameSet] = useState("");
-  const [chemName, chemNameSet] = useState("");
-  const [wayOfuse, wayOfuseSet] = useState("");
-  const [dosage, dosageSet] = useState("");
-  const [lab, labSet] = useState("");
+  console.log("id", typeof (id));
+
+        const [_id, _idSet] = useState(id);
+        const [name, nameSet] = useState("");
+        const [chemName, chemNameSet] = useState("");
+        const [wayOfuse, wayOfuseSet] = useState("");
+        const [dosage, dosageSet] = useState("");
+        const [lab, labSet] = useState("");
 
   const [nameTemp, nameSetTemp] = useState("");
   const [chemNameTemp, chemNameSetTemp] = useState("");
@@ -49,20 +51,12 @@ const Medicine = (props) => {
     console.log(id)
     if (id !== "0") {
       getList(objectId + id).then((items) => {
-        console.log("Test", items);
-        console.log("Test 2", items.record);
-
         _idSet(items.record._id)
         nameSet(items.record.name || "");
         chemNameSet(items.record.chemName || "");
         wayOfuseSet(items.record.wayOfuse || "");
         dosageSet(items.record.dosage || "");
-        labSet(items.record.lab || "");
-        nameSetTemp(items.record.name || "");
-        chemNameSetTemp(items.record.chemName || "");
-        wayOfuseSetTemp(items.record.wayOfuse || "");
-        dosageSetTemp(items.record.dosage || "");
-        labSetTemp(items.record.lab || "");
+        labSet(items.record.lab || "")
       });
     }
   }, [id]);
@@ -118,8 +112,14 @@ const Medicine = (props) => {
   };
 
   const delConfirm = () => {
-    console.log("_id", _id);
     deleteRec(objectId + _id).then((result) => { });
+    setInsertMode(true);
+    _idSet('0')
+    nameSet("");
+    chemNameSet("");
+    wayOfuseSet("");
+    dosageSet("");
+    labSet("")
     setDeleteDialog(false);
     setDeleteInfoDialog(true);
   };
@@ -247,18 +247,6 @@ const Medicine = (props) => {
               size="small"
             />
           </Grid>
-          {/* <Box m={1}>
-              <Button
-                color="primary"
-                variant="contained"
-                size="small"
-                startIcon={<EditIcon />}
-                onClick={(_) => setEditMode(true)}
-                disabled={editMode}
-              >
-                EDITAR
-              </Button>
-            </Box> */}
           <Grid item xs={4}>
             <Button
               color="primary"
@@ -292,7 +280,7 @@ const Medicine = (props) => {
               size="small"
               startIcon={<DeleteForeverIcon />}
               onClick={(_) => delRec()}
-              disabled={editMode}
+              disabled={!editMode && _id !== "0"}
             >
               APAGAR
             </Button>
