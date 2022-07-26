@@ -247,34 +247,34 @@ const Professional = props => {
                 </div>
             </div>
             <div className='data-form'>
-                <Grid container spacing={2} >
+                <Grid container spacing={1} >
                     <Grid item xs={3}>
                         <TextField
                             value={name}
                             onChange={(event) => { nameSet(event.target.value) }}
                             id='name'
                             label='Nome do Profissional'
-                            fullWidth={false}
+                            fullWidth={true}
                             disabled={!insertMode}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            variant='outlined'
+                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+                            variant='standard'
                             size='small'
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={2}>
                         <TextField
                             value={cpf}
                             onChange={(event) => { cpfSet(event.target.value) }}
                             id='cpf'
                             label='CPF'
-                            fullWidth={false}
+                            fullWidth={true}
                             disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            variant='outlined'
+                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+                            variant='standard'
                             size='small'
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={2}>
                         <TextField
                             id='specialty'
                             label='Especialidade'
@@ -284,108 +284,109 @@ const Professional = props => {
                             fullWidth={true}
                             disabled={!editMode}
                             type='text'
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+                            variant='standard'
                             select>
                             {specialtyList.map((option) => (
                                 <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
                             ))}
                         </TextField>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={1}>
                         <TextField
                             value={crm}
                             onChange={(event) => { crmSet(event.target.value) }}
                             id='crm'
                             label='CRM'
-                            fullWidth={false}
+                            fullWidth={true}
                             disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            variant='outlined'
+                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+                            variant='standard'
                             size='small'
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={2}>
                         <TextField
                             value={email}
                             onChange={(event) => { emailSet(event.target.value) }}
                             id='email'
                             label='Email'
-                            fullWidth={false}
+                            fullWidth={true}
                             disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            variant='outlined'
+                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+                            variant='standard'
                             size='small'
                         // inputProps={{ type: 'number' }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={2}>
                         <TextField
                             value={phone}
                             onChange={(event) => { phoneSet(event.target.value) }}
                             id='phone'
                             label='Fone'
-                            fullWidth={false}
+                            fullWidth={true}
                             disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            variant='outlined'
+                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+                            variant='standard'
                             size='small'
                         // inputProps={{ type: 'number' }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
-                        <TextField
-                            value={admissionDate}
-                            onChange={(event) => { admissionDateSet(event.target.value) }}
-                            id='admissionDate'
-                            label='Data de Registro'
-                            fullWidth={false}
-                            disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            variant='outlined'
-                            size='small'
-                            inputProps={{ type: 'date' }}
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TextField
-                            value={dismissalDate}
-                            onChange={(event) => { dismissalDateSet(event.target.value) }}
-                            id='dismissalDate'
-                            label='Desligamento'
-                            fullWidth={false}
-                            disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            variant='outlined'
-                            size='small'
-                            inputProps={{ type: 'date' }}
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={2}>
                         <TextField
                             value={cns}
                             onChange={(event) => { cnsSet(event.target.value) }}
                             id='cns'
                             label='CNS'
-                            fullWidth={false}
+                            fullWidth={true}
                             disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            variant='outlined'
+                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+                            variant='standard'
                             size='small'
                         // inputProps={{ type: 'number' }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={2}>
                         <TextField
                             value={cbo}
                             onChange={(event) => { cboSet(event.target.value) }}
                             id='cbo'
                             label='CBO'
-                            fullWidth={false}
+                            fullWidth={true}
                             disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            variant='outlined'
+                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+                            variant='standard'
                             size='small'
                         // inputProps={{ type: 'number' }}
+                        />
+                    </Grid>
+                    <Grid item xs={2}>
+                        <TextField
+                            value={admissionDate}
+                            onChange={(event) => { admissionDateSet(event.target.value) }}
+                            id='admissionDate'
+                            label='Data de Registro'
+                            fullWidth={true}
+                            disabled={!editMode}
+                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+                            variant='standard'
+                            size='small'
+                            inputProps={{ type: 'date' }}
+                        />
+                    </Grid>
+                    <Grid item xs={2}>
+                        <TextField
+                            value={dismissalDate}
+                            onChange={(event) => { dismissalDateSet(event.target.value) }}
+                            id='dismissalDate'
+                            label='Desligamento'
+                            fullWidth={true}
+                            disabled={!editMode}
+                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+                            variant='standard'
+                            size='small'
+                            inputProps={{ type: 'date' }}
                         />
                     </Grid>
                     <Grid item xs={3}>
