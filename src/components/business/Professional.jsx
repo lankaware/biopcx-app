@@ -19,7 +19,7 @@ import TabPanel, { posTab } from '../commons/TabPanel'
 import { theme } from '../../services/customtheme'
 
 import ProfessionalAvailability from './ProfessionalAvailability'
-import { timeBr } from '../../services/dateutils';
+import { timeBr, stdTime } from '../../services/dateutils';
 
 const objectRef = 'professional/'
 const objectId = 'professionalid/'
@@ -89,8 +89,8 @@ const Professional = props => {
                             'finalTime': timeBr(subItem.finalTime) || '00:00',
                             'interval': subItem.interval,
                         }
-                        console.log('subItem.initialTime', timeBr(subItem.initialTime))
-                        console.log('newLine', newLine)
+                        console.log('subItem.initialTime', subItem.initialTime)
+                        console.log('subItem.initialTime BR', timeBr(subItem.initialTime))
                         tempList = ([...tempList, newLine])
                     }
                     availabilityListSet(tempList)
@@ -125,8 +125,8 @@ const Professional = props => {
                     return {
                         _id: item._id,
                         weekDay: item.weekDay,
-                        initialTime: '1970-01-01T' + item.initialTime,
-                        finalTime: '1970-01-01T' + item.finalTime,
+                        initialTime: '1970-01-01T' + stdTime('1970-01-01T' + item.initialTime),
+                        finalTime: '1970-01-01T' + stdTime('1970-01-01T' + item.finalTime),
                         interval: item.interval
                     }
                 } else {
