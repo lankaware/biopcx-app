@@ -18,20 +18,19 @@ const objectId = "examid/";
 
 
 const Exam = (props) => {
-    let id = props.id;
-
-    const [_id, _idSet] = useState(id);
     const [name, nameSet] = useState("");
     const [description, descriptionSet] = useState("");
 
     const [recUpdated, setRecUpdated] = useState(true)
 
 
-
+    let _id = props._id;
+    let _idSet = props._idSet;
     let insertMode = props.insertMode;
     let setInsertMode = props.setInsertMode;
     let editMode = props.editMode;
     let setEditMode = props.setEditMode;
+    let setUpdateList = props.setUpdateList;
 
     const [deleteDialog, setDeleteDialog] = useState(false);
     const [deleteInfoDialog, setDeleteInfoDialog] = useState(false);
@@ -41,21 +40,19 @@ const Exam = (props) => {
     const classes = useStyles();
 
     useEffect(() => {
-        console.log(id)
-        if (id !== "0") {
-            getList(objectId + id).then((items) => {
-                console.log("Test", items);
-                console.log("Test 2", items.record);
-
+        console.log("Exam Insert Mode", insertMode)
+        if (_id !== '0') {
+            getList(objectId + _id).then((items) => {
                 _idSet(items.record._id)
                 nameSet(items.record.name || "");
                 descriptionSet(items.record.description || "")
             });
         }
-        setRecUpdated(true);
-    }, [id, recUpdated]);
+        // setRecUpdated(true);
+    }, [_id]); // recUpdated
 
     const saveRec = () => {
+        console.log("Exam save Rec", insertMode)
         if (!name) {
             setEmptyRecDialog(true);
             return null;
@@ -65,29 +62,27 @@ const Exam = (props) => {
             name,
             description
         };
-        if (_id !== "0") {
+        if (_id !== '0') {
             recObj = JSON.stringify(recObj);
             putRec(objectId + _id, recObj)
         } else {
             recObj = JSON.stringify(recObj);
             postRec(objectRef, recObj)
-                .then((result) => {
-                    _idSet(result.record._id);
-                });
+            setUpdateList(true);
         }
-
-        setEditMode(false);
-        setInsertMode(false);
+        setInsertMode(true);
+        _idSet('0');
+        nameSet("");
+        descriptionSet("");
+        console.log(_id);
     };
 
     const refreshRec = () => {
-        if (insertMode) {
-            document.getElementById("backButton").click();
-        }
+        setInsertMode(true)
+        _idSet('0');
         nameSet("");
-
-        setRecUpdated(false)
-        setEditMode(false);
+        descriptionSet("")
+        // setRecUpdated(false)
     };
 
     const delRec = () => {
@@ -96,17 +91,17 @@ const Exam = (props) => {
 
     const delConfirm = () => {
         console.log("_id", _id);
-        deleteRec(objectId + _id).then((result) => { });
+        deleteRec(objectId + _id);
+        _idSet('0')
+        nameSet("");
+        descriptionSet("")
+        setInsertMode(true)
+        setRecUpdated(false)
         setDeleteDialog(false);
-        setDeleteInfoDialog(true);
     };
 
     const delCancel = () => {
         setDeleteDialog(false);
-    };
-
-    const delInformClose = () => {
-        document.getElementById("backButton").click();
     };
 
     const emptyRecClose = () => {
@@ -199,7 +194,7 @@ const Exam = (props) => {
                             size="small"
                             startIcon={<DeleteForeverIcon />}
                             onClick={(_) => delRec()}
-                            disabled={editMode}
+                            disabled={_id === '0' ? true : false }
                         >
                             APAGAR
                         </Button>
@@ -236,22 +231,6 @@ const Exam = (props) => {
                     </Button>
                     <Button onClick={delConfirm} color="secondary" variant="contained">
                         Confirmar
-                    </Button>
-                </DialogActions>
-            </Dialog>
-
-            <Dialog open={deleteInfoDialog}>
-                <DialogTitle id="alert-dialog-title">
-                    {"Registro removido do cadastro."}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Clique para voltar a lista.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={delInformClose} color="primary" variant="contained">
-                        Ok
                     </Button>
                 </DialogActions>
             </Dialog>

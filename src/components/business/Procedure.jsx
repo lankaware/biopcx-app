@@ -23,16 +23,18 @@ const Procedure = props => {
     let { id } = useParams()
 
     const [_id, _idSet] = useState(id)
+
     const [name, nameSet] = useState('')
     const [cbhpm, cbhpmSet] = useState('')
     const [carry, carrySet] = useState('')
 
-    const [nameTemp, nameSetTemp] = useState('')
-    const [cbhpmTemp, cbhpmSetTemp] = useState('')
-    const [carryTemp, carrySetTemp] = useState('')
-
-    const [insertMode, setInsertMode] = useState(id === '0')
-    const [editMode, setEditMode] = useState(id === '0')
+    let _id = props._id
+    let _idSet = props._idSet
+    let insertMode = props.insertMode;
+    let setInsertMode = props.setInsertMode;
+    let editMode = props.editMode;
+    let setEditMode = props.setEditMode;
+    let setUpdateList = props.setUpdateList;
 
     const [deleteDialog, setDeleteDialog] = useState(false)
     const [deleteInfoDialog, setDeleteInfoDialog] = useState(false)
@@ -41,20 +43,16 @@ const Procedure = props => {
     const classes = useStyles()
 
     useEffect(() => {
-        if (id !== '0') {
-            getList(objectId + id)
+        if (_id !== '0') {
+            getList(objectId + _id)
                 .then(items => {
                     _idSet(items.record._id)
                     nameSet(items.record.name)
                     cbhpmSet(items.record.cbhpm)
                     carrySet(items.record.carry)
-
-                    nameSetTemp(items.record.name)
-                    cbhpmSetTemp(items.record.cbhpm)
-                    carrySetTemp(items.record.carry)
                 })
         }
-    }, [id])
+    }, [_id])
 
     const saveRec = () => {
         if (!name) {
@@ -75,34 +73,28 @@ const Procedure = props => {
                 if (_id !== '0') {
                     recObj = JSON.stringify(recObj)
                     putRec(objectId + _id, recObj)
-                        .then(result => {
-                            console.log('put', result)
-                        })
                 } else {
                     recObj = JSON.stringify(recObj)
                     postRec(objectRef, recObj)
-                        .then(result => {
-                            _idSet(result.record._id)
-                        })
+                    setUpdateList(true)
                 }
-                nameSetTemp(name)
-                cbhpmSetTemp(cbhpm)
-                carrySetTemp(carry)
-
-                setEditMode(false)
-                setInsertMode(false)
             })
+            _idSet('0');
+            nameSet("");
+            cbhpmSet("");
+            carrySet("");
+            setInsertMode(true);
     }
 
     const refreshRec = () => {
         if (insertMode) {
             document.getElementById("backButton").click();
         }
-        nameSet(nameTemp)
-        cbhpmSet(cbhpmTemp)
-        carrySet(carryTemp)
-
-        setEditMode(false)
+        setInsertMode(true);
+        _idSet('0')
+        nameSet("")
+        cbhpmSet("")
+        carrySet("")
     }
 
     const delRec = () => {
@@ -110,20 +102,17 @@ const Procedure = props => {
     }
 
     const delConfirm = () => {
-        deleteRec(objectId + _id)
-            .then(result => {
-                console.log(result)
-            })
+        deleteRec(objectId + _id);
+        _idSet('0')
+        nameSet("")
+        cbhpmSet("")
+        carrySet("")
+        props.setInsertMode(true);
         setDeleteDialog(false)
-        setDeleteInfoDialog(true)
     }
 
     const delCancel = () => {
         setDeleteDialog(false)
-    }
-
-    const delInformClose = () => {
-        document.getElementById("backButton").click();
     }
 
     const emptyRecClose = () => {
@@ -132,11 +121,11 @@ const Procedure = props => {
 
     return (
         <div>
-            <div className='tool-bar'>
+            <div className='tool-bar medicineAdd'>
                 <div >
                     <Typography variant='h5' className='tool-title' noWrap={true}>Registro de Procedimento</Typography>
                 </div>
-                <div className='tool-buttons'>
+                {/* <div className='tool-buttons medicineAdd'>
                     <Box m={1}>
 
                         <Button color='primary' variant='contained' size='small' startIcon={<EditIcon />}
@@ -163,49 +152,87 @@ const Procedure = props => {
                             href="/procedureList" id='backButton' disabled={editMode}>VOLTAR
                         </Button>
                     </Box>
-                </div>
+                </div> */}
             </div>
-            <div className='data-form'>
-                <Grid container spacing={2} >
-                    <Grid item xs={3}>
+            <div className='data-form medicineAdd'>
+                <Grid container spacing={2} sx={{ width: 1 }}>
+                    <Grid item xs={12}>
                         <TextField
                             value={name}
                             onChange={(event) => { nameSet(event.target.value) }}
                             id='name'
                             label='Nome do Procedimento'
-                            fullWidth={false}
+                            fullWidth={true}
                             disabled={!insertMode}
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                             variant='outlined'
                             size='small'
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={12}>
                         <TextField
                             value={cbhpm}
                             onChange={(event) => { cbhpmSet(event.target.value) }}
                             id='cbhpm'
-                            label='Código DBHPM'
-                            fullWidth={false}
+                            label='Código CBHPM'
+                            fullWidth={true}
                             disabled={!editMode}
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                             variant='outlined'
                             size='small'
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={12}>
                         <TextField
                             value={carry}
                             onChange={(event) => { carrySet(event.target.value) }}
                             id='carry'
                             label='Porte'
-                            fullWidth={false}
+                            fullWidth={true}
                             disabled={!editMode}
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                             variant='outlined'
                             size='small'
                         // inputProps={{ type: 'number' }}
                         />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Button
+                            color="primary"
+                            variant="contained"
+                            size="small"
+                            startIcon={<SaveAltIcon />}
+                            onClick={(_) => saveRec()}
+                            disabled={!editMode}
+                        >
+                            SALVAR
+                        </Button>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Button
+                            color="primary"
+                            variant="contained"
+                            size="small"
+                            startIcon={<CancelIcon />}
+                            onClick={(_) => {
+                                refreshRec()
+                            }}
+                            disabled={!editMode}
+                        >
+                            CANCELAR
+                        </Button>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Button
+                            color="primary"
+                            variant="contained"
+                            size="small"
+                            startIcon={<DeleteForeverIcon />}
+                            onClick={(_) => delRec()}
+                            disabled={_id === '0' ? true : false }
+                        >
+                            APAGAR
+                        </Button>
                     </Grid>
                 </Grid>
             </div>
@@ -225,23 +252,6 @@ const Procedure = props => {
                     </Button>
                     <Button onClick={delConfirm} color="secondary" variant='contained'>
                         Confirmar
-                    </Button>
-                </DialogActions>
-            </Dialog>
-
-            <Dialog
-                open={deleteInfoDialog}
-            // onClose={delInformClose}
-            >
-                <DialogTitle id="alert-dialog-title">{"Registro removido do cadastro."}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Clique para voltar a lista.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={delInformClose} color="primary" variant='contained'>
-                        Ok
                     </Button>
                 </DialogActions>
             </Dialog>

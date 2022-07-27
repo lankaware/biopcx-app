@@ -9,10 +9,19 @@ import SearchIcon from '@mui/icons-material/Search'
 
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec } from '../../services/apiconnect'
+import Procedure from './Procedure'
+
 
 const objectRef = 'procedure/'
 
-const Procedures = props => {
+const ProcedureList = props => {
+    const [_id, _idSet] = useState('0');
+
+    const [insertMode, setInsertMode] = useState(_id === '0');
+    const [editMode, setEditMode] = useState(_id === '0');
+
+    const [updateList, setUpdateList] = useState(false);
+
 
     const customStyles = {
         table: {
@@ -45,7 +54,11 @@ const Procedures = props => {
             selector: row => row.name,
             sortable: true,
             width: '20vw',
-            cell: row => (<Link to={"/procedure/" + row._id}>{row.name}</Link>)
+            cell: row => (<Link to="/" onClick={(e) => {
+                e.preventDefault()
+                setInsertMode(false)
+                _idSet(row._id)
+            }}>{row.name}</Link>)
         },
         {
             name: 'Código CBHPM',
@@ -78,8 +91,9 @@ const Procedures = props => {
         getList(objectRef)
             .then(items => {
                 setList(items.record)
+                setUpdateList(false);
             })
-    }, [])
+    }, [insertMode, updateList])
 
     const refreshRec = () => {
         let recObj = {}
@@ -105,14 +119,15 @@ const Procedures = props => {
     }
 
     return (
-        <div>
-            <div className='tool-bar'>
-                <div >
-                    <Typography variant='h6' className='tool-title' noWrap={true}>Lista de Procedimentos</Typography>
-                </div>
+        <>
+            <div>
+                <div className='tool-bar medicine'>
+                    <div >
+                        <Typography variant='h6' className='tool-title' noWrap={true}>Lista de Procedimentos</Typography>
+                    </div>
 
-                <div className='tool-buttons'>
-                    <Box m={1}>
+                    <div className='tool-buttons medicine'>
+                        {/* <Box m={1}>
                         <Button color="primary" size='small' variant='contained' startIcon={<OpenInNewIcon />}
                             href="/procedure/0">INCLUIR
                         </Button>
@@ -121,62 +136,73 @@ const Procedures = props => {
                         <Button color='primary' size='small' variant='contained' startIcon={<KeyboardReturnIcon />}
                             href="/" id='backButton'>VOLTAR
                         </Button>
-                    </Box>
+                    </Box> */}
+                    </div>
+                </div>
+                <div className='tool-bar-filters medicine'>
+                    <Grid container spacing={2} >
+                        <Button color='primary' size='large' id='searchButton' startIcon={<SearchIcon />}
+                            onClick={_ => refreshRec()} >
+                        </Button>
+                        <Grid item xs={3}>
+                            <TextField
+                                value={nameFilter}
+                                onChange={(event) => { nameFilterSet(event.target.value) }}
+                                id='nameFilter'
+                                label='Nome do Procedimento'
+                                fullWidth={false}
+                                InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                                onKeyPress={(e) => { launchSearch(e) }}
+                                variant='outlined'
+                                size='small'
+                            />
+                        </Grid>
+                        <Grid item xs={3}>
+                            <TextField
+                                value={cbhpmFilter}
+                                onChange={(event) => { cbhpmFilterSet(event.target.value) }}
+                                id='discrFilter'
+                                label='Código CBHPM'
+                                fullWidth={false}
+                                InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                                onKeyPress={(e) => { launchSearch(e) }}
+                                variant='outlined'
+                                size='small'
+                            />
+                        </Grid>
+                    </Grid>
+                </div>
+                <div className='data-table medicine'>
+                    <DataTable
+                        // title=""
+                        noHeader={true}
+                        columns={columns}
+                        customStyles={customStyles}
+                        data={list}
+                        // selectableRows 
+                        Clicked
+                        onSelectedRowsChange={handleChange}
+                        keyField={'_id'}
+                        highlightOnHover={true}
+                        pagination={true}
+                        fixedHeader={true}
+                        // noContextMenu={true}
+                        paginationComponentOptions={paginationBr}
+                        paginationPerPage={10}
+                    />
                 </div>
             </div>
-            <div className='tool-bar-filters'>
-                <Button color='primary' size='large' id='searchButton' startIcon={<SearchIcon />}
-                    onClick={_ => refreshRec()} >
-                </Button>
-                <Grid item xs={3}>
-                    <TextField
-                        value={nameFilter}
-                        onChange={(event) => { nameFilterSet(event.target.value) }}
-                        id='nameFilter'
-                        label='Nome do Procedimento'
-                        fullWidth={false}
-                        InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                        onKeyPress={(e) => { launchSearch(e) }}
-                        variant='outlined'
-                        size='small'
-                    />
-                </Grid>
-                <Grid item xs={3}>
-                    <TextField
-                        value={cbhpmFilter}
-                        onChange={(event) => { cbhpmFilterSet(event.target.value) }}
-                        id='discrFilter'
-                        label='Código CBHPM'
-                        fullWidth={false}
-                        InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                        onKeyPress={(e) => { launchSearch(e) }}
-                        variant='outlined'
-                        size='small'
-                    />
-                </Grid>
-            </div>
-            <div className='data-table'>
-                <DataTable
-                    // title=""
-                    noHeader={true}
-                    columns={columns}
-                    customStyles={customStyles}
-                    data={list}
-                    // selectableRows 
-                    Clicked
-                    onSelectedRowsChange={handleChange}
-                    keyField={'_id'}
-                    highlightOnHover={true}
-                    pagination={true}
-                    fixedHeader={true}
-                    // noContextMenu={true}
-                    paginationComponentOptions={paginationBr}
-                    paginationPerPage={10}
-                />
-            </div>
-
-        </div>
+            <Procedure
+                _id={_id}
+                _idSet={_idSet}
+                insertMode={insertMode}
+                setInsertMode={setInsertMode}
+                editMode={editMode}
+                setEditMode={setEditMode}
+                setUpdateList={setUpdateList}
+            />
+        </>
     )
 }
 
-export default Procedures
+export default ProcedureList
