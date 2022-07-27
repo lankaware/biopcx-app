@@ -16,10 +16,11 @@ const objectRef = 'medicine/'
 
 
 const MedicineList = props => {
-    const [id, idSet] = useState("0");
+    const [_id, _idSet] = useState("0");
 
-    const [insertMode, setInsertMode] = useState(id === "0");
-    const [editMode, setEditMode] = useState(id === "0");
+    const [insertMode, setInsertMode] = useState(_id === "0");
+    const [editMode, setEditMode] = useState(_id === "0");
+    const [updateList, setUpdateList] = useState(false);
 
     const columns = [
         {
@@ -30,7 +31,7 @@ const MedicineList = props => {
             cell: row => (<Link to="/" onClick={(e) => {
                 e.preventDefault()
                 setInsertMode(false)
-                idSet(row._id)
+                _idSet(row._id)
             }}>{row.name}</Link>)
         },
         {
@@ -61,7 +62,8 @@ const MedicineList = props => {
                 console.log('items.record', items.record)
                 setList(items.record)
             })
-    }, [])
+            setUpdateList(false)
+    }, [insertMode, updateList])
 
     const refreshRec = () => {
         let recObj = {}
@@ -163,11 +165,13 @@ const MedicineList = props => {
             </Box>
 
             <Medicine
-                id={id}
+                _id={_id}
+                _idSet={_idSet}
                 insertMode={insertMode}
                 setInsertMode={setInsertMode}
                 editMode={editMode}
                 setEditMode={setEditMode}
+                setUpdateList={setUpdateList}
             />
         </>
     )

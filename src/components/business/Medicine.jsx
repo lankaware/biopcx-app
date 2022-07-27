@@ -18,27 +18,20 @@ const objectId = "medicineid/";
 
 
 const Medicine = (props) => {
-  let id = props.id;
 
-  console.log("id", typeof (id));
+  const [name, nameSet] = useState("");
+  const [chemName, chemNameSet] = useState("");
+  const [wayOfuse, wayOfuseSet] = useState("");
+  const [dosage, dosageSet] = useState("");
+  const [lab, labSet] = useState("");
 
-        const [_id, _idSet] = useState(id);
-        const [name, nameSet] = useState("");
-        const [chemName, chemNameSet] = useState("");
-        const [wayOfuse, wayOfuseSet] = useState("");
-        const [dosage, dosageSet] = useState("");
-        const [lab, labSet] = useState("");
-
-  const [nameTemp, nameSetTemp] = useState("");
-  const [chemNameTemp, chemNameSetTemp] = useState("");
-  const [wayOfuseTemp, wayOfuseSetTemp] = useState("");
-  const [dosageTemp, dosageSetTemp] = useState("");
-  const [labTemp, labSetTemp] = useState("");
-
+  let _id = props._id;
+  let _idSet = props._idSet;
   let insertMode = props.insertMode;
   let setInsertMode = props.setInsertMode;
   let editMode = props.editMode;
   let setEditMode = props.setEditMode;
+  let setUpdateList = props.setUpdateList;
 
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [deleteInfoDialog, setDeleteInfoDialog] = useState(false);
@@ -48,18 +41,29 @@ const Medicine = (props) => {
   const classes = useStyles();
 
   useEffect(() => {
-    console.log(id)
-    if (id !== "0") {
-      getList(objectId + id).then((items) => {
-        _idSet(items.record._id)
-        nameSet(items.record.name || "");
-        chemNameSet(items.record.chemName || "");
-        wayOfuseSet(items.record.wayOfuse || "");
-        dosageSet(items.record.dosage || "");
-        labSet(items.record.lab || "")
-      });
+    console.log(_id)
+    if (_id !== "0") {
+      getList(objectId + _id)
+        .then((items) => {
+          _idSet(items.record._id)
+          nameSet(items.record.name || "");
+          chemNameSet(items.record.chemName || "");
+          wayOfuseSet(items.record.wayOfuse || "");
+          dosageSet(items.record.dosage || "");
+          labSet(items.record.lab || "")
+        });
     }
-  }, [id]);
+  }, [_id]);
+
+  const cleanFields = () => {
+    _idSet('0')
+    nameSet("");
+    chemNameSet("");
+    wayOfuseSet("");
+    dosageSet("");
+    labSet("");
+    setInsertMode(true);
+  }
 
   const saveRec = () => {
     if (!name) {
@@ -80,31 +84,16 @@ const Medicine = (props) => {
     } else {
       recObj = JSON.stringify(recObj);
       postRec(objectRef, recObj)
-        .then((result) => {
-          _idSet(result.record._id);
-        });
+      setUpdateList(true);
     }
-    nameSetTemp(name);
-    chemNameSetTemp(chemName);
-    wayOfuseSetTemp(wayOfuse);
-    dosageSetTemp(dosage);
-    labSetTemp(lab);
-
-    setEditMode(false);
-    setInsertMode(false);
+    cleanFields();
   };
 
   const refreshRec = () => {
     if (insertMode) {
       document.getElementById("backButton").click();
     }
-    nameSet("");
-    chemNameSet("");
-    wayOfuseSet("");
-    dosageSet("");
-    labSet("");
-
-    setEditMode(false);
+    cleanFields();
   };
 
   const delRec = () => {
@@ -112,16 +101,9 @@ const Medicine = (props) => {
   };
 
   const delConfirm = () => {
-    deleteRec(objectId + _id).then((result) => { });
-    setInsertMode(true);
-    _idSet('0')
-    nameSet("");
-    chemNameSet("");
-    wayOfuseSet("");
-    dosageSet("");
-    labSet("")
+    deleteRec(objectId + _id);
+    cleanFields();
     setDeleteDialog(false);
-    setDeleteInfoDialog(true);
   };
 
   const delCancel = () => {
@@ -149,7 +131,7 @@ const Medicine = (props) => {
       </div>
       <div className="data-form medicineAdd">
         <Grid container spacing={2} sx={{ width: 1 }}>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <TextField
               value={name}
               onChange={(event) => {
@@ -168,7 +150,7 @@ const Medicine = (props) => {
               size="small"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <TextField
               value={chemName}
               onChange={(event) => {
@@ -187,7 +169,7 @@ const Medicine = (props) => {
               size="small"
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12}>
             <TextField
               value={wayOfuse}
               onChange={(event) => {
@@ -209,7 +191,7 @@ const Medicine = (props) => {
               <MenuItem key='2' value={"Externo"}>Externo</MenuItem>
             </TextField>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12}>
             <TextField
               value={dosage}
               onChange={(event) => {
@@ -228,7 +210,7 @@ const Medicine = (props) => {
               size="small"
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12}>
             <TextField
               value={lab}
               onChange={(event) => {
@@ -280,7 +262,7 @@ const Medicine = (props) => {
               size="small"
               startIcon={<DeleteForeverIcon />}
               onClick={(_) => delRec()}
-              disabled={!editMode && _id !== "0"}
+              disabled={_id === '0' ? true : false}
             >
               APAGAR
             </Button>
@@ -317,22 +299,6 @@ const Medicine = (props) => {
           </Button>
           <Button onClick={delConfirm} color="secondary" variant="contained">
             Confirmar
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog open={deleteInfoDialog}>
-        <DialogTitle id="alert-dialog-title">
-          {"Registro removido do cadastro."}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Clique para voltar a lista.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={delInformClose} color="primary" variant="contained">
-            Ok
           </Button>
         </DialogActions>
       </Dialog>
