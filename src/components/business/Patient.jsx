@@ -364,18 +364,18 @@ const Patient = (props) => {
           <Box m={1}>
             <div className='tool-buttons2'>
               <Box mr={1} mb={1}>
-                <Button color="warning" variant="contained" size="small" startIcon={<HistoryEduIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed', fontSize: '12px' }}
-                  onClick={(_) => openTextDialog()} disabled={insertMode || role === 'ADMIN' ? false : true}>HISTÓRICO
+                <Button color="warning" variant="contained" size="small" startIcon={<HistoryEduIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
+                  onClick={(_) => openTextDialog()} disabled={!insertMode && role === 'ADMIN' ? false : true}>HISTÓRICO
                 </Button>
               </Box>
               <Box mr={1}>
-                <Button color="warning" variant="contained" size="small" startIcon={<NotesIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed', fontSize: '12px' }}
-                  onClick={(_) => openPresc()} disabled={insertMode || role === 'ADMIN' ? false : true} id="prescButton" >RECEITAS
+                <Button color="warning" variant="contained" size="small" startIcon={<NotesIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
+                  onClick={(_) => openPresc()} disabled={!insertMode && role === 'ADMIN' ? false : true} id="prescButton" >RECEITAS
                 </Button>
               </Box>
               <Box mr={1}>
-                <Button color="warning" variant="contained" size="small" startIcon={<AssignmentIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed', fontSize: '12px' }}
-                  onClick={(_) => openReq()} disabled={insertMode || role === 'ADMIN' ? false : true} id="prescButton" >SOLICITAÇÕES
+                <Button color="warning" variant="contained" size="small" startIcon={<AssignmentIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
+                  onClick={(_) => openReq()} disabled={!insertMode && role === 'ADMIN' ? false : true} id="prescButton" >SOLICITAÇÕES
                 </Button>
               </Box>
             </div>

@@ -16,10 +16,11 @@ const objectRef = 'medicine/'
 
 
 const MedicineList = props => {
-    const [id, idSet] = useState("0");
+    const [_id, _idSet] = useState("0");
 
-    const [insertMode, setInsertMode] = useState(id === "0");
-    const [editMode, setEditMode] = useState(id === "0");
+    const [insertMode, setInsertMode] = useState(_id === "0");
+    const [editMode, setEditMode] = useState(_id === "0");
+    const [updateList, setUpdateList] = useState(false);
 
     const columns = [
         {
@@ -30,7 +31,7 @@ const MedicineList = props => {
             cell: row => (<Link to="/" onClick={(e) => {
                 e.preventDefault()
                 setInsertMode(false)
-                idSet(row._id)
+                _idSet(row._id)
             }}>{row.name}</Link>)
         },
         {
@@ -61,7 +62,8 @@ const MedicineList = props => {
                 console.log('items.record', items.record)
                 setList(items.record)
             })
-    }, [])
+            setUpdateList(false)
+    }, [insertMode, updateList])
 
     const refreshRec = () => {
         let recObj = {}
@@ -93,7 +95,6 @@ const MedicineList = props => {
                         <div >
                             <Typography variant='h6' className='tool-title medicine' noWrap={true}>Lista de Medicamentos</Typography>
                         </div>
-
                         <div className='tool-buttons medicine'>
                             {/* <Box m={1}>
                                 <Button color="primary" size='small' variant='contained' startIcon={<OpenInNewIcon />}
@@ -112,31 +113,33 @@ const MedicineList = props => {
                         <Button color='primary' size='large' id='searchButton' startIcon={<SearchIcon />}
                             onClick={_ => refreshRec()} >
                         </Button>
-                        <Grid item xs={3}>
-                            <TextField
-                                value={nameFilter}
-                                onChange={(event) => { nameFilterSet(event.target.value) }}
-                                id='nameFilter'
-                                label='Nome do medicamento'
-                                fullWidth={false}
-                                InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                                onKeyPress={(e) => { launchSearch(e) }}
-                                variant='outlined'
-                                size='small'
-                            />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <TextField
-                                value={chemNameFilter}
-                                onChange={(event) => { chemNameFilterSet(event.target.value) }}
-                                id='chemNameFilter'
-                                label='Composto Quimico'
-                                fullWidth={false}
-                                InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                                onKeyPress={(e) => { launchSearch(e) }}
-                                variant='outlined'
-                                size='small'
-                            />
+                        <Grid container spacing={2} >
+                            <Grid item xs={3}>
+                                <TextField
+                                    value={nameFilter}
+                                    onChange={(event) => { nameFilterSet(event.target.value) }}
+                                    id='nameFilter'
+                                    label='Nome do medicamento'
+                                    fullWidth={false}
+                                    InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                                    onKeyPress={(e) => { launchSearch(e) }}
+                                    variant='outlined'
+                                    size='small'
+                                />
+                            </Grid>
+                            <Grid item xs={3}>
+                                <TextField
+                                    value={chemNameFilter}
+                                    onChange={(event) => { chemNameFilterSet(event.target.value) }}
+                                    id='chemNameFilter'
+                                    label='Composto Quimico'
+                                    fullWidth={false}
+                                    InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                                    onKeyPress={(e) => { launchSearch(e) }}
+                                    variant='outlined'
+                                    size='small'
+                                />
+                            </Grid>
                         </Grid>
                     </div>
                     <div className='data-table medicine'>
@@ -161,11 +164,15 @@ const MedicineList = props => {
                 </div>
             </Box>
 
-            <Medicine id={id}
+            <Medicine
+                _id={_id}
+                _idSet={_idSet}
                 insertMode={insertMode}
                 setInsertMode={setInsertMode}
                 editMode={editMode}
-                setEditMode={setEditMode} />
+                setEditMode={setEditMode}
+                setUpdateList={setUpdateList}
+            />
         </>
     )
 

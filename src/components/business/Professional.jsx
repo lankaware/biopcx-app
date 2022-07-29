@@ -67,7 +67,7 @@ const Professional = props => {
             getList(objectId + _id)
                 .then(items => {
                     // _idSet(items)
-
+                    console.log(items.record[0]);
                     nameSet(items.record[0].name || '')
                     cpfSet(items.record[0].cpf || '')
                     specialtyIdSet(items.record[0].specialty_id || '')
@@ -160,6 +160,7 @@ const Professional = props => {
             internal,
             availability: recSubList
         }
+        console.log(recObj)
         if (_id !== '0') {
             recObj = JSON.stringify(recObj)
             putRec(objectId + _id, recObj)

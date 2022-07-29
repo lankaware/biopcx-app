@@ -42,13 +42,10 @@ const Content = props => {
                     <Route exact path="/patientList" component={PatientList} />
                     <Route exact path="/patient/:id" component={Patient} />
                     <Route exact path="/procedureList" component={ProcedureList} />
-                    <Route exact path="/procedure/:id" component={Procedure} />
                     <Route exact path="/professionalList" component={ProfessionalList} />
                     <Route exact path="/professional/:id" component={Professional} />
                     <Route exact path="/medicineList" component={MedicineList} />
-                    <Route exact path="/medicine/:id" component={Medicine} />
                     <Route exact path="/examList" component={ExamList} />
-                    <Route exact path="/exam/:id" component={Exam} />
                     <Route exact path="/texttemplateList" component={TextTemplateList} />
                     <Route exact path="/texttemplate/:id" component={TextTemplate} />
                     <Route exact path="/user" component={User} />
