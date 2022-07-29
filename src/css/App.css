@@ -40,19 +40,19 @@
     border-style: none;
     /*solid;*/
     border-width: 1px;
-    width: 90vw;
-    margin-left: 3vw;
+    width: 97vw;
+    margin-left: 0vw;
 }
 
 .data-form2 {
     background-color: white;
-    padding: 0px 15px 0px 15px;
+    padding: 0px 5px 0px 5px;
     border: rgb(172, 164, 164);
     border-style: none;
     /*solid;*/
     border-width: 1px;
-    width: 90vw;
-    margin-left: 3vw;
+    width: 97vw;
+    margin-left: 0vw;
 }
 
 .data-form-level1 {
@@ -62,8 +62,8 @@
     border-style: none;
     /*solid;*/
     border-width: 1px;
-    width: 90vw;
-    margin-left: 3vw;
+    width: 97vw;
+    margin-left: 0vw;
 }
 
 .data-form-dialog {
@@ -170,7 +170,8 @@
 .photo-square img {
     width: 20vh;
     height: 25vh;
-    margin-bottom: 8px;
+    margin-bottom: 0px;
+    margin-left: 10px;
     align-self: center;
     border: rgb(172, 164, 164);
     border-style: solid;
@@ -212,7 +213,7 @@ img {
 .tool-buttons2 {
     display: flex;
     width: 44vw;
-    justify-content: flex-end;
+    justify-content: flex-start;
 }
 
 div .medicine {

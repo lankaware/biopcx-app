@@ -49,7 +49,7 @@ const PrescDialog = props => {
 
     const classes = useStyles();
 
-    useEffect(() => {
+    useEffect(async () => {
         getList("medicine/")
             .then((items) => { medicineListSet(items.record) })
         getList('texttemplate/')
@@ -63,8 +63,18 @@ const PrescDialog = props => {
                     }
                 }
             })
-
-    }, []);
+        getList('texttemplate/')
+            .then(items => {
+                textListSet(items.record)
+            })
+        if (props.prescDialog) {
+            // intMedicineSet('Nome do paciente <BR/> RG <BR/> Endereço <BR/> <BR/>')
+            await parseTextMacro('@nome <BR/> @reg <BR/> @ender <BR/> <BR/>', props.patientId)
+                .then(textResult => {
+                    intMedicineSet(textResult)
+                })
+        }
+    }, [props.prescDialog]);
 
     useEffect(() => {
         if (patientId !== "0") {
@@ -79,13 +89,6 @@ const PrescDialog = props => {
     useEffect(() => {
         prescTextSet(intMedicine + extMedicine)
     }, [extMedicine, intMedicine]);
-
-    useEffect(() => {
-        getList('texttemplate/')
-            .then(items => {
-                textListSet(items.record)
-            })
-    }, [])
 
     const cleanText = () => {
         intMedicineSet("");
@@ -110,17 +113,17 @@ const PrescDialog = props => {
     const addMed = () => {
         if (medicineWayOfUse === "Interno") {
             if (intMedicine.search("Uso interno:") !== -1) {
-                intMedicineSet(intMedicine + medicineName + " " + medicineDose + " <br>")
+                intMedicineSet(intMedicine + medicineName + " <br>" + medicineDose + " <br> <br>")
             } else {
-                intMedicineSet(intMedicine + "<p> <strong>Uso interno: </strong> <br>" + medicineName + " " + medicineDose + " <br>")
+                intMedicineSet(intMedicine + "<p> <strong>Uso interno: </strong> <br>" + medicineName + " <br> " + medicineDose + " <br> <br>")
             }
         }
 
         if (medicineWayOfUse === "Externo") {
             if (extMedicine.search("Uso externo:") !== -1) {
-                extMedicineSet(extMedicine + medicineName + " " + medicineDose + " <br>")
+                extMedicineSet(extMedicine + medicineName + " <br>" + medicineDose + " <br>  <br>")
             } else {
-                extMedicineSet(" <p> <strong> Uso externo: </strong> <br>" + extMedicine + medicineName + " " + medicineDose + " <br>")
+                extMedicineSet(" <p> <strong> Uso externo: </strong> <br>" + extMedicine + medicineName + " <br> " + medicineDose + " <br> <br>")
             }
         }
         medicineNameSet("");
@@ -156,7 +159,6 @@ const PrescDialog = props => {
             prescription: presc
         }
 
-        console.log('prescText', prescText)
         recObj = JSON.stringify(recObj)
         putRec("patientid/" + patientId, recObj)
     }
@@ -303,7 +305,15 @@ const PrescDialog = props => {
                     <DialogContentText id="alert-dialog-description">
                         Deseja imprimir a receita?
                     </DialogContentText>
-                    <PrescToPrint ref={textRef} prescText={prescText} header={header} footer={footer} />
+                    <PrescToPrint
+                        ref={textRef}
+                        prescText={prescText}
+                        header={header}
+                        footer={footer}
+                        printLocal={props.printLocal}
+                        doctorName={props.doctorName}
+                        doctorCrm={props.doctorCrm}
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Box m={1}>

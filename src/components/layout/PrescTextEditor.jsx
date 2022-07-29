@@ -41,6 +41,7 @@ const PrescTextEditor = props => {
         width: 680,
         useSplitMode: true,
         autofocus: props.autofocus,
+        enter: "BR",
         // style: {
         //     font: '24px Arial'
         // },
