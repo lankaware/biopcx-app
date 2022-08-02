@@ -182,6 +182,7 @@ const PrescDialog = props => {
         const currentItemTemp = medicineList.findIndex((item) => { return item._id === e })
         medicineNameSet(medicineList[currentItemTemp].name)
         medicineWayOfUseSet(medicineList[currentItemTemp].wayOfuse)
+        medicineDoseSet(medicineList[currentItemTemp].dosage)
         medicineIdSet(e)
     }
 

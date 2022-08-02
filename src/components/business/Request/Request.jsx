@@ -42,7 +42,7 @@ const ReqDialog = props => {
 
     const classes = useStyles();
 
-    useEffect(() => {
+    useEffect(async () => {
         getList("exam/")
             .then((items) => { examListSet(items.record) })
         getList('texttemplate/')
@@ -56,8 +56,18 @@ const ReqDialog = props => {
                     }
                 }
             })
-
-    }, []);
+        getList('texttemplate/')
+            .then(items => {
+                textListSet(items.record)
+            })
+        if (props.reqDialog) {
+            // intMedicineSet('Nome do paciente <BR/> RG <BR/> Endereço <BR/> <BR/>')
+            await parseTextMacro('@nome <BR/> @reg <BR/> @ender <BR/> <BR/>', props.patientId)
+                .then(textResult => {
+                    reqTextSet(textResult)
+                })
+        }
+    }, [props.reqDialog]);
 
     useEffect(() => {
         if (patientId && patientId !== "0") {
@@ -68,13 +78,6 @@ const ReqDialog = props => {
         }
         setRecUpdated(true)
     }, [patientId, recUpdated]);
-
-    useEffect(() => {
-        getList('texttemplate/')
-            .then(items => {
-                textListSet(items.record)
-            })
-    }, [])
 
     const columns = [
         {
@@ -174,7 +177,7 @@ const ReqDialog = props => {
 
     const handleExamChange = (e) => {
         const currentItemTemp = examList.findIndex((item) => { return item._id === e })
-        examNameSet(examList[currentItemTemp].name)
+        examNameSet(examList[currentItemTemp].description)
         examIdSet(e)
     }
 
@@ -313,7 +316,15 @@ const ReqDialog = props => {
                     <DialogContentText id="alert-dialog-description">
                         Deseja imprimir a Solicitação?
                     </DialogContentText>
-                    <ReqToPrint ref={textRef} reqText={reqText} header={header} footer={footer} />
+                    <ReqToPrint 
+                    ref={textRef} 
+                    reqText={reqText} 
+                    header={header} 
+                    footer={footer} 
+                    printLocal={props.printLocal}
+                    doctorName={props.doctorName}
+                    doctorCrm={props.doctorCrm}
+                />
                 </DialogContent>
                 <DialogActions>
                     <Box m={1}>

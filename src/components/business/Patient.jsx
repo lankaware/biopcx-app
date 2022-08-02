@@ -55,18 +55,20 @@ const Patient = (props) => {
   const [addressNumber, addressNumberSet] = useState("")
   const [addressComplement, addressComplementSet] = useState("")
   const [neighborhood, neighborhoodSet] = useState("")
-  const [cityId, cityIdSet] = useState("")
+  const [city, citySet] = useState("")
+  const [state, stateSet] = useState("")
   const [covenantId, covenantIdSet] = useState("")
   const [covenantplanId, covenantplanIdSet] = useState("")
   const [covRegistration, covRegistrationSet] = useState("")
   const [covValid, covValidSet] = useState("")
   const [birthDate, birthDateSet] = useState("")
-  const [birthCityId, birthCityIdSet] = useState("")
+  const [birthCity, birthCitySet] = useState("")
+  const [birthState, birthStateSet] = useState("")
   const [cpf, cpfSet] = useState("")
   const [rg, rgSet] = useState("")
   const [rgDate, rgDateSet] = useState("")
   const [rgAgency, rgAgencySet] = useState("")
-  const [rgStateId, rgStateIdSet] = useState("")
+  const [rgState, rgStateSet] = useState("")
   const [mothersName, mothersNameSet] = useState("")
   const [fathersName, fathersNameSet] = useState("")
   const [gender, genderSet] = useState("")
@@ -131,19 +133,21 @@ const Patient = (props) => {
           addressNumberSet(items.record[0].addressNumber || "");
           addressComplementSet(items.record[0].addressComplement || "");
           neighborhoodSet(items.record[0].neighborhood || "");
-          cityIdSet(items.record[0].city_id || "");
+          citySet(items.record[0].city || "");
+          stateSet(items.record[0].state || "");
           covenantIdSet(items.record[0].covenant_id || "");
           covenantplanIdSet(items.record[0].covenantplan_id || "");
           covRegistrationSet(items.record[0].covRegistration || "");
           covValidSet((items.record[0].covValid || "").substr(0, 10));
           birthDateSet((items.record[0].birthDate || "").substr(0, 10));
-          birthCityIdSet(items.record[0].birthCity_id || "");
+          birthCitySet(items.record[0].birthCity || "");
+          birthStateSet(items.record[0].birthState || "");
           cpfSet(items.record[0].cpf || "");
           rgSet(items.record[0].rg || "");
           rgDateSet((items.record[0].rgDate || "").substr(0, 10));
 
           rgAgencySet(items.record[0].rgAgency || "");
-          rgStateIdSet(items.record[0].rgState_id || "");
+          rgStateSet(items.record[0].rgState || "");
           mothersNameSet(items.record[0].mothersName || "");
           fathersNameSet(items.record[0].fathersName || "");
           genderSet(items.record[0].gender || "");
@@ -220,18 +224,20 @@ const Patient = (props) => {
       addressNumber,
       addressComplement,
       neighborhood,
-      city_id: cityId || null,
+      city: city || null,
+      state: state || null,
       covenant_id: covenantId || null,
       covenantplan_id: covenantplanId || null,
       covRegistration,
       covValid,
       birthDate,
-      birthCity_id: birthCityId || null,
+      birthCity: birthCity || null,
+      birthState: birthState || null,
       cpf,
       rg,
       rgDate,
       rgAgency,
-      rgState_id: rgStateId || null,
+      rgState: rgState || null,
       mothersName,
       fathersName,
       gender,
@@ -307,12 +313,18 @@ const Patient = (props) => {
   const openPresc = () => {
     const unitCity = unitList[unitList.findIndex((item) => { return item._id === unitId })].city
     printLocalSet(unitCity)
+    // To-do: futuramente relacionar o login com o cadastro de médicos para pegar nome e crm
     doctorNameSet('TJIOE KOK KIE')
     doctorCrmSet('27124')
     prescDialogSet(true)
   }
 
   const openReq = () => {
+    const unitCity = unitList[unitList.findIndex((item) => { return item._id === unitId })].city
+    printLocalSet(unitCity)
+    // To-do: futuramente relacionar o login com o cadastro de médicos para pegar nome e crm
+    doctorNameSet('TJIOE KOK KIE')
+    doctorCrmSet('27124')
     reqDialogSet(true)
   }
 
@@ -740,9 +752,9 @@ const Patient = (props) => {
           <Grid item xs={2}>
             <TextField
               id='city'
-              label='Cidade'
-              value={cityId}
-              onChange={(event) => { cityIdSet(event.target.value) }}
+              label='Cidade End.'
+              value={city}
+              onChange={(event) => { citySet(event.target.value) }}
               size='small'
               fullWidth={true}
               disabled={!editMode}
@@ -759,21 +771,21 @@ const Patient = (props) => {
           </Grid>
           <Grid item xs={1}>
             <TextField
-              id='city'
-              label='Estado'
-              value={cityId}
-              onChange={(event) => { cityIdSet(event.target.value) }}
+              id='state'
+              label='Estado End.'
+              value={state}
+              onChange={(event) => { stateSet(event.target.value) }}
               size='small'
               fullWidth={true}
               disabled={!editMode}
               type='text'
               InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
               variant="standard"
-            // select
+              select
             >
-              {/* {cityList.map((option) => (
-                <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
-              ))} */}
+              {stateList.map((option) => (
+                <MenuItem key={option.acronym} value={option.acronym}>{option.acronym}</MenuItem>
+              ))}
             </TextField>
 
           </Grid>
@@ -823,8 +835,8 @@ const Patient = (props) => {
             <TextField
               id='birthCity'
               label='Cidade de Nasc.'
-              value={birthCityId}
-              onChange={(event) => { birthCityIdSet(event.target.value) }}
+              value={birthCity}
+              onChange={(event) => { birthCitySet(event.target.value) }}
               size='small'
               fullWidth={true}
               disabled={!editMode}
@@ -840,21 +852,21 @@ const Patient = (props) => {
           </Grid>
           <Grid item xs={1}>
             <TextField
-              id='birthCity'
-              label='Estado'
-              value={birthCityId}
-              onChange={(event) => { birthCityIdSet(event.target.value) }}
+              id='birthState'
+              label='Estado Nasc.'
+              value={birthState}
+              onChange={(event) => { birthStateSet(event.target.value) }}
               size='small'
               fullWidth={true}
               disabled={!editMode}
               type='text'
               InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
               variant="standard"
-            //select
+            select
             >
-              {/* {cityList.map((option) => (
-                <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
-              ))} */}
+              {stateList.map((option) => (
+                <MenuItem key={option.acronym} value={option.acronym}>{option.acronym}</MenuItem>
+              ))}
             </TextField>
           </Grid>
           {/* <Grid item xs={2}>
@@ -953,12 +965,12 @@ const Patient = (props) => {
               inputProps={{ type: "text" }}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={1}>
             <TextField
               id='rgState'
-              label='Estado'
-              value={rgStateId}
-              onChange={(event) => { rgStateIdSet(event.target.value) }}
+              label='Estado RG'
+              value={rgState}
+              onChange={(event) => { rgStateSet(event.target.value) }}
               size='small'
               fullWidth={true}
               disabled={!editMode}
@@ -967,11 +979,11 @@ const Patient = (props) => {
               variant="standard"
               select>
               {stateList.map((option) => (
-                <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                <MenuItem key={option.acronym} value={option.acronym}>{option.acronym}</MenuItem>
               ))}
             </TextField>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <TextField
               value={mothersName}
               onChange={(event) => { mothersNameSet(event.target.value) }}

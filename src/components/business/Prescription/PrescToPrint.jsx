@@ -1,14 +1,12 @@
 import React from 'react';
 import parse from 'html-react-parser';
-import { dateBr } from '../../../services/dateutils'
 
 const PrescToPrint = React.forwardRef((props, ref) => {
-
+    console.log('props.printLocal 1', props.printLocal)
     const prescSign1 = `${props.printLocal}, ${(new Date()).toLocaleDateString('pt-BR', { 'day': 'numeric', 'month': 'long', 'year': 'numeric' })} `
     const prescSign2 = ` ___________________________________ `
     const prescSign3 = `${props.doctorName}`
     const prescSign4 = `CRM ${props.doctorCrm}`
-
     return (
         <div ref={ref} >
             <style>
@@ -27,26 +25,30 @@ const PrescToPrint = React.forwardRef((props, ref) => {
                     <tr>
                         <td style={{ 'height': '60vh', 'fontSize': '21px', 'verticalAlign': 'top' }}>
                             {parse(props.prescText)}
-                            <tr style={{ 'height': '5vh', 'fontSize': '21px', 'verticalAlign': 'top', 'display': 'flex', 'justifyContent': 'center' }}>
-                                <td >
-                                    {parse(prescSign1)}
-                                </td>
-                            </tr>
-                            <tr style={{ 'fontSize': '21px', 'verticalAlign': 'top', 'display': 'flex', 'justifyContent': 'center' }}>
-                                <td >
-                                    {parse(prescSign2)}
-                                </td>
-                            </tr>
-                            <tr style={{ 'fontSize': '21px', 'verticalAlign': 'top', 'display': 'flex', 'justifyContent': 'center' }}>
-                                <td>
-                                    {parse(prescSign3)}
-                                </td>
-                            </tr>
-                            <tr style={{ 'fontSize': '21px', 'verticalAlign': 'top', 'display': 'flex', 'justifyContent': 'center' }}>
-                                <td>
-                                    {parse(prescSign4)}
-                                </td>
-                            </tr>
+                            <table>
+                                <tbody>
+                                    <tr style={{ 'height': '5vh', 'fontSize': '21px', 'verticalAlign': 'top', 'display': 'flex', 'justifyContent': 'center' }}>
+                                        <td >
+                                            {parse(prescSign1)}
+                                        </td>
+                                    </tr>
+                                    <tr style={{ 'fontSize': '21px', 'verticalAlign': 'top', 'display': 'flex', 'justifyContent': 'center' }}>
+                                        <td >
+                                            {parse(prescSign2)}
+                                        </td>
+                                    </tr>
+                                    <tr style={{ 'fontSize': '21px', 'verticalAlign': 'top', 'display': 'flex', 'justifyContent': 'center' }}>
+                                        <td>
+                                            {parse(prescSign3)}
+                                        </td>
+                                    </tr>
+                                    <tr style={{ 'fontSize': '21px', 'verticalAlign': 'top', 'display': 'flex', 'justifyContent': 'center' }}>
+                                        <td>
+                                            {parse(prescSign4)}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </td>
                     </tr>
                 </tbody>
