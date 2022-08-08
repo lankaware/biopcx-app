@@ -69,7 +69,7 @@ const PrescDialog = props => {
             })
         if (props.prescDialog) {
             // intMedicineSet('Nome do paciente <BR/> RG <BR/> Endereço <BR/> <BR/>')
-            await parseTextMacro('@nome <BR/> @reg <BR/> @ender <BR/> <BR/>', props.patientId)
+            await parseTextMacro('<strong>@nome</strong> <BR/> @reg <BR/> @ender <BR/> <BR/>', props.patientId)
                 .then(textResult => {
                     intMedicineSet(textResult)
                 })

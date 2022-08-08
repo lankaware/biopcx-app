@@ -24,26 +24,28 @@ const RecToPrint = React.forwardRef((props, ref) => {
                 </thead>
                 <tbody>
                     <tr>
-                        <td style={{ 'height': '60vh', 'fontSize': '21px', 'verticalAlign': 'top' }}>
+                        <td style={{ 'height': '60vh', 'fontSize': '18px', 'verticalAlign': 'top' }}>
                             {parse(props.reqText)}
                             <table>
                                 <tbody>
-                                    <tr style={{ 'height': '5vh', 'fontSize': '21px', 'verticalAlign': 'top', 'display': 'flex', 'justifyContent': 'center' }}>
+                                    <tr style={{ 'height': '10vh' }}></tr>
+                                    <tr style={{ 'width': '80vw', 'fontSize': '16px', 'display': 'flex', 'justifyContent': 'center' }}>
                                         <td >
                                             {parse(prescSign1)}
                                         </td>
                                     </tr>
-                                    <tr style={{ 'fontSize': '21px', 'verticalAlign': 'top', 'display': 'flex', 'justifyContent': 'center' }}>
+                                    <tr style={{ 'height': '3vh' }}></tr>
+                                    <tr style={{ 'fontSize': '16px', 'verticalAlign': 'top', 'display': 'flex', 'justifyContent': 'center' }}>
                                         <td >
                                             {parse(prescSign2)}
                                         </td>
                                     </tr>
-                                    <tr style={{ 'fontSize': '21px', 'verticalAlign': 'top', 'display': 'flex', 'justifyContent': 'center' }}>
+                                    <tr style={{ 'fontSize': '16px', 'verticalAlign': 'top', 'display': 'flex', 'justifyContent': 'center' }}>
                                         <td>
                                             {parse(prescSign3)}
                                         </td>
                                     </tr>
-                                    <tr style={{ 'fontSize': '21px', 'verticalAlign': 'top', 'display': 'flex', 'justifyContent': 'center' }}>
+                                    <tr style={{ 'fontSize': '16px', 'verticalAlign': 'top', 'display': 'flex', 'justifyContent': 'center' }}>
                                         <td>
                                             {parse(prescSign4)}
                                         </td>

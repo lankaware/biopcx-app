@@ -4,6 +4,7 @@ import {
     Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
     DialogContentText, DialogTitle, MenuItem, Box
 } from '@mui/material'
+import DataTable from 'react-data-table-component'
 
 import EditIcon from '@mui/icons-material/Edit'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
@@ -15,6 +16,7 @@ import TempPac from './PreCadPac'
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec, postRec, deleteRec } from '../../services/apiconnect'
 import { timeBr, stdTime } from '../../services/dateutils';
+import { customStyles1, paginationBr } from '../../services/datatablestyle'
 
 const objectRef = 'agenda/'
 const objectId = 'agendaid/'
@@ -24,6 +26,7 @@ const objectId = 'agendaid/'
 //     originalStatus = newStatus
 // }
 
+var selectedToSave = []
 const Agenda = props => {
 
     let _id = props.agendaInfo._id
@@ -55,8 +58,19 @@ const Agenda = props => {
     const [emptyRecDialog, setEmptyRecDialog] = useState(false)
     const [tempPacDialog, tempPacDialogSet] = useState(false)
     const [changeStatusDialog, changeStatusDialogSet] = useState(false)
+    // const [listBill, setListBill] = useState([])
 
     const classes = useStyles()
+
+    const columns = [
+        {
+            name: 'Procedimento',
+            selector: row => row.name,
+            sortable: true,
+            width: '15vw',
+            right: false,
+        },
+    ];
 
     useEffect(() => {
         // if (props.agendaID !== "1") {
@@ -121,8 +135,6 @@ const Agenda = props => {
         }
         let recObj = {
             date,
-            // initialTime: '1970-01-01T' + initialTime,
-            // finalTime: '1970-01-01T' + finalTime,
             initialTime: '1970-01-01T' + stdTime('1970-01-01T' + initialTime),
             finalTime: '1970-01-01T' + stdTime('1970-01-01T' + finalTime),
             professional_id: professionalId || null,
@@ -178,21 +190,22 @@ const Agenda = props => {
     }
 
     const recordBilling = () => {
-        console.log('_id', _id)
-        let recObjBilling = {
-            attendanceDate: date,
-            patient_id: patientId,
-            professional_id: professionalId,
-            procedure_id: procedureId,
-            covenant_id: covenantId,
-            covenantplan_id: covenantplanId,
-            agenda_id: _id,
-        }
-        recObjBilling = JSON.stringify(recObjBilling)
-        postRec('billing/', recObjBilling)
-            .then(result => {
-                console.log('post', result)
-            })
+        selectedToSave.map(selectedLocal => {
+            let recObjBilling = {
+                attendanceDate: date,
+                patient_id: patientId,
+                professional_id: professionalId,
+                procedure_id: selectedLocal._id,
+                covenant_id: covenantId,
+                covenantplan_id: covenantplanId,
+                agenda_id: _id,
+            }
+            recObjBilling = JSON.stringify(recObjBilling)
+            postRec('billing/', recObjBilling)
+                .then(result => {
+                    console.log('post', result)
+                })
+        })
     }
 
     const emptyRecClose = () => {
@@ -211,6 +224,11 @@ const Agenda = props => {
         phoneSet(patientList[selectedPatient].phone)
         emailSet(patientList[selectedPatient].email)
         statusSet('1')
+    }
+
+    const handleSelectChange = (allSelected, selectedCount, selectedRows) => {
+        selectedToSave = selectedRows
+        return null
     }
 
     return (
@@ -444,10 +462,30 @@ const Agenda = props => {
             </Dialog>
 
             <Dialog open={changeStatusDialog} >
-                <DialogTitle id="alert-dialog-title">{"Confirmação de atendimento"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{"Registro de atendimento para cobrança"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Ao alterar o agendamento para Atendido e confirmar a operação, será geardo o registro de faturamento.
+                        Selecione os procedimentos realizados:
+                        <DataTable
+                            noHeader={true}
+                            columns={columns}
+                            customStyles={customStyles1}
+                            data={procedureList}
+                            selectableRows
+                            Clicked
+                            keyField={'_id'}
+                            highlightOnHover={true}
+                            fixedHeader={true}
+                            paginationComponentOptions={paginationBr}
+                            selectableRowsHighlight
+                            onSelectedRowsChange={({ allSelected, selectedCount, selectedRows }) => {
+                                handleSelectChange(allSelected, selectedCount, selectedRows)
+                            }}
+                        // title=""
+                        // pagination={true}
+                        // noContextMenu={true}
+                        // paginationPerPage={10}
+                        />
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
