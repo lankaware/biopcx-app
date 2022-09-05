@@ -113,17 +113,17 @@ const PrescDialog = props => {
     const addMed = () => {
         if (medicineWayOfUse === "Interno") {
             if (intMedicine.search("Uso interno:") !== -1) {
-                intMedicineSet(intMedicine + medicineName + " <br>" + medicineDose + " <br> <br>")
+                intMedicineSet(intMedicine + "&#10152;&nbsp;" + medicineName + " <br>" + medicineDose + " <br> <br>")
             } else {
-                intMedicineSet(intMedicine + "<p> <strong>Uso interno: </strong> <br>" + medicineName + " <br> " + medicineDose + " <br> <br>")
+                intMedicineSet(intMedicine + "<p> <strong>Uso interno: </strong> <br>" + "&#10152;&nbsp;" + medicineName + " <br> " + medicineDose + " <br> <br>")
             }
         }
 
         if (medicineWayOfUse === "Externo") {
             if (extMedicine.search("Uso externo:") !== -1) {
-                extMedicineSet(extMedicine + medicineName + " <br>" + medicineDose + " <br>  <br>")
+                extMedicineSet(extMedicine + "&#10152;&nbsp;" + medicineName + " <br>" + medicineDose + " <br>  <br>")
             } else {
-                extMedicineSet(" <p> <strong> Uso externo: </strong> <br>" + extMedicine + medicineName + " <br> " + medicineDose + " <br> <br>")
+                extMedicineSet(" <p> <strong> Uso externo: </strong> <br>" + extMedicine + "&#10152;&nbsp;" + medicineName + " <br> " + medicineDose + " <br> <br>")
             }
         }
         medicineNameSet("");

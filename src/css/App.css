@@ -171,7 +171,8 @@
     width: 20vh;
     height: 25vh;
     margin-bottom: 0px;
-    margin-left: 10px;
+    /* margin-left: 10px; */
+    margin-right: 20px;
     align-self: center;
     border: rgb(172, 164, 164);
     border-style: solid;

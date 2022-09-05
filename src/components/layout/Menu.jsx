@@ -29,50 +29,50 @@ const AppMenu = props => {
             return (
                 <Nav className="mr-auto " navbar>
                     <UncontrolledDropdown nav inNavbar >
-                        <DropdownToggle nav caret className='nav-item text-white' >
-                            Atendimento
+                        <DropdownToggle nav caret className='nav-item text-white font-weight-bold' >
+                            ATENDIMENTO
                         </DropdownToggle>
                         <DropdownMenu className='menu-item'>
-                            <DropdownItem className='menu-item' href="/agendaList">Agendas</DropdownItem>
+                            <DropdownItem className='menu-item font-weight-bold' href="/agendaList">Agendas</DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
                     <UncontrolledDropdown nav inNavbar>
-                        <DropdownToggle nav caret className='nav-item text-white'>
-                            Cadastros
+                        <DropdownToggle nav caret className='nav-item text-white font-weight-bold'>
+                            CADASTROS
                         </DropdownToggle>
                         <DropdownMenu className='menu-item'>
-                            <DropdownItem className='menu-item' href="/patientList">Pacientes</DropdownItem>
-                            <DropdownItem className='menu-item' href="/professionalList">Profissionais</DropdownItem>
-                            <DropdownItem className='menu-item' href="/covenantList">Convênios</DropdownItem>
-                            <DropdownItem className='menu-item' href="/procedureList">Procedimentos</DropdownItem>
-                            <DropdownItem className='menu-item' href="/medicineList">Medicamentos</DropdownItem>
-                            <DropdownItem className='menu-item' href="/examList">Itens de Solicitação</DropdownItem>
+                            <DropdownItem className='menu-item font-weight-bold' href="/patientList">Pacientes</DropdownItem>
+                            <DropdownItem className='menu-item font-weight-bold' href="/professionalList">Profissionais</DropdownItem>
+                            <DropdownItem className='menu-item font-weight-bold' href="/covenantList">Convênios</DropdownItem>
+                            <DropdownItem className='menu-item font-weight-bold' href="/procedureList">Procedimentos</DropdownItem>
+                            <DropdownItem className='menu-item font-weight-bold' href="/medicineList">Medicamentos</DropdownItem>
+                            <DropdownItem className='menu-item font-weight-bold' href="/examList">Itens de Solicitação</DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
                     <UncontrolledDropdown nav inNavbar>
-                        <DropdownToggle nav caret className='nav-item text-white'>
-                            Impressos
+                        <DropdownToggle nav caret className='nav-item text-white font-weight-bold'>
+                            IMPRESSOS
                         </DropdownToggle>
                         <DropdownMenu className='menu-item'>
-                            <DropdownItem className='menu-item' href="/texttemplateList">Textos Padrões</DropdownItem>
+                            <DropdownItem className='menu-item font-weight-bold' href="/texttemplateList">Textos Padrões</DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
                     <UncontrolledDropdown nav inNavbar>
-                        <DropdownToggle nav caret className='nav-item text-white'>
-                            Faturamento
+                        <DropdownToggle nav caret className='nav-item text-white font-weight-bold'>
+                            FATURAMENTO
                         </DropdownToggle>
                         <DropdownMenu className='menu-item'>
-                            <DropdownItem className='menu-item' href="/billingList">Lançamentos</DropdownItem>
-                            <DropdownItem className='menu-item' href="/billingReport">Relatório</DropdownItem>
+                            <DropdownItem className='menu-item font-weight-bold' href="/billingList">Lançamentos</DropdownItem>
+                            <DropdownItem className='menu-item font-weight-bold' href="/billingReport">Relatório</DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
                     <UncontrolledDropdown nav inNavbar>
-                        <DropdownToggle nav caret className='nav-item text-white'>
-                        Configurações
+                        <DropdownToggle nav caret className='nav-item text-white font-weight-bold'>
+                        CONFIGURAÇÕES
                         </DropdownToggle>
                         <DropdownMenu className='menu-item'>
-                            <DropdownItem className='menu-item' href="/">Gerais</DropdownItem>
-                            <DropdownItem className='menu-item' href="/login">Logins</DropdownItem>
+                            <DropdownItem className='menu-item font-weight-bold' href="/">Gerais</DropdownItem>
+                            <DropdownItem className='menu-item font-weight-bold' href="/login">Logins</DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
                 </Nav>

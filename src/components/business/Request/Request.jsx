@@ -95,7 +95,7 @@ const ReqDialog = props => {
     ]
 
     const addExam = () => {
-        reqTextSet(`${reqText} ${examName} <br>`)
+        reqTextSet(`${reqText} &#10152;&nbsp; ${examName} <br>`)
         examIdSet('')
     }
 

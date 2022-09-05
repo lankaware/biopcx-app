@@ -79,24 +79,24 @@ const TextDialogNew = props => {
         <DialogTitle id="alert-dialog-title">
           {/* <Form className='data-form-level2'> */}
           {/* <div> */}
-          <AppBar position="relative" color="default">
+          <AppBar position="relative" color="primary">
             {/* <Toolbar variant="dense"> */}
               <Tabs
                 value={tabValue}
                 onChange={(event, newValue) => { setTabValue(newValue) }}
-                indicatorColor="primary"
-                textColor="primary"
+                indicatorColor="secondary"
+                textColor="inherit"
                 variant="standard"
                 // aria-label="full width tabs example"
               >
-                <Tab label="Hist.Clínica" {...posTab(0)} />
-                <Tab label="Antec.Pessoais" {...posTab(1)} />
-                <Tab label="Antec.Família" {...posTab(2)} />
-                <Tab label="Cateterismo" {...posTab(3)} />
-                <Tab label="Cirurgias" {...posTab(4)} />
-                <Tab label="Alertas" {...posTab(5)} />
-                <Tab label="Livre 1" {...posTab(6)} />
-                <Tab label="Livre 2" {...posTab(7)} />
+                <Tab label="Hist.Clínica" {...posTab(0)} sx={ {fontWeight: 'bold'} }/>
+                <Tab label="Antec.Pessoais" {...posTab(1)} sx={ {fontWeight: 'bold'} }/>
+                <Tab label="Antec.Família" {...posTab(2)} sx={ {fontWeight: 'bold'} }/>
+                <Tab label="Cateterismo" {...posTab(3)} sx={ {fontWeight: 'bold'} }/>
+                <Tab label="Cirurgias" {...posTab(4)} sx={ {fontWeight: 'bold'} }/>
+                <Tab label="Alertas" {...posTab(5)} sx={ {fontWeight: 'bold'} }/>
+                <Tab label="Livre 1" {...posTab(6)} sx={ {fontWeight: 'bold'} }/>
+                <Tab label="Livre 2" {...posTab(7)} sx={ {fontWeight: 'bold'} }/>
               </Tabs>
             {/* </Toolbar> */}
           </AppBar>

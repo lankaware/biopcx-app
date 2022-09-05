@@ -395,6 +395,254 @@ const Patient = (props) => {
         </div>
 
         <Grid container spacing={1}>
+          <Grid item xs={9}>
+            <Grid container spacing={2}>
+              <Grid item xs={5}>
+                <TextField
+                  value={name}
+                  onChange={(event) => { nameSet(event.target.value) }}
+                  id="name"
+                  label="Nome *"
+                  fullWidth={true}
+                  disabled={!editMode}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  variant="standard"
+                  size="small"
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  value={lastname}
+                  onChange={(event) => { lastnameSet(event.target.value) }}
+                  id="lastname"
+                  label="Sobrenome *"
+                  fullWidth={true}
+                  disabled={!editMode}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  variant="standard"
+                  size="small"
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <TextField
+                  value={gender}
+                  onChange={(event) => { genderSet(event.target.value) }}
+                  id="gender"
+                  label="Sexo *"
+                  fullWidth={true}
+                  disabled={!editMode}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  variant="standard"
+                  size="small"
+                  inputProps={{ type: "text" }}
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <TextField
+                  value={internalRegister}
+                  onChange={(event) => { internalRegisterSet(event.target.value) }}
+                  id="internalRegister"
+                  label="Registro Clínica *"
+                  fullWidth={true}
+                  disabled={!editMode}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  variant="standard"
+                  size="small"
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <TextField
+                  value={birthDate}
+                  onChange={(event) => { birthDateSet(event.target.value) }}
+                  id="birthDate"
+                  label="Data Nasc. *"
+                  fullWidth={true}
+                  disabled={!editMode}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  variant="standard"
+                  size="small"
+                  inputProps={{ type: "date" }}
+                />
+              </Grid>
+              <Grid item xs={1}>
+                <TextField
+                  value={ageCalc(birthDate) || ''}
+                  id="age"
+                  label="Idade"
+                  fullWidth={true}
+                  disabled={true}
+                  variant="standard"
+                  size="small"
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  sx={{ color: "black" }}
+                />
+              </Grid>
+
+              <Grid item xs={2}>
+                <TextField
+                  value={cpf}
+                  onChange={(event) => { cpfSet(event.target.value) }}
+                  id="cpf"
+                  label="CPF *"
+                  fullWidth={true}
+                  disabled={!editMode}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  variant="standard"
+                  size="small"
+                  inputProps={{ type: "text" }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  id='covenant'
+                  label='Convênio'
+                  value={covenantId}
+                  onChange={(event) => { covenantIdSet(event.target.value) }}
+                  size='small'
+                  fullWidth={true}
+                  disabled={!editMode}
+                  type='text'
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  variant="standard"
+                  select>
+                  {covenantList.map((option) => (
+                    <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  id="covenantplan"
+                  label="Plano"
+                  value={covenantplanId}
+                  onChange={(event) => { covenantplanIdSet(event.target.value) }}
+                  size="small"
+                  fullWidth={true}
+                  disabled={!editMode}
+                  type='text'
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  variant="standard"
+                  select>
+                  {covenantplanList
+                    .filter(item => { return item.covenant_id === covenantId })
+                    .map((option) => (
+                      <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                    ))}
+                </TextField>
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  value={covRegistration}
+                  onChange={(event) => { covRegistrationSet(event.target.value) }}
+                  id="covRegistration"
+                  label="Matrícula Convênio"
+                  fullWidth={true}
+                  disabled={!editMode}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  variant="standard"
+                  size="small"
+                  inputProps={{ type: "number" }}
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <TextField
+                  value={covValid}
+                  onChange={(event) => { covValidSet(event.target.value) }}
+                  id="covValid"
+                  label="Validade do Plano"
+                  fullWidth={true}
+                  disabled={!editMode}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  variant="standard"
+                  size="small"
+                  inputProps={{ type: "date" }}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  id='unit'
+                  label='Unidade *'
+                  value={unitId}
+                  onChange={(event) => { unitIdSet(event.target.value) }}
+                  size='small'
+                  fullWidth={true}
+                  disabled={!editMode}
+                  type='text'
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  // sx={{ width: 150 }}
+                  variant="standard"
+                  select>
+                  {unitList.map((option) => (
+                    <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item xs={2}>
+                <TextField
+                  value={createdAt}
+                  onChange={(event) => { createdAtSet(event.target.value) }}
+                  id="createdAt"
+                  label="Data de Cadastro"
+                  fullWidth={true}
+                  disabled={true}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  variant="standard"
+                  size="small"
+                  inputProps={{ type: "date" }}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={1}>
+            <Grid container spacing={2}>
+              {/* <Grid item xs={1}></Grid> */}
+              <Grid item xs={10}>
+                <TextField
+                  value={height}
+                  onChange={(event) => { heightSet(event.target.value) }}
+                  id="height"
+                  label="Altura"
+                  fullWidth={true}
+                  disabled={!editMode}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  variant="standard"
+                  size="small"
+                  inputProps={{ type: "number" }}
+                />
+              </Grid>
+              {/* <Grid item xs={1}></Grid> */}
+              <Grid item xs={10}>
+                <TextField
+                  value={weight}
+                  onChange={(event) => { weightSet(event.target.value) }}
+                  onBlur={(e) => imcSet(imcCalc(weight, height))}
+                  id="weight"
+                  label="Peso"
+                  fullWidth={true}
+                  disabled={!editMode}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  variant="standard"
+                  size="small"
+                  inputProps={{ type: "number" }}
+                />
+              </Grid>
+              {/* <Grid item xs={1}></Grid> */}
+              <Grid item xs={10}>
+                <TextField
+                  value={imc}
+                  id="imc"
+                  label="IMC"
+                  fullWidth={true}
+                  disabled={true}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  variant="standard"
+                  size="small"
+                  inputProps={{ type: "number" }}
+                />
+              </Grid>
+              <Grid item xs={2}></Grid>
+            </Grid>
+          </Grid>
           <Grid item xs={2}>
             <Grid container spacing={1}>
               <Grid item xs={12} sx={{ justifyContent: 'center' }}>
@@ -414,255 +662,6 @@ const Patient = (props) => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={9}>
-            <Grid container spacing={2}>
-              <Grid item xs={2}>
-                <TextField
-                  value={internalRegister}
-                  onChange={(event) => { internalRegisterSet(event.target.value) }}
-                  id="internalRegister"
-                  label="Registro Clínica *"
-                  fullWidth={true}
-                  disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
-                  variant="standard"
-                  size="small"
-                />
-              </Grid>
-              <Grid item xs={5}>
-                <TextField
-                  value={name}
-                  onChange={(event) => { nameSet(event.target.value) }}
-                  id="name"
-                  label="Nome *"
-                  fullWidth={true}
-                  disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
-                  variant="standard"
-                  size="small"
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  value={lastname}
-                  onChange={(event) => { lastnameSet(event.target.value) }}
-                  id="lastname"
-                  label="Sobrenome *"
-                  fullWidth={true}
-                  disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
-                  variant="standard"
-                  size="small"
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <TextField
-                  value={gender}
-                  onChange={(event) => { genderSet(event.target.value) }}
-                  id="gender"
-                  label="Sexo *"
-                  fullWidth={true}
-                  disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
-                  variant="standard"
-                  size="small"
-                  inputProps={{ type: "text" }}
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <TextField
-                  value={birthDate}
-                  onChange={(event) => { birthDateSet(event.target.value) }}
-                  id="birthDate"
-                  label="Data Nasc. *"
-                  fullWidth={true}
-                  disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
-                  variant="standard"
-                  size="small"
-                  inputProps={{ type: "date" }}
-                />
-              </Grid>
-              <Grid item xs={1}>
-                <TextField
-                  value={ageCalc(birthDate) || ''}
-                  id="age"
-                  label="Idade"
-                  fullWidth={true}
-                  disabled={true}
-                  variant="standard"
-                  size="small"
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
-                  sx={{ color: "black" }}
-                />
-              </Grid>
-
-              <Grid item xs={2}>
-                <TextField
-                  value={cpf}
-                  onChange={(event) => { cpfSet(event.target.value) }}
-                  id="cpf"
-                  label="CPF *"
-                  fullWidth={true}
-                  disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
-                  variant="standard"
-                  size="small"
-                  inputProps={{ type: "text" }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  id='covenant'
-                  label='Convênio'
-                  value={covenantId}
-                  onChange={(event) => { covenantIdSet(event.target.value) }}
-                  size='small'
-                  fullWidth={true}
-                  disabled={!editMode}
-                  type='text'
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
-                  variant="standard"
-                  select>
-                  {covenantList.map((option) => (
-                    <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  id="covenantplan"
-                  label="Plano"
-                  value={covenantplanId}
-                  onChange={(event) => { covenantplanIdSet(event.target.value) }}
-                  size="small"
-                  fullWidth={true}
-                  disabled={!editMode}
-                  type='text'
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
-                  variant="standard"
-                  select>
-                  {covenantplanList
-                    .filter(item => { return item.covenant_id === covenantId })
-                    .map((option) => (
-                      <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
-                    ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  value={covRegistration}
-                  onChange={(event) => { covRegistrationSet(event.target.value) }}
-                  id="covRegistration"
-                  label="Matrícula Convênio"
-                  fullWidth={true}
-                  disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
-                  variant="standard"
-                  size="small"
-                  inputProps={{ type: "number" }}
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <TextField
-                  value={covValid}
-                  onChange={(event) => { covValidSet(event.target.value) }}
-                  id="covValid"
-                  label="Validade do Plano"
-                  fullWidth={true}
-                  disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
-                  variant="standard"
-                  size="small"
-                  inputProps={{ type: "date" }}
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  id='unit'
-                  label='Unidade *'
-                  value={unitId}
-                  onChange={(event) => { unitIdSet(event.target.value) }}
-                  size='small'
-                  fullWidth={true}
-                  disabled={!editMode}
-                  type='text'
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
-                  // sx={{ width: 150 }}
-                  variant="standard"
-                  select>
-                  {unitList.map((option) => (
-                    <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={2}>
-                <TextField
-                  value={createdAt}
-                  onChange={(event) => { createdAtSet(event.target.value) }}
-                  id="createdAt"
-                  label="Data de Cadastro"
-                  fullWidth={true}
-                  disabled={true}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
-                  variant="standard"
-                  size="small"
-                  inputProps={{ type: "date" }}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={1}>
-
-            <Grid container spacing={2}>
-              {/* <Grid item xs={1}></Grid> */}
-              <Grid item xs={10}>
-                <TextField
-                  value={height}
-                  onChange={(event) => { heightSet(event.target.value) }}
-                  id="height"
-                  label="Altura"
-                  fullWidth={true}
-                  disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
-                  variant="standard"
-                  size="small"
-                  inputProps={{ type: "number" }}
-                />
-              </Grid>
-              {/* <Grid item xs={1}></Grid> */}
-              <Grid item xs={10}>
-                <TextField
-                  value={weight}
-                  onChange={(event) => { weightSet(event.target.value) }}
-                  onBlur={(e) => imcSet(imcCalc(weight, height))}
-                  id="weight"
-                  label="Peso"
-                  fullWidth={true}
-                  disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
-                  variant="standard"
-                  size="small"
-                  inputProps={{ type: "number" }}
-                />
-              </Grid>
-              {/* <Grid item xs={1}></Grid> */}
-              <Grid item xs={10}>
-                <TextField
-                  value={imc}
-                  id="imc"
-                  label="IMC"
-                  fullWidth={true}
-                  disabled={true}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
-                  variant="standard"
-                  size="small"
-                  inputProps={{ type: "number" }}
-                />
-              </Grid>
-              <Grid item xs={2}></Grid>
-            </Grid>
-          </Grid>
         </Grid>
       </div>
       <div className="data-form">
@@ -670,15 +669,15 @@ const Patient = (props) => {
           <Typography variant="h6" className="tool-title-level1" noWrap={true} color="primary">Dados de Contato</Typography>
         </div> */}
         <Grid container spacing={1}>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <TextField
               value={phone}
               onChange={(event) => { phoneSet(event.target.value) }}
               id="phone"
-              label="Telefones"
+              label="Telefones Fixo/Móvel"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
             />
@@ -691,7 +690,7 @@ const Patient = (props) => {
               label="Email"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -705,7 +704,7 @@ const Patient = (props) => {
               label="Endereço"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
             />
@@ -718,7 +717,7 @@ const Patient = (props) => {
               label="Número"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
             />
@@ -731,7 +730,7 @@ const Patient = (props) => {
               label="Complemento"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
             />
@@ -744,7 +743,7 @@ const Patient = (props) => {
               label="Bairro"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
             />
@@ -759,7 +758,7 @@ const Patient = (props) => {
               fullWidth={true}
               disabled={!editMode}
               type='text'
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
             //select
             >
@@ -767,7 +766,6 @@ const Patient = (props) => {
                 <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
               ))} */}
             </TextField>
-
           </Grid>
           <Grid item xs={1}>
             <TextField
@@ -779,7 +777,7 @@ const Patient = (props) => {
               fullWidth={true}
               disabled={!editMode}
               type='text'
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               select
             >
@@ -787,7 +785,6 @@ const Patient = (props) => {
                 <MenuItem key={option.acronym} value={option.acronym}>{option.acronym}</MenuItem>
               ))}
             </TextField>
-
           </Grid>
           <Grid item xs={2}>
             <TextField
@@ -797,12 +794,11 @@ const Patient = (props) => {
               label="CEP"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
             />
           </Grid>
-
           <Grid item xs={2}>
             <TextField
               value={responsible}
@@ -811,7 +807,7 @@ const Patient = (props) => {
               label="Responsável"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -825,7 +821,7 @@ const Patient = (props) => {
               label="Telefone do Responsável"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -841,7 +837,7 @@ const Patient = (props) => {
               fullWidth={true}
               disabled={!editMode}
               type='text'
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
             //select
             >
@@ -860,9 +856,9 @@ const Patient = (props) => {
               fullWidth={true}
               disabled={!editMode}
               type='text'
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
-            select
+              select
             >
               {stateList.map((option) => (
                 <MenuItem key={option.acronym} value={option.acronym}>{option.acronym}</MenuItem>
@@ -879,14 +875,13 @@ const Patient = (props) => {
               fullWidth={true}
               disabled={!editMode}
               type='text'
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               select>
               {relativeList.map((option) => (
                 <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
               ))}
             </TextField>
-
           </Grid>
           <Grid item xs={1}>
             <TextField
@@ -896,7 +891,7 @@ const Patient = (props) => {
               label="Grau Parentesco"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -917,7 +912,7 @@ const Patient = (props) => {
               label="Estado Civil"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -931,13 +926,13 @@ const Patient = (props) => {
               label="RG"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
             />
           </Grid>
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <TextField
               value={rgDate}
               onChange={(event) => { rgDateSet(event.target.value) }}
@@ -945,7 +940,7 @@ const Patient = (props) => {
               label="Data Emissão RG"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "date" }}
@@ -959,7 +954,7 @@ const Patient = (props) => {
               label="Órgão Emissor"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -975,7 +970,7 @@ const Patient = (props) => {
               fullWidth={true}
               disabled={!editMode}
               type='text'
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               select>
               {stateList.map((option) => (
@@ -991,7 +986,7 @@ const Patient = (props) => {
               label="Nome da Mãe"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -1005,7 +1000,7 @@ const Patient = (props) => {
               label="Nome do Pai"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -1019,12 +1014,12 @@ const Patient = (props) => {
               label="CNS"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={1}>
             <TextField
               value={blodyType}
@@ -1033,7 +1028,7 @@ const Patient = (props) => {
               label="Tipo Sanguineo"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -1047,13 +1042,12 @@ const Patient = (props) => {
               label="Indicado Por"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
             />
           </Grid>
-
           <Grid item xs={2}>
             <TextField
               value={firstAppoint}
@@ -1062,7 +1056,7 @@ const Patient = (props) => {
               label="Data da primeira consulta"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "date" }}
@@ -1076,13 +1070,12 @@ const Patient = (props) => {
               label="Data da ultima consulta"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "date" }}
             />
           </Grid>
-
         </Grid>
       </div>
 
