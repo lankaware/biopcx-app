@@ -10,6 +10,7 @@ import PrescTextEditor from "../../layout/PrescTextEditor";
 import { getList, putRec } from "../../../services/apiconnect";
 import { useStyles } from "../../../services/stylemui";
 import { customStyles1, paginationBr } from '../../../services/datatablestyle'
+import { defaultDateBr, prettyDate } from '../../../services/dateutils';
 
 import PrescHist from './PrescHist';
 import PrescToPrint from './PrescToPrint';
@@ -30,6 +31,7 @@ const PrescDialog = props => {
     const [printDialog, printDialogSet] = useState(false);
     const [headerAdd, headerAddSet] = useState(false);
     const [footerAdd, footerAddSet] = useState(false);
+    const [clinicHist, clinicHistSet] = useState("")
 
     let patientId = props.patientId;
 
@@ -69,7 +71,7 @@ const PrescDialog = props => {
             })
         if (props.prescDialog) {
             // intMedicineSet('Nome do paciente <BR/> RG <BR/> Endereço <BR/> <BR/>')
-            await parseTextMacro('<strong>@nome</strong> <BR/> @reg <BR/> @ender <BR/> <BR/>', props.patientId)
+            await parseTextMacro('<h4><strong>@nome</strong></h4> @reg <BR/> @ender <BR/> <BR/>', props.patientId)
                 .then(textResult => {
                     intMedicineSet(textResult)
                 })
@@ -81,6 +83,7 @@ const PrescDialog = props => {
             getList('patientid/' + patientId)
                 .then((items) => {
                     prescListSet(items.record[0].prescription || []);
+                    clinicHistSet(items.record[0].clinicHist || "");
                 })
         }
         setRecUpdated(true)
@@ -155,10 +158,14 @@ const PrescDialog = props => {
             "date": new Date(),
             "prescContent": prescText
         }];
+        let uptoDated = prettyDate(defaultDateBr())
+        let intMedOnly = intMedicine.split('Uso interno:')[1]
+        let extMedOnly = extMedicine.split('Uso externo:')[1]
+        let newHist = `${clinicHist} </br><strong>${uptoDated}:</strong> &nbsp; </br> Prescrição: ${intMedOnly} ${extMedOnly}`
         let recObj = {
-            prescription: presc
+            prescription: presc,
+            clinicHist: newHist
         }
-
         recObj = JSON.stringify(recObj)
         putRec("patientid/" + patientId, recObj)
     }
@@ -241,14 +248,14 @@ const PrescDialog = props => {
                                     size='small'
                                     fullWidth={true}
                                     type='text'
-                                    InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                                    InputLabelProps={{ shrink: true, disabled: false }}
                                     select>
                                     {medicineList.map((option) => (
-                                        <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                                        <MenuItem key={option._id} value={option._id} >{option.name}</MenuItem>
                                     ))}
                                 </TextField>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={10}>
                                 <TextField label="Dosagem"
                                     fullWidth={true} value={medicineDose}
                                     InputLabelProps={{ shrink: true, disabled: false }}
@@ -257,12 +264,12 @@ const PrescDialog = props => {
                                     onChange={(event) => medicineDoseSet(event.target.value)} />
                             </Grid>
                             <Grid item xs={3}>
-                                <Button variant="outlined" onClick={addMed}>Adicionar Medicamento</Button>
+                                <Button variant="outlined" onClick={addMed}>Adicionar Item</Button>
                             </Grid>
                             <Grid item xs={4}>
                                 <Box >
                                     <Button onClick={loadDialogOpen} variant="outlined" sx={{ backgroundColor: '#fff' }}>
-                                        Carregar Texto Padrão
+                                        Texto Padrão
                                     </Button>
                                 </Box>
                             </Grid>

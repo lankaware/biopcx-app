@@ -255,7 +255,6 @@ const Patient = (props) => {
       imc,
       firstAppoint,
       lastAppoint,
-
     };
     if (_id !== '0') {
       recObj = JSON.stringify(recObj);
@@ -405,7 +404,7 @@ const Patient = (props) => {
                   label="Nome *"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
                   variant="standard"
                   size="small"
                 />
@@ -418,7 +417,7 @@ const Patient = (props) => {
                   label="Sobrenome *"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
                   variant="standard"
                   size="small"
                 />
@@ -431,7 +430,7 @@ const Patient = (props) => {
                   label="Sexo *"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
                   variant="standard"
                   size="small"
                   inputProps={{ type: "text" }}
@@ -445,7 +444,7 @@ const Patient = (props) => {
                   label="Registro Clínica *"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
                   variant="standard"
                   size="small"
                 />
@@ -458,7 +457,7 @@ const Patient = (props) => {
                   label="Data Nasc. *"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
                   variant="standard"
                   size="small"
                   inputProps={{ type: "date" }}
@@ -473,7 +472,7 @@ const Patient = (props) => {
                   disabled={true}
                   variant="standard"
                   size="small"
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
                   sx={{ color: "black" }}
                 />
               </Grid>
@@ -486,7 +485,7 @@ const Patient = (props) => {
                   label="CPF *"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
                   variant="standard"
                   size="small"
                   inputProps={{ type: "text" }}
@@ -502,7 +501,7 @@ const Patient = (props) => {
                   fullWidth={true}
                   disabled={!editMode}
                   type='text'
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
                   variant="standard"
                   select>
                   {covenantList.map((option) => (
@@ -520,7 +519,7 @@ const Patient = (props) => {
                   fullWidth={true}
                   disabled={!editMode}
                   type='text'
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
                   variant="standard"
                   select>
                   {covenantplanList
@@ -538,7 +537,7 @@ const Patient = (props) => {
                   label="Matrícula Convênio"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
                   variant="standard"
                   size="small"
                   inputProps={{ type: "number" }}
@@ -552,7 +551,7 @@ const Patient = (props) => {
                   label="Validade do Plano"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
                   variant="standard"
                   size="small"
                   inputProps={{ type: "date" }}
@@ -568,7 +567,7 @@ const Patient = (props) => {
                   fullWidth={true}
                   disabled={!editMode}
                   type='text'
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
                   // sx={{ width: 150 }}
                   variant="standard"
                   select>
@@ -585,7 +584,7 @@ const Patient = (props) => {
                   label="Data de Cadastro"
                   fullWidth={true}
                   disabled={true}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
                   variant="standard"
                   size="small"
                   inputProps={{ type: "date" }}
@@ -604,7 +603,7 @@ const Patient = (props) => {
                   label="Altura"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
                   variant="standard"
                   size="small"
                   inputProps={{ type: "number" }}
@@ -620,7 +619,7 @@ const Patient = (props) => {
                   label="Peso"
                   fullWidth={true}
                   disabled={!editMode}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
                   variant="standard"
                   size="small"
                   inputProps={{ type: "number" }}
@@ -634,7 +633,7 @@ const Patient = (props) => {
                   label="IMC"
                   fullWidth={true}
                   disabled={true}
-                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+                  InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
                   variant="standard"
                   size="small"
                   inputProps={{ type: "number" }}
@@ -677,7 +676,7 @@ const Patient = (props) => {
               label="Telefones Fixo/Móvel"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
             />
@@ -690,7 +689,7 @@ const Patient = (props) => {
               label="Email"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -704,7 +703,7 @@ const Patient = (props) => {
               label="Endereço"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
             />
@@ -717,7 +716,7 @@ const Patient = (props) => {
               label="Número"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
             />
@@ -730,7 +729,7 @@ const Patient = (props) => {
               label="Complemento"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
             />
@@ -743,7 +742,7 @@ const Patient = (props) => {
               label="Bairro"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
             />
@@ -758,7 +757,7 @@ const Patient = (props) => {
               fullWidth={true}
               disabled={!editMode}
               type='text'
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
             //select
             >
@@ -777,7 +776,7 @@ const Patient = (props) => {
               fullWidth={true}
               disabled={!editMode}
               type='text'
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               select
             >
@@ -794,7 +793,7 @@ const Patient = (props) => {
               label="CEP"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
             />
@@ -807,7 +806,7 @@ const Patient = (props) => {
               label="Responsável"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -821,7 +820,7 @@ const Patient = (props) => {
               label="Telefone do Responsável"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -837,7 +836,7 @@ const Patient = (props) => {
               fullWidth={true}
               disabled={!editMode}
               type='text'
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
             //select
             >
@@ -856,7 +855,7 @@ const Patient = (props) => {
               fullWidth={true}
               disabled={!editMode}
               type='text'
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               select
             >
@@ -875,7 +874,7 @@ const Patient = (props) => {
               fullWidth={true}
               disabled={!editMode}
               type='text'
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               select>
               {relativeList.map((option) => (
@@ -891,7 +890,7 @@ const Patient = (props) => {
               label="Grau Parentesco"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -912,7 +911,7 @@ const Patient = (props) => {
               label="Estado Civil"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -926,7 +925,7 @@ const Patient = (props) => {
               label="RG"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -940,7 +939,7 @@ const Patient = (props) => {
               label="Data Emissão RG"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "date" }}
@@ -954,7 +953,7 @@ const Patient = (props) => {
               label="Órgão Emissor"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -970,7 +969,7 @@ const Patient = (props) => {
               fullWidth={true}
               disabled={!editMode}
               type='text'
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               select>
               {stateList.map((option) => (
@@ -986,7 +985,7 @@ const Patient = (props) => {
               label="Nome da Mãe"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -1000,7 +999,7 @@ const Patient = (props) => {
               label="Nome do Pai"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -1014,7 +1013,7 @@ const Patient = (props) => {
               label="CNS"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -1028,7 +1027,7 @@ const Patient = (props) => {
               label="Tipo Sanguineo"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -1042,7 +1041,7 @@ const Patient = (props) => {
               label="Indicado Por"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "text" }}
@@ -1056,7 +1055,7 @@ const Patient = (props) => {
               label="Data da primeira consulta"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "date" }}
@@ -1070,7 +1069,7 @@ const Patient = (props) => {
               label="Data da ultima consulta"
               fullWidth={true}
               disabled={!editMode}
-              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'font-weight': 'bold' } }}
+              InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
               variant="standard"
               size="small"
               inputProps={{ type: "date" }}

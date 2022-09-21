@@ -57,7 +57,7 @@ const Agendas = props => {
             sortable: true,
             width: '20vw',
             right: false,
-            cell: row => (<Link to={'patient/' + row.patient_id}target="_blank">{row.patient_name} </Link>)
+            cell: row => (<Link to={'patient/' + row.patient_id} target="_blank">{row.patient_name} </Link>)
         },
         {
             name: 'Telefone',
@@ -294,7 +294,8 @@ const Agendas = props => {
             </div>
             <div>
                 <Dialog open={openAgenda} maxWidth={false}>
-                    <Agenda agendaInfo={agendaINFO}
+                    <Agenda
+                        agendaInfo={agendaINFO}
                         openAgendaSet={openAgendaSet}
                         updatedRecSet={updatedRecSet}
                         professionalList={professionalList}

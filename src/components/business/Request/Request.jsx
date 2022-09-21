@@ -12,6 +12,7 @@ import DataTable from 'react-data-table-component'
 import ReqToPrint from './ReqToPrint';
 import { parseTextMacro } from '../../../services/textutils';
 import { customStyles1, paginationBr } from '../../../services/datatablestyle'
+import { defaultDateBr, prettyDate } from '../../../services/dateutils';
 
 var headerText = null;
 var header = null;
@@ -27,6 +28,7 @@ const ReqDialog = props => {
     const [printDialog, printDialogSet] = useState(false);
     const [headerAdd, headerAddSet] = useState(false);
     const [footerAdd, footerAddSet] = useState(false);
+    const [clinicHist, clinicHistSet] = useState("")
 
     const [loadDialog, loadDialogSet] = useState(false)
     const [editorFocus, editorFocusSet] = useState(true)
@@ -62,7 +64,7 @@ const ReqDialog = props => {
             })
         if (props.reqDialog) {
             // intMedicineSet('Nome do paciente <BR/> RG <BR/> Endereço <BR/> <BR/>')
-            await parseTextMacro('<strong>@nome</strong> <BR/> @reg <BR/> @ender <BR/> <BR/>', props.patientId)
+            await parseTextMacro('<h4><strong>@nome</strong></h4> @reg <BR/> @ender <BR/>.<BR/>', props.patientId)
                 .then(textResult => {
                     reqTextSet(textResult)
                 })
@@ -74,6 +76,7 @@ const ReqDialog = props => {
             getList('patientid/' + patientId)
                 .then((items) => {
                     reqListSet(items.record[0].request || "");
+                    clinicHistSet(items.record[0].clinicHist || "");
                 })
         }
         setRecUpdated(true)
@@ -123,8 +126,13 @@ const ReqDialog = props => {
             "date": new Date(),
             "reqContent": reqText
         }];
+
+        let uptoDated = prettyDate(defaultDateBr())
+        let textOnly = reqText.split('<BR/>.<BR/>')[1]
+        let newHist = `${clinicHist} </br><strong>${uptoDated}:</strong> &nbsp; </br> Solicitação: </br> ${textOnly}`
         let recObj = {
-            request: req
+            request: req,
+            clinicHist: newHist
         }
 
         recObj = JSON.stringify(recObj)
@@ -220,7 +228,7 @@ const ReqDialog = props => {
                             <Grid item xs={4}>
                                 <Box >
                                     <Button onClick={loadDialogOpen} variant="outlined" sx={{ backgroundColor: '#fff' }}>
-                                        Carregar Texto Padrão
+                                        Texto Padrão
                                     </Button>
                                 </Box>
                             </Grid>

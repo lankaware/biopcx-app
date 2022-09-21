@@ -37,11 +37,12 @@ const ReqHist = props => {
 
     return (
         <>
-            <List style={{ maxHeight: '100%', overflow: 'auto' }}>
+            <List dense={true} style={{ maxHeight: '100%', overflow: 'auto' }}>
 
                 {reqList && reqList.map((item, index) => {
                     return (
                         <ListItem
+                            disablePadding={true}
                             key={index}
                             secondaryAction={
                                 <Box>
@@ -58,11 +59,11 @@ const ReqHist = props => {
                                 dialogSet(true)
                                 dialogTextSet(item.reqContent)
                             }}>
-                                <ListItemAvatar>
+                                {/* <ListItemAvatar>
                                     <Avatar>
                                         <ReceiptLongIcon />
                                     </Avatar>
-                                </ListItemAvatar>
+                                </ListItemAvatar> */}
                                 <ListItemText
                                     primary={prettyDate(item.date)}
                                 />

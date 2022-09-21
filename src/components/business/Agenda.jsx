@@ -48,6 +48,7 @@ const Agenda = props => {
     const [originalStatus, originalStatusSet] = useState('')
     const [phone, phoneSet] = useState('')
     const [email, emailSet] = useState('')
+    const [firstAppoint, firstAppointSet] = useState('')
 
     const [professionalList, professionalListSet] = useState([])
     const [patientList, patientListSet] = useState([])
@@ -156,6 +157,7 @@ const Agenda = props => {
                 .then(_ => {
                     if (status !== originalStatus && status === '4')
                         recordBilling()
+                    updatePatDates()
                 })
         } else {
             recObj = JSON.stringify(recObj)
@@ -167,6 +169,7 @@ const Agenda = props => {
                 .then(_ => {
                     if (status !== originalStatus && status === '4')
                         recordBilling()
+                    updatePatDates()
                 })
         }
         updatePatient()
@@ -208,6 +211,20 @@ const Agenda = props => {
         })
     }
 
+    const updatePatDates = () => {
+        let recObjPatient = {
+            _id: patientId,
+            lastAppoint: new Date(),
+        }
+        if (!firstAppoint)
+            recObjPatient = { ...recObjPatient, firstAppoint: new Date() }
+        recObjPatient = JSON.stringify(recObjPatient)
+        putRec('patientid/' + patientId, recObjPatient)
+            .then(result => {
+                console.log('put', result)
+            })
+    }
+
     const emptyRecClose = () => {
         setEmptyRecDialog(false)
     }
@@ -223,6 +240,7 @@ const Agenda = props => {
         covenantplanIdSet(patientList[selectedPatient].covenantplan_id)
         phoneSet(patientList[selectedPatient].phone)
         emailSet(patientList[selectedPatient].email)
+        firstAppointSet(patientList[selectedPatient].firstAppoint)
         statusSet('1')
     }
 

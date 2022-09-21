@@ -44,10 +44,11 @@ const PrescHist = props => {
 
     return (
         <>
-            <List style={{ maxHeight: '100%', overflow: 'auto' }}>
+            <List dense={true} style={{ maxHeight: '100%', overflow: 'auto' }}>
                 {prescList.map((item, index) => {
                     return (
                         <ListItem
+                            disablePadding={true}
                             key={index}
                             secondaryAction={
                                 <Box>
@@ -64,11 +65,11 @@ const PrescHist = props => {
                                 dialogSet(true)
                                 dialogTextSet(item.prescContent)
                             }}>
-                                <ListItemAvatar>
+                                {/* <ListItemAvatar>
                                     <Avatar>
                                         <ReceiptLongIcon />
                                     </Avatar>
-                                </ListItemAvatar>
+                                </ListItemAvatar> */}
                                 <ListItemText
                                     primary={prettyDate(item.date)}
                                 />
