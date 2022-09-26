@@ -75,7 +75,8 @@ const Agenda = props => {
 
     useEffect(() => {
         // if (props.agendaID !== "1") {
-        console.log(props.agendaInfo)
+        // ************ firstAppoint ????????????????????????????????????
+        console.log('props.agendaInfo', props.agendaInfo)
         let record = props.agendaInfo;
         let setters = () => {
             console.log(record._id)
@@ -96,6 +97,7 @@ const Agenda = props => {
             emailSet(record.email || '')
             statusSet(record.status || '')
             originalStatusSet(record.status || '')
+            firstAppointSet(record.firstAppoint[0] || '')
         }
         setters();
         professionalListSet(props.professionalList)
@@ -155,9 +157,10 @@ const Agenda = props => {
                     console.log('put', result)
                 })
                 .then(_ => {
-                    if (status !== originalStatus && status === '4')
+                    if (status !== originalStatus && status === '4') {
                         recordBilling()
-                    updatePatDates()
+                        updatePatDates()
+                    }
                 })
         } else {
             recObj = JSON.stringify(recObj)
@@ -168,8 +171,10 @@ const Agenda = props => {
                 })
                 .then(_ => {
                     if (status !== originalStatus && status === '4')
+                    {
                         recordBilling()
-                    updatePatDates()
+                        updatePatDates()
+                    }
                 })
         }
         updatePatient()
@@ -214,10 +219,11 @@ const Agenda = props => {
     const updatePatDates = () => {
         let recObjPatient = {
             _id: patientId,
-            lastAppoint: new Date(),
+            lastAppoint: date,
         }
-        if (!firstAppoint)
-            recObjPatient = { ...recObjPatient, firstAppoint: new Date() }
+        console.log('firstApp 2', firstAppoint)
+
+        if (firstAppoint === '') recObjPatient = { ...recObjPatient, firstAppoint: date }
         recObjPatient = JSON.stringify(recObjPatient)
         putRec('patientid/' + patientId, recObjPatient)
             .then(result => {

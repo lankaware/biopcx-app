@@ -154,6 +154,7 @@ const Agendas = props => {
                         phone: element.phone || "",
                         email: element.email || "",
                         status: element.status || "",
+                        firstAppoint: element.firstAppoint || "",
                     })
                 });
             })
