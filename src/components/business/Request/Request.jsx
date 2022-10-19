@@ -98,7 +98,13 @@ const ReqDialog = props => {
     ]
 
     const addExam = () => {
-        reqTextSet(`${reqText} &#10152;&nbsp; ${examName} <br>`)
+        const examLines = examName.split('\n')
+        let newText = ''
+        examLines.forEach(newLine => {
+            console.log({newLine})
+            newText = `${newText} </br> ${newLine}`
+        })
+        reqTextSet(`${reqText} ${newText}`)
         examIdSet('')
     }
 

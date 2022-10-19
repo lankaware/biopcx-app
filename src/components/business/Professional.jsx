@@ -254,7 +254,7 @@ const Professional = props => {
                             value={name}
                             onChange={(event) => { nameSet(event.target.value) }}
                             id='name'
-                            label='Nome do Profissional'
+                            label='NOME DO PROFISSIONAL'
                             fullWidth={true}
                             disabled={!insertMode}
                             InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
@@ -278,7 +278,7 @@ const Professional = props => {
                     <Grid item xs={2}>
                         <TextField
                             id='specialty'
-                            label='Especialidade'
+                            label='ESPECIALIDADE'
                             value={specialtyId}
                             onChange={(event) => { specialtyIdSet(event.target.value) }}
                             size='small'
@@ -311,7 +311,7 @@ const Professional = props => {
                             value={email}
                             onChange={(event) => { emailSet(event.target.value) }}
                             id='email'
-                            label='Email'
+                            label='EMAIL'
                             fullWidth={true}
                             disabled={!editMode}
                             InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
@@ -325,7 +325,7 @@ const Professional = props => {
                             value={phone}
                             onChange={(event) => { phoneSet(event.target.value) }}
                             id='phone'
-                            label='Fone'
+                            label='FONE'
                             fullWidth={true}
                             disabled={!editMode}
                             InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
@@ -367,7 +367,7 @@ const Professional = props => {
                             value={admissionDate}
                             onChange={(event) => { admissionDateSet(event.target.value) }}
                             id='admissionDate'
-                            label='Data de Registro'
+                            label='DT REGISTRO'
                             fullWidth={true}
                             disabled={!editMode}
                             InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
@@ -381,7 +381,7 @@ const Professional = props => {
                             value={dismissalDate}
                             onChange={(event) => { dismissalDateSet(event.target.value) }}
                             id='dismissalDate'
-                            label='Desligamento'
+                            label='DESLIGAMENTO'
                             fullWidth={true}
                             disabled={!editMode}
                             InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
@@ -392,7 +392,7 @@ const Professional = props => {
                     </Grid>
                     <Grid item xs={3}>
                         <FormControlLabel
-                            label="Interno?"
+                            label="INTERNO?"
                             control={
                                 <Checkbox
                                     checked={internal}

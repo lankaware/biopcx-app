@@ -99,13 +99,13 @@ const ExamList = props => {
                         <Button color='primary' size='large' id='searchButton' startIcon={<SearchIcon />}
                             onClick={_ => refreshRec()} >
                         </Button>
-                        <Grid item xs={3}>
+                        <Grid item xs={10}>
                             <TextField
                                 value={nameFilter}
                                 onChange={(event) => { nameFilterSet(event.target.value) }}
                                 id='nameFilter'
                                 label='Nome do Item de Solicitação'
-                                fullWidth={false}
+                                fullWidth={true}
                                 InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                                 onKeyPress={(e) => { launchSearch(e) }}
                                 variant='outlined'

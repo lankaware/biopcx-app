@@ -38,6 +38,8 @@ const PrescHist = props => {
             console.log(contentS, content);
             extMedicineSet("Uso externo:" + contentS[1]);
             intMedicineSet(contentS[0]);
+        } else {
+            intMedicineSet(content);
         }
         updateSet(true)
     }

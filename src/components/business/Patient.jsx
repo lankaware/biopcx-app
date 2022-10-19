@@ -401,7 +401,7 @@ const Patient = (props) => {
                   value={name}
                   onChange={(event) => { nameSet(event.target.value) }}
                   id="name"
-                  label="Nome *"
+                  label="NOME *"
                   fullWidth={true}
                   disabled={!editMode}
                   InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -414,7 +414,7 @@ const Patient = (props) => {
                   value={lastname}
                   onChange={(event) => { lastnameSet(event.target.value) }}
                   id="lastname"
-                  label="Sobrenome *"
+                  label="SOBRENOME *"
                   fullWidth={true}
                   disabled={!editMode}
                   InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -427,7 +427,7 @@ const Patient = (props) => {
                   value={gender}
                   onChange={(event) => { genderSet(event.target.value) }}
                   id="gender"
-                  label="Sexo *"
+                  label="SEXO *"
                   fullWidth={true}
                   disabled={!editMode}
                   InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -441,7 +441,7 @@ const Patient = (props) => {
                   value={internalRegister}
                   onChange={(event) => { internalRegisterSet(event.target.value) }}
                   id="internalRegister"
-                  label="Registro Clínica *"
+                  label="REGISTRO CLÍNICA *"
                   fullWidth={true}
                   disabled={!editMode}
                   InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -454,7 +454,7 @@ const Patient = (props) => {
                   value={birthDate}
                   onChange={(event) => { birthDateSet(event.target.value) }}
                   id="birthDate"
-                  label="Data Nasc. *"
+                  label="DT NASC.*"
                   fullWidth={true}
                   disabled={!editMode}
                   InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -467,7 +467,7 @@ const Patient = (props) => {
                 <TextField
                   value={ageCalc(birthDate) || ''}
                   id="age"
-                  label="Idade"
+                  label="IDADE"
                   fullWidth={true}
                   disabled={true}
                   variant="standard"
@@ -494,7 +494,7 @@ const Patient = (props) => {
               <Grid item xs={3}>
                 <TextField
                   id='covenant'
-                  label='Convênio'
+                  label='CONVÊNIO'
                   value={covenantId}
                   onChange={(event) => { covenantIdSet(event.target.value) }}
                   size='small'
@@ -512,7 +512,7 @@ const Patient = (props) => {
               <Grid item xs={4}>
                 <TextField
                   id="covenantplan"
-                  label="Plano"
+                  label="PLANO"
                   value={covenantplanId}
                   onChange={(event) => { covenantplanIdSet(event.target.value) }}
                   size="small"
@@ -534,7 +534,7 @@ const Patient = (props) => {
                   value={covRegistration}
                   onChange={(event) => { covRegistrationSet(event.target.value) }}
                   id="covRegistration"
-                  label="Matrícula Convênio"
+                  label="MATR. CONVÊNIO"
                   fullWidth={true}
                   disabled={!editMode}
                   InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -548,7 +548,7 @@ const Patient = (props) => {
                   value={covValid}
                   onChange={(event) => { covValidSet(event.target.value) }}
                   id="covValid"
-                  label="Validade do Plano"
+                  label="VALID. PLANO"
                   fullWidth={true}
                   disabled={!editMode}
                   InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -560,7 +560,7 @@ const Patient = (props) => {
               <Grid item xs={4}>
                 <TextField
                   id='unit'
-                  label='Unidade *'
+                  label='UNIDADE *'
                   value={unitId}
                   onChange={(event) => { unitIdSet(event.target.value) }}
                   size='small'
@@ -581,7 +581,7 @@ const Patient = (props) => {
                   value={createdAt}
                   onChange={(event) => { createdAtSet(event.target.value) }}
                   id="createdAt"
-                  label="Data de Cadastro"
+                  label="DT CADASTRO"
                   fullWidth={true}
                   disabled={true}
                   InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -600,7 +600,7 @@ const Patient = (props) => {
                   value={height}
                   onChange={(event) => { heightSet(event.target.value) }}
                   id="height"
-                  label="Altura"
+                  label="ALTURA"
                   fullWidth={true}
                   disabled={!editMode}
                   InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -616,7 +616,7 @@ const Patient = (props) => {
                   onChange={(event) => { weightSet(event.target.value) }}
                   onBlur={(e) => imcSet(imcCalc(weight, height))}
                   id="weight"
-                  label="Peso"
+                  label="PESO"
                   fullWidth={true}
                   disabled={!editMode}
                   InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -673,7 +673,7 @@ const Patient = (props) => {
               value={phone}
               onChange={(event) => { phoneSet(event.target.value) }}
               id="phone"
-              label="Telefones Fixo/Móvel"
+              label="FONES FIXO/MÓVEL"
               fullWidth={true}
               disabled={!editMode}
               InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -686,7 +686,7 @@ const Patient = (props) => {
               value={email}
               onChange={(event) => { emailSet(event.target.value) }}
               id="email"
-              label="Email"
+              label="EMAIL"
               fullWidth={true}
               disabled={!editMode}
               InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -700,7 +700,7 @@ const Patient = (props) => {
               value={address}
               onChange={(event) => { addressSet(event.target.value) }}
               id="address"
-              label="Endereço"
+              label="ENDEREÇO"
               fullWidth={true}
               disabled={!editMode}
               InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -713,7 +713,7 @@ const Patient = (props) => {
               value={addressNumber}
               onChange={(event) => { addressNumberSet(event.target.value) }}
               id="addressNumber"
-              label="Número"
+              label="NÚMERO"
               fullWidth={true}
               disabled={!editMode}
               InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -726,7 +726,7 @@ const Patient = (props) => {
               value={addressComplement}
               onChange={(event) => { addressComplementSet(event.target.value) }}
               id="addressComplement"
-              label="Complemento"
+              label="COMPLEMENTO"
               fullWidth={true}
               disabled={!editMode}
               InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -739,7 +739,7 @@ const Patient = (props) => {
               value={neighborhood}
               onChange={(event) => { neighborhoodSet(event.target.value) }}
               id="neighborhood"
-              label="Bairro"
+              label="BAIRRO"
               fullWidth={true}
               disabled={!editMode}
               InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -750,7 +750,7 @@ const Patient = (props) => {
           <Grid item xs={2}>
             <TextField
               id='city'
-              label='Cidade End.'
+              label='CIDADE END.'
               value={city}
               onChange={(event) => { citySet(event.target.value) }}
               size='small'
@@ -769,7 +769,7 @@ const Patient = (props) => {
           <Grid item xs={1}>
             <TextField
               id='state'
-              label='Estado End.'
+              label='ESTADO END.'
               value={state}
               onChange={(event) => { stateSet(event.target.value) }}
               size='small'
@@ -803,7 +803,7 @@ const Patient = (props) => {
               value={responsible}
               onChange={(event) => { responsibleSet(event.target.value) }}
               id="responsibleTemp"
-              label="Responsável"
+              label="RESPONSÁVEL"
               fullWidth={true}
               disabled={!editMode}
               InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -817,7 +817,7 @@ const Patient = (props) => {
               value={responsiblePhone}
               onChange={(event) => { responsiblePhoneSet(event.target.value) }}
               id="responsiblePhone"
-              label="Telefone do Responsável"
+              label="FONE RESPONSÁVEL"
               fullWidth={true}
               disabled={!editMode}
               InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -829,7 +829,7 @@ const Patient = (props) => {
           <Grid item xs={2}>
             <TextField
               id='birthCity'
-              label='Cidade de Nasc.'
+              label='CIDADE NASC.'
               value={birthCity}
               onChange={(event) => { birthCitySet(event.target.value) }}
               size='small'
@@ -848,7 +848,7 @@ const Patient = (props) => {
           <Grid item xs={1}>
             <TextField
               id='birthState'
-              label='Estado Nasc.'
+              label='ESTADO NASC.'
               value={birthState}
               onChange={(event) => { birthStateSet(event.target.value) }}
               size='small'
@@ -908,7 +908,7 @@ const Patient = (props) => {
               value={maritalStatus}
               onChange={(event) => { maritalStatusSet(event.target.value) }}
               id="maritalStatus"
-              label="Estado Civil"
+              label="ESTADO CIVIL"
               fullWidth={true}
               disabled={!editMode}
               InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -1024,7 +1024,7 @@ const Patient = (props) => {
               value={blodyType}
               onChange={(event) => { blodyTypeSet(event.target.value) }}
               id="blodyType"
-              label="Tipo Sanguineo"
+              label="TIPO SANGUE"
               fullWidth={true}
               disabled={!editMode}
               InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -1038,7 +1038,7 @@ const Patient = (props) => {
               value={indicatedBy}
               onChange={(event) => { indicatedBySet(event.target.value) }}
               id="indicatedBy"
-              label="Indicado Por"
+              label="INDICADO POR"
               fullWidth={true}
               disabled={!editMode}
               InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -1052,7 +1052,7 @@ const Patient = (props) => {
               value={firstAppoint}
               onChange={(event) => { firstAppointSet(event.target.value) }}
               id="firstAppoint"
-              label="Data da primeira consulta"
+              label="DT 1ª CONSULTA"
               fullWidth={true}
               disabled={!editMode}
               InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}
@@ -1066,7 +1066,7 @@ const Patient = (props) => {
               value={lastAppoint}
               onChange={(event) => { lastAppointSet(event.target.value) }}
               id="lastAppoint"
-              label="Data da ultima consulta"
+              label="DT ÚLTIMA CONSULTA"
               fullWidth={true}
               disabled={!editMode}
               InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}

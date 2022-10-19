@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import PeopleIcon from '@mui/icons-material/People';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
@@ -21,8 +21,6 @@ const Logo = styled.h1`
     font-family: "Times New Roman", Times, serif;
     font-size: 80px;
 `
-
-
 const Home = props => {
     return (
         <div className='home-container'>
@@ -33,38 +31,62 @@ const Home = props => {
             <Box className='home-buttons' style={{
                 backgroundImage: `url(${agendaImage})`,
                 backgroundSize: '400px',
-            }} m={5}>
-                <p><DateRangeIcon />
-                    Agendas</p>
+            }} m={3}>
+                <p/>
+                <Button
+                    color="success"
+                    href="/agendaList"
+                    >
+                    <Typography variant='h5' sx={{ color: 'black', 'fontWeight': 'bold' }}>AGENDA</Typography>
+                </Button>
             </Box>
             <Box className='home-buttons' style={{
                 backgroundImage: `url(${agendaImage})`,
                 backgroundSize: '400px',
-            }} m={5}>
-                <p> <PeopleIcon />
-                    Pacientes</p>
+            }} m={3}>
+                <p/>
+                <Button
+                    color="success"
+                    href="/patientList"
+                    >
+                    <Typography variant='h5' sx={{ color: 'black', 'fontWeight': 'bold' }}>PACIENTES</Typography>
+                </Button>
             </Box>
             <Box className='home-buttons' style={{
                 backgroundImage: `url(${professionalImage})`,
                 backgroundSize: '400px',
-            }} m={5}>
-                <p> <AssignmentIndIcon />
-                    Profissionais</p>
+            }} m={3}>
+                <p/>
+                <Button
+                    color="success"
+                    href="/professionalList"
+                    >
+                    <Typography variant='h5' sx={{ color: 'black', 'fontWeight': 'bold' }}>PROFISSIONAIS</Typography>
+                </Button>
             </Box>
             <Box className='home-buttons' style={{
                 backgroundImage: `url(${convenantImage})`,
                 backgroundSize: '400px',
-            }} m={5}>
-                <p><FolderIcon />
-                    Convênios</p>
+            }} m={3}>
+                <p/>
+                <Button
+                    color="success"
+                    href="/covenantList"
+                    sx={{ color: 'black', 'fontWeight': 'bold' }}>
+                    <Typography variant='h5'sx={{ color: 'black', 'fontWeight': 'bold' }}>CONVÊNIOS</Typography>
+                </Button>
             </Box>
-            <Box className='home-buttons' style={{
+            {/* <Box className='home-buttons' style={{
                 backgroundImage: `url(${medicineImage})`,
                 backgroundSize: '400px',
-            }} m={5}>
-                <p><MedicationIcon />
-                    Medicamentos</p>
-            </Box>
+            }} m={3}>
+                <p/>
+                <Button
+                    color="success"
+                    href="/agendaList">
+                    <Typography variant='h5'>MEDICAMENTOS</Typography>
+                </Button>
+            </Box> */}
         </div>
     )
 }

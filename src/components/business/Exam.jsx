@@ -112,7 +112,7 @@ const Exam = (props) => {
         <div>
             <div className="tool-bar medicineAdd">
                 <div>
-                    <Typography variant="h5" className="tool-title" noWrap={true}>
+                    <Typography variant="h6" className="tool-title" noWrap={true}>
                         Registro de Items solicitáveis
                     </Typography>
                 </div>
@@ -155,10 +155,11 @@ const Exam = (props) => {
                                 disabled: false,
                                 classes: { root: classes.labelRoot },
                             }}
+                            inputProps={{ type: "date" }}
                             variant="outlined"
                             size="small"
                             multiline
-                            rows="2"
+                            rows="10"
                         />
                     </Grid>
                     <Grid item xs={4}>

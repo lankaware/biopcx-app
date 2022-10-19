@@ -51,7 +51,7 @@ const TextTemplateList = props => {
             name: 'Tipo',
             selector: row => row.type,
             sortable: true,
-            width: '10vw'
+            width: '30vw'
         },
     ];
 

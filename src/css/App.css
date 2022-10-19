@@ -218,11 +218,12 @@ img {
 }
 
 div .medicine {
-    width: 60vw
+    width: 35vw
 }
 
 div .medicineAdd {
-    max-width: 30vw
+    margin: 30px;
+    max-width: 50vw
 }
 
 .absolute {

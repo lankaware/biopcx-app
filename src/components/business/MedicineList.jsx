@@ -34,19 +34,12 @@ const MedicineList = props => {
                 _idSet(row._id)
             }}>{row.name}</Link>)
         },
-        {
-            name: 'Composto',
-            selector: row => row.chemName,
-            sortable: true,
-            width: '15vw'
-        },
-        {
-            name: 'Outro',
-            selector: row => row.phone,
-            sortable: true,
-            width: '5vw',
-            right: true,
-        },
+        // {
+        //     name: 'Composto',
+        //     selector: row => row.chemName,
+        //     sortable: true,
+        //     width: '15vw'
+        // },
     ];
 
 
@@ -113,21 +106,21 @@ const MedicineList = props => {
                         <Button color='primary' size='large' id='searchButton' startIcon={<SearchIcon />}
                             onClick={_ => refreshRec()} >
                         </Button>
-                        <Grid container spacing={2} >
-                            <Grid item xs={3}>
+                        {/* <Grid container spacing={2} > */}
+                            <Grid item xs={10}>
                                 <TextField
                                     value={nameFilter}
                                     onChange={(event) => { nameFilterSet(event.target.value) }}
                                     id='nameFilter'
                                     label='Nome do medicamento'
-                                    fullWidth={false}
+                                    fullWidth={true}
                                     InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                                     onKeyPress={(e) => { launchSearch(e) }}
                                     variant='outlined'
                                     size='small'
                                 />
                             </Grid>
-                            <Grid item xs={3}>
+                            {/* <Grid item xs={3}>
                                 <TextField
                                     value={chemNameFilter}
                                     onChange={(event) => { chemNameFilterSet(event.target.value) }}
@@ -139,8 +132,8 @@ const MedicineList = props => {
                                     variant='outlined'
                                     size='small'
                                 />
-                            </Grid>
-                        </Grid>
+                            </Grid> */}
+                        {/* </Grid> */}
                     </div>
                     <div className='data-table medicine'>
                         <DataTable

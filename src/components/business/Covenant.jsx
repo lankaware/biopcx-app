@@ -426,7 +426,7 @@ const Covenant = props => {
                             value={name}
                             onChange={(event) => { nameSet(event.target.value) }}
                             id='name'
-                            label='Nome do Convênio'
+                            label='NOME DO CONVÊNIO'
                             fullWidth={true}
                             disabled={!insertMode}
                             InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' }  }}
@@ -439,7 +439,7 @@ const Covenant = props => {
                             value={phone}
                             onChange={(event) => { phoneSet(event.target.value) }}
                             id='phone'
-                            label='Telefone'
+                            label='TELEFONE'
                             fullWidth={true}
                             disabled={!editMode}
                             InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' }  }}
@@ -453,7 +453,7 @@ const Covenant = props => {
                             value={email}
                             onChange={(event) => { emailSet(event.target.value) }}
                             id='email'
-                            label='E-mail'
+                            label='EMAIL'
                             fullWidth={true}
                             disabled={!editMode}
                             InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' }  }}
@@ -467,7 +467,7 @@ const Covenant = props => {
                             value={contractNumber}
                             onChange={(event) => { contractNumberSet(event.target.value) }}
                             id='contractNumber'
-                            label='Número do Contrato'
+                            label='NÚMERO DO CONTRATO'
                             fullWidth={true}
                             disabled={!editMode}
                             InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' }  }}
@@ -481,7 +481,7 @@ const Covenant = props => {
                             value={registerDate}
                             onChange={(event) => { registerDateSet(event.target.value) }}
                             id='registerDate'
-                            label='Data do Contrato'
+                            label='DT CONTRATO'
                             fullWidth={true}
                             disabled={!editMode}
                             InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' }  }}
@@ -495,7 +495,7 @@ const Covenant = props => {
                             value={billingDay}
                             onChange={(event) => { billingDaySet(event.target.value) }}
                             id='billingDay'
-                            label='Dia do Faturamento'
+                            label='DIA DO FATURAMENTO'
                             fullWidth={true}
                             disabled={!editMode}
                             InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' }  }}
@@ -510,7 +510,7 @@ const Covenant = props => {
                             value={paymentDay}
                             onChange={(event) => { paymentDaySet(event.target.value) }}
                             id='paymentDay'
-                            label='Dia do Pagamento'
+                            label='DIA DO PAGAMENTO'
                             fullWidth={true}
                             disabled={!editMode}
                             InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' }  }}

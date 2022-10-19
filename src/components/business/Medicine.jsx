@@ -122,7 +122,7 @@ const Medicine = (props) => {
     <div>
       <div className="tool-bar medicineAdd">
         <div>
-          <Typography variant="h5" className="tool-title" noWrap={true}>
+          <Typography variant="h6" className="tool-title" noWrap={true}>
             Registro de Medicamento
           </Typography>
         </div>
