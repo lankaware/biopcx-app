@@ -9,11 +9,9 @@ import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 // import Login from './Login'
 // import tokenValidate from "../../services/tokenValidate"
 import agendaImage from "../../pictures/eric-rothermel-FoKO4DpXamQ-unsplash.jpg"
-import patientImage from "../../pictures/eric-rothermel-FoKO4DpXamQ-unsplash.jpg"
+import patientImage from "../../pictures/national-cancer-institute-J_993suZjc0-unsplash.jpg"
 import professionalImage from "../../pictures/national-cancer-institute-701-FJcjLAQ-unsplash.jpg"
 import convenantImage from "../../pictures/omid-kashmari-s34f0Wxbens-unsplash.jpg"
-import medicineImage from "../../pictures/madison-agardi-QNrjcp90tVc-unsplash.jpg"
-import configImage from "../../pictures/cesar-carlevarino-aragon-NL_DF0Klepc-unsplash.jpg"
 
 import styled, { css } from 'styled-components'
 
@@ -41,7 +39,7 @@ const Home = props => {
                 </Button>
             </Box>
             <Box className='home-buttons' style={{
-                backgroundImage: `url(${agendaImage})`,
+                backgroundImage: `url(${patientImage})`,
                 backgroundSize: '400px',
             }} m={3}>
                 <p/>

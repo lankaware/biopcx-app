@@ -27,6 +27,8 @@ const objectId = 'agendaid/'
 // }
 
 var selectedToSave = []
+var chosenItem = ''
+
 const Agenda = props => {
 
     let _id = props.agendaInfo._id
@@ -53,13 +55,15 @@ const Agenda = props => {
     const [professionalList, professionalListSet] = useState([])
     const [patientList, patientListSet] = useState([])
     const [procedureList, procedureListSet] = useState([])
+    const [procedureListBill, procedureListBillSet] = useState([])
     const [covenantList, covenantListSet] = useState([])
     const [covenantplanList, covenantplanListSet] = useState([])
 
     const [emptyRecDialog, setEmptyRecDialog] = useState(false)
     const [tempPacDialog, tempPacDialogSet] = useState(false)
     const [changeStatusDialog, changeStatusDialogSet] = useState(false)
-    // const [listBill, setListBill] = useState([])
+    const [changeValueDialog, changeValueDialogSet] = useState(false)
+    const [billPrice, billPriceSet] = useState('')
 
     const classes = useStyles()
 
@@ -70,6 +74,17 @@ const Agenda = props => {
             sortable: true,
             width: '15vw',
             right: false,
+        },
+        {
+            name: 'Valor',
+            selector: row => Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+            })
+                .format(row.price),
+            sortable: true,
+            width: '10vw',
+            right: true,
         },
     ];
 
@@ -103,6 +118,7 @@ const Agenda = props => {
         professionalListSet(props.professionalList)
         patientListSet(props.patientList)
         procedureListSet(props.procedureList)
+
         covenantListSet(props.covenantList)
         covenantplanListSet(props.covenantplanList)
     }, [_id])
@@ -117,7 +133,13 @@ const Agenda = props => {
     const validateChangeStatus = (newStatus) => {
         statusSet(newStatus)
         if (newStatus === '4' && newStatus !== originalStatus) {
-            changeStatusDialogSet(true)
+            getList(`procedurevalue/${covenantId}/${covenantplanId}`)
+                .then(items => {
+                    procedureListBillSet(items.record)
+                })
+                .then(_ => {
+                    changeStatusDialogSet(true)
+                })
         }
     }
 
@@ -153,9 +175,6 @@ const Agenda = props => {
         if (_id.length === 24) {
             recObj = JSON.stringify(recObj)
             putRec(objectId + _id, recObj)
-                .then(result => {
-                    console.log('put', result)
-                })
                 .then(_ => {
                     if (status !== originalStatus && status === '4') {
                         recordBilling()
@@ -170,8 +189,7 @@ const Agenda = props => {
                     _id = result.record._id
                 })
                 .then(_ => {
-                    if (status !== originalStatus && status === '4')
-                    {
+                    if (status !== originalStatus && status === '4') {
                         recordBilling()
                         updatePatDates()
                     }
@@ -198,21 +216,20 @@ const Agenda = props => {
     }
 
     const recordBilling = () => {
-        selectedToSave.map(selectedLocal => {
+        selectedToSave.map(selectedEvent => {
+            console.log('selectedEvent', selectedEvent)
             let recObjBilling = {
                 attendanceDate: date,
                 patient_id: patientId,
                 professional_id: professionalId,
-                procedure_id: selectedLocal._id,
+                procedure_id: selectedEvent._id,
                 covenant_id: covenantId,
                 covenantplan_id: covenantplanId,
                 agenda_id: _id,
+                amount: selectedEvent.price
             }
             recObjBilling = JSON.stringify(recObjBilling)
             postRec('billing/', recObjBilling)
-                .then(result => {
-                    console.log('post', result)
-                })
         })
     }
 
@@ -221,8 +238,6 @@ const Agenda = props => {
             _id: patientId,
             lastAppoint: date,
         }
-        console.log('firstApp 2', firstAppoint)
-
         if (firstAppoint === '') recObjPatient = { ...recObjPatient, firstAppoint: date }
         recObjPatient = JSON.stringify(recObjPatient)
         putRec('patientid/' + patientId, recObjPatient)
@@ -255,6 +270,24 @@ const Agenda = props => {
         return null
     }
 
+    const billChangeDialog = (row) => {
+        chosenItem = procedureListBill.findIndex((item) => { return item._id === row._id })
+        console.log('chosenItem 1', chosenItem)
+        billPriceSet(row.price)
+        changeValueDialogSet(true);
+    }
+
+    const confirmBillDialog = () => {
+        console.log('chosenItem 2', chosenItem)
+        procedureListBill[chosenItem].price = billPrice
+        changeValueDialogSet(false)
+    }
+
+    const cancelBillDialog = () => {
+        statusSet(originalStatus)
+        changeValueDialogSet(false)
+    }
+
     return (
         <div>
             <div className='tool-bar'>
@@ -277,7 +310,6 @@ const Agenda = props => {
                             variant='outlined'
                             size='small'
                             type="date"
-                        // inputProps={{ type: 'date' }}
                         />
                     </Grid>
                     <Grid item xs={3}>
@@ -494,7 +526,7 @@ const Agenda = props => {
                             noHeader={true}
                             columns={columns}
                             customStyles={customStyles1}
-                            data={procedureList}
+                            data={procedureListBill}
                             selectableRows
                             Clicked
                             keyField={'_id'}
@@ -505,16 +537,37 @@ const Agenda = props => {
                             onSelectedRowsChange={({ allSelected, selectedCount, selectedRows }) => {
                                 handleSelectChange(allSelected, selectedCount, selectedRows)
                             }}
-                        // title=""
-                        // pagination={true}
-                        // noContextMenu={true}
-                        // paginationPerPage={10}
+                            onRowClicked={(row, event) => { billChangeDialog(row) }}
                         />
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={cancelStatus} color="primary" variant="contained" autoFocus>Cancelar</Button>
-                    <Button onClick={confirmStatus} color="secondary" variant="contained">Confirmar</Button>
+                    <Button onClick={cancelStatus} color="primary" variant="contained" size='small' autoFocus>Cancelar</Button>
+                    <Button onClick={confirmStatus} color="secondary" variant="contained" size='small'>Confirmar</Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={changeValueDialog}>
+                <DialogTitle id="alert-dialog-title">{"Alterar valor a ser cobrado"}</DialogTitle>
+                <DialogContent >
+                    <Box m={1}>
+                        <TextField
+                            id='billPrice'
+                            label='Valor Cobrado'
+                            value={billPrice}
+                            onChange={(event) => { billPriceSet(event.target.value) }}
+                            size='small'
+                            fullWidth={true}
+                            disabled={false}
+                            InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                            variant='outlined'
+                            type="number"
+                        />
+                    </Box>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={cancelBillDialog} color="primary" variant="contained" size='small' autoFocus>Cancelar</Button>
+                    <Button onClick={confirmBillDialog} color="secondary" variant="contained" size='small' >Confirmar</Button>
                 </DialogActions>
             </Dialog>
 

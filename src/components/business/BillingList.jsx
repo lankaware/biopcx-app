@@ -70,13 +70,13 @@ const BillingList = props => {
             width: '15vw',
             right: false,
         },
-        {
-            name: 'Agenda',
-            selector: row => row.agenda_id,
-            sortable: true,
-            width: '15vw',
-            right: false,
-        },
+        // {
+        //     name: 'Agenda',
+        //     selector: row => row.agenda_id,
+        //     sortable: true,
+        //     width: '15vw',
+        //     right: false,
+        // },
     ];
 
     const [billingInfo, billingInfoSet] = useState({});
