@@ -1119,6 +1119,8 @@ const Patient = (props) => {
         textDialogSet={textDialogSet}
         patientId={_id}
         callUpdate={setRecUpdated}
+        name={name}
+        lastname={lastname}
       />
 
       <Dialog open={photoDialog}>

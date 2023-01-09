@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
-import { Grid, TextField, Typography, Button
+import {
+    Grid, TextField, Typography, Button
 } from '@mui/material'
 import CryptoJS from 'crypto-js'
 
@@ -11,7 +12,7 @@ import { AuthContext } from '../../context/AuthContext'
 
 const Authentication = props => {
 
-    const {authenticated, userSign} = useContext(AuthContext);
+    const { authenticated, userSign } = useContext(AuthContext);
 
     const [login, loginSet] = useState('')
     const [passw, passwSet] = useState('')
@@ -21,23 +22,23 @@ const Authentication = props => {
 
     const loginConfirm = async () => {
         const passwcr = CryptoJS.AES.encrypt(passw, process.env.REACT_APP_SECRET).toString();
-
         let recObj = {
             passw: passwcr
         }
         recObj = JSON.stringify(recObj)
-        postRec('userlogin/' + login, recObj)
-        .then(result => {
-            console.log('result', result)
-            if (!result.token) {
-                alert('Usuário ou login inválidos!')
-                return null
-            }
-            userSign(result.token, result.name, result.role)
-        })
-}
+        console.log('recObj', recObj)
 
-      return (
+        postRec('userlogin/' + login, recObj)
+            .then(result => {
+                if (!result.token) {
+                    alert('Usuário ou login inválidos!')
+                    return null
+                }
+                userSign(result.token, result.name, result.role)
+            })
+    }
+
+    return (
         <>
             <div className='container-div'>
                 <div >

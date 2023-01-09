@@ -11,6 +11,11 @@ export const theme = createTheme({
     info: {
       main: '#f00'
     },
+    // mode: 'dark',
+    // primary: {
+    //   main: '#1976d2',
+    // },
+
   },
   typography: {
     // fontFamily: 'Comic Sans MS'

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {
-  Button, Dialog, DialogActions, DialogTitle, Box, AppBar, Tabs, Tab, Toolbar
+  Button, Dialog, DialogActions, DialogTitle, Box, AppBar, Tabs, Tab, Toolbar, Typography
 } from "@mui/material";
 import { Form } from 'reactstrap';
 
@@ -75,29 +75,32 @@ const TextDialogNew = props => {
 
   return (
     <>
-      <Dialog open={props.textDialog} maxWidth={'lg'} >
+      {/* <Dialog open={props.textDialog} maxWidth={'lg'} > */}
+      <Dialog open={props.textDialog} fullScreen={true} maxWidth={'lg'} >
         <DialogTitle id="alert-dialog-title">
+          <Typography variant='h5' className='tool-title' noWrap={true}>{`${props.name} ${props.lastname}`}</Typography>
           {/* <Form className='data-form-level2'> */}
           {/* <div> */}
-          <AppBar position="relative" color="primary">
+          {/* <AppBar position="relative" color="primary" > */}
+          <AppBar position="relative" style={{ background: '#2E3B55' }}>
             {/* <Toolbar variant="dense"> */}
-              <Tabs
-                value={tabValue}
-                onChange={(event, newValue) => { setTabValue(newValue) }}
-                indicatorColor="secondary"
-                textColor="inherit"
-                variant="standard"
-                // aria-label="full width tabs example"
-              >
-                <Tab label="Hist.Clínica" {...posTab(0)} sx={ {fontWeight: 'bold'} }/>
-                <Tab label="Antec.Pessoais" {...posTab(1)} sx={ {fontWeight: 'bold'} }/>
-                <Tab label="Antec.Família" {...posTab(2)} sx={ {fontWeight: 'bold'} }/>
-                <Tab label="Cateterismo" {...posTab(3)} sx={ {fontWeight: 'bold'} }/>
-                <Tab label="Cirurgias" {...posTab(4)} sx={ {fontWeight: 'bold'} }/>
-                <Tab label="Alertas" {...posTab(5)} sx={ {fontWeight: 'bold'} }/>
-                <Tab label="Livre 1" {...posTab(6)} sx={ {fontWeight: 'bold'} }/>
-                <Tab label="Livre 2" {...posTab(7)} sx={ {fontWeight: 'bold'} }/>
-              </Tabs>
+            <Tabs
+              value={tabValue}
+              onChange={(event, newValue) => { setTabValue(newValue) }}
+              indicatorColor="secondary"
+              textColor="inherit"
+              variant="standard"
+            // aria-label="full width tabs example"
+            >
+              <Tab label="Hist.Clínica" {...posTab(0)} sx={{ fontWeight: 'bold' }} />
+              <Tab label="Antec.Pessoais" {...posTab(1)} sx={{ fontWeight: 'bold' }} />
+              <Tab label="Antec.Família" {...posTab(2)} sx={{ fontWeight: 'bold' }} />
+              <Tab label="Cateterismo" {...posTab(3)} sx={{ fontWeight: 'bold' }} />
+              <Tab label="Cirurgias" {...posTab(4)} sx={{ fontWeight: 'bold' }} />
+              <Tab label="Alertas" {...posTab(5)} sx={{ fontWeight: 'bold' }} />
+              <Tab label="Livre 1" {...posTab(6)} sx={{ fontWeight: 'bold' }} />
+              <Tab label="Livre 2" {...posTab(7)} sx={{ fontWeight: 'bold' }} />
+            </Tabs>
             {/* </Toolbar> */}
           </AppBar>
           {/* <Offset /> */}

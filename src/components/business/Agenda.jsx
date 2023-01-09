@@ -154,7 +154,7 @@ const Agenda = props => {
     }
 
     const saveRec = () => {
-        if (!date || !patientId || !procedureId || !covenantId || !covenantplanId) {
+        if (!date || !patientId || !procedureId || !phone) {
             setEmptyRecDialog(true)
             return null
         }
