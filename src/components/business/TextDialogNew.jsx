@@ -81,7 +81,6 @@ const TextDialogNew = props => {
           <Typography variant='h5' className='tool-title' noWrap={true}>{`${props.name} ${props.lastname}`}</Typography>
           {/* <Form className='data-form-level2'> */}
           {/* <div> */}
-          {/* <AppBar position="relative" color="primary" > */}
           <AppBar position="relative" style={{ background: '#2E3B55' }}>
             {/* <Toolbar variant="dense"> */}
             <Tabs

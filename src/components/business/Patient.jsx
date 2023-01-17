@@ -5,7 +5,9 @@ import {
   DialogContentText, DialogTitle, MenuItem, Box
 } from "@mui/material";
 import Webcam from "react-webcam";
+import ReactToPrint from "react-to-print"
 
+import PrintIcon from "@mui/icons-material/Print";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -24,6 +26,7 @@ import { imcCalc } from "../../services/genfunctions";
 import TextDialogNew from "./TextDialogNew.jsx";
 import PrescDialog from "./Prescription/Prescription";
 import ReqDialog from "./Request/Request"
+import PatientPrint from './PatientPrint'
 
 import { PatientContext } from '../../context/PatientContext'
 import { AuthContext } from '../../context/AuthContext'
@@ -91,9 +94,11 @@ const Patient = (props) => {
 
   const [prescDialog, prescDialogSet] = useState(false);
   const [reqDialog, reqDialogSet] = useState(false);
+  const [recPrint, recPrintSet] = useState('')
 
   const [insertMode, setInsertMode] = useState(id === "0" || preCad);
   const [editMode, setEditMode] = useState(id === "0");
+  const [printMode, setPrintMode] = useState(id !== "0");
 
   const [photoDialog, photoSetDialog] = useState(false);
   const [textDialog, textDialogSet] = useState(false);
@@ -102,10 +107,13 @@ const Patient = (props) => {
   const [emptyRecDialog, setEmptyRecDialog] = useState(false);
   const [emptyFieldDialog, setEmptyFieldDialog] = useState('');
   const [recUpdated, setRecUpdated] = useState(true)
+  const [printDialog, printDialogSet] = useState(false);
 
   const [printLocal, printLocalSet] = useState('')
   const [doctorName, doctorNameSet] = useState('')
   const [doctorCrm, doctorCrmSet] = useState('')
+
+  const textRef = useRef()
 
   // const classes = useStyles();
 
@@ -166,6 +174,7 @@ const Patient = (props) => {
           firstAppointSet((items.record[0].firstAppoint || "").substr(0, 10));
           lastAppointSet((items.record[0].lastAppoint || "").substr(0, 10));
 
+          recPrintSet(items.record[0])
           // prescListSet(items.record[0].prescription || []);
           // reqListSet(items.record[0].request || []);
         });
@@ -269,6 +278,7 @@ const Patient = (props) => {
     setRecUpdated(false)
     setEditMode(false);
     setInsertMode(false);
+    setPrintMode(true);
   };
 
   const refreshRec = () => {
@@ -331,6 +341,10 @@ const Patient = (props) => {
     textDialogSet(true)
   }
 
+  const closePrintDialog = () => {
+    printDialogSet(false)
+  }
+
   return (
     <div>
       <div className="tool-bar">
@@ -338,6 +352,11 @@ const Patient = (props) => {
           <Typography variant="h5" className="tool-title" noWrap={true}>Registro de Paciente</Typography>
         </div>
         <div className='tool-buttons'>
+          <Box m={1}>
+            <Button color="primary" variant="contained" size="small" startIcon={<PrintIcon />}
+              onClick={(_) => printDialogSet(true)} >IMPRIMIR
+            </Button>
+          </Box>
           <Box m={1}>
             <Button color="primary" variant="contained" size="small" startIcon={<EditIcon />}
               onClick={(_) => setEditMode(true)} disabled={editMode}>EDITAR
@@ -1190,6 +1209,38 @@ const Patient = (props) => {
           <Button onClick={emptyRecClose} color="primary" variant="contained">Ok</Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog open={printDialog} fullScreen={true} maxWidth={'lg'}>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Imprimir a Ficha do Paciente?
+          </DialogContentText>
+          <PatientPrint
+            ref={textRef}
+            recToPrint={recPrint}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Box m={1}>
+            <Button onClick={closePrintDialog} color="primary" size='small' variant="contained" autoFocus>Voltar</Button>
+          </Box>
+          <ReactToPrint
+            trigger={() =>
+              <Box m={1}>
+                <Button variant='contained' size='small' color='secondary' href="#">
+                  Imprimir
+                </Button>
+              </Box>
+            }
+            content={() => textRef.current}
+            onAfterPrint={() => {
+              closePrintDialog()
+            }}
+            documentTitle={"Presc" + props.patientName + new Date()}
+          />
+        </DialogActions>
+      </Dialog>
+
     </div>
   );
 };
