@@ -1212,12 +1212,15 @@ const Patient = (props) => {
 
       <Dialog open={printDialog} fullScreen={true} maxWidth={'lg'}>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          {/* <DialogContentText id="alert-dialog-description">
             Imprimir a Ficha do Paciente?
-          </DialogContentText>
+          </DialogContentText> */}
           <PatientPrint
             ref={textRef}
             recToPrint={recPrint}
+            covenantList={covenantList}
+            covenantplanList={covenantplanList}
+            unitList={unitList}
           />
         </DialogContent>
         <DialogActions>
