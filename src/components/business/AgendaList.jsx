@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import DataTable from 'react-data-table-component'
 
-import { Button, Box, Typography, Grid, TextField, Dialog, MenuItem } from '@mui/material'
+import { Button, Box, Typography, Grid, TextField, Dialog, MenuItem, DialogActions, DialogContent } from '@mui/material'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
 // import SearchIcon from '@mui/icons-material/Search'
@@ -10,12 +10,15 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import PrintIcon from '@mui/icons-material/Print';
 import { BsFillCircleFill } from "react-icons/bs";
+import ReactToPrint from "react-to-print"
 
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec } from '../../services/apiconnect'
 import { customStyles1, paginationBr } from '../../services/datatablestyle'
 import { prettyDate, timeBr, defaultDateBr } from '../../services/dateutils'
+import AgendaPrint from './AgendaPrint'
 
 import Agenda from './Agenda'
 const objectRef = 'agenda/'
@@ -90,12 +93,15 @@ const Agendas = props => {
 
     const [openAgenda, openAgendaSet] = useState('')
     const [updatedRec, updatedRecSet] = useState(false)
+    const [printDialog, printDialogSet] = useState(false)
 
     const [professionalList, professionalListSet] = useState([])
     const [patientList, patientListSet] = useState([])
     const [procedureList, procedureListSet] = useState([])
     const [covenantList, covenantListSet] = useState([])
     const [covenantplanList, covenantplanListSet] = useState([])
+
+    const textRef = useRef()
 
     useEffect(() => {
         getList('professional/')
@@ -207,6 +213,10 @@ const Agendas = props => {
                             "gray") // Agenda livre
     }
 
+    const closePrintDialog = () => {
+        printDialogSet(false)
+    }
+
     return (
         <div>
             <div className='tool-bar'>
@@ -263,8 +273,11 @@ const Agendas = props => {
                 <Button color='primary' size='large' id='searchButton' startIcon={<FilterAltIcon />}
                     onClick={_ => refreshRec()} >
                 </Button>
-                <Button color='primary' size='large' id='searchButton' startIcon={<FilterAltOffIcon />}
+                <Button color='primary' size='large' id='searchButtonClear' startIcon={<FilterAltOffIcon />}
                     onClick={_ => clearFilters()} >
+                </Button>
+                <Button color='primary' size='large' id='printButton' startIcon={<PrintIcon />}
+                    onClick={_ => printDialogSet(true)} >
                 </Button>
             </div>
 
@@ -306,6 +319,35 @@ const Agendas = props => {
                         covenantplanList={covenantplanList}
                     >
                     </Agenda>
+                </Dialog>
+                <Dialog open={printDialog} fullScreen={true} maxWidth={'lg'}>
+                    <DialogContent>
+                        <AgendaPrint
+                            ref={textRef}
+                            listToPrint={list}
+                            // covenantList={covenantList}
+                            // covenantplanList={covenantplanList}
+                            // unitList={unitList}
+                            // stateList={stateList}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Box m={1}>
+                            <Button onClick={closePrintDialog} color="primary" size='small' variant="contained" autoFocus>Voltar</Button>
+                        </Box>
+                        <ReactToPrint
+                            trigger={() =>
+                                <Box m={1}>
+                                    <Button variant='contained' size='small' color='secondary' href="#">
+                                        Imprimir
+                                    </Button>
+                                </Box>
+                            }
+                            content={() => textRef.current}
+                            onAfterPrint={() => { closePrintDialog() }}
+                            documentTitle={"Presc" + props.patientName + new Date()}
+                        />
+                    </DialogActions>
                 </Dialog>
             </div>
         </div>

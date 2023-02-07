@@ -4,6 +4,7 @@ import {
   Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
   DialogContentText, DialogTitle, MenuItem, Box
 } from "@mui/material";
+
 import Webcam from "react-webcam";
 import ReactToPrint from "react-to-print"
 
@@ -1221,6 +1222,7 @@ const Patient = (props) => {
             covenantList={covenantList}
             covenantplanList={covenantplanList}
             unitList={unitList}
+            stateList={stateList}
           />
         </DialogContent>
         <DialogActions>
@@ -1236,9 +1238,7 @@ const Patient = (props) => {
               </Box>
             }
             content={() => textRef.current}
-            onAfterPrint={() => {
-              closePrintDialog()
-            }}
+            onAfterPrint={() => {closePrintDialog()}}
             documentTitle={"Presc" + props.patientName + new Date()}
           />
         </DialogActions>

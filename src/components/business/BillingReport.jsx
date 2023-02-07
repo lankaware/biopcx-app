@@ -15,8 +15,11 @@ import { getList } from '../../services/apiconnect'
 var billcovenantName
 
 const setBillCovenantName = (convId, convList) => {
-  const selectedConv = convList.findIndex((item) => { return item._id === convId })
-  billcovenantName =  convList[selectedConv].name
+  if (convId = 1000) billcovenantName = '* Todos *'
+  else {
+    const selectedConv = convList.findIndex((item) => { return item._id === convId })
+    billcovenantName = convList[selectedConv].name
+  }
 }
 
 const RepBillCovenant = props => {
@@ -40,7 +43,7 @@ const RepBillCovenant = props => {
   const printDialog = () => {
     getList('billing/' + billcovenant + '/' + dateInit + '/' + dateEnd)
       .then(items => {
-        console.log(items.billingList)
+        console.log('items.billingList', items.billingList)
         setList(items.billingList)
         setReportPreview(true)
       })
@@ -74,6 +77,7 @@ const RepBillCovenant = props => {
             sx={{ width: '20vw' }}
             type='text'
             select>
+            <MenuItem key={1000} value={1000}>{'* Todos *'}</MenuItem>
             {covenantList.map((option) => (
               <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
             ))}
@@ -129,8 +133,8 @@ const RepBillCovenant = props => {
 
       <Dialog
         open={reportPreview}
-        fullWidth={true}
-        maxWidth={'md'}
+        fullScreen={true}
+        maxWidth={'lg'}
       >
         <DialogTitle id="alert-dialog-title">{"Faturamento por Convênio "}</DialogTitle>
         <DialogContent>
@@ -162,7 +166,6 @@ const RepBillCovenant = props => {
             </Box>
           </div>
           {/* <div className='data-bottom-margin'></div> */}
-
         </DialogContent>
       </Dialog>
 
