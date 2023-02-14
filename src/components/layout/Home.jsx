@@ -15,76 +15,69 @@ import convenantImage from "../../pictures/omid-kashmari-s34f0Wxbens-unsplash.jp
 
 import styled, { css } from 'styled-components'
 
-const Logo = styled.h1`
-    font-family: "Times New Roman", Times, serif;
-    font-size: 80px;
-`
+// const Logo = styled.h1`
+//     font-family: "Times New Roman", Times, serif;
+//     font-size: 80px;
+// `
 const Home = props => {
     return (
+
         <div className='home-container'>
-            {/* <img src={process.env.PUBLIC_URL + 'logo-cor.webp'} alt='Lankaware' weight='410' height='100' /> */}
-            <Box className='home-logo'>
-                <Logo>BIOPACE</Logo>
-            </Box>
+            <div className='home-logo'>
+                <img src={process.env.PUBLIC_URL + 'image1.png'} alt='Biopace' weight='519' height='230' />
+            </div>
+
+            <div className='home-link'>
+                <a href='https://www.biopace.com.br' target='_blank'>
+                    <Typography variant='h4' sx={{ color: 'black', 'fontWeight': 'bold' }}>biopace.com.br</Typography>
+                </a>
+            </div>
+
             <Box className='home-buttons' style={{
-                backgroundImage: `url(${agendaImage})`,
-                backgroundSize: '400px',
-            }} m={3}>
-                <p/>
-                <Button
-                    color="success"
-                    href="/agendaList"
-                    >
+                // backgroundImage: `url(${agendaImage})`,
+                // backgroundSize: '400px',
+            }} m={5}>
+                {/* <p /> */}
+                <Button color="success" href="/agendaList" >
                     <Typography variant='h5' sx={{ color: 'black', 'fontWeight': 'bold' }}>AGENDA</Typography>
                 </Button>
             </Box>
             <Box className='home-buttons' style={{
-                backgroundImage: `url(${patientImage})`,
-                backgroundSize: '400px',
-            }} m={3}>
-                <p/>
+                // backgroundImage: `url(${patientImage})`,
+                // backgroundSize: '400px',
+            }} m={5}>
+                {/* <p /> */}
                 <Button
                     color="success"
                     href="/patientList"
-                    >
+                >
                     <Typography variant='h5' sx={{ color: 'black', 'fontWeight': 'bold' }}>PACIENTES</Typography>
                 </Button>
             </Box>
             <Box className='home-buttons' style={{
-                backgroundImage: `url(${professionalImage})`,
-                backgroundSize: '400px',
-            }} m={3}>
-                <p/>
+                // backgroundImage: `url(${professionalImage})`,
+                // backgroundSize: '400px',
+            }} m={5}>
+                {/* <p /> */}
                 <Button
                     color="success"
                     href="/professionalList"
-                    >
+                >
                     <Typography variant='h5' sx={{ color: 'black', 'fontWeight': 'bold' }}>PROFISSIONAIS</Typography>
                 </Button>
             </Box>
             <Box className='home-buttons' style={{
-                backgroundImage: `url(${convenantImage})`,
-                backgroundSize: '400px',
-            }} m={3}>
-                <p/>
+                // backgroundImage: `url(${convenantImage})`,
+                // backgroundSize: '400px',
+            }} m={5}>
+                {/* <p /> */}
                 <Button
                     color="success"
                     href="/covenantList"
                     sx={{ color: 'black', 'fontWeight': 'bold' }}>
-                    <Typography variant='h5'sx={{ color: 'black', 'fontWeight': 'bold' }}>CONVÊNIOS</Typography>
+                    <Typography variant='h5' sx={{ color: 'black', 'fontWeight': 'bold' }}>CONVÊNIOS</Typography>
                 </Button>
             </Box>
-            {/* <Box className='home-buttons' style={{
-                backgroundImage: `url(${medicineImage})`,
-                backgroundSize: '400px',
-            }} m={3}>
-                <p/>
-                <Button
-                    color="success"
-                    href="/agendaList">
-                    <Typography variant='h5'>MEDICAMENTOS</Typography>
-                </Button>
-            </Box> */}
         </div>
     )
 }
