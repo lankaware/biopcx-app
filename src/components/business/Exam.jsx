@@ -57,24 +57,30 @@ const Exam = (props) => {
             setEmptyRecDialog(true);
             return null;
         }
-
-        let recObj = {
-            name,
-            description
-        };
-        if (_id !== '0') {
-            recObj = JSON.stringify(recObj);
-            putRec(objectId + _id, recObj)
-        } else {
-            recObj = JSON.stringify(recObj);
-            postRec(objectRef, recObj)
-            setUpdateList(true);
-        }
-        setInsertMode(true);
-        _idSet('0');
-        nameSet("");
-        descriptionSet("");
-        console.log(_id);
+        getList(`examnamexact/${name}`)
+            .then(item => {
+                if (item.record[0] && _id === "0") {
+                    setEmptyRecDialog(true);
+                    return null;
+                } else {
+                    let recObj = {
+                        name,
+                        description
+                    };
+                    if (_id !== '0') {
+                        recObj = JSON.stringify(recObj);
+                        putRec(objectId + _id, recObj)
+                    } else {
+                        recObj = JSON.stringify(recObj);
+                        postRec(objectRef, recObj)
+                        setUpdateList(true);
+                    }
+                    setInsertMode(true);
+                    _idSet('0');
+                    nameSet("");
+                    descriptionSet("");
+                }
+            })
     };
 
     const refreshRec = () => {
@@ -130,7 +136,7 @@ const Exam = (props) => {
                             id="name"
                             label="Nome do Item"
                             fullWidth={true}
-                            disabled={!insertMode}
+                            disabled={!editMode}
                             InputLabelProps={{
                                 shrink: true,
                                 disabled: false,
@@ -195,7 +201,7 @@ const Exam = (props) => {
                             size="small"
                             startIcon={<DeleteForeverIcon />}
                             onClick={(_) => delRec()}
-                            disabled={_id === '0' ? true : false }
+                            disabled={_id === '0' ? true : false}
                         >
                             APAGAR
                         </Button>

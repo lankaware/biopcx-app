@@ -144,7 +144,7 @@ const ProcedureList = props => {
                         <Button color='primary' size='large' id='searchButton' startIcon={<SearchIcon />}
                             onClick={_ => refreshRec()} >
                         </Button>
-                        <Grid item xs={3}>
+                        <Grid item xs={6}>
                             <TextField
                                 value={nameFilter}
                                 onChange={(event) => { nameFilterSet(event.target.value) }}
@@ -157,7 +157,7 @@ const ProcedureList = props => {
                                 size='small'
                             />
                         </Grid>
-                        <Grid item xs={3}>
+                        {/* <Grid item xs={3}>
                             <TextField
                                 value={cbhpmFilter}
                                 onChange={(event) => { cbhpmFilterSet(event.target.value) }}
@@ -169,7 +169,7 @@ const ProcedureList = props => {
                                 variant='outlined'
                                 size='small'
                             />
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                 </div>
                 <div className='data-table medicine'>

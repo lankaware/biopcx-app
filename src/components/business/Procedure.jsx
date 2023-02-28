@@ -83,9 +83,9 @@ const Procedure = props => {
     }
 
     const refreshRec = () => {
-        if (insertMode) {
-            document.getElementById("backButton").click();
-        }
+        // if (insertMode) {
+        //     document.getElementById("backButton").click();
+        // }
         setInsertMode(true);
         _idSet('0')
         nameSet("")
@@ -159,7 +159,7 @@ const Procedure = props => {
                             id='name'
                             label='Nome do Procedimento'
                             fullWidth={true}
-                            disabled={!insertMode}
+                            disabled={!editMode}
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                             variant='outlined'
                             size='small'

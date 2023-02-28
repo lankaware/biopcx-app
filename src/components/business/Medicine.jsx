@@ -21,7 +21,7 @@ const Medicine = (props) => {
 
   const [name, nameSet] = useState("");
   const [chemName, chemNameSet] = useState("");
-  const [wayOfuse, wayOfuseSet] = useState("");
+  const [wayOfuse, wayOfuseSet] = useState("Interno");
   const [dosage, dosageSet] = useState("");
   const [lab, labSet] = useState("");
 
@@ -59,7 +59,7 @@ const Medicine = (props) => {
     _idSet('0')
     nameSet("");
     chemNameSet("");
-    wayOfuseSet("");
+    wayOfuseSet("Interno");
     dosageSet("");
     labSet("");
     setInsertMode(true);
@@ -70,29 +70,36 @@ const Medicine = (props) => {
       setEmptyRecDialog(true);
       return null;
     }
-
-    let recObj = {
-      name,
-      chemName,
-      wayOfuse,
-      dosage,
-      lab,
-    };
-    if (_id !== "0") {
-      recObj = JSON.stringify(recObj);
-      putRec(objectId + _id, recObj)
-    } else {
-      recObj = JSON.stringify(recObj);
-      postRec(objectRef, recObj)
-      setUpdateList(true);
-    }
-    cleanFields();
+    getList(`medicinenamexact/${name}`)
+      .then(item => {
+        if (item.record[0] && _id === "0") {
+          setEmptyRecDialog(true);
+          return null;
+        } else {
+          let recObj = {
+            name,
+            chemName,
+            wayOfuse,
+            dosage,
+            lab,
+          };
+          if (_id !== "0") {
+            recObj = JSON.stringify(recObj);
+            putRec(objectId + _id, recObj)
+          } else {
+            recObj = JSON.stringify(recObj);
+            postRec(objectRef, recObj)
+            setUpdateList(true);
+          }
+          cleanFields();
+        }
+      });
   };
 
   const refreshRec = () => {
-    if (insertMode) {
-      document.getElementById("backButton").click();
-    }
+    // if (insertMode) {
+    //   document.getElementById("backButton").click();
+    // }
     cleanFields();
   };
 
@@ -140,7 +147,7 @@ const Medicine = (props) => {
               id="name"
               label="Nome do medicamento"
               fullWidth={true}
-              disabled={!insertMode}
+              disabled={!editMode}
               InputLabelProps={{
                 shrink: true,
                 disabled: false,
@@ -187,7 +194,7 @@ const Medicine = (props) => {
               variant="outlined"
               size="small"
               select>
-              <MenuItem key='1' value={"Interno"}>Interno</MenuItem>
+              <MenuItem key='1' value={"Interno"}>Interno/Inalatório</MenuItem>
               <MenuItem key='2' value={"Externo"}>Externo</MenuItem>
             </TextField>
           </Grid>
@@ -308,7 +315,7 @@ const Medicine = (props) => {
       // onClose={emptyRecClose}
       >
         <DialogTitle id="alert-dialog-title">
-          {"Registro sem descrição ou já existente não pode ser gravado."}
+          {"Medicamento sem nome ou com nome repetido não pode ser gravado."}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
