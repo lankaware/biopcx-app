@@ -70,9 +70,10 @@ const Medicine = (props) => {
       setEmptyRecDialog(true);
       return null;
     }
-    getList(`medicinenamexact/${name}`)
+    getList(`medicinenamexact/${name.replace('/', '%2F')}`)
       .then(item => {
-        if (item.record[0] && _id === "0") {
+        console.log('item.record[0]', item.record[0])
+        if (item.record[0] && (_id === "0" || _id !== item.record[0])) {
           setEmptyRecDialog(true);
           return null;
         } else {

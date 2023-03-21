@@ -143,6 +143,10 @@ const ReqDialog = props => {
 
         recObj = JSON.stringify(recObj)
         putRec("patientid/" + patientId, recObj)
+        .then((_) => {
+            props.callUpdate(false)
+          });
+
     }
 
     const cancelreq = () => {

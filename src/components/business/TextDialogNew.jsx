@@ -27,6 +27,7 @@ const TextDialogNew = props => {
   const [tabValue, setTabValue] = useState(0);
 
   useEffect(() => {
+    console.log('Chamou upd text')
     if (patientId && patientId !== "0") {
       getList('patientid/' + patientId)
         .then((items) => {
@@ -42,7 +43,7 @@ const TextDialogNew = props => {
           alertSet(items.record[0].alert || "");
         })
     }
-  }, [patientId]);
+  }, [patientId, props.callUpdate]);
 
   const saveRec = () => {
     let recObj = {
@@ -78,7 +79,9 @@ const TextDialogNew = props => {
       {/* <Dialog open={props.textDialog} maxWidth={'lg'} > */}
       <Dialog open={props.textDialog} fullScreen={true} maxWidth={'lg'} >
         <DialogTitle id="alert-dialog-title">
-          <Typography variant='h5' className='tool-title' noWrap={true}>{`${props.name} ${props.lastname}`}</Typography>
+          <div>
+            <Typography variant='h5' className='tool-title' noWrap={true}>{`${props.name} ${props.lastname}`}</Typography>
+          </div>
           {/* <Form className='data-form-level2'> */}
           {/* <div> */}
           <AppBar position="relative" style={{ background: '#2E3B55' }}>
@@ -169,7 +172,7 @@ const TextDialogNew = props => {
             Salvar
           </Button>
           <Button onClick={cancelUpdateText} color="secondary" variant="contained" size='small'>
-            Cancelar
+            Fechar
           </Button>
         </DialogActions>
       </Dialog>

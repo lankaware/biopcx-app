@@ -128,6 +128,7 @@ const Patient = (props) => {
     if (_id !== '0') {
       getList(objectId + _id)
         .then((items) => {
+          console.log('Atualizou paciente')
           _idSet(items.record[0]._id);
           preCadSet(items.record[0].preCad || false);
           photoSet(items.record[0].photo || "");
@@ -619,6 +620,7 @@ const Patient = (props) => {
                 <TextField
                   value={height}
                   onChange={(event) => { heightSet(event.target.value) }}
+                  onBlur={(e) => imcSet(imcCalc(weight, height))}
                   id="height"
                   label="ALTURA"
                   fullWidth={true}
@@ -1138,7 +1140,8 @@ const Patient = (props) => {
         textDialog={textDialog}
         textDialogSet={textDialogSet}
         patientId={_id}
-        callUpdate={setRecUpdated}
+        // callUpdate={setRecUpdated}
+        callUpdate={recUpdated}
         name={name}
         lastname={lastname}
       />

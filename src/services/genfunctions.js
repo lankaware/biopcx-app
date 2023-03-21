@@ -1,6 +1,9 @@
 
 export function imcCalc(weight, height) {
-    return (weight / (height ** 2)).toFixed(2);
+    if (weight && height)
+        return (weight / ((height / 100) ** 2)).toFixed(2);
+    else
+        return 0
 }
 
 export function isValidCPF(cpf) {

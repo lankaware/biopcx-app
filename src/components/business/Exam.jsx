@@ -40,7 +40,6 @@ const Exam = (props) => {
     const classes = useStyles();
 
     useEffect(() => {
-        console.log("Exam Insert Mode", insertMode)
         if (_id !== '0') {
             getList(objectId + _id).then((items) => {
                 _idSet(items.record._id)
@@ -52,14 +51,14 @@ const Exam = (props) => {
     }, [_id]); // recUpdated
 
     const saveRec = () => {
-        console.log("Exam save Rec", insertMode)
         if (!name) {
             setEmptyRecDialog(true);
             return null;
         }
-        getList(`examnamexact/${name}`)
+        
+        getList(`examnamexact/${name.replace('/', '%2F')}`)
             .then(item => {
-                if (item.record[0] && _id === "0") {
+                if (item.record[0] && (_id === "0" || _id !== item.record[0])) {
                     setEmptyRecDialog(true);
                     return null;
                 } else {

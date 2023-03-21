@@ -150,7 +150,7 @@ const PrescDialog = props => {
         }
     }
 
-    const savePresc = () => {
+    const savePresc = async () => {
         header = headerAdd === true ? headerText : "&nbsp;"
         footer = footerAdd === true ? footerText : "&nbsp;"
         printDialogSet(true)
@@ -168,6 +168,9 @@ const PrescDialog = props => {
         }
         recObj = JSON.stringify(recObj)
         putRec("patientid/" + patientId, recObj)
+        .then((_) => {
+            props.callUpdate(false)
+          });
     }
 
     const cancelPresc = () => {
