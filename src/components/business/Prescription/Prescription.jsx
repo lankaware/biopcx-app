@@ -319,7 +319,8 @@ const PrescDialog = props => {
                     <PrescToPrint
                         ref={textRef}
                         prescText={prescText}
-                        header={header}
+                        // header={header}
+                        headerAdd={headerAdd}
                         footer={footer}
                         printLocal={props.printLocal}
                         doctorName={props.doctorName}

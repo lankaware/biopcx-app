@@ -101,7 +101,6 @@ const ReqDialog = props => {
         const examLines = examName.split('\n')
         let newText = ''
         examLines.forEach(newLine => {
-            console.log({newLine})
             newText = `${newText} </br> ${newLine}`
         })
         reqTextSet(`${reqText} ${newText}`)
@@ -337,7 +336,8 @@ const ReqDialog = props => {
                     <ReqToPrint 
                     ref={textRef} 
                     reqText={reqText} 
-                    header={header} 
+                    // header={header} 
+                    headerAdd={headerAdd}
                     footer={footer} 
                     printLocal={props.printLocal}
                     doctorName={props.doctorName}

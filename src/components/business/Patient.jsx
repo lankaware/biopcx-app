@@ -128,7 +128,6 @@ const Patient = (props) => {
     if (_id !== '0') {
       getList(objectId + _id)
         .then((items) => {
-          console.log('Atualizou paciente')
           _idSet(items.record[0]._id);
           preCadSet(items.record[0].preCad || false);
           photoSet(items.record[0].photo || "");
@@ -177,6 +176,9 @@ const Patient = (props) => {
           lastAppointSet((items.record[0].lastAppoint || "").substr(0, 10));
 
           recPrintSet(items.record[0])
+          const unitCity = unitList[unitList.findIndex((item) => { return item._id === items.record[0].unit_id })].city
+          printLocalSet(unitCity)
+
           // prescListSet(items.record[0].prescription || []);
           // reqListSet(items.record[0].request || []);
         });
@@ -322,8 +324,8 @@ const Patient = (props) => {
   };
 
   const openPresc = () => {
-    const unitCity = unitList[unitList.findIndex((item) => { return item._id === unitId })].city
-    printLocalSet(unitCity)
+    // const unitCity = unitList[unitList.findIndex((item) => { return item._id === unitId })].city
+    // printLocalSet(unitCity)
     // To-do: futuramente relacionar o login com o cadastro de médicos para pegar nome e crm
     doctorNameSet('TJIOE KOK KIE')
     doctorCrmSet('27124')
@@ -331,8 +333,8 @@ const Patient = (props) => {
   }
 
   const openReq = () => {
-    const unitCity = unitList[unitList.findIndex((item) => { return item._id === unitId })].city
-    printLocalSet(unitCity)
+    // const unitCity = unitList[unitList.findIndex((item) => { return item._id === unitId })].city
+    // printLocalSet(unitCity)
     // To-do: futuramente relacionar o login com o cadastro de médicos para pegar nome e crm
     doctorNameSet('TJIOE KOK KIE')
     doctorCrmSet('27124')
