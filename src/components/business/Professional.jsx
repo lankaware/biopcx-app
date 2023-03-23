@@ -145,7 +145,6 @@ const Professional = props => {
                     return -1
             })
 
-        console.log('recSubList', recSubList)
         let recObj = {
             name,
             cpf,

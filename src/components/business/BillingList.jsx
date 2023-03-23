@@ -40,7 +40,7 @@ const BillingList = props => {
             sortable: true,
             width: '20vw',
             right: false,
-            cell: row => (<Link to={'patient/' + row.patient_id}>{row.patient_name}</Link>)
+            // cell: row => (<Link to={'patient/' + row.patient_id}>{row.patient_name}</Link>)
         },
         {
             name: 'Procedimento',
@@ -121,7 +121,7 @@ const BillingList = props => {
     useEffect(() => {
         refreshRec();
         updatedRecSet(true);
-    }, [dateFilter, patientFilter, covenantFilter, updatedRec]);
+    }, [dateFilter, patientFilter, covenantFilter, updatedRec, openBilling]);
 
     const refreshRec = () => {
         let tempList = []

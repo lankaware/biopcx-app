@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
 import {
     Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
     DialogContentText, DialogTitle, MenuItem, Box, InputAdornment
 } from '@mui/material'
 
-import EditIcon from '@mui/icons-material/Edit'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import CancelIcon from '@mui/icons-material/Cancel'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
 
 import { useStyles } from '../../services/stylemui'
 import { getList, putRec, postRec, deleteRec } from '../../services/apiconnect'
-import { timeBr } from '../../services/dateutils'
 
 const objectRef = 'billing/'
 const objectId = 'billingid/'
@@ -21,9 +17,6 @@ const objectId = 'billingid/'
 const Billing = props => {
 
     let _id = props.billingInfo._id
-    // let { id } = useParams()
-
-    // const [_id, _idSet] = useState('')
     const [attendanceDate, attendanceDateSet] = useState('')
     const [patientId, patientIdSet] = useState('')
     const [patientName, patientNameSet] = useState('')
@@ -45,9 +38,9 @@ const Billing = props => {
     const [covenantList, covenantListSet] = useState([])
     const [covenantplanList, covenantplanListSet] = useState([])
 
+    const [deleteDialog, setDeleteDialog] = useState(false)
+    const [deleteInfoDialog, setDeleteInfoDialog] = useState(false)
     const [emptyRecDialog, setEmptyRecDialog] = useState(false)
-
-    // const [tabValue, setTabValue] = useState(0);
 
     const classes = useStyles()
 
@@ -56,7 +49,6 @@ const Billing = props => {
         let record = props.billingInfo;
         let setters = () => {
             console.log(record._id)
-            // _idSet(record._id)
             attendanceDateSet((record.attendanceDate || '').substr(0, 10))
             professionalIdSet(record.professional_id || '')
             professionalNameSet(record.professionalName || '')
@@ -94,7 +86,6 @@ const Billing = props => {
             amount,
             status
         }
-        console.log("recObj", recObj)
         if (_id.length === 24) {
             recObj = JSON.stringify(recObj)
             putRec(objectId + _id, recObj)
@@ -119,6 +110,23 @@ const Billing = props => {
 
     const cancelRec = () => {
         props.openBillingSet(false)
+    }
+
+    const delRec = () => {
+        setDeleteDialog(true)
+    }
+
+    const delConfirm = () => {
+        console.log('_id', _id)
+        deleteRec(objectId + _id)
+            .then(result => {
+            })
+        setDeleteDialog(false)
+        setDeleteInfoDialog(true)
+    }
+
+    const delCancel = () => {
+        setDeleteDialog(false)
     }
 
     return (
@@ -174,7 +182,6 @@ const Billing = props => {
                             disabled={false}
                             type='text'
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            // sx={{ width: 150 }}
                             select
                         >
                             {professionalList.map((option) => (
@@ -193,7 +200,6 @@ const Billing = props => {
                             disabled={false}
                             type='text'
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            // sx={{ width: 150 }}
                             select
                         >
                             {procedureList.map((option) => (
@@ -213,7 +219,6 @@ const Billing = props => {
                             disabled={false}
                             type='text'
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            // sx={{ width: 150 }}
                             select
                         >
                             {covenantList.map((option) => (
@@ -233,7 +238,6 @@ const Billing = props => {
                             disabled={false}
                             type='text'
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                            // sx={{ width: 150 }}
                             select
                         >
                             {covenantplanList
@@ -264,23 +268,24 @@ const Billing = props => {
             <DialogActions>
                 <div className='tool-buttons'>
                     <Box m={1}>
+                        <Button color='error' variant='contained' size='small' startIcon={<DeleteForeverIcon />}
+                            onClick={_ => delRec()} disabled={false}>EXCLUIR
+                        </Button>
+                    </Box>
+                    <Box m={1}>
                         <Button color='primary' variant='contained' size='small' startIcon={<SaveAltIcon />}
                             onClick={_ => saveRec()} disabled={false}>SALVAR
                         </Button>
                     </Box>
                     <Box m={1}>
                         <Button color='primary' variant='contained' size='small' startIcon={<CancelIcon />}
-                            onClick={_ => cancelRec()} disabled={false}>CANCELAR
+                            onClick={_ => cancelRec()} disabled={false}>VOLTAR
                         </Button>
                     </Box>
                 </div>
             </DialogActions>
 
-
-            <Dialog
-                open={emptyRecDialog}
-            // onClose={emptyRecClose}
-            >
+            <Dialog open={emptyRecDialog}>
                 <DialogTitle id="alert-dialog-title">{"Registro sem descrição ou já existente não pode ser gravado."}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
@@ -289,6 +294,36 @@ const Billing = props => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={emptyRecClose} color="primary" variant='contained'>
+                        Ok
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog open={deleteDialog}>
+                <DialogTitle id="alert-dialog-title">{"Apagar o registro selecionado?"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Após confirmada essa operação não poderá ser desfeita.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={delCancel} color="primary" variant='contained' autoFocus
+                    >Cancelar
+                    </Button>
+                    <Button onClick={delConfirm} color="secondary" variant='contained'
+                    >Confirmar
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={deleteInfoDialog}>
+                <DialogTitle id="alert-dialog-title">{"Registro removido do cadastro."}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Clique para voltar a lista.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={cancelRec} color="primary" variant='contained'>
                         Ok
                     </Button>
                 </DialogActions>
