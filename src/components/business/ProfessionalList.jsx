@@ -53,8 +53,8 @@ const Professionals = props => {
 
     const refreshRec = () => {
         let recObj = {}
-        if (nameFilter) recObj = { 'name': { "$regex": nameFilter } }
-        if (specialtyFilter) recObj = { ...recObj, 'specialty.name  ': { "$regex": specialtyFilter } }
+        if (nameFilter) recObj = { 'name': { "$regex": nameFilter, "$options": 'i' } }
+        if (specialtyFilter) recObj = { ...recObj, 'specialty.name  ': { "$regex": specialtyFilter, "$options": 'i' } }
 
         recObj = JSON.stringify(recObj)
         putRec(objectRef, recObj)

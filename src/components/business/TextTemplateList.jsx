@@ -76,8 +76,8 @@ const TextTemplateList = props => {
 
     const refreshRec = () => {
         let recObj = {}
-        if (nameFilter) recObj = { 'name': { "$regex": nameFilter } }
-        if (typeFilter) recObj = { ...recObj, 'type': { "$regex": typeFilter } }
+        if (nameFilter) recObj = { 'name': { "$regex": nameFilter, "$options": 'i' } }
+        if (typeFilter) recObj = { ...recObj, 'type': { "$regex": typeFilter, "$options": 'i' } }
 
         recObj = JSON.stringify(recObj)
         putRec(objectRef, recObj)

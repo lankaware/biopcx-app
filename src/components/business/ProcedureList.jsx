@@ -97,8 +97,8 @@ const ProcedureList = props => {
 
     const refreshRec = () => {
         let recObj = {}
-        if (nameFilter) recObj = { 'name': { "$regex": nameFilter } }
-        if (cbhpmFilter) recObj = { ...recObj, 'cbhpm': { "$regex": cbhpmFilter } }
+        if (nameFilter) recObj = { 'name': { "$regex": nameFilter, "$options": 'i' } }
+        if (cbhpmFilter) recObj = { ...recObj, 'cbhpm': { "$regex": cbhpmFilter, "$options": 'i' } }
 
         recObj = JSON.stringify(recObj)
         putRec(objectRef, recObj)

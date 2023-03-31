@@ -70,7 +70,7 @@ const Medicine = (props) => {
       setEmptyRecDialog(true);
       return null;
     }
-    getList(`medicinenamexact/${name.replace('/', '%2F')}`)
+    getList(`medicinenamexact/${name.replace(/[/]/g, '%2F')}`)
       .then(item => {
         console.log('item.record[0]', item.record[0])
         if (item.record[0] && (_id === "0" || _id !== item.record[0])) {
@@ -195,8 +195,8 @@ const Medicine = (props) => {
               variant="outlined"
               size="small"
               select>
-              <MenuItem key='1' value={"Interno"}>Interno/Inalatório</MenuItem>
-              <MenuItem key='2' value={"Externo"}>Externo</MenuItem>
+              <MenuItem key='1' value={"Interno"}>Interno</MenuItem>
+              <MenuItem key='2' value={"Externo"}>Externo/Inalatório</MenuItem>
             </TextField>
           </Grid>
           <Grid item xs={12}>

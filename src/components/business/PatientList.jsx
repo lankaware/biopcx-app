@@ -60,9 +60,9 @@ const Patients = props => {
 
     const refreshRec = () => {
         let recObj = {}
-        if (nameFilter) recObj = { 'name': { "$regex": nameFilter } }
-        if (lastnameFilter) recObj = { 'lastname': { "$regex": lastnameFilter } }
-        if (covenantFilter) recObj = { ...recObj, 'covenant.name  ': { "$regex": covenantFilter } }
+        if (nameFilter) recObj = { 'name': { "$regex": nameFilter, "$options": 'i' } }
+        if (lastnameFilter) recObj = { 'lastname': { "$regex": lastnameFilter, "$options": 'i' } }
+        if (covenantFilter) recObj = { ...recObj, 'covenant.name  ': { "$regex": covenantFilter, "$options": 'i' } }
 
         recObj = JSON.stringify(recObj)
         putRec(objectRef, recObj)

@@ -56,7 +56,7 @@ const Exam = (props) => {
             return null;
         }
         
-        getList(`examnamexact/${name.replace('/', '%2F')}`)
+        getList(`examnamexact/${name.replace(/[/]/g, '%2F')}`)
             .then(item => {
                 if (item.record[0] && (_id === "0" || _id !== item.record[0])) {
                     setEmptyRecDialog(true);

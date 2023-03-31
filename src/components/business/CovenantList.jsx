@@ -50,7 +50,7 @@ const CovenantList = props => {
 
     const refreshRec = () => {
         let recObj = {}
-        if (nameFilter) recObj = { 'name': { "$regex": nameFilter } }
+        if (nameFilter) recObj = { 'name': { "$regex": nameFilter, "$options": 'i' } }
         recObj = JSON.stringify(recObj)
         putRec(objectRef, recObj)
             .then(items => {
