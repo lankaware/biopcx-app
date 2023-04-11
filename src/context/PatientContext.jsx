@@ -16,13 +16,15 @@ function ListsProvider({ children }) {
     // const { authenticated, username } = useContext(AuthContext);
 
     useEffect(() => {
+        console.log('context unitList')
         // if (authenticated === true) {
-            getList("unit/").then((items) => { unitListSet(items.record) })
+            getList("unit/").then((items) => { unitListSet(items.record)})
             // getList("city/").then((items) => { cityListSet(items.record) })
             getList("covenant/").then((items) => { covenantListSet(items.record) })
             getList("covenantplan/").then((items) => { covenantplanListSet(items.record) })
             getList("state/").then((items) => { stateListSet(items.record) })
             getList("patient/").then((items) => { relativeListSet(items.record) })
+            
         // }
     }, [])
 

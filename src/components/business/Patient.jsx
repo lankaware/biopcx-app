@@ -36,13 +36,9 @@ const objectRef = "patient/";
 const objectId = "patientid/";
 
 const Patient = (props) => {
-
   const { id } = useParams()
-
   const { covenantList, covenantplanList, stateList, relativeList, unitList } = useContext(PatientContext);
-
   const { role } = useContext(AuthContext);
-
   const webcamRef = useRef("")
 
   const [preCad, preCadSet] = useState(false)
@@ -176,11 +172,6 @@ const Patient = (props) => {
           lastAppointSet((items.record[0].lastAppoint || "").substr(0, 10));
 
           recPrintSet(items.record[0])
-          const unitCity = unitList[unitList.findIndex((item) => { return item._id === items.record[0].unit_id })].city
-          printLocalSet(unitCity)
-
-          // prescListSet(items.record[0].prescription || []);
-          // reqListSet(items.record[0].request || []);
         });
     }
     setRecUpdated(true)
@@ -283,6 +274,8 @@ const Patient = (props) => {
     setEditMode(false);
     setInsertMode(false);
     setPrintMode(true);
+    console.log('unitList 2', unitList)
+
   };
 
   const refreshRec = () => {
@@ -324,8 +317,8 @@ const Patient = (props) => {
   };
 
   const openPresc = () => {
-    // const unitCity = unitList[unitList.findIndex((item) => { return item._id === unitId })].city
-    // printLocalSet(unitCity)
+    const unitCity = unitList[unitList.findIndex((item) => { return item._id === unitId })].city
+    printLocalSet(unitCity)
     // To-do: futuramente relacionar o login com o cadastro de médicos para pegar nome e crm
     doctorNameSet('TJIOE KOK KIE')
     doctorCrmSet('27124')
@@ -333,8 +326,8 @@ const Patient = (props) => {
   }
 
   const openReq = () => {
-    // const unitCity = unitList[unitList.findIndex((item) => { return item._id === unitId })].city
-    // printLocalSet(unitCity)
+    const unitCity = unitList[unitList.findIndex((item) => { return item._id === unitId })].city
+    printLocalSet(unitCity)
     // To-do: futuramente relacionar o login com o cadastro de médicos para pegar nome e crm
     doctorNameSet('TJIOE KOK KIE')
     doctorCrmSet('27124')

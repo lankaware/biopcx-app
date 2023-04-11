@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import {
     Grid, TextField, Typography, Button, Dialog, DialogActions, DialogContent,
     DialogContentText, DialogTitle, Table, TableBody, TableCell, TableContainer, TableHead,
-    TableRow, Paper, Box
+    TableRow, Paper, Box, MenuItem
 } from '@mui/material'
 
 import EditIcon from '@mui/icons-material/Edit'
@@ -178,12 +178,19 @@ const TextTemplate = props => {
                             onChange={(event) => { typeSet(event.target.value) }}
                             id='type'
                             label='Tipo'
-                            fullWidth={false}
+                            fullWidth={true}
                             disabled={!editMode}
                             InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                             variant='outlined'
                             size='small'
-                        />
+                            select>
+                            <MenuItem key='1' value={"Atestado"}>Atestado</MenuItem>
+                            <MenuItem key='2' value={"Recibo"}>Recibo</MenuItem>
+                            <MenuItem key='3' value={"Exames"}>Exames</MenuItem>
+                            <MenuItem key='4' value={"Tomografia"}>Tomografia</MenuItem>
+                            <MenuItem key='5' value={"Ressonância"}>Ressonância</MenuItem>
+                            <MenuItem key='6' value={"Radiologia"}>Radiologia</MenuItem>
+                        </TextField>
                     </Grid>
                     <Grid item xs={3}>
                         <Button color='success' variant='contained' size='small' startIcon={<HelpIcon />}
@@ -293,6 +300,14 @@ const TextTemplate = props => {
                                     </TableCell>
                                     <TableCell >
                                         Número de registro interno do paciente
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow key={4} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                    <TableCell component="th" scope="row">
+                                        @cpf
+                                    </TableCell>
+                                    <TableCell >
+                                        Número do CPF do paciente
                                     </TableCell>
                                 </TableRow>
                                 <TableRow key={5} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>

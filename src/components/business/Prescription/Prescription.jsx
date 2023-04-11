@@ -161,7 +161,8 @@ const PrescDialog = props => {
         let uptoDated = prettyDate(defaultDateBr())
         let intMedOnly = intMedicine.split('Uso interno:')[1]
         let extMedOnly = extMedicine.split('Uso externo / inalatório:')[1]
-        let newHist = `${clinicHist} </br><strong>${uptoDated}:</strong> &nbsp; </br> Prescrição: ${intMedOnly} ${extMedOnly}`
+        let newHist = `${clinicHist} </br>===========================================================================`
+        newHist = `${newHist} </br><strong>${uptoDated}:</strong> &nbsp; </br> Prescrição: ${intMedOnly ? intMedOnly : ''} ${extMedOnly ? extMedOnly : ''} </br>`
         let recObj = {
             prescription: presc,
             clinicHist: newHist

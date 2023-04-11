@@ -134,7 +134,8 @@ const ReqDialog = props => {
 
         let uptoDated = prettyDate(defaultDateBr())
         let textOnly = reqText.split('<BR/>.<BR/>')[1]
-        let newHist = `${clinicHist} </br><strong>${uptoDated}:</strong> &nbsp; </br> Solicitação: </br> ${textOnly}`
+        let newHist = `${clinicHist} </br>===========================================================================`
+        newHist = `${newHist} </br><strong>${uptoDated}:</strong> &nbsp; </br> Solicitação: </br> ${textOnly} </br>`
         let recObj = {
             request: req,
             clinicHist: newHist
@@ -145,7 +146,6 @@ const ReqDialog = props => {
         .then((_) => {
             props.callUpdate(false)
           });
-
     }
 
     const cancelreq = () => {

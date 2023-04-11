@@ -11,6 +11,7 @@ export async function parseTextMacro(textToParse, patientId) {
         const addressComplement = items.record[0].addressComplement || ''
         const city = items.record[0].city ? ' - ' + items.record[0].city : ''
         const state = items.record[0].state ? '/' + items.record[0].state :  ''
+        const cpf = items.record[0].cpf ? items.record[0].cpf :  ''
 
         parsedText = textToParse.replace(/@data/g, refDate)
         parsedText = parsedText.replace(/@nome/g, `${items.record[0].name} ${items.record[0].lastname}`)
@@ -19,6 +20,7 @@ export async function parseTextMacro(textToParse, patientId) {
         parsedText = parsedText.replace(/@nasc/g, `${items.record[0].birthDate}`)
         parsedText = parsedText.replace(/@reg/g, `${items.record[0].internalRegister}`)
         parsedText = parsedText.replace(/@ender/g, `${address} ${addressNumber} ${addressComplement}${city}${state} `)
+        parsedText = parsedText.replace(/@cpf/g, `${cpf}`)
         return parsedText
     })
 }
