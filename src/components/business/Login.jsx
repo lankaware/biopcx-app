@@ -85,7 +85,6 @@ const Login = props => {
     return (
         <>
             <div >
-
                 <div >
                     <Grid container spacing={2} >
                         <Grid item xs={12}>
@@ -199,7 +198,6 @@ const Login = props => {
                     </Button>
                 </DialogActions>
             </Dialog>
-
         </>
     )
 }
