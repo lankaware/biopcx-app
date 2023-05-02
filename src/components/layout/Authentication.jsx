@@ -1,13 +1,9 @@
-import React, { useState, useContext } from 'react'
-import {
-    Grid, TextField, Typography, Button
-} from '@mui/material'
+import React, { useState, useEffect, useContext } from 'react'
+import { Grid, TextField, Typography, Button, MenuItem } from '@mui/material'
 import CryptoJS from 'crypto-js'
-
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
-
 import { useStyles } from '../../services/stylemui'
-import { postRec } from '../../services/apiconnect'
+import { postRec, getList } from '../../services/apiconnect'
 import { AuthContext } from '../../context/AuthContext'
 
 const Authentication = props => {
@@ -16,25 +12,39 @@ const Authentication = props => {
 
     const [login, loginSet] = useState('')
     const [passw, passwSet] = useState('')
+    const [unit, unitSet] = useState('')
+    const [unitList, unitListSet] = useState([])
     const classes = useStyles()
+
+    useEffect(() => {
+        getList("unit/")
+            .then((items) => {
+                unitListSet(items.record)
+                unitSet(items.record[0]._id)
+            })
+    }, [])
 
     if (authenticated) return null
 
     const loginConfirm = async () => {
+        if (!login || !passw || !unit) {
+            alert('Por favor preencha todos os campos.')
+            return null
+        }
         const passwcr = CryptoJS.AES.encrypt(passw, process.env.REACT_APP_SECRET).toString();
         let recObj = {
-            passw: passwcr
+            passw: passwcr,
+            userunit: unit,
         }
         recObj = JSON.stringify(recObj)
-        console.log('recObj', recObj)
-
         postRec('userlogin/' + login, recObj)
             .then(result => {
                 if (!result.token) {
                     alert('Usuário ou login inválidos!')
                     return null
                 }
-                userSign(result.token, result.name, result.role)
+                console.log('result', result)
+                userSign(result.token, result.name, result.role, result.professionalid, result.professionalname, unit)
             })
     }
 
@@ -75,13 +85,28 @@ const Authentication = props => {
                                 size='small'
                             />
                         </Grid>
+                        <Grid item xs={4}>
+                            <TextField
+                                value={unit}
+                                onChange={(event) => { unitSet(event.target.value) }}
+                                id='unit'
+                                label='Unidade'
+                                fullWidth={true}
+                                disabled={false}
+                                InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                                variant='outlined'
+                                type='text'
+                                size='small'
+                                select>
+                                {unitList.map((option) => (
+                                    <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                                ))}
+                            </TextField>
+                        </Grid>
+                        <Grid item xs={8}></Grid>
                         <Grid item xs={6}>
-                            {/* <div className={classes.bottomButtons}> */}
                             <Button color='primary' variant='contained' size='small' endIcon={<SubscriptionsIcon />}
                                 onClick={_ => loginConfirm()} disabled={(false)}>Entrar</Button>
-                            {/* <Button color='secondary' variant='contained' size='small' endIcon={<CancelScheduleSendIcon />}
-                                onClick={_ => loginClose()} disabled={false}>Cancelar</Button> */}
-                            {/* </div> */}
                         </Grid>
                     </Grid>
                 </div>

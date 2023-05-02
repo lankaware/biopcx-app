@@ -184,12 +184,15 @@ const TextTemplate = props => {
                             variant='outlined'
                             size='small'
                             select>
-                            <MenuItem key='1' value={"Atestado"}>Atestado</MenuItem>
-                            <MenuItem key='2' value={"Recibo"}>Recibo</MenuItem>
-                            <MenuItem key='3' value={"Exames"}>Exames</MenuItem>
-                            <MenuItem key='4' value={"Tomografia"}>Tomografia</MenuItem>
-                            <MenuItem key='5' value={"Ressonância"}>Ressonância</MenuItem>
-                            <MenuItem key='6' value={"Radiologia"}>Radiologia</MenuItem>
+                            <MenuItem key='1' value={"ATESTADO"}>ATESTADO</MenuItem>
+                            <MenuItem key='6' value={"CORAÇÃO"}>CORAÇÃO</MenuItem>
+                            <MenuItem key='3' value={"LABORATÓRIO"}>LABORATÓRIO</MenuItem>
+                            <MenuItem key='6' value={"PULMÃO"}>PULMÃO</MenuItem>
+                            <MenuItem key='6' value={"RADIOLOGIA"}>RADIOLGIA</MenuItem>
+                            <MenuItem key='2' value={"RECIBO"}>RECIBO</MenuItem>
+                            <MenuItem key='5' value={"RESSONÂNCIA"}>RESSONÂNCIA</MenuItem>
+                            <MenuItem key='4' value={"TOMOGRAFIA"}>TOMOGRAFIA</MenuItem>
+                            <MenuItem key='6' value={"ULTRASSOM"}>ULTRASSOM</MenuItem>
                         </TextField>
                     </Grid>
                     <Grid item xs={3}>

@@ -12,7 +12,7 @@ import './services/customtheme'
 
 const App = (props) => {
 
-  const { authenticated, username } = useContext(AuthContext);
+  const { authenticated, username, professionalname } = useContext(AuthContext);
 
   if (authenticated === false) {
     return (
@@ -20,7 +20,7 @@ const App = (props) => {
         <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Router>
             <AppMenu
-              userName={username}
+              userName={professionalname  || username} 
               authenticated={authenticated} />
           <Authentication />
           </Router>
@@ -33,7 +33,7 @@ const App = (props) => {
         <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Router>
             <AppMenu
-              userName={username} 
+              userName={professionalname || username} 
               authenticated={authenticated}/>
             <Content />
           </Router>

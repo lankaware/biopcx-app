@@ -72,7 +72,7 @@ const AppMenu = props => {
                         </DropdownToggle>
                         <DropdownMenu className='menu-item'>
                             <DropdownItem className='menu-item font-weight-bold' href="/">Gerais</DropdownItem>
-                            <DropdownItem className='menu-item font-weight-bold' href="/login">Logins</DropdownItem>
+                            <DropdownItem className='menu-item font-weight-bold' href="/loginlist">Logins</DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
                 </Nav>

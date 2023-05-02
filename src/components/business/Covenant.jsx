@@ -248,9 +248,7 @@ const Covenant = props => {
         setEditMode(false)
     }
 
-    const delRec = () => {
-        setDeleteDialog(true)
-    }
+    const delRec = () => { setDeleteDialog(true) }
 
     const delConfirm = () => {
         console.log('_id', _id)
@@ -261,17 +259,9 @@ const Covenant = props => {
         setDeleteInfoDialog(true)
     }
 
-    const delCancel = () => {
-        setDeleteDialog(false)
-    }
-
-    const delInformClose = () => {
-        document.getElementById("backButton").click();
-    }
-
-    const emptyRecClose = () => {
-        setEmptyRecDialog(false)
-    }
+    const delCancel = () => { setDeleteDialog(false) }
+    const delInformClose = () => { document.getElementById("backButton").click(); }
+    const emptyRecClose = () => { setEmptyRecDialog(false) }
 
     const addPlan = () => {
         let currentPlanTemp = 0
@@ -373,14 +363,11 @@ const Covenant = props => {
         setEditMode(true)
     }
 
-    const editPriceCancel = () => {
-        editPriceDialogSet(false)
-    }
+    const editPriceCancel = () => { editPriceDialogSet(false) }
 
     const editPriceDelete = () => {
         priceListTemp[currentPrice].procedure_id = '* EXCLUIR *'
         priceListSet(priceListTemp)
-
         editPriceDialogSet(false)
         setEditMode(true)
     }
@@ -429,7 +416,7 @@ const Covenant = props => {
                             label='NOME DO CONVÊNIO'
                             fullWidth={true}
                             disabled={!insertMode}
-                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' }  }}
+                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
                             variant='standard'
                             size='small'
                         />
@@ -442,10 +429,9 @@ const Covenant = props => {
                             label='TELEFONE'
                             fullWidth={true}
                             disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' }  }}
+                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
                             variant='standard'
                             size='small'
-                        // inputProps={{ type: 'number' }}
                         />
                     </Grid>
                     <Grid item xs={3}>
@@ -456,10 +442,9 @@ const Covenant = props => {
                             label='EMAIL'
                             fullWidth={true}
                             disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' }  }}
+                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
                             variant='standard'
                             size='small'
-                        // inputProps={{ type: 'number' }}
                         />
                     </Grid>
                     <Grid item xs={3}>
@@ -470,7 +455,7 @@ const Covenant = props => {
                             label='NÚMERO DO CONTRATO'
                             fullWidth={true}
                             disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' }  }}
+                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
                             variant='standard'
                             size='small'
                             inputProps={{ type: 'text' }}
@@ -484,7 +469,7 @@ const Covenant = props => {
                             label='DT CONTRATO'
                             fullWidth={true}
                             disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' }  }}
+                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
                             variant='standard'
                             size='small'
                             inputProps={{ type: 'date' }}
@@ -498,7 +483,7 @@ const Covenant = props => {
                             label='DIA DO FATURAMENTO'
                             fullWidth={true}
                             disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' }  }}
+                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
                             variant='standard'
                             size='small'
                             inputProps={{ type: 'number', min: 1, max: 30, step: 1 }}
@@ -513,7 +498,7 @@ const Covenant = props => {
                             label='DIA DO PAGAMENTO'
                             fullWidth={true}
                             disabled={!editMode}
-                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' }  }}
+                            InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
                             variant='standard'
                             size='small'
                             inputProps={{ type: 'number', min: 1, max: 30, step: 1 }}
@@ -522,7 +507,6 @@ const Covenant = props => {
                 </Grid>
             </div>
             <Form className='data-form-level1'>
-
                 <div >
                     <AppBar position="static" color="default">
                         <Tabs
@@ -577,10 +561,8 @@ const Covenant = props => {
                                 onRowClicked={(row, event) => { editPriceOpen(row._id) }}
                             />
                         </div>
-
                     </TabPanel>
                 </div>
-
             </Form>
 
             <Dialog open={editPlanDialog}>
@@ -655,9 +637,7 @@ const Covenant = props => {
                                     disabled={false}
                                     type='text'
                                     InputLabelProps={{ shrink: true, sx: { color: 'black' } }}
-                                    // sx={{ width: 150 }}
-                                    select
-                                >
+                                    select>
                                     {procedureList.map((option) => (
                                         <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
                                     ))}
@@ -707,10 +687,7 @@ const Covenant = props => {
                 </DialogActions>
             </Dialog>
 
-            <Dialog
-                open={deleteDialog}
-            // onClose={delCancel}
-            >
+            <Dialog open={deleteDialog}>
                 <DialogTitle id="alert-dialog-title">{"Apagar o registro selecionado?"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
@@ -718,18 +695,12 @@ const Covenant = props => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={delCancel} color="primary" variant='contained' autoFocus
-                    >Cancelar
-                    </Button>
-                    <Button onClick={delConfirm} color="secondary" variant='contained'
-                    >Confirmar
-                    </Button>
+                    <Button onClick={delCancel} color="primary" variant='contained' autoFocus>Cancelar</Button>
+                    <Button onClick={delConfirm} color="secondary" variant='contained'>Confirmar</Button>
                 </DialogActions>
             </Dialog>
 
-            <Dialog
-                open={deleteInfoDialog}
-            >
+            <Dialog open={deleteInfoDialog}>
                 <DialogTitle id="alert-dialog-title">{"Registro removido do cadastro."}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
@@ -743,9 +714,7 @@ const Covenant = props => {
                 </DialogActions>
             </Dialog>
 
-            <Dialog
-                open={emptyRecDialog}
-            >
+            <Dialog open={emptyRecDialog}>
                 <DialogTitle id="alert-dialog-title">{"Registro sem descrição ou já existente não pode ser gravado."}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
@@ -758,7 +727,6 @@ const Covenant = props => {
                     </Button>
                 </DialogActions>
             </Dialog>
-
         </div>
     )
 }

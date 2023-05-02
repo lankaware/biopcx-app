@@ -52,13 +52,9 @@ const Professional = props => {
     const [deleteDialog, setDeleteDialog] = useState(false)
     const [deleteInfoDialog, setDeleteInfoDialog] = useState(false)
     const [emptyRecDialog, setEmptyRecDialog] = useState(false)
-
-    const [tabValue, setTabValue] = useState(0);
-
     const [editDialog, editDialogSet] = useState(false)
 
-
-    const classes = useStyles()
+    const [tabValue, setTabValue] = useState(0);
 
     useEffect(() => {
         getList('specialty/').then(items => { specialtyListSet(items.record) })
@@ -95,21 +91,8 @@ const Professional = props => {
                     }
                     availabilityListSet(tempList)
                 })
-            // .then(_ => {
-            //     if (tempList.length === 0) {
-            //         const newLine = {
-            //             '_id': '0',
-            //             'weekDay': 1,
-            //             'initialTime': '00:00',
-            //             'finalTime': '00:00',
-            //             'interval': 0,
-            //         }
-            //         tempList = ([newLine])
-            //     }
-            // })
         }
         setRecUpdated(true)
-
     }, [_id, recUpdated])
 
     const saveRec = () => {
@@ -117,7 +100,6 @@ const Professional = props => {
             setEmptyRecDialog(true)
             return null
         }
-
         let recSubList = availabilityList
             .filter(element => element.interval !== '*** Excluído ***')
             .map(item => {
@@ -159,18 +141,13 @@ const Professional = props => {
             internal,
             availability: recSubList
         }
-        console.log(recObj)
         if (_id !== '0') {
             recObj = JSON.stringify(recObj)
             putRec(objectId + _id, recObj)
-                .then(result => {
-                    console.log('put', result)
-                })
         } else {
             recObj = JSON.stringify(recObj)
             postRec(objectRef, recObj)
                 .then(result => {
-                    console.log('result', result)
                     _idSet(result.record._id)
                 })
         }
@@ -187,30 +164,18 @@ const Professional = props => {
         setEditMode(false)
     }
 
-    const delRec = () => {
-        setDeleteDialog(true)
-    }
+    const delRec = () => { setDeleteDialog(true) }
 
     const delConfirm = () => {
         console.log('_id', _id)
         deleteRec(objectId + _id)
-            .then(result => {
-            })
         setDeleteDialog(false)
         setDeleteInfoDialog(true)
     }
 
-    const delCancel = () => {
-        setDeleteDialog(false)
-    }
-
-    const delInformClose = () => {
-        document.getElementById("backButton").click();
-    }
-
-    const emptyRecClose = () => {
-        setEmptyRecDialog(false)
-    }
+    const delCancel = () => { setDeleteDialog(false) }
+    const delInformClose = () => { document.getElementById("backButton").click(); }
+    const emptyRecClose = () => { setEmptyRecDialog(false) }
 
     return (
         <div>
@@ -305,7 +270,7 @@ const Professional = props => {
                             size='small'
                         />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={4}>
                         <TextField
                             value={email}
                             onChange={(event) => { emailSet(event.target.value) }}
@@ -319,7 +284,7 @@ const Professional = props => {
                         // inputProps={{ type: 'number' }}
                         />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={4}>
                         <TextField
                             value={phone}
                             onChange={(event) => { phoneSet(event.target.value) }}

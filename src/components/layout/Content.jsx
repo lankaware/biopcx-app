@@ -1,9 +1,8 @@
 import { React } from 'react'
 import { Switch, Route } from 'react-router-dom'
 
-import Login from '../business/Login'
 import Home from './Home'
-import User from './User'
+import UserLogin from './UserLogin'
 import TextEditor from './TextEditor'
 import Procedure from '../business/Procedure'
 import ProcedureList from '../business/ProcedureList'
@@ -23,6 +22,8 @@ import TextTemplateList from '../business/TextTemplateList'
 import Exam from '../business/Exam'
 import ExamList from '../business/ExamList'
 import BillingReport from '../business/BillingReport'
+import Login from '../business/Login'
+import LoginList from '../business/LoginList'
 
 const Content = props => {
     return (
@@ -32,7 +33,6 @@ const Content = props => {
                     <Route exact path='/'>
                         <Home />
                     </Route>
-                    <Route exact path="/login" component={Login} />
                     <Route exact path="/agendaList" component={AgendaList} />
                     <Route exact path="/billingList" component={BillingList} />
                     <Route exact path="/billingReport" component={BillingReport} />
@@ -48,7 +48,10 @@ const Content = props => {
                     <Route exact path="/examList" component={ExamList} />
                     <Route exact path="/texttemplateList" component={TextTemplateList} />
                     <Route exact path="/texttemplate/:id" component={TextTemplate} />
-                    <Route exact path="/user" component={User} />
+                    <Route exact path="/loginlist" component={LoginList} />
+                    <Route exact path="/login/:id" component={Login} />
+
+                    <Route exact path="/userLogin" component={UserLogin} />
                     <Route exact path="/editor" component={TextEditor} />
                     <Route path='*'>
                         <h1>Página não encontrada</h1>

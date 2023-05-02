@@ -1,45 +1,74 @@
 import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import {
     Grid, TextField, Typography, Button, Box, Dialog, DialogTitle, DialogContent, DialogContentText,
     DialogActions, MenuItem
 } from '@mui/material'
 import CryptoJS from 'crypto-js'
 
+import EditIcon from '@mui/icons-material/Edit'
+import SaveAltIcon from '@mui/icons-material/SaveAlt'
+import CancelIcon from '@mui/icons-material/Cancel'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
+
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend';
 
-import { getList, putRec, postRec } from '../../services/apiconnect'
+import { getList, putRec, postRec, deleteRec } from '../../services/apiconnect'
 import { useStyles } from '../../services/stylemui'
 
-const objectRef = 'login/'
-const objectId = 'loginid/'
+const objectRef = 'user/'
+const objectId = 'userid/'
 
 const Login = props => {
 
-    const [_id] = useState('')
+    let { id } = useParams()
+
+    const [_id, _idSet] = useState(id)
     const [name, nameSet] = useState('')
     const [login, loginSet] = useState('')
     const [passw, passwSet] = useState('')
     const [role, roleSet] = useState('')
-    const classes = useStyles()
+    const [professionalId, professionalIdSet] = useState('')
+    // const [professionalName, professionalNameSet] = useState('')
 
     const [infoOkDialog, infoOkDialogSet] = useState(false)
     const [invalidDialog, invalidDialogSet] = useState(false)
+    const [recUpdated, setRecUpdated] = useState(true)
+    const [professionalList, professionalListSet] = useState([])
+
+    const [insertMode, setInsertMode] = useState(id === '0')
+    const [editMode, setEditMode] = useState(id === '0')
+
+    const [deleteDialog, setDeleteDialog] = useState(false)
+    const [deleteInfoDialog, setDeleteInfoDialog] = useState(false)
+    const [emptyRecDialog, setEmptyRecDialog] = useState(false)
 
     useEffect(() => {
-        loginSet('')
-        nameSet('')
-        passwSet('')       
-    }, [])
+        getList('professional/').then(items => { professionalListSet(items.record) })
+        if (_id !== '0') {
+            getList(objectId + _id)
+                .then(items => {
+                    loginSet(items.record.login || '')
+                    nameSet(items.record.name || '')
+                    passwSet(items.record.passw || '')
+                    roleSet(items.record.role || '')
+                    professionalIdSet(items.record.professional_id || '')
+                    // professionalNameSet(items.record[0].professional_name[0] || '')
+                })
+        }
+        setRecUpdated(true)
+    }, [_id, recUpdated])
 
-    const loginConfirm = () => {
+    const saveRec = () => {
         if (!name || !login || !passw || !role) {
             invalidDialogSet(true)
             return null
         }
-        getList('loginlogin/' + login)
+        getList('userlogin/' + login)
             .then(async item => {
-                if (item.record[0]) {
+                if (item.record[0] && item.record[0]._id !== _id) {
                     invalidDialogSet(true)
                     return null
                 }
@@ -49,49 +78,88 @@ const Login = props => {
                     login,
                     passw: passwcr,
                     role,
+                    professional_id: professionalId,
                 }
-                if (_id) {
+                if (_id !== '0') {
                     recObj = JSON.stringify(recObj)
                     putRec(objectId + _id, recObj)
                         .then(result => {
-                            if (!result.error) success()
+                            if (!result.error) infoOkDialogSet(true)
                         })
                 } else {
                     recObj = JSON.stringify(recObj)
                     postRec(objectRef, recObj)
                         .then(result => {
-                            if (!result.error) success()
+                            if (!result.error) infoOkDialogSet(true)
                         })
                 }
                 return null
             })
-    }
-    const success = () => {
-        infoOkDialogSet(true)
-        loginSet('')
-        nameSet('')
-        passwSet('')
-        roleSet('')
+        // setRecUpdated(false)
+        setEditMode(false)
+        setInsertMode(false)
     }
 
-    const infoOkDialogClose = () => {
-        infoOkDialogSet(false)
+    const refreshRec = () => {
+        if (insertMode) {
+            document.getElementById("backButton").click();
+        }
+        setRecUpdated(false)
+        setEditMode(false)
     }
 
-    const invalidDialogClose = () => {
-        invalidDialogSet(false)
+    const delRec = () => { setDeleteDialog(true) }
+
+    const delConfirm = () => {
+        console.log('_id', _id)
+        deleteRec(objectId + _id)
+            .then(result => {})
+        setDeleteDialog(false)
+        setDeleteInfoDialog(true)
     }
+
+    const delCancel = () => { setDeleteDialog(false) }
+    const delInformClose = () => { document.getElementById("backButton").click(); }
+    const infoOkDialogClose = () => { infoOkDialogSet(false) }
+    const invalidDialogClose = () => { invalidDialogSet(false) }
 
     return (
         <>
             <div >
-                <div >
+                <div className='tool-bar'>
+                    <div >
+                        <Typography variant='h5' className='tool-title' noWrap={true}>Registro de Login</Typography>
+                    </div>
+                    <div className='tool-buttons'>
+                        <Box m={1}>
+                            <Button color='primary' variant='contained' size='small' startIcon={<EditIcon />}
+                                onClick={_ => setEditMode(true)} disabled={editMode}>EDITAR
+                            </Button>
+                        </Box>
+                        <Box m={1}>
+                            <Button color='primary' variant='contained' size='small' startIcon={<SaveAltIcon />}
+                                onClick={_ => saveRec()} disabled={!editMode}>SALVAR
+                            </Button>
+                        </Box>
+                        <Box m={1}>
+                            <Button color='primary' variant='contained' size='small' startIcon={<CancelIcon />}
+                                onClick={_ => refreshRec()} disabled={!editMode}>CANCELAR
+                            </Button>
+                        </Box>
+                        <Box m={1}>
+                            <Button color='primary' variant='contained' size='small' startIcon={<DeleteForeverIcon />}
+                                onClick={_ => delRec()} disabled={editMode}>APAGAR
+                            </Button>
+                        </Box>
+                        <Box m={1}>
+                            <Button color='primary' variant='contained' size='small' startIcon={<KeyboardReturnIcon />}
+                                href="/loginList" id='backButton' disabled={editMode}>VOLTAR
+                            </Button>
+                        </Box>
+                    </div>
+                </div>
+                <div className='data-form'>
                     <Grid container spacing={2} >
-                        <Grid item xs={12}>
-                            <div >
-                                <Typography variant='h5'>Cadastro de Logins:</Typography>
-                            </div>
-                        </Grid>
                         <Grid item xs={12}>
                             <TextField
                                 value={name}
@@ -99,9 +167,9 @@ const Login = props => {
                                 id='name'
                                 label='Nome do Usuário'
                                 fullWidth={false}
-                                disabled={false}
-                                InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                                variant='outlined'
+                                disabled={!editMode}
+                                InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+                                variant='standard'
                                 size='small'
                                 sx={{ width: 300 }}
                             />
@@ -113,9 +181,9 @@ const Login = props => {
                                 id='login'
                                 label='Login'
                                 fullWidth={false}
-                                disabled={false}
-                                InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                                variant='outlined'
+                                disabled={!editMode}
+                                InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+                                variant='standard'
                                 size='small'
                                 sx={{ width: 300 }}
                             />
@@ -127,9 +195,9 @@ const Login = props => {
                                 id='passw'
                                 label='Senha'
                                 fullWidth={false}
-                                disabled={false}
-                                InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                                variant='outlined'
+                                disabled={!editMode}
+                                InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+                                variant='standard'
                                 size='small'
                                 type='password'
                                 sx={{ width: 300 }}
@@ -142,34 +210,66 @@ const Login = props => {
                                 id='role'
                                 label='Função'
                                 fullWidth={false}
-                                disabled={false}
-                                InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
-                                variant='outlined'
+                                disabled={!editMode}
+                                InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+                                variant='standard'
                                 size='small'
                                 sx={{ width: 300 }}
                                 select>
-                                                <MenuItem key={0} value={"ADMIN"}>{"Medico"}</MenuItem>
-                                                <MenuItem key={1} value={"FUNC"}>{"Funcionario"}</MenuItem>    
+                                <MenuItem key={0} value={"ADMIN"}>{"Medico"}</MenuItem>
+                                <MenuItem key={1} value={"FUNC"}>{"Funcionario"}</MenuItem>
                             </TextField>
-                            
                         </Grid>
-                        <Box sx={{ '& > button': { m: 1 } }} style={{ 'marginLeft': 15 }}>
-                            {/* <div className={classes.bottomButtons}> */}
-                            <Button color='primary' variant='contained' size='small' endIcon={<SubscriptionsIcon />}
-                                onClick={_ => loginConfirm()} disabled={(false)}>Confirmar</Button>
-                            <Button color='secondary' variant='contained' size='small' endIcon={<CancelScheduleSendIcon />}
-                                // onClick={_ => loginClose()} 
-                                disabled={false} href='/'>Cancelar</Button>
-                            {/* </div> */}
-                        </Box>
-                    </Grid>
-                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <TextField
+                                id='professional'
+                                label='Profissional'
+                                value={professionalId}
+                                onChange={(event) => { professionalIdSet(event.target.value) }}
+                                size='small'
+                                fullWidth={true}
+                                disabled={!editMode}
+                                type='text'
+                                InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black' } }}
+                                variant="standard"
+                                sx={{ width: 300 }}
+                                select>
+                                {professionalList.map((option) => (
+                                    <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                                ))}
+                            </TextField>
+                        </Grid>
+
+                        <Grid item xs={12}></Grid>
                     </Grid>
                 </div>
             </div>
-            <Dialog
-                open={invalidDialog}
-            >
+            <Dialog open={deleteDialog}>
+                <DialogTitle id="alert-dialog-title">{"Apagar o registro selecionado?"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Após confirmada essa operação não poderá ser desfeita.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={delCancel} color="primary" variant='contained' autoFocus>Cancelar</Button>
+                    <Button onClick={delConfirm} color="secondary" variant='contained'>Confirmar</Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={deleteInfoDialog}>
+                <DialogTitle id="alert-dialog-title">{"Registro removido do cadastro."}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Clique para voltar a lista.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={delInformClose} color="primary" variant='contained'>Ok</Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={invalidDialog}>
                 <DialogTitle id="alert-dialog-title">{"Todos os campos são obrigatórios e o login não pode coincidir com outro já cadastrado."}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
@@ -177,25 +277,18 @@ const Login = props => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={invalidDialogClose} color="primary" variant='contained'>
-                        Ok
-                    </Button>
+                    <Button onClick={invalidDialogClose} color="primary" variant='contained'>Ok</Button>
                 </DialogActions>
             </Dialog>
-            <Dialog
-                open={infoOkDialog}
-            // onClose={delInformClose}
-            >
-                <DialogTitle id="alert-dialog-title">{"Login registrado com sucesso."}</DialogTitle>
+            <Dialog open={infoOkDialog}>
+                <DialogTitle id="alert-dialog-title">{"Informações registradas com sucesso."}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         Clique em Ok para continuar.
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={infoOkDialogClose} color="primary" variant='contained'>
-                        Ok
-                    </Button>
+                    <Button onClick={infoOkDialogClose} color="primary" variant='contained'>Ok</Button>
                 </DialogActions>
             </Dialog>
         </>

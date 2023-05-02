@@ -14,7 +14,7 @@ import { useStyles } from '../../services/stylemui'
 const objectRef = 'user/'
 const objectId = 'userid/'
 
-const User = props => {
+const UserLogin = props => {
 
     const [_id] = useState('')
     const [name, nameSet] = useState('')
@@ -47,7 +47,6 @@ const User = props => {
                     postRec(objectRef, recObj)
                 }
             })
-
         return null
     }
 
@@ -58,7 +57,6 @@ const User = props => {
     return (
         <>
             <div >
-
                 <div >
                     <Grid container spacing={2} >
                         <Grid item xs={12}>
@@ -123,4 +121,4 @@ const User = props => {
         </>
     )
 }
-export default User
+export default UserLogin
