@@ -28,7 +28,7 @@ const PrescToPrint = React.forwardRef((props, ref) => {
                                     <tr style={{ 'height': '2vh', 'fontSize': '16px', 'fontWeight': 'bold', 'verticalAlign': 'top' }}>
                                         <td style={{ 'fontFamily': 'times-new-roman', 'fontSize': '24px', 'width': '50vw' }}>{parse(props.recToPrint.name || '')} &nbsp; {parse(props.recToPrint.lastname || '')}</td>
                                         <td style={{ 'width': '25vw' }}>SEXO: {parse(props.recToPrint.gender || '')}</td>
-                                        <td style={{ 'width': '25vw' }}>RG CLÍNICA: {parse(props.recToPrint.rg || '')}</td>
+                                        <td style={{ 'width': '25vw' }}>RG CLÍNICA: {parse((props.recToPrint.internalRegister || '').toString())}</td>
                                     </tr>
                                 </tbody>
                             </table>

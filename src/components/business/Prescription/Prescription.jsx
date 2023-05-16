@@ -87,7 +87,7 @@ const PrescDialog = props => {
                 })
         }
         setRecUpdated(true)
-    }, [patientId, recUpdated]);
+    }, [patientId, recUpdated, props.prescDialog]);  // Testar incluir o parâmetro props.prescDialog
 
     useEffect(() => {
         prescTextSet(intMedicine + extMedicine)

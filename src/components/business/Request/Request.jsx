@@ -80,7 +80,7 @@ const ReqDialog = props => {
                 })
         }
         setRecUpdated(true)
-    }, [patientId, recUpdated]);
+    }, [patientId, recUpdated, props.reqDialog]);
 
     const columns = [
         {

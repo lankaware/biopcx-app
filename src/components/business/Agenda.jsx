@@ -31,7 +31,7 @@ var chosenItem = ''
 
 const Agenda = props => {
 
-    let _id = props.agendaInfo._id
+    let _id = props.agendaInfo._id || '0'
 
     const [date, dateSet] = useState('')
     const [initialTime, initialTimeSet] = useState('')
@@ -59,6 +59,8 @@ const Agenda = props => {
     const [covenantList, covenantListSet] = useState([])
     const [covenantplanList, covenantplanListSet] = useState([])
 
+    const [deleteDialog, setDeleteDialog] = useState(false)
+    const [deleteInfoDialog, setDeleteInfoDialog] = useState(false)
     const [emptyRecDialog, setEmptyRecDialog] = useState(false)
     const [tempPacDialog, tempPacDialogSet] = useState(false)
     const [changeStatusDialog, changeStatusDialogSet] = useState(false)
@@ -94,9 +96,9 @@ const Agenda = props => {
         console.log('props.agendaInfo', props.agendaInfo)
         let record = props.agendaInfo;
         let setters = () => {
-            console.log(record._id)
+            // console.log(record._id)
             // _idSet(record._id)
-            dateSet((record.date || '').substr(0, 10))
+            dateSet((record.date || props.agendaDate).substr(0, 10))
             initialTimeSet(record.initialTime || '')
             finalTimeSet(record.finalTime || '')
             professionalIdSet(record.professional_id || '')
@@ -112,7 +114,7 @@ const Agenda = props => {
             emailSet(record.email || '')
             statusSet(record.status || '')
             originalStatusSet(record.status || '')
-            firstAppointSet(record.firstAppoint[0] || '')
+            firstAppointSet(record.firstAppoint || '')
         }
         setters();
         professionalListSet(props.professionalList)
@@ -246,13 +248,20 @@ const Agenda = props => {
             })
     }
 
-    const emptyRecClose = () => {
-        setEmptyRecDialog(false)
-    }
-
-    const cancelRec = () => {
+    const emptyRecClose = () => { setEmptyRecDialog(false) }
+    const cancelRec = () => { props.openAgendaSet(false) }
+    const delRec = () => { setDeleteDialog(true) }
+    const delConfirm = () => {
+        console.log('_id', _id)
+        deleteRec(objectId + _id)
+            .then(result => {
+            })
+        setDeleteDialog(false)
+        setDeleteInfoDialog(true)
+        props.updatedRecSet(false)
         props.openAgendaSet(false)
     }
+    const delCancel = () => { setDeleteDialog(false) }
 
     const loadPatientData = (patientId) => {
         patientIdSet(patientId)
@@ -359,6 +368,7 @@ const Agenda = props => {
                             <MenuItem value={'2'}>Confirmado</MenuItem>
                             <MenuItem value={'3'}>Chegou</MenuItem>
                             <MenuItem value={'4'}>Atendido</MenuItem>
+                            <MenuItem value={'5'}>Faltou</MenuItem>
                         </TextField>
                     </Grid>
                     <Grid item xs={9}>
@@ -494,6 +504,11 @@ const Agenda = props => {
             <DialogActions>
                 <div className='tool-buttons'>
                     <Box m={1}>
+                        <Button color='error' variant='contained' size='small' startIcon={<DeleteForeverIcon />}
+                            onClick={_ => delRec()} disabled={false}>EXCLUIR
+                        </Button>
+                    </Box>
+                    <Box m={1}>
                         <Button color='primary' variant='contained' size='small' startIcon={<SaveAltIcon />}
                             onClick={_ => saveRec()} disabled={false}>SALVAR
                         </Button>
@@ -570,6 +585,29 @@ const Agenda = props => {
                     <Button onClick={confirmBillDialog} color="secondary" variant="contained" size='small' >Confirmar</Button>
                 </DialogActions>
             </Dialog>
+            <Dialog open={deleteDialog}>
+                <DialogTitle id="alert-dialog-title">{"Apagar o registro selecionado?"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Após confirmada essa operação não poderá ser desfeita.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={delCancel} color="primary" variant='contained' autoFocus>Cancelar</Button>
+                    <Button onClick={delConfirm} color="secondary" variant='contained'>Confirmar</Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={deleteInfoDialog}>
+                <DialogTitle id="alert-dialog-title">{"Registro removido do cadastro."}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">Clique para voltar a lista.</DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={cancelRec} color="primary" variant='contained'>Ok</Button>
+                </DialogActions>
+            </Dialog>
+
 
             <TempPac
                 tempPacDialog={tempPacDialog}

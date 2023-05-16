@@ -52,17 +52,23 @@ const Login = props => {
                 .then(items => {
                     loginSet(items.record.login || '')
                     nameSet(items.record.name || '')
-                    passwSet(items.record.passw || '')
+                    // passwSet(items.record.passw || '')
                     roleSet(items.record.role || '')
                     professionalIdSet(items.record.professional_id || '')
                     // professionalNameSet(items.record[0].professional_name[0] || '')
                 })
+        } else {
+            loginSet('')
+            nameSet('')
+            passwSet('')
+            roleSet('')
+            professionalIdSet('')
         }
         setRecUpdated(true)
     }, [_id, recUpdated])
 
     const saveRec = () => {
-        if (!name || !login || !passw || !role) {
+        if (!name || !login || !role) {
             invalidDialogSet(true)
             return null
         }
@@ -72,13 +78,15 @@ const Login = props => {
                     invalidDialogSet(true)
                     return null
                 }
-                const passwcr = CryptoJS.AES.encrypt(passw, process.env.REACT_APP_SECRET).toString();
                 let recObj = {
                     name,
                     login,
-                    passw: passwcr,
                     role,
                     professional_id: professionalId,
+                }
+                if (passw) {
+                    const passwcr = CryptoJS.AES.encrypt(passw, process.env.REACT_APP_SECRET).toString();
+                    recObj = { ...recObj, passw: passwcr }
                 }
                 if (_id !== '0') {
                     recObj = JSON.stringify(recObj)
@@ -113,7 +121,7 @@ const Login = props => {
     const delConfirm = () => {
         console.log('_id', _id)
         deleteRec(objectId + _id)
-            .then(result => {})
+            .then(result => { })
         setDeleteDialog(false)
         setDeleteInfoDialog(true)
     }

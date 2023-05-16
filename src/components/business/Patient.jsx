@@ -188,11 +188,11 @@ const Patient = (props) => {
       setEmptyRecDialog(true);
       return null;
     }
-    if (!cpf) {
-      setEmptyFieldDialog('CPF')
-      setEmptyRecDialog(true);
-      return null;
-    }
+    // if (!cpf) {
+    //   setEmptyFieldDialog('CPF')
+    //   setEmptyRecDialog(true);
+    //   return null;
+    // }
     if (!birthDate) {
       setEmptyFieldDialog('Data Nascimento')
       setEmptyRecDialog(true);
@@ -498,7 +498,7 @@ const Patient = (props) => {
                   value={cpf}
                   onChange={(event) => { cpfSet(event.target.value) }}
                   id="cpf"
-                  label="CPF *"
+                  label="CPF"
                   fullWidth={true}
                   disabled={!editMode}
                   InputLabelProps={{ shrink: true, disabled: false, sx: { color: 'black', 'fontWeight': 'bold' } }}

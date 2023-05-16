@@ -63,6 +63,14 @@ const Agendas = props => {
             cell: row => (<Link to={'patient/' + row.patient_id} target="_blank">{row.patient_name} </Link>)
         },
         {
+            name: 'RG',
+            selector: row => row.patient_internalRegister,
+            sortable: true,
+            width: '5vw',
+            right: false,
+            cell: row => (<Link to={'patient/' + row.patient_id} target="_blank">{row.patient_internalRegister} </Link>)
+        },
+        {
             name: 'Telefone',
             selector: row => row.phone,
             sortable: true,
@@ -80,7 +88,7 @@ const Agendas = props => {
             name: 'Profissional',
             selector: row => row.professional_name,
             sortable: true,
-            width: '15vw',
+            width: '10vw',
             right: false,
         },
     ];
@@ -152,6 +160,7 @@ const Agendas = props => {
                         professional_name: element.professional_name || "",
                         patient_id: element.patient_id || "",
                         patient_name: element.patient_name || "",
+                        patient_internalRegister: element.patient_internalRegister || "",
                         procedure_id: element.procedure_id || "",
                         procedure_name: element.procedure_name[0] || "",
                         covenant_id: element.covenant_id || "",
@@ -210,7 +219,8 @@ const Agendas = props => {
                 status === '2' ? 'green' : // Confirmado
                     status === '3' ? "red" :  // Chegou
                         status === '4' ? "blue" : // Atendido
-                            "gray") // Agenda livre
+                            status === '5' ? "gray" : // Atendido
+                                "white") // Agenda livre
     }
 
     const closePrintDialog = () => {
@@ -317,6 +327,7 @@ const Agendas = props => {
                         procedureList={procedureList}
                         covenantList={covenantList}
                         covenantplanList={covenantplanList}
+                        agendaDate={dateFilter}
                     >
                     </Agenda>
                 </Dialog>
@@ -325,10 +336,10 @@ const Agendas = props => {
                         <AgendaPrint
                             ref={textRef}
                             listToPrint={list}
-                            // covenantList={covenantList}
-                            // covenantplanList={covenantplanList}
-                            // unitList={unitList}
-                            // stateList={stateList}
+                        // covenantList={covenantList}
+                        // covenantplanList={covenantplanList}
+                        // unitList={unitList}
+                        // stateList={stateList}
                         />
                     </DialogContent>
                     <DialogActions>

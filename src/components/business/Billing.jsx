@@ -104,18 +104,9 @@ const Billing = props => {
         props.openBillingSet(false)
     }
 
-    const emptyRecClose = () => {
-        setEmptyRecDialog(false)
-    }
-
-    const cancelRec = () => {
-        props.openBillingSet(false)
-    }
-
-    const delRec = () => {
-        setDeleteDialog(true)
-    }
-
+    const emptyRecClose = () => {setEmptyRecDialog(false)}
+    const cancelRec = () => {props.openBillingSet(false)}
+    const delRec = () => {setDeleteDialog(true)}
     const delConfirm = () => {
         console.log('_id', _id)
         deleteRec(objectId + _id)
@@ -124,10 +115,7 @@ const Billing = props => {
         setDeleteDialog(false)
         setDeleteInfoDialog(true)
     }
-
-    const delCancel = () => {
-        setDeleteDialog(false)
-    }
+    const delCancel = () => {setDeleteDialog(false)}
 
     return (
         <div>
@@ -288,14 +276,10 @@ const Billing = props => {
             <Dialog open={emptyRecDialog}>
                 <DialogTitle id="alert-dialog-title">{"Registro sem descrição ou já existente não pode ser gravado."}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Clique para continuar.
-                    </DialogContentText>
+                    <DialogContentText id="alert-dialog-description">Clique para continuar.</DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={emptyRecClose} color="primary" variant='contained'>
-                        Ok
-                    </Button>
+                    <Button onClick={emptyRecClose} color="primary" variant='contained'>Ok</Button>
                 </DialogActions>
             </Dialog>
             <Dialog open={deleteDialog}>
@@ -306,26 +290,18 @@ const Billing = props => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={delCancel} color="primary" variant='contained' autoFocus
-                    >Cancelar
-                    </Button>
-                    <Button onClick={delConfirm} color="secondary" variant='contained'
-                    >Confirmar
-                    </Button>
+                    <Button onClick={delCancel} color="primary" variant='contained' autoFocus>Cancelar</Button>
+                    <Button onClick={delConfirm} color="secondary" variant='contained'>Confirmar</Button>
                 </DialogActions>
             </Dialog>
 
             <Dialog open={deleteInfoDialog}>
                 <DialogTitle id="alert-dialog-title">{"Registro removido do cadastro."}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Clique para voltar a lista.
-                    </DialogContentText>
+                    <DialogContentText id="alert-dialog-description">Clique para voltar a lista.</DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={cancelRec} color="primary" variant='contained'>
-                        Ok
-                    </Button>
+                    <Button onClick={cancelRec} color="primary" variant='contained'>Ok</Button>
                 </DialogActions>
             </Dialog>
 
