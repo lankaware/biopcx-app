@@ -11,7 +11,8 @@ const RecToPrint = React.forwardRef((props, ref) => {
 
     const defHeader = () => {
         if (props.headerAdd)
-            return <img src={`${process.env.PUBLIC_URL}/image2.png`} alt={'Biopace'} weight='438' height='114' />
+            // return <img src={`${process.env.PUBLIC_URL}/image2.png`} alt={'Biopace'} weight='438' height='114' />
+            return <img src={`${process.env.PUBLIC_URL}/image2.png`} alt={'Biopace'} weight='307' height='80' />
         else
             return ''
     }

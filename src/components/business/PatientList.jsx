@@ -50,6 +50,7 @@ const Patients = props => {
     const [nameFilter, nameFilterSet] = useState('')
     const [lastnameFilter, lastnameFilterSet] = useState('')
     const [covenantFilter, covenantFilterSet] = useState('')
+    const [regFilter, regFilterSet] = useState('')
 
     useEffect(() => {
         getList(objectRef)
@@ -63,6 +64,7 @@ const Patients = props => {
         if (nameFilter) recObj = { 'name': { "$regex": nameFilter, "$options": 'i' } }
         if (lastnameFilter) recObj = { 'lastname': { "$regex": lastnameFilter, "$options": 'i' } }
         if (covenantFilter) recObj = { ...recObj, 'covenant.name  ': { "$regex": covenantFilter, "$options": 'i' } }
+        if (regFilter) recObj = { ...recObj, 'internalRegister': regFilter }
 
         recObj = JSON.stringify(recObj)
         putRec(objectRef, recObj)
@@ -136,6 +138,19 @@ const Patients = props => {
                         onChange={(event) => { covenantFilterSet(event.target.value) }}
                         id='discrFilter'
                         label='Convênio'
+                        fullWidth={false}
+                        InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                        onKeyPress={(e) => { launchSearch(e) }}
+                        variant='outlined'
+                        size='small'
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <TextField
+                        value={regFilter}
+                        onChange={(event) => { regFilterSet(event.target.value) }}
+                        id='discrFilter'
+                        label='Registro'
                         fullWidth={false}
                         InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                         onKeyPress={(e) => { launchSearch(e) }}
