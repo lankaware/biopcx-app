@@ -38,7 +38,7 @@ const objectId = "patientid/";
 const Patient = (props) => {
   const { id } = useParams()
   const { covenantList, covenantplanList, stateList, relativeList, unitList } = useContext(PatientContext);
-  const { role } = useContext(AuthContext);
+  const { rolecontext } = useContext(AuthContext);
   const webcamRef = useRef("")
 
   const [preCad, preCadSet] = useState(false)
@@ -392,17 +392,17 @@ const Patient = (props) => {
             <div className='tool-buttons2'>
               <Box mr={1} mb={1}>
                 <Button color="warning" variant="contained" size="small" startIcon={<HistoryEduIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
-                  onClick={(_) => openTextDialog()} disabled={!insertMode && role === 'ADMIN' ? false : true}>HISTÓRICO
+                  onClick={(_) => openTextDialog()} disabled={!insertMode && rolecontext === 'ADMIN' ? false : true}>HISTÓRICO
                 </Button>
               </Box>
               <Box mr={1}>
                 <Button color="warning" variant="contained" size="small" startIcon={<NotesIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
-                  onClick={(_) => openPresc()} disabled={!insertMode && role === 'ADMIN' ? false : true} id="prescButton" >RECEITAS
+                  onClick={(_) => openPresc()} disabled={!insertMode && rolecontext === 'ADMIN' ? false : true} id="prescButton" >RECEITAS
                 </Button>
               </Box>
               <Box mr={1}>
                 <Button color="warning" variant="contained" size="small" startIcon={<AssignmentIcon />} sx={{ backgroundColor: '#f5b942', color: '#160eed' }}
-                  onClick={(_) => openReq()} disabled={!insertMode && role === 'ADMIN' ? false : true} id="prescButton" >SOLICITAÇÕES
+                  onClick={(_) => openReq()} disabled={!insertMode && rolecontext === 'ADMIN' ? false : true} id="prescButton" >SOLICITAÇÕES
                 </Button>
               </Box>
             </div>

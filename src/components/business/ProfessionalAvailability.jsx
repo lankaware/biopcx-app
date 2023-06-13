@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import DataTable from 'react-data-table-component'
 import { customStyles2, paginationBr } from '../../services/datatablestyle'
 import { Grid, TextField, Button, Dialog, DialogActions, DialogContent,
@@ -9,6 +9,8 @@ import AddIcon from '@mui/icons-material/Add';
 
 import { useStyles } from '../../services/stylemui'
 import { DaysOfWeek, dayOfWeekLabel } from '../commons/DayOfWeek'
+import { PatientContext } from '../../context/PatientContext'
+import { AuthContext } from '../../context/AuthContext'
 
 var currentItem = 0
 const currentItemSet = (newValue) => {
@@ -21,10 +23,13 @@ const ProfessionalAvailability = props => {
     const [initialTime, initialTimeSet] = useState('')
     const [finalTime, finalTimeSet] = useState('')
     const [interval, intervalSet] = useState(0)
+    const [unitid, unitidSet] = useState(0)
     // const [currentItem, currentItemSet] = useState(0)
 
     const [itemList, itemListSet] = useState(props.itemList)
-    
+    const { unitList } = useContext(PatientContext);
+    const { unitcontext } = useContext(AuthContext);
+     
     const classes = useStyles()
 
     useEffect(() => {
@@ -32,6 +37,13 @@ const ProfessionalAvailability = props => {
     }, [props.itemList])
 
     const columns = [
+        {
+            name: 'Unidade',
+            // selector: row => row.unit_id,
+            selector: row => unitList[unitList.findIndex((item) => { return item._id === row.unit_id })].name,
+            // sortable: true,
+            width: '30vw',
+        },
         {
             name: 'Dia da Semana',
             selector: row => row.weekDay,
@@ -71,6 +83,7 @@ const ProfessionalAvailability = props => {
         initialTimeSet(itemList[currentItemTemp].initialTime)
         finalTimeSet(itemList[currentItemTemp].finalTime)
         intervalSet(itemList[currentItemTemp].interval)
+        unitidSet(itemList[currentItemTemp].unit_id)
 
         currentItemSet(currentItemTemp)
         props.editDialogSet(true)
@@ -84,6 +97,7 @@ const ProfessionalAvailability = props => {
             'initialTime': '00:00',
             'finalTime': '00:00',
             'interval': 0,
+            'unit_id': unitcontext,
         }])
 
         weekDaySet(1)
@@ -101,7 +115,8 @@ const ProfessionalAvailability = props => {
         itemList[currentItem].initialTime = initialTime
         itemList[currentItem].finalTime = finalTime
         itemList[currentItem].interval = interval
-
+        itemList[currentItem].unit_id = unitid
+        console.log('itemList', itemList)
         props.onChangeSublist(itemList)
 
         props.editDialogSet(false)
@@ -151,6 +166,22 @@ const ProfessionalAvailability = props => {
                 <DialogContent dividers>
                     <div className='modal-form'>
                         <Grid container spacing={1} >
+                            <Grid item xs={4}>
+                                <TextField
+                                    label='Unidade'
+                                    value={unitid}
+                                    onChange={(event) => { unitidSet(event.target.value) }}
+                                    // size='small'
+                                    type='text'
+                                    InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                                    // sx={{ width: 150 }}
+                                    select
+                                    >
+                                        {unitList.map((option) => (
+                                            <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
+                                        ))}
+                                    </TextField>
+                            </Grid>
                             <Grid item xs={4}>
                                 <TextField
                                     label='Dia da Semana'

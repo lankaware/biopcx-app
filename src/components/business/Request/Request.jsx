@@ -209,7 +209,7 @@ const ReqDialog = props => {
                     <Typography className="tool-title-level1" noWrap={true} color="primary">Nova Solicitação</Typography>
                 </DialogTitle>
                 <DialogContent style={{ display: "flex", gap: "1rem" }}>
-                    <Box sx={{ width: 3 / 10 }}>
+                    <Box sx={{ width: 2 / 10 }}>
                         <ReqHist reqList={reqList} reqListSet={reqListSet} reqTextSet={reqTextSet} />
                     </Box>
                     <Box className="data-form" sx={{ width: 7 / 10 }}>

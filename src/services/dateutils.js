@@ -33,7 +33,7 @@ export function dateISO(parmDate) {
 }
 
 export function prettyDate(parmDate) {
-  const stringDate = parmDate.substr(8, 2) + '/' + parmDate.substr(5, 2) + '/' + parmDate.substr(2, 2)
+  const stringDate = parmDate.substr(8, 2) + '/' + parmDate.substr(5, 2) + '/' + parmDate.substr(0, 4)
   return stringDate
 }
 

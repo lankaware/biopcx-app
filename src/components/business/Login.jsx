@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import {
     Grid, TextField, Typography, Button, Box, Dialog, DialogTitle, DialogContent, DialogContentText,
@@ -17,6 +17,7 @@ import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend';
 
 import { getList, putRec, postRec, deleteRec } from '../../services/apiconnect'
 import { useStyles } from '../../services/stylemui'
+import { AuthContext } from '../../context/AuthContext'
 
 const objectRef = 'user/'
 const objectId = 'userid/'
@@ -24,12 +25,13 @@ const objectId = 'userid/'
 const Login = props => {
 
     let { id } = useParams()
-
+    const { rolecontext } = useContext(AuthContext)
     const [_id, _idSet] = useState(id)
     const [name, nameSet] = useState('')
     const [login, loginSet] = useState('')
     const [passw, passwSet] = useState('')
     const [role, roleSet] = useState('')
+
     const [professionalId, professionalIdSet] = useState('')
     // const [professionalName, professionalNameSet] = useState('')
 
@@ -130,6 +132,20 @@ const Login = props => {
     const delInformClose = () => { document.getElementById("backButton").click(); }
     const infoOkDialogClose = () => { infoOkDialogSet(false) }
     const invalidDialogClose = () => { invalidDialogSet(false) }
+
+    if (rolecontext !== 'ADMIN') {
+        return (
+            <>
+                <div >
+                    <div className='tool-bar'>
+                        <div >
+                            <Typography variant='h5' className='tool-title' noWrap={true}>Acesso não permitido!</Typography>
+                        </div>
+                    </div>
+                </div>
+            </>
+        )
+    }
 
     return (
         <>

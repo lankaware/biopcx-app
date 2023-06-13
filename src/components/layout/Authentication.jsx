@@ -43,8 +43,15 @@ const Authentication = props => {
                     alert('Usuário ou login inválidos!')
                     return null
                 }
-                console.log('result', result)
-                userSign(result.token, result.name, result.role, result.professionalid, result.professionalname, unit)
+                const unitname = unitList[unitList.findIndex((item) => { return item._id === unit })].name
+                userSign(result.token, result.name, result.role, result.professionalid, result.professionalname, unit, unitname)
+            })
+    }
+
+    const loginDefUnit = () => {
+        getList("userlogin/" + login)
+            .then((items) => {
+                unitSet(items.record[0].userunit)
             })
     }
 
@@ -69,6 +76,7 @@ const Authentication = props => {
                                 InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
                                 variant='outlined'
                                 size='small'
+                                onBlur={(e) => { loginDefUnit() }}
                             />
                         </Grid>
                         <Grid item xs={12}>

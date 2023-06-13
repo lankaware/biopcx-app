@@ -8,7 +8,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import { AuthContext } from '../../context/AuthContext'
 
 const AppMenu = props => {
-    const { userSign } = useContext(AuthContext)
+    const { userSign, rolecontext } = useContext(AuthContext)
     const [confirmDialog, setConfirmDialog] = useState(false)
 
     const logout = () => {
@@ -63,7 +63,7 @@ const AppMenu = props => {
                         </DropdownToggle>
                         <DropdownMenu className='menu-item'>
                             <DropdownItem className='menu-item font-weight-bold' href="/billingList">Lançamentos</DropdownItem>
-                            <DropdownItem className='menu-item font-weight-bold' href="/billingReport">Relatório</DropdownItem>
+                            <DropdownItem className='menu-item font-weight-bold' href="/billingReport" disabled={rolecontext !== 'ADMIN'}>Relatório</DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
                     <UncontrolledDropdown nav inNavbar>

@@ -237,11 +237,11 @@ const PrescDialog = props => {
                     <Typography className="tool-title-level1" noWrap={true} color="primary">Nova Receita</Typography>
                 </DialogTitle>
                 <DialogContent style={{ display: "flex", gap: "1rem" }}>
-                    <Box sx={{ width: 3 / 10 }}>
+                    <Box sx={{ width: 2 / 10 }}>
                         <PrescHist prescList={prescList} prescListSet={prescListSet} intMedicineSet={intMedicineSet}
                             extMedicineSet={extMedicineSet} />
                     </Box>
-                    <Box className="data-form" sx={{ width: 7 / 10 }}>
+                    <Box className="data-form" sx={{ width: 8 / 10 }}>
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
                                 <TextField

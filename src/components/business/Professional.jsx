@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { Form } from 'reactstrap';
 import {
@@ -20,6 +20,7 @@ import { theme } from '../../services/customtheme'
 
 import ProfessionalAvailability from './ProfessionalAvailability'
 import { timeBr, stdTime } from '../../services/dateutils';
+import { AuthContext } from '../../context/AuthContext'
 
 const objectRef = 'professional/'
 const objectId = 'professionalid/'
@@ -55,6 +56,7 @@ const Professional = props => {
     const [editDialog, editDialogSet] = useState(false)
 
     const [tabValue, setTabValue] = useState(0);
+    const { unitcontext } = useContext(AuthContext);
 
     useEffect(() => {
         getList('specialty/').then(items => { specialtyListSet(items.record) })
@@ -84,6 +86,7 @@ const Professional = props => {
                             'initialTime': timeBr(subItem.initialTime) || '00:00',
                             'finalTime': timeBr(subItem.finalTime) || '00:00',
                             'interval': subItem.interval,
+                            'unit_id': subItem.unit_id || unitcontext,
                         }
                         console.log('subItem.initialTime', subItem.initialTime)
                         console.log('subItem.initialTime BR', timeBr(subItem.initialTime))
@@ -109,14 +112,16 @@ const Professional = props => {
                         weekDay: item.weekDay,
                         initialTime: '1970-01-01T' + stdTime('1970-01-01T' + item.initialTime),
                         finalTime: '1970-01-01T' + stdTime('1970-01-01T' + item.finalTime),
-                        interval: item.interval
+                        interval: item.interval,
+                        unit_id: item.unit_id,
                     }
                 } else {
                     return {
                         weekDay: item.weekDay,
                         initialTime: '1970-01-01T' + stdTime('1970-01-01T' + item.initialTime),
                         finalTime: '1970-01-01T' + stdTime('1970-01-01T' + item.finalTime),
-                        interval: item.interval
+                        interval: item.interval,
+                        unit_id: item.unit_id,
                     }
                 }
             })

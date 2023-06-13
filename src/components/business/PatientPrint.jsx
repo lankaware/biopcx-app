@@ -16,7 +16,7 @@ const PrescToPrint = React.forwardRef((props, ref) => {
                 <tbody>
                     <tr>
                         <td>
-                            <img src={`${process.env.PUBLIC_URL}/image2.png`} alt={'Biopace'} weight='438' height='114' />
+                            <img src={`${process.env.PUBLIC_URL}/image2.png`} alt={'Biopace'} weight='307' height='80' />
                         </td>
                     </tr>
                 </tbody>

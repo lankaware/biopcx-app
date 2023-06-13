@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import DataTable from 'react-data-table-component'
 
@@ -19,6 +19,7 @@ import { getList, putRec } from '../../services/apiconnect'
 import { customStyles1, paginationBr } from '../../services/datatablestyle'
 import { prettyDate, timeBr, defaultDateBr } from '../../services/dateutils'
 import AgendaPrint from './AgendaPrint'
+import { AuthContext } from '../../context/AuthContext'
 
 import Agenda from './Agenda'
 const objectRef = 'agenda/'
@@ -108,6 +109,7 @@ const Agendas = props => {
     const [procedureList, procedureListSet] = useState([])
     const [covenantList, covenantListSet] = useState([])
     const [covenantplanList, covenantplanListSet] = useState([])
+    const { unitcontext, unitname } = useContext(AuthContext);
 
     const textRef = useRef()
 
@@ -137,13 +139,14 @@ const Agendas = props => {
     useEffect(() => {
         refreshRec();
         updatedRecSet(true);
+        console.log('unitname', unitname)
     }, [dateFilter, patientFilter, updatedRec]);
 
     const refreshRec = () => {
         let tempList = []
-        let recObj = {}
-        if (dateFilter) recObj = { dateFilter }
-        if (patientFilter) recObj = { ...recObj, 'patientFilter': patientFilter }
+        let recObj = { unitcontext }
+        if (dateFilter) recObj = { ...recObj, dateFilter }
+        if (patientFilter) recObj = { ...recObj, patientFilter }
 
         recObj = JSON.stringify(recObj)
         console.log("recObj", recObj)
@@ -170,6 +173,7 @@ const Agendas = props => {
                         email: element.email || "",
                         status: element.status || "",
                         firstAppoint: element.firstAppoint || "",
+                        unit_id: unitcontext,
                     })
                 });
             })
@@ -233,9 +237,7 @@ const Agendas = props => {
                 <div >
                     <Typography variant='h6' className='tool-title' noWrap={true}>Lista de Agendas</Typography>
                 </div>
-
                 <div className='tool-buttons'>
-
                     <Box m={1}>
                         <Button color='primary' size='small' variant='contained' startIcon={<KeyboardReturnIcon />}
                             href="/" id='backButton'
@@ -289,6 +291,11 @@ const Agendas = props => {
                 <Button color='primary' size='large' id='printButton' startIcon={<PrintIcon />}
                     onClick={_ => printDialogSet(true)} >
                 </Button>
+                <Grid item xs={3}>
+                    <div>
+                    <Typography variant='h7' align='right' sx={{ padding: '10vw' }}>{unitname}</Typography>
+                    </div>
+                </Grid>
             </div>
 
             <div className='data-table'>

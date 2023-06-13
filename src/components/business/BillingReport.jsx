@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useContext } from 'react'
 import {
   Button, Typography, Grid, TextField, DialogContent,
   Dialog, DialogTitle, Box, MenuItem
@@ -9,8 +9,8 @@ import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
 
 import RepBillCovenantLayout from './BillingReportLayout'
-
 import { getList } from '../../services/apiconnect'
+import { AuthContext } from '../../context/AuthContext'
 
 var billcovenantName
 
@@ -23,7 +23,7 @@ const setBillCovenantName = (convId, convList) => {
 }
 
 const RepBillCovenant = props => {
-
+  const { rolecontext } = useContext(AuthContext)
   const [billcovenant, setBillCovenant] = useState('')
   const [dateInit, setDateInit] = useState('')
   const [dateEnd, setDateEnd] = useState('')
@@ -48,6 +48,20 @@ const RepBillCovenant = props => {
         setReportPreview(true)
       })
   }
+
+  if (rolecontext !== 'ADMIN') {
+    return (
+        <>
+            <div >
+                <div className='tool-bar'>
+                    <div >
+                        <Typography variant='h5' className='tool-title' noWrap={true}>Acesso não permitido!</Typography>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
 
   return (
     <div >

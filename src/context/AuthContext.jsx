@@ -6,8 +6,9 @@ const AuthContext = createContext()
 function AuthProvider({ children }) {
     const [authenticated, setAuthenticated] = useState(false)
     const [username, setUsername] = useState('')
-    const [role, setRole] = useState('')
-    const [unit, setUnit] = useState('')
+    const [rolecontext, setRolecontext] = useState('')
+    const [unitcontext, setUnitcontext] = useState('')
+    const [unitname, setUnitname] = useState('')
     const [professionalid, setprofessionalid] = useState('')
     const [professionalname, setprofessionalname] = useState('')
 
@@ -15,12 +16,13 @@ function AuthProvider({ children }) {
         const token = localStorage.getItem('token')
         if (token) {
             try {
-                const secret = process.env.REACT_APP_SECRET // '390579e2935ef8b3d8f0' 
+                const secret = process.env.REACT_APP_SECRET  
                 jsonwebtoken.verify(token, secret)
                 setAuthenticated(true)
                 setUsername(localStorage.getItem('name'))
-                setRole(localStorage.getItem('role'))
-                setUnit(localStorage.getItem('unit'))
+                setRolecontext(localStorage.getItem('role'))
+                setUnitcontext(localStorage.getItem('unit'))
+                setUnitname(localStorage.getItem('unitname'))
                 setprofessionalid(localStorage.getItem('professionalid'))
                 setprofessionalname(localStorage.getItem('professionalname'))
             } catch {
@@ -31,18 +33,20 @@ function AuthProvider({ children }) {
         }
     }, [])
 
-    const userSign = (token, userName, role, professionalid, professionalname, unit) => {
+    const userSign = (token, userName, role, professionalid, professionalname, unit, unitname) => {
         if (token) {
             setAuthenticated(true)
             setUsername(userName)
-            setRole(role)
-            setUnit(unit)
+            setRolecontext(role)
+            setUnitcontext(unit)
+            setUnitname(unitname)
             setprofessionalid(professionalid)
             setprofessionalname(professionalname)
             localStorage.setItem('token', token)
             localStorage.setItem('name', userName)
             localStorage.setItem('role', role)
             localStorage.setItem('unit', unit)
+            localStorage.setItem('unitname', unitname)
             localStorage.setItem('professionalid', professionalid)
             localStorage.setItem('professionalname', professionalname)
         } else {
@@ -54,7 +58,7 @@ function AuthProvider({ children }) {
         }
     }
     return (
-        <AuthContext.Provider value={{ authenticated, username, userSign, role, professionalid, professionalname, unit}}>
+        <AuthContext.Provider value={{ authenticated, username, userSign, rolecontext, professionalid, professionalname, unitcontext, unitname}}>
             {children}
         </AuthContext.Provider>
     )

@@ -71,6 +71,7 @@ const TextDialogContentNew = props => {
         await parseTextMacro(textApplied, props.patientId)
             .then(newText => {
                 textContentSet(textContent + newText);
+                // props.textContentSet(textContent);
                 console.log('newText', props.textContent + newText);
                 confirmDialogSet(false);
                 loadDialogSet(false);
@@ -133,6 +134,7 @@ const TextDialogContentNew = props => {
     }
 
     const handleEditor = (newContent) => {
+        textContentSet(newContent);
         props.textContentSet(newContent);
     }
 

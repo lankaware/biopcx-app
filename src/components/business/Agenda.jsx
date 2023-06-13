@@ -51,6 +51,7 @@ const Agenda = props => {
     const [phone, phoneSet] = useState('')
     const [email, emailSet] = useState('')
     const [firstAppoint, firstAppointSet] = useState('')
+    const [unitId, unitIdSet] = useState('')
 
     const [professionalList, professionalListSet] = useState([])
     const [patientList, patientListSet] = useState([])
@@ -115,6 +116,7 @@ const Agenda = props => {
             statusSet(record.status || '')
             originalStatusSet(record.status || '')
             firstAppointSet(record.firstAppoint || '')
+            unitIdSet(record.unit_id || '')
         }
         setters();
         professionalListSet(props.professionalList)
@@ -171,7 +173,8 @@ const Agenda = props => {
             covenantplan_id: covenantplanId || null,
             phone,
             email,
-            status
+            status,
+            unit_id: unitId || null
         }
         console.log("recObj", recObj)
         if (_id.length === 24) {
@@ -228,7 +231,8 @@ const Agenda = props => {
                 covenant_id: covenantId,
                 covenantplan_id: covenantplanId,
                 agenda_id: _id,
-                amount: selectedEvent.price
+                amount: selectedEvent.price,
+                unit_id: unitId
             }
             recObjBilling = JSON.stringify(recObjBilling)
             postRec('billing/', recObjBilling)

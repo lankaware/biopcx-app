@@ -38,7 +38,7 @@ const PrescTextEditor = props => {
             // 'copyformat',
         ],
         height: 320,
-        width: 680,
+        width: '65vw',
         useSplitMode: true,
         autofocus: props.autofocus,
         enter: "BR",
