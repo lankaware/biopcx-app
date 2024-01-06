@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
-    Box, Dialog, Avatar, DialogContent, List, ListItem, ListItemButton, ListItemAvatar, ListItemText, IconButton
+    Box, Dialog, DialogContent, DialogContentText, DialogTitle, DialogActions, List, ListItem, ListItemButton, ListItemText, 
+    IconButton, Button
 } from "@mui/material";
 import parse from 'html-react-parser';
 
@@ -19,17 +20,27 @@ const PrescHist = props => {
     const prescListSet = props.prescListSet
     const extMedicineSet = props.extMedicineSet
     const intMedicineSet = props.intMedicineSet
+    const [deleteDialog, setDeleteDialog] = useState(false);
 
     useEffect(() => {
         updateSet(false)
     }, [update]);
 
-    const deletePresc = (item) => {
+    const deletePresc = () => {
+        setDeleteDialog(true);
+    };
+
+    const delConfirm = (item) => {
         var array = prescList;
         array.splice(array.indexOf(item), 1);
         prescListSet(array);
         updateSet(true)
+        setDeleteDialog(false);
     }
+
+    const delCancel = () => {
+        setDeleteDialog(false);
+    };
 
     const openText = (content) => {
         let contentS = null;
@@ -86,6 +97,21 @@ const PrescHist = props => {
                         {parse(dialogText)}
                     </Box>
                 </DialogContent>
+            </Dialog>
+
+            <Dialog open={deleteDialog}>
+                <DialogTitle id="alert-dialog-title">
+                    {"Apagar a receita selecionada?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Após confirmada essa operação não poderá ser desfeita.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={delCancel} color="primary" variant="contained" autoFocus>Cancelar</Button>
+                    <Button onClick={delConfirm} color="secondary" variant="contained">Confirmar</Button>
+                </DialogActions>
             </Dialog>
         </>
     )

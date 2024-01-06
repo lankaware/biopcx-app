@@ -133,7 +133,7 @@ const Login = props => {
     const infoOkDialogClose = () => { infoOkDialogSet(false) }
     const invalidDialogClose = () => { invalidDialogSet(false) }
 
-    if (rolecontext !== 'ADMIN') {
+    if (rolecontext !== 'ADMIN' || (name === '$' && _id !== '0')) {
         return (
             <>
                 <div >

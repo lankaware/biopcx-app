@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
-    Box, Dialog, Avatar, DialogContent, List, ListItem, ListItemButton, ListItemAvatar, ListItemText, IconButton
+    Box, Dialog, DialogContent, DialogContentText, DialogTitle, DialogActions, List, ListItem, ListItemButton, ListItemText, 
+    IconButton, Button
 } from "@mui/material";
 import parse from 'html-react-parser';
 
@@ -18,17 +19,27 @@ const ReqHist = props => {
     const reqList = props.reqList
     const reqListSet = props.reqListSet
     const reqTextSet = props.reqTextSet
+    const [deleteDialog, setDeleteDialog] = useState(false);
 
     useEffect(() => {
         updateSet(false)
     }, [update]);
 
-    const deleteReq = (item) => {
+    const deleteReq = () => {
+        setDeleteDialog(true);
+    };
+
+    const delConfirm = (item) => {
         var array = reqList;
         array.splice(array.indexOf(item), 1);
         reqListSet(array);
         updateSet(true)
+        setDeleteDialog(false);
     }
+
+    const delCancel = () => {
+        setDeleteDialog(false);
+    };
 
     const openText = (content) => {
         reqTextSet(content)
@@ -39,7 +50,7 @@ const ReqHist = props => {
         <>
             <List dense={true} style={{ maxHeight: '100%', overflow: 'auto' }}>
 
-                {reqList && reqList.map((item, index) => {
+                {reqList.map((item, index) => {
                     return (
                         <ListItem
                             disablePadding={true}
@@ -79,6 +90,22 @@ const ReqHist = props => {
                     </Box>
                 </DialogContent>
             </Dialog>
+
+            <Dialog open={deleteDialog}>
+                <DialogTitle id="alert-dialog-title">
+                    {"Apagar a solicitação selecionada?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Após confirmada essa operação não poderá ser desfeita.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={delCancel} color="primary" variant="contained" autoFocus>Cancelar</Button>
+                    <Button onClick={delConfirm} color="secondary" variant="contained">Confirmar</Button>
+                </DialogActions>
+            </Dialog>
+           
         </>
     )
 }

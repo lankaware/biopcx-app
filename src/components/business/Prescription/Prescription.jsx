@@ -31,6 +31,8 @@ const PrescDialog = props => {
     const [printDialog, printDialogSet] = useState(false);
     const [headerAdd, headerAddSet] = useState(false);
     const [footerAdd, footerAddSet] = useState(false);
+    const [histAdd, histAddSet] = useState(true);
+    const [dateAdd, dateAddSet] = useState(true);
     const [clinicHist, clinicHistSet] = useState("")
 
     let patientId = props.patientId;
@@ -71,7 +73,7 @@ const PrescDialog = props => {
             })
         if (props.prescDialog) {
             // intMedicineSet('Nome do paciente <BR/> RG <BR/> Endereço <BR/> <BR/>')
-            await parseTextMacro('<h4><strong>@nome</strong></h4> @reg <BR/> @ender <BR/> <BR/>', props.patientId)
+            await parseTextMacro('<h5><strong>@nome</strong></h5> @reg <BR/> @ender <BR/> <BR/>', props.patientId)
                 .then(textResult => {
                     intMedicineSet(textResult)
                 })
@@ -87,7 +89,7 @@ const PrescDialog = props => {
                 })
         }
         setRecUpdated(true)
-    }, [patientId, recUpdated, props.prescDialog]);  // Testar incluir o parâmetro props.prescDialog
+    }, [patientId, recUpdated, props.prescDialog]);  
 
     useEffect(() => {
         prescTextSet(intMedicine + extMedicine)
@@ -150,6 +152,22 @@ const PrescDialog = props => {
         }
     }
 
+    const histFunc = () => {
+        if (histAdd === true) {
+            histAddSet(false)
+        } else {
+            histAddSet(true)
+        }
+    }
+
+    const dateFunc = () => {
+        if (dateAdd === true) {
+            dateAddSet(false)
+        } else {
+            dateAddSet(true)
+        }
+    }
+
     const savePresc = async () => {
         header = headerAdd === true ? headerText : "&nbsp;"
         footer = footerAdd === true ? footerText : "&nbsp;"
@@ -158,23 +176,39 @@ const PrescDialog = props => {
             "date": new Date(),
             "prescContent": prescText
         }];
-        let uptoDated = prettyDate(defaultDateBr())
-        let intMedOnly = intMedicine.split('Uso interno:')[1]
-        let extMedOnly = extMedicine.split('Uso externo / inalatório:')[1]
-        let newHist = `${clinicHist} </br>===========================================================================`
-        newHist = `${newHist} </br><strong>${uptoDated}:</strong> &nbsp; </br> Prescrição: ${intMedOnly ? intMedOnly : ''} ${extMedOnly ? extMedOnly : ''} </br>`
-        let recObj = {
-            prescription: presc,
-            clinicHist: newHist
+        let recObj = {}
+        if (histAdd) {
+            let uptoDated = prettyDate(defaultDateBr())
+            let intMedOnly = intMedicine.split('Uso interno:')[1]
+            let extMedOnly = extMedicine.split('Uso externo / inalatório:')[1]
+            let newHist = `${clinicHist} </br>===========================================================================`
+            newHist = `${newHist} </br><strong>${uptoDated}:</strong> &nbsp; </br> Prescrição: ${intMedOnly ? intMedOnly : ''} ${extMedOnly ? extMedOnly : ''} </br>`
+            recObj = {
+                prescription: presc,
+                clinicHist: newHist
+            }
+        } else {
+            recObj = {
+                prescription: presc,
+            }
         }
+
         recObj = JSON.stringify(recObj)
         putRec("patientid/" + patientId, recObj)
-        .then((_) => {
-            props.callUpdate(false)
-          });
+            .then((_) => {
+                props.callUpdate(false)
+            });
     }
 
     const cancelPresc = () => {
+        let recObj = {
+            prescription: prescList,
+        }
+        recObj = JSON.stringify(recObj)
+        putRec("patientid/" + patientId, recObj)
+            .then((_) => {
+                props.callUpdate(false)
+            });
         cleanText()
         setRecUpdated(false)
         props.callUpdate(false)
@@ -237,11 +271,11 @@ const PrescDialog = props => {
                     <Typography className="tool-title-level1" noWrap={true} color="primary">Nova Receita</Typography>
                 </DialogTitle>
                 <DialogContent style={{ display: "flex", gap: "1rem" }}>
-                    <Box sx={{ width: 2 / 10 }}>
+                    <Box sx={{ width: '20vw' }}>
                         <PrescHist prescList={prescList} prescListSet={prescListSet} intMedicineSet={intMedicineSet}
                             extMedicineSet={extMedicineSet} />
                     </Box>
-                    <Box className="data-form" sx={{ width: 8 / 10 }}>
+                    <Box className="data-form" sx={{ width: '80vw' }}>
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
                                 <TextField
@@ -259,7 +293,7 @@ const PrescDialog = props => {
                                     ))}
                                 </TextField>
                             </Grid>
-                            <Grid item xs={10}>
+                            <Grid item xs={6}>
                                 <TextField label="Dosagem"
                                     fullWidth={true} value={medicineDose}
                                     InputLabelProps={{ shrink: true, disabled: false }}
@@ -267,18 +301,18 @@ const PrescDialog = props => {
                                     size="small"
                                     onChange={(event) => medicineDoseSet(event.target.value)} />
                             </Grid>
-                            <Grid item xs={3}>
-                                <Button variant="outlined" onClick={addMed}>Adicionar Item</Button>
+                            <Grid item xs={2}>
+                                <Button variant="outlined" onClick={addMed}>Adicionar</Button>
                             </Grid>
-                            <Grid item xs={4}>
+                            <Grid item xs={2}>
                                 <Box >
                                     <Button onClick={loadDialogOpen} variant="outlined" sx={{ backgroundColor: '#fff' }}>
-                                        Texto Padrão
+                                        Txt Padrão
                                     </Button>
                                 </Box>
                             </Grid>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={8}>
                                 <Box display="flex"
                                     justifyContent="center">
                                     <Box mx={1}>
@@ -286,6 +320,12 @@ const PrescDialog = props => {
                                     </Box>
                                     <Box mx={1}>
                                         <FormControlLabel checked={footerAdd} control={<Checkbox onClick={footerFunc} />} label="Rodapé" />
+                                    </Box>
+                                    <Box mx={1}>
+                                        <FormControlLabel checked={dateAdd} control={<Checkbox onClick={dateFunc} />} label="Data" />
+                                    </Box>
+                                    <Box mx={1}>
+                                        <FormControlLabel checked={histAdd} control={<Checkbox onClick={histFunc} />} label="Histórico" />
                                     </Box>
                                 </Box>
                             </Grid>
@@ -326,6 +366,7 @@ const PrescDialog = props => {
                         printLocal={props.printLocal}
                         doctorName={props.doctorName}
                         doctorCrm={props.doctorCrm}
+                        dateAdd={dateAdd}
                     />
                 </DialogContent>
                 <DialogActions>

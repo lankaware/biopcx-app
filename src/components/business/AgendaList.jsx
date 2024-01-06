@@ -28,17 +28,17 @@ const Agendas = props => {
 
     const columns = [
         {
-            name: 'Status',
+            name: '#',
             selector: row => row.status,
             sortable: false,
-            width: '6vw',
+            width: '4vw',
             cell: row => (<BsFillCircleFill color={agendaStatus(row.status)} />)
         },
         {
             name: 'Data',
             selector: row => row.date,
             sortable: true,
-            width: '6vw',
+            width: '8vw',
             cell: row => prettyDate(row.date)
         },
         {
@@ -49,10 +49,10 @@ const Agendas = props => {
             cell: row => (row.initialTime.substr(0, 5))
         },
         {
-            name: 'Término',
+            name: 'Fim',
             selector: row => row.finalTime,
             sortable: true,
-            width: '7vw',
+            width: '5vw',
             cell: row => (row.finalTime.substr(0, 5))
         },
         {

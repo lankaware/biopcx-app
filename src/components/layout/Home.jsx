@@ -27,11 +27,11 @@ const Home = props => {
                 <img src={process.env.PUBLIC_URL + 'image1.png'} alt='Biopace' weight='519' height='230' />
             </div>
 
-            <div className='home-link'>
+            {/* <div className='home-link'>
                 <a href='https://www.biopace.com.br' target='_blank'>
                     <Typography variant='h4' sx={{ color: 'black', 'fontWeight': 'bold' }}>biopace.com.br</Typography>
                 </a>
-            </div>
+            </div> */}
 
             <Box className='home-buttons' style={{
                 // backgroundImage: `url(${agendaImage})`,

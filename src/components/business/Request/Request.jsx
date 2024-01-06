@@ -28,6 +28,8 @@ const ReqDialog = props => {
     const [printDialog, printDialogSet] = useState(false);
     const [headerAdd, headerAddSet] = useState(false);
     const [footerAdd, footerAddSet] = useState(false);
+    const [histAdd, histAddSet] = useState(true);
+    const [dateAdd, dateAddSet] = useState(true);
     const [clinicHist, clinicHistSet] = useState("")
 
     const [loadDialog, loadDialogSet] = useState(false)
@@ -123,6 +125,22 @@ const ReqDialog = props => {
         }
     }
 
+    const histFunc = () => {
+        if (histAdd === true) {
+            histAddSet(false)
+        } else {
+            histAddSet(true)
+        }
+    }
+
+    const dateFunc = () => {
+        if (dateAdd === true) {
+            dateAddSet(false)
+        } else {
+            dateAddSet(true)
+        }
+    }
+
     const saveReq = () => {
         header = headerAdd === true ? headerText : "&nbsp;"
         footer = footerAdd === true ? footerText : "&nbsp;"
@@ -131,24 +149,39 @@ const ReqDialog = props => {
             "date": new Date(),
             "reqContent": reqText
         }];
-
-        let uptoDated = prettyDate(defaultDateBr())
-        let textOnly = reqText.split('<BR/>.<BR/>')[1]
-        let newHist = `${clinicHist} </br>===========================================================================`
-        newHist = `${newHist} </br><strong>${uptoDated}:</strong> &nbsp; </br> Solicitação: </br> ${textOnly} </br>`
-        let recObj = {
-            request: req,
-            clinicHist: newHist
+        let recObj = {}
+        if (histAdd) {
+            let uptoDated = prettyDate(defaultDateBr())
+            let textOnly = reqText.split('<BR/>.<BR/>')[1]
+            let newHist = `${clinicHist} </br>===========================================================================`
+            newHist = `${newHist} </br><strong>${uptoDated}:</strong> &nbsp; </br> Solicitação: </br> ${textOnly} </br>`
+            recObj = {
+                request: req,
+                clinicHist: newHist
+            }
+        } else {
+            recObj = {
+                request: req,
+            }
         }
 
         recObj = JSON.stringify(recObj)
         putRec("patientid/" + patientId, recObj)
-        .then((_) => {
-            props.callUpdate(false)
-          });
+            .then((_) => {
+                props.callUpdate(false)
+            });
     }
 
     const cancelreq = () => {
+        let recObj = {
+            request: reqList,
+        }
+        recObj = JSON.stringify(recObj)
+        putRec("patientid/" + patientId, recObj)
+            .then((_) => {
+                props.callUpdate(false)
+            });
+
         reqTextSet("");
         setRecUpdated(false)
         props.callUpdate(false)
@@ -209,10 +242,10 @@ const ReqDialog = props => {
                     <Typography className="tool-title-level1" noWrap={true} color="primary">Nova Solicitação</Typography>
                 </DialogTitle>
                 <DialogContent style={{ display: "flex", gap: "1rem" }}>
-                    <Box sx={{ width: 2 / 10 }}>
+                    <Box sx={{ width: '20vw' }}>
                         <ReqHist reqList={reqList} reqListSet={reqListSet} reqTextSet={reqTextSet} />
                     </Box>
-                    <Box className="data-form" sx={{ width: 7 / 10 }}>
+                    <Box className="data-form" sx={{ width: '80vw' }}>
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
                                 <TextField
@@ -223,7 +256,7 @@ const ReqDialog = props => {
                                     size='small'
                                     fullWidth={true}
                                     type='text'
-                                    InputLabelProps={{ shrink: true, disabled: false, classes: { root: classes.labelRoot } }}
+                                    InputLabelProps={{ shrink: true, disabled: false }}
                                     select>
                                     {examList.map((option) => (
                                         <MenuItem key={option._id} value={option._id}>{option.name}</MenuItem>
@@ -231,18 +264,18 @@ const ReqDialog = props => {
                                 </TextField>
                             </Grid>
                             <Grid item xs={6}></Grid>
-                            <Grid item xs={3}>
-                                <Button variant="outlined" onClick={addExam}>Adicionar Item</Button>
+                            <Grid item xs={2}>
+                                <Button variant="outlined" onClick={addExam}>Adicionar</Button>
                             </Grid>
-                            <Grid item xs={4}>
+                            <Grid item xs={2}>
                                 <Box >
                                     <Button onClick={loadDialogOpen} variant="outlined" sx={{ backgroundColor: '#fff' }}>
-                                        Texto Padrão
+                                        Txt Padrão
                                     </Button>
                                 </Box>
                             </Grid>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={8}>
                                 <Box display="flex"
                                     justifyContent="center">
                                     <Box mx={1}>
@@ -251,10 +284,17 @@ const ReqDialog = props => {
                                     <Box mx={1}>
                                         <FormControlLabel checked={footerAdd} control={<Checkbox onClick={footerFunc} />} label="Rodapé" />
                                     </Box>
+                                    <Box mx={1}>
+                                        <FormControlLabel checked={dateAdd} control={<Checkbox onClick={dateFunc} />} label="Data" />
+                                    </Box>
+                                    <Box mx={1}>
+                                        <FormControlLabel checked={histAdd} control={<Checkbox onClick={histFunc} />} label="Histórico" />
+                                    </Box>
                                 </Box>
                             </Grid>
                         </Grid>
                         <Box
+                            id={'text-editor-dialog'} // testar
                             display="flex"
                             justifyContent="center"
                             m={1}>
@@ -333,16 +373,17 @@ const ReqDialog = props => {
                     <DialogContentText id="alert-dialog-description">
                         Deseja imprimir a Solicitação?
                     </DialogContentText>
-                    <ReqToPrint 
-                    ref={textRef} 
-                    reqText={reqText} 
-                    // header={header} 
-                    headerAdd={headerAdd}
-                    footer={footer} 
-                    printLocal={props.printLocal}
-                    doctorName={props.doctorName}
-                    doctorCrm={props.doctorCrm}
-                />
+                    <ReqToPrint
+                        ref={textRef}
+                        reqText={reqText}
+                        // header={header} 
+                        headerAdd={headerAdd}
+                        footer={footer}
+                        printLocal={props.printLocal}
+                        doctorName={props.doctorName}
+                        doctorCrm={props.doctorCrm}
+                        dateAdd={dateAdd}
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Box m={1}>

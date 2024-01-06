@@ -24,25 +24,29 @@ const ReqTextEditor = props => {
             // 'italic',
             // 'ul',
             // 'ol',
-            // 'eraser',
+            'eraser',
             // 'font',
             // 'fontsize',
-            // 'brush',
-            // 'paragraph',
-            // 'image',
-            // 'table',
-            // 'link',
-            // 'align',
-            // 'undo',
-            // 'redo',
-            // 'hr',
-            // 'copyformat',
+            'brush',
+            'paragraph',
+            'image',
+            'table',
+            'link',
+            'align',
+            'undo',
+            'redo',
+            'hr',
+            'copyformat',
         ],
-        height: 380,
-        width: 680,
+        height: '55vh',
+        width: '70vw',
         useSplitMode: true,
         autofocus: props.autofocus,
-    }
+        enter: "BR",
+        style: {
+            font: '14px Arial'
+        },
+   }
 
     const handleEditor = (newContent) => {
         props.reqTextSet(newContent)

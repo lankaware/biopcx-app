@@ -2,15 +2,20 @@ import React from 'react';
 import parse from 'html-react-parser';
 
 const PrescToPrint = React.forwardRef((props, ref) => {
-    const prescSign1 = `${props.printLocal}, ${(new Date()).toLocaleDateString('pt-BR', { 'day': 'numeric', 'month': 'long', 'year': 'numeric' })} `
+    const prescSign1 = () => {
+        if (props.dateAdd)
+            return `${props.printLocal}, ${(new Date()).toLocaleDateString('pt-BR', { 'day': 'numeric', 'month': 'long', 'year': 'numeric' })} `
+        else
+            return ''
+    }
     const prescSign2 = ` ___________________________________ `
     const prescSign3 = `${props.doctorName}`
     const prescSign4 = `CRM ${props.doctorCrm}`
 
     const defHeader = () => {
         if (props.headerAdd)
-            // return <img src={`${process.env.PUBLIC_URL}/image2.png`} alt={'Biopace'} weight='438' height='114' />
-            return <img src={`${process.env.PUBLIC_URL}/image2.png`} alt={'Biopace'} weight='307' height='80' />
+            // return <img src={`${process.env.PUBLIC_URL}/image2.png`} alt={'Biopace'} weight='438' height='114' />  // Associação
+            return <img src={`${process.env.PUBLIC_URL}/image2.png`} alt={'Biopace'} weight='307' height='80' />   // Biopace
         else
             return ''
     }
@@ -39,7 +44,7 @@ const PrescToPrint = React.forwardRef((props, ref) => {
                                     <tr style={{ 'height': '3vh' }}></tr>
                                     <tr style={{ 'width': '80vw', 'fontSize': '16px', 'display': 'flex', 'justifyContent': 'center' }}>
                                         <td >
-                                            {parse(prescSign1)}
+                                            {prescSign1()}
                                         </td>
                                     </tr>
                                     <tr style={{ 'height': '1vh' }}></tr>

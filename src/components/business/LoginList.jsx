@@ -52,15 +52,22 @@ const LoginList = props => {
     }, [])
 
     const refreshRec = () => {
-        let recObj = {}
-        if (nameFilter) recObj = { 'name': { "$regex": nameFilter, "$options": 'i' } }
-        if (loginFilter) recObj = { ...recObj, 'login': { "$regex": loginFilter, "$options": 'i' } }
-
-        recObj = JSON.stringify(recObj)
-        putRec(objectRef, recObj)
+        if (nameFilter || loginFilter) {
+            let recObj = {}
+            if (nameFilter) recObj = { 'name': { "$regex": nameFilter, "$options": 'i' } }
+            if (loginFilter) recObj = { ...recObj, 'login': { "$regex": loginFilter, "$options": 'i' } }
+            recObj = JSON.stringify(recObj)
+            putRec(objectRef, recObj)
+                .then(items => {
+                    setList(items.record)
+                })
+        } else {
+            getList(objectRef)
             .then(items => {
+                console.log('items.record',items.record)
                 setList(items.record)
             })
+        }
     }
 
     const handleChange = (state) => {
