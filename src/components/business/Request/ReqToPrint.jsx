@@ -16,7 +16,7 @@ const RecToPrint = React.forwardRef((props, ref) => {
 
     const defHeader = () => {
         if (props.headerAdd)
-            // return <img src={`${process.env.PUBLIC_URL}/image2.png`} alt={'Biopace'} weight='438' height='114' />  // Associação
+            // return <img src={`${process.env.PUBLIC_URL}/image2.png`} alt={'Biopace'} weight='438' height='114' />  // Abbas
             return <img src={`${process.env.PUBLIC_URL}/image2.png`} alt={'Biopace'} weight='307' height='80' />  // Biopace
         else
             return ''
@@ -38,7 +38,7 @@ const RecToPrint = React.forwardRef((props, ref) => {
                 </thead>
                 <tbody>
                     <tr>
-                        <td style={{ 'height': '80vh', 'fontSize': '18px', 'verticalAlign': 'top' }}>
+                        <td style={{ 'height': '80vh', 'fontSize': '16px', 'verticalAlign': 'top' }}>
                             {parse(props.reqText)}
                             <table>
                                 <tbody>

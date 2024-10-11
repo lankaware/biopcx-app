@@ -118,17 +118,17 @@ const PrescDialog = props => {
     const addMed = () => {
         if (medicineWayOfUse === "Interno") {
             if (intMedicine.search("Uso interno:") !== -1) {
-                intMedicineSet(intMedicine + "&#10152;&nbsp;" + medicineName + " <br>" + medicineDose + " <br>")
+                intMedicineSet(intMedicine + "&#10152;&nbsp;<strong>" + medicineName + "</strong> <br>" + medicineDose + " <br>")
             } else {
-                intMedicineSet(intMedicine + "<p> <strong>Uso interno: </strong> <br>" + "&#10152;&nbsp;" + medicineName + " <br> " + medicineDose + " <br>")
+                intMedicineSet(intMedicine + "<p> <strong>Uso interno: </strong> <br>" + "&#10152;&nbsp;<strong>" + medicineName + "</strong> <br> " + medicineDose + " <br>")
             }
         }
 
         if (medicineWayOfUse === "Externo") {
             if (extMedicine.search("Uso externo / inalatório:") !== -1) {
-                extMedicineSet(extMedicine + "&#10152;&nbsp;" + medicineName + " <br>" + medicineDose + " <br>")
+                extMedicineSet(extMedicine + "&#10152;&nbsp;<strong>" + medicineName + "</strong> <br>" + medicineDose + " <br>")
             } else {
-                extMedicineSet(" <p> <strong> Uso externo / inalatório: </strong> <br>" + extMedicine + "&#10152;&nbsp;" + medicineName + " <br> " + medicineDose + " <br>")
+                extMedicineSet(" <p> <strong> Uso externo / inalatório: </strong> <br>" + extMedicine + "&#10152;&nbsp;<strong>" + medicineName + "</strong> <br> " + medicineDose + " <br>")
             }
         }
         medicineNameSet("");
@@ -181,8 +181,8 @@ const PrescDialog = props => {
             let uptoDated = prettyDate(defaultDateBr())
             let intMedOnly = intMedicine.split('Uso interno:')[1]
             let extMedOnly = extMedicine.split('Uso externo / inalatório:')[1]
-            let newHist = `${clinicHist} </br>===========================================================================`
-            newHist = `${newHist} </br><strong>${uptoDated}:</strong> &nbsp; </br> Prescrição: ${intMedOnly ? intMedOnly : ''} ${extMedOnly ? extMedOnly : ''} </br>`
+            let newHist = `${clinicHist} ===========================================================================`
+            newHist = `${newHist} </br><strong>${uptoDated}:</strong> &nbsp; </br> Prescrição: ${intMedOnly ? intMedOnly : ''} ${extMedOnly ? extMedOnly : ''} `
             recObj = {
                 prescription: presc,
                 clinicHist: newHist

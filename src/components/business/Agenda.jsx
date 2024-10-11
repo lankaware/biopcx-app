@@ -139,6 +139,7 @@ const Agenda = props => {
         if (newStatus === '4' && newStatus !== originalStatus) {
             getList(`procedurevalue/${covenantId}/${covenantplanId}`)
                 .then(items => {
+                    console.log('items.record', items.record)
                     procedureListBillSet(items.record)
                 })
                 .then(_ => {
